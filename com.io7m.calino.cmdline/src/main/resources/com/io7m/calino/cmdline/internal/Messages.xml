@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+
+<properties>
+  <entry key="cmd.extract-image-data.helpExt">The "extract-image-data" command copies image data out of a texture file.</entry>
+  <entry key="cmd.show-sections.helpExt">The "show-sections" command lists the sections in a given texture file.</entry>
+  <entry key="cmd.show-summary.helpExt">The "show-summary" command shows a summary of a given texture file.</entry>
+  <entry key="cmd.show-version.helpExt">The "show-version" command displays the format version of a given texture file.</entry>
+  <entry key="cmd.show-image-info.helpExt">The "show-image-info" command displays the image info in a given texture file.</entry>
+  <entry key="cmd.show-metadata.helpExt">The "show-metadata" command displays the metadata in a given texture file.</entry>
+  <entry key="cmd.version.helpExt">The "version" command displays the current application version.</entry>
+  <entry key="cmd.create.helpExt">The "create" command creates textures from existing images.</entry>
+  <entry key="cmd.check.helpExt">The "check" command exhaustively validates texture files.</entry>
+</properties>
