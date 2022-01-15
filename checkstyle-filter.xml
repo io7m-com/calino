@@ -5,33 +5,6 @@
   "https://checkstyle.org/dtds/suppressions_1_0.dtd">
 
 <suppressions>
-  <suppress files=".*/com/io7m/calino/vanilla/internal/.*\.java"
-            checks="MissingJavadocType"/>
-  <suppress files=".*/com/io7m/calino/vanilla/internal/.*\.java"
-            checks="MissingJavadocMethod"/>
-  <suppress files=".*\\com\\io7m\\calino\\vanilla\\internal\.*\.java"
-            checks="MissingJavadocType"/>
-  <suppress files=".*\\com\\io7m\\calino\\vanilla\\internal\.*\.java"
-            checks="MissingJavadocMethod"/>
-
-  <suppress files=".*/com/io7m/calino/imageproc/awt/internal/.*\.java"
-            checks="MissingJavadocType"/>
-  <suppress files=".*/com/io7m/calino/imageproc/awt/internal/.*\.java"
-            checks="MissingJavadocMethod"/>
-  <suppress files=".*\\com\\io7m\\calino\\imageproc\\awt\\internal\.*\.java"
-            checks="MissingJavadocType"/>
-  <suppress files=".*\\com\\io7m\\calino\\imageproc\\awt\\internal\.*\.java"
-            checks="MissingJavadocMethod"/>
-
-  <suppress files=".*/com/io7m/calino/imageview/internal/.*\.java"
-            checks="MissingJavadocType"/>
-  <suppress files=".*/com/io7m/calino/imageview/internal/.*\.java"
-            checks="MissingJavadocMethod"/>
-  <suppress files=".*\\com\\io7m\\calino\\imageview\\internal\.*\.java"
-            checks="MissingJavadocType"/>
-  <suppress files=".*\\com\\io7m\\calino\\imageview\\internal\.*\.java"
-            checks="MissingJavadocMethod"/>
-
   <!-- Not a boolean expression! -->
   <suppress files="CLNImageDecodeR4G4B4A4\.java"
             checks="BooleanExpressionComplexity"/>
