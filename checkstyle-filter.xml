@@ -9,22 +9,34 @@
             checks="MissingJavadocType"/>
   <suppress files=".*/com/io7m/calino/vanilla/internal/.*\.java"
             checks="MissingJavadocMethod"/>
+  <suppress files=".*\\com\\io7m\\calino\\vanilla\\internal\.*\.java"
+            checks="MissingJavadocType"/>
+  <suppress files=".*\\com\\io7m\\calino\\vanilla\\internal\.*\.java"
+            checks="MissingJavadocMethod"/>
 
   <suppress files=".*/com/io7m/calino/imageproc/awt/internal/.*\.java"
             checks="MissingJavadocType"/>
   <suppress files=".*/com/io7m/calino/imageproc/awt/internal/.*\.java"
             checks="MissingJavadocMethod"/>
+  <suppress files=".*\\com\\io7m\\calino\\imageproc\\awt\\internal\.*\.java"
+            checks="MissingJavadocType"/>
+  <suppress files=".*\\com\\io7m\\calino\\imageproc\\awt\\internal\.*\.java"
+            checks="MissingJavadocMethod"/>
 
   <suppress files=".*/com/io7m/calino/imageview/internal/.*\.java"
             checks="MissingJavadocType"/>
   <suppress files=".*/com/io7m/calino/imageview/internal/.*\.java"
+            checks="MissingJavadocMethod"/>
+  <suppress files=".*\\com\\io7m\\calino\\imageview\\internal\.*\.java"
+            checks="MissingJavadocType"/>
+  <suppress files=".*\\com\\io7m\\calino\\imageview\\internal\.*\.java"
             checks="MissingJavadocMethod"/>
 
   <!-- Not a boolean expression! -->
-  <suppress files=".*/com/io7m/calino/imageproc/awt/internal/CLNImageDecodeR4G4B4A4\.java"
+  <suppress files="CLNImageDecodeR4G4B4A4\.java"
             checks="BooleanExpressionComplexity"/>
 
   <!-- Switch over enum -->
-  <suppress files=".*/com/io7m/calino/imageproc/awt/internal/CLNImageProcessor\.java"
+  <suppress files="CLNImageProcessor\.java"
             checks="CyclomaticComplexity"/>
 </suppressions>
