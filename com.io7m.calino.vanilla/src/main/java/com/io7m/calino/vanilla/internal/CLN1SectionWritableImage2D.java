@@ -36,11 +36,25 @@ import java.util.Objects;
 
 import static java.lang.Integer.toUnsignedLong;
 
+/**
+ * A writable 2D image section.
+ */
+
 public final class CLN1SectionWritableImage2D
   extends CLN1SectionWritableAbstract
   implements CLNSectionWritableImage2DType
 {
   private final BSSWriterProviderType writers;
+
+  /**
+   * A writable 2D image section.
+   *
+   * @param inWriters    A writer provider
+   * @param inOnClose    A function executed on closing
+   * @param inRequest    A write request
+   * @param inIdentifier An identifier
+   * @param inWriter     A writer
+   */
 
   public CLN1SectionWritableImage2D(
     final BSSWriterProviderType inWriters,

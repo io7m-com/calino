@@ -23,6 +23,10 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.Objects;
 
+/**
+ * An unsigned fixed-point 64-bit view.
+ */
+
 public final class CLNImageView2DFixedU64 implements CLNImageView2DType
 {
   private static final int COMPONENT_SIZE = 8;
@@ -31,6 +35,14 @@ public final class CLNImageView2DFixedU64 implements CLNImageView2DType
   private final CLNImageInfo imageInfo;
   private final int lineWidth;
   private final int pixelSize;
+
+  /**
+   * An unsigned fixed-point 64-bit view.
+   *
+   * @param inComponentCount The component count
+   * @param inData           The image data
+   * @param inImageInfo      The image info
+   */
 
   public CLNImageView2DFixedU64(
     final CLNImageInfo inImageInfo,

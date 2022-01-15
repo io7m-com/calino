@@ -24,11 +24,21 @@ import java.util.Objects;
 
 import static java.lang.Integer.toUnsignedLong;
 
+/**
+ * A seekable byte channel based on an underlying byte buffer.
+ */
+
 public final class CLNByteBufferByteChannel implements SeekableByteChannel
 {
   private final ByteBuffer buffer;
   private boolean closed;
   private long position;
+
+  /**
+   * A seekable byte channel based on an underlying byte buffer.
+   *
+   * @param inBuffer The byte buffer
+   */
 
   public CLNByteBufferByteChannel(
     final ByteBuffer inBuffer)
@@ -39,11 +49,6 @@ public final class CLNByteBufferByteChannel implements SeekableByteChannel
       false;
   }
 
-  private long remaining()
-  {
-    return toUnsignedLong(this.buffer.capacity()) - this.position;
-  }
-
   private static long minUnsigned(
     final long x,
     final long y)
@@ -52,6 +57,11 @@ public final class CLNByteBufferByteChannel implements SeekableByteChannel
       return x;
     }
     return y;
+  }
+
+  private long remaining()
+  {
+    return toUnsignedLong(this.buffer.capacity()) - this.position;
   }
 
   @Override

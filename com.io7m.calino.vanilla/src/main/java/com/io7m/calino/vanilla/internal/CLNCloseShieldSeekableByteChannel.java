@@ -21,11 +21,23 @@ import java.nio.ByteBuffer;
 import java.nio.channels.SeekableByteChannel;
 import java.util.Objects;
 
+/**
+ * A seekable byte channel that delegates to an existing channel and can't be
+ * closed.
+ */
+
 public final class CLNCloseShieldSeekableByteChannel
   implements SeekableByteChannel
 {
   private final SeekableByteChannel delegate;
   private boolean closed;
+
+  /**
+   * A seekable byte channel that delegates to an existing channel and can't be
+   * closed.
+   *
+   * @param inDelegate The delegate channel
+   */
 
   public CLNCloseShieldSeekableByteChannel(
     final SeekableByteChannel inDelegate)

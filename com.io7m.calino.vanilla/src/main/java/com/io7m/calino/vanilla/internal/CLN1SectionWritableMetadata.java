@@ -29,11 +29,25 @@ import java.util.Objects;
 import static java.lang.Integer.toUnsignedLong;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+/**
+ * A writable metadata section.
+ */
+
 public final class CLN1SectionWritableMetadata
   extends CLN1SectionWritableAbstract
   implements CLNSectionWritableMetadataType
 {
   private final BSSWriterProviderType writers;
+
+  /**
+   * A writable metadata section.
+   *
+   * @param inWriters    A writer provider
+   * @param inOnClose    A function executed on closing
+   * @param inRequest    A write request
+   * @param inIdentifier An identifier
+   * @param inWriter     A writer
+   */
 
   public CLN1SectionWritableMetadata(
     final BSSWriterProviderType inWriters,

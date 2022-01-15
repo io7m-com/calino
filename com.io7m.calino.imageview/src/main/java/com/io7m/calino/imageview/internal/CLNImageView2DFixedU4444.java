@@ -23,6 +23,10 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.Objects;
 
+/**
+ * An unsigned 4444 view.
+ */
+
 public final class CLNImageView2DFixedU4444 implements CLNImageView2DType
 {
   private static final int COMPONENT_SIZE = 2;
@@ -30,6 +34,13 @@ public final class CLNImageView2DFixedU4444 implements CLNImageView2DType
   private final CLNImageInfo imageInfo;
   private final int lineWidth;
   private final int pixelSize;
+
+  /**
+   * An unsigned 4444 view.
+   *
+   * @param inData      The image data
+   * @param inImageInfo The image info
+   */
 
   public CLNImageView2DFixedU4444(
     final CLNImageInfo inImageInfo,

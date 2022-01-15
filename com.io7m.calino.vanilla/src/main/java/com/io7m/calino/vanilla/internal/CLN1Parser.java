@@ -30,11 +30,22 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+/**
+ * The main parser implementation.
+ */
+
 public final class CLN1Parser implements CLNParserType
 {
   private final CLNParseRequest request;
   private final BSSReaderRandomAccessType reader;
   private final AtomicBoolean closed;
+
+  /**
+   * The main parser implementation.
+   *
+   * @param inRequest The read request
+   * @param inReader  A reader
+   */
 
   public CLN1Parser(
     final CLNParseRequest inRequest,

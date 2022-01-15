@@ -18,8 +18,22 @@ package com.io7m.calino.vanilla.internal;
 
 import java.io.IOException;
 
+/**
+ * An operation executed when something is closed.
+ *
+ * @param <T> The execution context
+ */
+
 public interface CLNOnCloseOperationType<T>
 {
+  /**
+   * Execute on close.
+   *
+   * @param context The context
+   *
+   * @throws IOException On errors
+   */
+
   void execute(T context)
     throws IOException;
 }

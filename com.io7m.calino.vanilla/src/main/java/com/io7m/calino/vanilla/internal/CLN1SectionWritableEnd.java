@@ -21,9 +21,22 @@ import com.io7m.calino.api.CLNSectionWritableType;
 import com.io7m.calino.writer.api.CLNWriteRequest;
 import com.io7m.jbssio.api.BSSWriterRandomAccessType;
 
+/**
+ * A writable end section.
+ */
+
 public final class CLN1SectionWritableEnd extends CLN1SectionWritableAbstract
   implements CLNSectionWritableEndType
 {
+  /**
+   * A writable end section.
+   *
+   * @param inOnClose    A function executed on closing
+   * @param inRequest    A write request
+   * @param inIdentifier An identifier
+   * @param inWriter     A writer
+   */
+
   public CLN1SectionWritableEnd(
     final BSSWriterRandomAccessType inWriter,
     final CLNWriteRequest inRequest,

@@ -67,6 +67,10 @@ import static java.awt.image.AffineTransformOp.TYPE_BICUBIC;
 import static java.awt.image.AffineTransformOp.TYPE_BILINEAR;
 import static java.awt.image.AffineTransformOp.TYPE_NEAREST_NEIGHBOR;
 
+/**
+ * The default image processor.
+ */
+
 public final class CLNImageProcessor implements CLNImageProcessorType
 {
   private static final int[] R5G6B5_SIZES = {5, 6, 5};
@@ -78,6 +82,12 @@ public final class CLNImageProcessor implements CLNImageProcessorType
   private static final int[] R16G16B16_SIZES = {16, 16, 16};
 
   private final CLNImageProcessorRequest request;
+
+  /**
+   * The default image processor.
+   *
+   * @param inRequest The processing request
+   */
 
   public CLNImageProcessor(
     final CLNImageProcessorRequest inRequest)
@@ -96,8 +106,8 @@ public final class CLNImageProcessor implements CLNImageProcessorType
     };
 
     return switch (layout) {
-      case R5_G6_B5 -> new CLNImageDecodeR5G6B5();
-      case R4_G4_B4_A4 -> new CLNImageDecodeR4G4B4A4();
+      case R5_G6_B5 -> new CLNImageDecodeR5G6B5(bufferOrder);
+      case R4_G4_B4_A4 -> new CLNImageDecodeR4G4B4A4(bufferOrder);
       case R8 -> new CLNImageDecode8(bufferOrder, 1);
       case R8_G8 -> new CLNImageDecode8(bufferOrder, 2);
       case R8_G8_B8 -> new CLNImageDecode8(bufferOrder, 3);

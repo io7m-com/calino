@@ -27,10 +27,22 @@ import java.util.Map;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+/**
+ * A readable metadata section.
+ */
+
 public final class CLN1SectionReadableMetadata
   extends CLN1SectionReadableAbstract implements CLNSectionReadableMetadataType
 {
-  public CLN1SectionReadableMetadata(
+  /**
+   * A readable metadata section.
+   *
+   * @param inDescription The description
+   * @param inReader      The reader
+   * @param inRequest     The request
+   */
+
+  CLN1SectionReadableMetadata(
     final BSSReaderRandomAccessType inReader,
     final CLNParseRequest inRequest,
     final CLNFileSectionDescription inDescription)

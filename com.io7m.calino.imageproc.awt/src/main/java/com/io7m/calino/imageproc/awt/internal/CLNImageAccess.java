@@ -20,6 +20,10 @@ import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
 import java.util.Objects;
 
+/**
+ * Normalized access to a buffered image.
+ */
+
 public final class CLNImageAccess
 {
   private final BufferedImage image;
@@ -42,6 +46,14 @@ public final class CLNImageAccess
       this.scales[index] = (1 << sizes[index]) - 1;
     }
   }
+
+  /**
+   * Get the pixel at {@code (x,y)}, normalizing the values to [0.0, 1.0].
+   *
+   * @param x      The x position
+   * @param y      The y position
+   * @param sample The output sample
+   */
 
   public void pixelAt(
     final int x,

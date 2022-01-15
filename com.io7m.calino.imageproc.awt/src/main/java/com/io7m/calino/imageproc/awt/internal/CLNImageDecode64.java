@@ -21,11 +21,22 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.Objects;
 
+/**
+ * A 64-bit decoder.
+ */
+
 public final class CLNImageDecode64 implements CLNImageDecodeType
 {
   private final ByteOrder byteOrder;
   private final int targetComponents;
   private final int pixelSizeBytes;
+
+  /**
+   * A 64-bit decoder.
+   *
+   * @param inByteOrder        The byte order
+   * @param inTargetComponents The component count
+   */
 
   public CLNImageDecode64(
     final ByteOrder inByteOrder,

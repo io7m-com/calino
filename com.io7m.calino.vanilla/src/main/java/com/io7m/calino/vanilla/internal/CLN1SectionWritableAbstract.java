@@ -24,6 +24,10 @@ import java.io.IOException;
 import java.nio.channels.SeekableByteChannel;
 import java.util.Objects;
 
+/**
+ * A writable section.
+ */
+
 public abstract class CLN1SectionWritableAbstract
   implements CLNSectionWritableType
 {
@@ -34,6 +38,15 @@ public abstract class CLN1SectionWritableAbstract
   private final long offsetStartData;
   private final long offsetStart;
   private long wrote;
+
+  /**
+   * A writable section.
+   *
+   * @param inOnClose    A function executed on closing
+   * @param inRequest    A write request
+   * @param inIdentifier An identifier
+   * @param inWriter     A writer
+   */
 
   public CLN1SectionWritableAbstract(
     final BSSWriterRandomAccessType inWriter,

@@ -22,6 +22,10 @@ import java.nio.channels.NonReadableChannelException;
 import java.nio.channels.SeekableByteChannel;
 import java.util.Objects;
 
+/**
+ * A seekable byte channel that can address a subset of a delegate channel.
+ */
+
 public final class CLNSubrangeWritableByteChannel
   implements SeekableByteChannel
 {
@@ -30,6 +34,15 @@ public final class CLNSubrangeWritableByteChannel
   private final long limit;
   private final CLNOnCloseOperationType<CLNSubrangeWritableByteChannel> onClose;
   private long uppermost;
+
+  /**
+   * A seekable byte channel that can address a subset of a delegate channel.
+   *
+   * @param inDelegate The delegate channel
+   * @param inBase     The base offset
+   * @param inLimit    The number of bytes that can be addressed
+   * @param inOnClose  A function executed when the channel is closed
+   */
 
   public CLNSubrangeWritableByteChannel(
     final SeekableByteChannel inDelegate,
@@ -89,6 +102,10 @@ public final class CLNSubrangeWritableByteChannel
     this.uppermost = maxUnsigned(newPosition, this.uppermost);
     return this.delegate.position(this.baseStart + newPosition);
   }
+
+  /**
+   * @return The highest byte offset written by this channel
+   */
 
   public long wroteAtMost()
   {

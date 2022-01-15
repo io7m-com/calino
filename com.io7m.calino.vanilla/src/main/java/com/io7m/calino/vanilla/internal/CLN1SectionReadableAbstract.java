@@ -26,6 +26,10 @@ import java.io.IOException;
 import java.nio.channels.SeekableByteChannel;
 import java.util.Objects;
 
+/**
+ * An abstract readable section.
+ */
+
 public abstract class CLN1SectionReadableAbstract
   implements CLNSectionReadableType
 {
@@ -33,7 +37,7 @@ public abstract class CLN1SectionReadableAbstract
   private final CLNParseRequest request;
   private final CLNFileSectionDescription description;
 
-  public CLN1SectionReadableAbstract(
+  protected CLN1SectionReadableAbstract(
     final BSSReaderRandomAccessType inReader,
     final CLNParseRequest inRequest,
     final CLNFileSectionDescription inDescription)

@@ -27,12 +27,24 @@ import java.io.IOException;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+/**
+ * The main writer implementation.
+ */
+
 public final class CLN1Writer implements CLNWriterType
 {
   private final CLNWriteRequest request;
   private final BSSWriterRandomAccessType writer;
   private final AtomicBoolean closed;
   private final BSSWriterProviderType writers;
+
+  /**
+   * The main writer implementation.
+   *
+   * @param inWriter  The writer
+   * @param inRequest The write request
+   * @param inWriters A writer provider
+   */
 
   public CLN1Writer(
     final BSSWriterProviderType inWriters,

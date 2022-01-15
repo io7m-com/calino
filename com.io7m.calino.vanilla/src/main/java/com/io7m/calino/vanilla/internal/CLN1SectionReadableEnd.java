@@ -21,9 +21,21 @@ import com.io7m.calino.api.CLNSectionReadableEndType;
 import com.io7m.calino.parser.api.CLNParseRequest;
 import com.io7m.jbssio.api.BSSReaderRandomAccessType;
 
+/**
+ * A readable end section.
+ */
+
 public final class CLN1SectionReadableEnd
   extends CLN1SectionReadableAbstract implements CLNSectionReadableEndType
 {
+  /**
+   * A readable end section.
+   *
+   * @param inDescription The description
+   * @param inReader      The reader
+   * @param inRequest     The request
+   */
+
   public CLN1SectionReadableEnd(
     final BSSReaderRandomAccessType inReader,
     final CLNParseRequest inRequest,

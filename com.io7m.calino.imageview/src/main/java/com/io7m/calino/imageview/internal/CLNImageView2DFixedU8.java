@@ -23,12 +23,24 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.Objects;
 
+/**
+ * An unsigned fixed-point 8-bit view.
+ */
+
 public final class CLNImageView2DFixedU8 implements CLNImageView2DType
 {
   private final ByteBuffer pixelData;
   private final int componentCount;
   private final CLNImageInfo imageInfo;
   private final int lineWidth;
+
+  /**
+   * An unsigned fixed-point 8-bit view.
+   *
+   * @param inComponentCount The component count
+   * @param inData           The image data
+   * @param inImageInfo      The image info
+   */
 
   public CLNImageView2DFixedU8(
     final CLNImageInfo inImageInfo,

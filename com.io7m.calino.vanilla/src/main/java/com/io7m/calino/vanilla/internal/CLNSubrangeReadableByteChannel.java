@@ -22,6 +22,10 @@ import java.nio.channels.NonWritableChannelException;
 import java.nio.channels.SeekableByteChannel;
 import java.util.Objects;
 
+/**
+ * A seekable byte channel that can address a subset of a delegate channel.
+ */
+
 public final class CLNSubrangeReadableByteChannel implements SeekableByteChannel
 {
   private final SeekableByteChannel delegate;
@@ -29,6 +33,15 @@ public final class CLNSubrangeReadableByteChannel implements SeekableByteChannel
   private final long limit;
   private final long baseEnd;
   private final CLNOnCloseOperationType<SeekableByteChannel> onClose;
+
+  /**
+   * A seekable byte channel that can address a subset of a delegate channel.
+   *
+   * @param inDelegate The delegate channel
+   * @param inBase     The base offset
+   * @param inLimit    The number of bytes that can be addressed
+   * @param inOnClose  A function executed when the channel is closed
+   */
 
   public CLNSubrangeReadableByteChannel(
     final SeekableByteChannel inDelegate,

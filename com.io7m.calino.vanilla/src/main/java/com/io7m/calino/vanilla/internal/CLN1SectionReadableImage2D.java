@@ -20,9 +20,9 @@ import com.io7m.calino.api.CLNFileSectionDescription;
 import com.io7m.calino.api.CLNImage2DDescription;
 import com.io7m.calino.api.CLNImageInfo;
 import com.io7m.calino.api.CLNSectionReadableImage2DType;
+import com.io7m.calino.parser.api.CLNParseRequest;
 import com.io7m.calino.supercompression.api.CLNDecompressorFactoryType;
 import com.io7m.calino.supercompression.api.CLNDecompressorRequest;
-import com.io7m.calino.parser.api.CLNParseRequest;
 import com.io7m.jbssio.api.BSSReaderRandomAccessType;
 
 import java.io.IOException;
@@ -34,15 +34,29 @@ import java.util.Objects;
 
 import static com.io7m.calino.api.CLNSuperCompressionMethodStandard.UNCOMPRESSED;
 
+/**
+ * A readable 2D image section.
+ */
+
 public final class CLN1SectionReadableImage2D
   extends CLN1SectionReadableAbstract implements CLNSectionReadableImage2DType
 {
   private final CLNDecompressorFactoryType decompressors;
-  private CLNIOOperationType<CLNImageInfo> imageInfoRetrieval;
+  private final CLNIOOperationType<CLNImageInfo> imageInfoRetrieval;
   private List<CLNImage2DDescription> mipMapDescriptions;
   private CLNImageInfo imageInfo;
 
-  public CLN1SectionReadableImage2D(
+  /**
+   * A readable 2D image section.
+   *
+   * @param inDescription        The description
+   * @param inReader             The reader
+   * @param inRequest            The request
+   * @param inDecompressors      The decompressors
+   * @param inImageInfoRetrieval A function to retrieve image information
+   */
+
+  CLN1SectionReadableImage2D(
     final CLNDecompressorFactoryType inDecompressors,
     final BSSReaderRandomAccessType inReader,
     final CLNParseRequest inRequest,

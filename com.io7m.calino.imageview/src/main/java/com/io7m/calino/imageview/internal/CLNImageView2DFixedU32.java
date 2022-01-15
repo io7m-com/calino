@@ -25,6 +25,10 @@ import java.util.Objects;
 
 import static java.lang.Integer.toUnsignedLong;
 
+/**
+ * An unsigned fixed-point 32-bit view.
+ */
+
 public final class CLNImageView2DFixedU32 implements CLNImageView2DType
 {
   private static final int COMPONENT_SIZE = 4;
@@ -33,6 +37,14 @@ public final class CLNImageView2DFixedU32 implements CLNImageView2DType
   private final CLNImageInfo imageInfo;
   private final int lineWidth;
   private final int pixelSize;
+
+  /**
+   * An unsigned fixed-point 32-bit view.
+   *
+   * @param inComponentCount The component count
+   * @param inData           The image data
+   * @param inImageInfo      The image info
+   */
 
   public CLNImageView2DFixedU32(
     final CLNImageInfo inImageInfo,

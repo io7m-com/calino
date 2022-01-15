@@ -34,6 +34,10 @@ import static com.io7m.calino.api.CLNIdentifiers.sectionImage2DIdentifier;
 import static com.io7m.calino.api.CLNIdentifiers.sectionImageInfoIdentifier;
 import static com.io7m.calino.api.CLNIdentifiers.sectionMetadataIdentifier;
 
+/**
+ * The main writable file implementation.
+ */
+
 public final class CLN1FileWritable implements CLNFileWritableType
 {
   private final BSSWriterRandomAccessType writer;
@@ -41,7 +45,7 @@ public final class CLN1FileWritable implements CLNFileWritableType
   private final BSSWriterProviderType writers;
   private CLNSectionWritableType sectionOpen;
 
-  public CLN1FileWritable(
+  CLN1FileWritable(
     final BSSWriterProviderType inWriters,
     final BSSWriterRandomAccessType inWriter,
     final CLNWriteRequest inRequest)

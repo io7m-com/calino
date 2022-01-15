@@ -22,8 +22,8 @@ import com.io7m.calino.api.CLNImageInfo;
 import com.io7m.calino.api.CLNSectionReadableImageInfoType;
 import com.io7m.calino.api.CLNSectionReadableType;
 import com.io7m.calino.api.CLNVersion;
-import com.io7m.calino.supercompression.api.CLNDecompressorFactoryType;
 import com.io7m.calino.parser.api.CLNParseRequest;
+import com.io7m.calino.supercompression.api.CLNDecompressorFactoryType;
 import com.io7m.jbssio.api.BSSReaderRandomAccessType;
 
 import java.io.IOException;
@@ -35,6 +35,10 @@ import static com.io7m.calino.api.CLNIdentifiers.sectionEndIdentifier;
 import static com.io7m.calino.api.CLNIdentifiers.sectionImage2DIdentifier;
 import static com.io7m.calino.api.CLNIdentifiers.sectionImageInfoIdentifier;
 import static com.io7m.calino.api.CLNIdentifiers.sectionMetadataIdentifier;
+
+/**
+ * The main readable file implementation.
+ */
 
 public final class CLN1FileReadable implements CLNFileReadableType
 {
@@ -141,7 +145,8 @@ public final class CLN1FileReadable implements CLNFileReadableType
     for (final var fileSection : this.fileSections) {
       final var description = fileSection.description();
       if (description.identifier() == sectionImageInfoIdentifier()) {
-        try (var section = (CLNSectionReadableImageInfoType) this.openSection(fileSection)) {
+        try (var section = (CLNSectionReadableImageInfoType) this.openSection(
+          fileSection)) {
           return section.info();
         }
       }

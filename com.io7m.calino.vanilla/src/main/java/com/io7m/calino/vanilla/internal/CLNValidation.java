@@ -22,6 +22,10 @@ import java.net.URI;
 import java.util.Objects;
 import java.util.UUID;
 
+/**
+ * Validation events.
+ */
+
 public final class CLNValidation
 {
   private static final UUID SECTION_UNALIGNED =
@@ -46,6 +50,16 @@ public final class CLNValidation
 
   }
 
+  /**
+   * A section is unaligned.
+   *
+   * @param source     The source file
+   * @param fileOffset The file offset
+   * @param sectionId  The section ID
+   *
+   * @return An event
+   */
+
   public static CLNParserValidationEvent sectionUnaligned(
     final URI source,
     final long fileOffset,
@@ -64,6 +78,16 @@ public final class CLNValidation
       )
     );
   }
+
+  /**
+   * An end section has a non-zero size.
+   *
+   * @param source     The source file
+   * @param fileOffset The file offset
+   * @param size       The section size
+   *
+   * @return An event
+   */
 
   public static CLNParserValidationEvent sectionEndNonzeroSize(
     final URI source,
@@ -84,6 +108,16 @@ public final class CLNValidation
     );
   }
 
+  /**
+   * There is data after the end section.
+   *
+   * @param source     The source file
+   * @param fileOffset The file offset
+   * @param trailing   The trailing data size
+   *
+   * @return An event
+   */
+
   public static CLNParserValidationEvent sectionEndTrailing(
     final URI source,
     final long fileOffset,
@@ -103,6 +137,15 @@ public final class CLNValidation
     );
   }
 
+  /**
+   * An image has zero mipmaps.
+   *
+   * @param source     The source file
+   * @param fileOffset The file offset
+   *
+   * @return An event
+   */
+
   public static CLNParserValidationEvent imageDataMipMapCountZero(
     final URI source,
     final long fileOffset)
@@ -117,6 +160,15 @@ public final class CLNValidation
       "The specified mipmap count should be greater than zero."
     );
   }
+
+  /**
+   * An image has a zero uncompressed size.
+   *
+   * @param source     The source file
+   * @param fileOffset The file offset
+   *
+   * @return An event
+   */
 
   public static CLNParserValidationEvent imageDataSizeUncompressedZero(
     final URI source,
@@ -133,6 +185,15 @@ public final class CLNValidation
     );
   }
 
+  /**
+   * An image has a zero compressed size.
+   *
+   * @param source     The source file
+   * @param fileOffset The file offset
+   *
+   * @return An event
+   */
+
   public static CLNParserValidationEvent imageDataSizeCompressedZero(
     final URI source,
     final long fileOffset)
@@ -148,6 +209,15 @@ public final class CLNValidation
     );
   }
 
+  /**
+   * An image has an invalid offset within a section.
+   *
+   * @param source     The source file
+   * @param fileOffset The file offset
+   *
+   * @return An event
+   */
+
   public static CLNParserValidationEvent imageDataOffsetWithinSectionZero(
     final URI source,
     final long fileOffset)
@@ -162,6 +232,17 @@ public final class CLNValidation
       "The data offset within a section should be greater than zero."
     );
   }
+
+  /**
+   * An image has compressed/uncompressed size mismatch when not compressed.
+   *
+   * @param source               The source file
+   * @param fileOffset           The file offset
+   * @param dataSizeCompressed   The compressed size
+   * @param dataSizeUncompressed The uncompressed size
+   *
+   * @return An event
+   */
 
   public static CLNParserValidationEvent imageDataSizeCompressionSizeMismatch(
     final URI source,
