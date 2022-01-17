@@ -263,6 +263,29 @@ public final class CLNImageProcessor implements CLNImageProcessorType
     return new Chain(imageInfo, images);
   }
 
+  private static UnsupportedOperationException errorUnsupported(
+    final CLNChannelsLayoutDescriptionType targetLayout,
+    final String baseMessage)
+  {
+    final var message = new StringBuilder(128);
+    final var lineSeparator = System.lineSeparator();
+    message.append(baseMessage);
+    message.append(lineSeparator);
+    message.append("  Layout: ");
+    message.append(targetLayout.descriptor());
+    message.append(lineSeparator);
+    message.append("  Supported layouts:");
+    message.append(lineSeparator);
+
+    for (final var layout : CLNChannelsLayoutDescriptionStandard.values()) {
+      message.append("    ");
+      message.append(layout.descriptor());
+      message.append(lineSeparator);
+    }
+
+    return new UnsupportedOperationException(message.toString());
+  }
+
   private static int scaling(
     final CLNImageMipMapFilter filter)
   {
@@ -287,6 +310,13 @@ public final class CLNImageProcessor implements CLNImageProcessorType
       this.request.layoutConversion()
         .map(CLNImageLayoutConversion::targetLayout)
         .orElse(channelLayoutGuess(image));
+
+    if (!(finalLayout instanceof CLNChannelsLayoutDescriptionStandard)) {
+      throw errorUnsupported(
+        finalLayout,
+        "No support is available for the target layout."
+      );
+    }
 
     /*
      * If mipmap generation is requested, then generate mipmaps.
@@ -375,7 +405,6 @@ public final class CLNImageProcessor implements CLNImageProcessorType
           createDecoderForLayout(this.imageInfo.dataByteOrder(), standard);
         return decoder.execute(image);
       }
-
       throw new IllegalStateException();
     }
 

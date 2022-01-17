@@ -17,7 +17,9 @@
 package com.io7m.calino.api;
 
 import java.util.List;
+import java.util.Optional;
 
+import static com.io7m.calino.api.CLNChannelLayoutPacking.PACK_16;
 import static com.io7m.calino.api.CLNChannelSemantic.ALPHA;
 import static com.io7m.calino.api.CLNChannelSemantic.BLUE;
 import static com.io7m.calino.api.CLNChannelSemantic.GREEN;
@@ -44,6 +46,12 @@ public enum CLNChannelsLayoutDescriptionStandard
         new CLNChannelDescription(BLUE, 5)
       );
     }
+
+    @Override
+    public Optional<CLNChannelLayoutPacking> packing()
+    {
+      return Optional.of(PACK_16);
+    }
   },
 
   /**
@@ -61,6 +69,12 @@ public enum CLNChannelsLayoutDescriptionStandard
         new CLNChannelDescription(ALPHA, 4)
       );
     }
+
+    @Override
+    public Optional<CLNChannelLayoutPacking> packing()
+    {
+      return Optional.of(PACK_16);
+    }
   },
 
   /**
@@ -74,6 +88,12 @@ public enum CLNChannelsLayoutDescriptionStandard
       return List.of(
         new CLNChannelDescription(RED, 8)
       );
+    }
+
+    @Override
+    public Optional<CLNChannelLayoutPacking> packing()
+    {
+      return Optional.empty();
     }
   },
 
@@ -90,6 +110,12 @@ public enum CLNChannelsLayoutDescriptionStandard
         new CLNChannelDescription(GREEN, 8)
       );
     }
+
+    @Override
+    public Optional<CLNChannelLayoutPacking> packing()
+    {
+      return Optional.empty();
+    }
   },
 
   /**
@@ -105,6 +131,12 @@ public enum CLNChannelsLayoutDescriptionStandard
         new CLNChannelDescription(GREEN, 8),
         new CLNChannelDescription(BLUE, 8)
       );
+    }
+
+    @Override
+    public Optional<CLNChannelLayoutPacking> packing()
+    {
+      return Optional.empty();
     }
   },
 
@@ -123,6 +155,12 @@ public enum CLNChannelsLayoutDescriptionStandard
         new CLNChannelDescription(ALPHA, 8)
       );
     }
+
+    @Override
+    public Optional<CLNChannelLayoutPacking> packing()
+    {
+      return Optional.empty();
+    }
   },
 
   /**
@@ -136,6 +174,12 @@ public enum CLNChannelsLayoutDescriptionStandard
       return List.of(
         new CLNChannelDescription(RED, 16)
       );
+    }
+
+    @Override
+    public Optional<CLNChannelLayoutPacking> packing()
+    {
+      return Optional.empty();
     }
   },
 
@@ -152,6 +196,12 @@ public enum CLNChannelsLayoutDescriptionStandard
         new CLNChannelDescription(GREEN, 16)
       );
     }
+
+    @Override
+    public Optional<CLNChannelLayoutPacking> packing()
+    {
+      return Optional.empty();
+    }
   },
 
   /**
@@ -167,6 +217,12 @@ public enum CLNChannelsLayoutDescriptionStandard
         new CLNChannelDescription(GREEN, 16),
         new CLNChannelDescription(BLUE, 16)
       );
+    }
+
+    @Override
+    public Optional<CLNChannelLayoutPacking> packing()
+    {
+      return Optional.empty();
     }
   },
 
@@ -185,6 +241,12 @@ public enum CLNChannelsLayoutDescriptionStandard
         new CLNChannelDescription(ALPHA, 16)
       );
     }
+
+    @Override
+    public Optional<CLNChannelLayoutPacking> packing()
+    {
+      return Optional.empty();
+    }
   },
 
   /**
@@ -198,6 +260,12 @@ public enum CLNChannelsLayoutDescriptionStandard
       return List.of(
         new CLNChannelDescription(RED, 32)
       );
+    }
+
+    @Override
+    public Optional<CLNChannelLayoutPacking> packing()
+    {
+      return Optional.empty();
     }
   },
 
@@ -214,6 +282,12 @@ public enum CLNChannelsLayoutDescriptionStandard
         new CLNChannelDescription(GREEN, 32)
       );
     }
+
+    @Override
+    public Optional<CLNChannelLayoutPacking> packing()
+    {
+      return Optional.empty();
+    }
   },
 
   /**
@@ -229,6 +303,12 @@ public enum CLNChannelsLayoutDescriptionStandard
         new CLNChannelDescription(GREEN, 32),
         new CLNChannelDescription(BLUE, 32)
       );
+    }
+
+    @Override
+    public Optional<CLNChannelLayoutPacking> packing()
+    {
+      return Optional.empty();
     }
   },
 
@@ -247,6 +327,12 @@ public enum CLNChannelsLayoutDescriptionStandard
         new CLNChannelDescription(ALPHA, 32)
       );
     }
+
+    @Override
+    public Optional<CLNChannelLayoutPacking> packing()
+    {
+      return Optional.empty();
+    }
   },
 
   /**
@@ -260,6 +346,12 @@ public enum CLNChannelsLayoutDescriptionStandard
       return List.of(
         new CLNChannelDescription(RED, 64)
       );
+    }
+
+    @Override
+    public Optional<CLNChannelLayoutPacking> packing()
+    {
+      return Optional.empty();
     }
   },
 
@@ -275,6 +367,12 @@ public enum CLNChannelsLayoutDescriptionStandard
         new CLNChannelDescription(RED, 64),
         new CLNChannelDescription(GREEN, 64)
       );
+    }
+
+    @Override
+    public Optional<CLNChannelLayoutPacking> packing()
+    {
+      return Optional.empty();
     }
   },
 
@@ -292,6 +390,12 @@ public enum CLNChannelsLayoutDescriptionStandard
         new CLNChannelDescription(BLUE, 64)
       );
     }
+
+    @Override
+    public Optional<CLNChannelLayoutPacking> packing()
+    {
+      return Optional.empty();
+    }
   },
 
   /**
@@ -308,6 +412,12 @@ public enum CLNChannelsLayoutDescriptionStandard
         new CLNChannelDescription(BLUE, 64),
         new CLNChannelDescription(ALPHA, 64)
       );
+    }
+
+    @Override
+    public Optional<CLNChannelLayoutPacking> packing()
+    {
+      return Optional.empty();
     }
   }
 }

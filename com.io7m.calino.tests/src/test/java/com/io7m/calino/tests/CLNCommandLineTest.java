@@ -463,9 +463,36 @@ public final class CLNCommandLineTest
       "--source",
       file.toAbsolutePath().toString(),
       "--output",
-      this.directory.resolve("output.ctf").toString()
+      this.directory.resolve("output.ctf").toString(),
+      "--verbose",
+      "trace"
     });
     assertEquals(0, r);
+  }
+
+  @Test
+  public void testCreateFromProduce8_Unsupported0()
+    throws IOException
+  {
+    final var file =
+      CLNTestDirectories.resourceOf(
+        CLN1ParsersContract.class,
+        this.directory,
+        "produce8.png"
+      );
+
+    final var r = CLNMain.mainExitless(new String[]{
+      "create",
+      "--source",
+      file.toAbsolutePath().toString(),
+      "--output",
+      this.directory.resolve("output.ctf").toString(),
+      "--convert-layout-to",
+      "R8:B8",
+      "--verbose",
+      "trace"
+    });
+    assertEquals(1, r);
   }
 
   @Test
@@ -486,7 +513,9 @@ public final class CLNCommandLineTest
       "--output",
       this.directory.resolve("output.ctf").toString(),
       "--convert-layout-to",
-      "R8:G8:B8:A8"
+      "R8:G8:B8:A8",
+      "--verbose",
+      "trace"
     });
     assertEquals(0, r);
   }
@@ -509,7 +538,9 @@ public final class CLNCommandLineTest
       "--output",
       this.directory.resolve("output.ctf").toString(),
       "--convert-layout-to",
-      "R8:G8:B8"
+      "R8:G8:B8",
+      "--verbose",
+      "trace"
     });
     assertEquals(0, r);
   }
@@ -532,7 +563,9 @@ public final class CLNCommandLineTest
       "--output",
       this.directory.resolve("output.ctf").toString(),
       "--convert-layout-to",
-      "R8:G8"
+      "R8:G8",
+      "--verbose",
+      "trace"
     });
     assertEquals(0, r);
   }
@@ -555,7 +588,9 @@ public final class CLNCommandLineTest
       "--output",
       this.directory.resolve("output.ctf").toString(),
       "--convert-layout-to",
-      "R8"
+      "R8",
+      "--verbose",
+      "trace"
     });
     assertEquals(0, r);
   }
@@ -578,7 +613,9 @@ public final class CLNCommandLineTest
       "--output",
       this.directory.resolve("output.ctf").toString(),
       "--convert-layout-to",
-      "R4:G4:B4:A4"
+      "p16|R4:G4:B4:A4",
+      "--verbose",
+      "trace"
     });
     assertEquals(0, r);
   }
@@ -601,7 +638,9 @@ public final class CLNCommandLineTest
       "--output",
       this.directory.resolve("output.ctf").toString(),
       "--convert-layout-to",
-      "R5:G6:B5"
+      "p16|R5:G6:B5",
+      "--verbose",
+      "trace"
     });
     assertEquals(0, r);
   }
@@ -747,9 +786,11 @@ public final class CLNCommandLineTest
       "--output",
       this.directory.resolve("output.ctf").toString(),
       "--convert-layout-to",
-      "R4:G4:B4:A4",
+      "p16|R4:G4:B4:A4",
       "--mipmap-generate",
-      "NEAREST"
+      "NEAREST",
+      "--verbose",
+      "trace"
     });
     assertEquals(0, r);
   }
@@ -772,9 +813,11 @@ public final class CLNCommandLineTest
       "--output",
       this.directory.resolve("output.ctf").toString(),
       "--convert-layout-to",
-      "R5:G6:B5",
+      "p16|R5:G6:B5",
       "--mipmap-generate",
-      "NEAREST"
+      "NEAREST",
+      "--verbose",
+      "trace"
     });
     assertEquals(0, r);
   }

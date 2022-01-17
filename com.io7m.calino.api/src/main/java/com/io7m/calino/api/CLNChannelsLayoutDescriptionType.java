@@ -16,10 +16,8 @@
 
 package com.io7m.calino.api;
 
-import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -31,44 +29,21 @@ public sealed interface CLNChannelsLayoutDescriptionType
   permits CLNChannelsLayoutDescriptionCustom,
   CLNChannelsLayoutDescriptionStandard
 {
-  /**
-   * Parse a layout descriptor.
-   *
-   * @param text The descriptor
-   *
-   * @return A parsed layout
-   *
-   * @throws ParseException On errors
-   */
-
-  static CLNChannelsLayoutDescriptionType parseLayoutDescriptor(
-    final String text)
-    throws ParseException
-  {
-    final var knownFormats =
-      CLNChannelsLayoutDescriptionStandard.values();
-
-    for (final var known : knownFormats) {
-      if (Objects.equals(known.descriptor(), text)) {
-        return known;
-      }
-    }
-
-    final var descriptions = new ArrayList<CLNChannelDescription>();
-    final var segments = text.split(":");
-    for (final var segment : segments) {
-      descriptions.add(CLNChannelDescription.parse(segment));
-    }
-    return new CLNChannelsLayoutDescriptionCustom(List.copyOf(descriptions));
-  }
-
   @Override
   default String descriptor()
   {
-    return this.channels()
-      .stream()
-      .map(CLNChannelDescription::descriptor)
-      .collect(Collectors.joining(":"));
+    final var packText =
+      this.packing()
+        .map(p -> p.descriptor() + "|")
+        .orElse("");
+
+    final var channelsText =
+      this.channels()
+        .stream()
+        .map(CLNChannelDescription::descriptor)
+        .collect(Collectors.joining(":"));
+
+    return packText + channelsText;
   }
 
   /**
@@ -78,16 +53,18 @@ public sealed interface CLNChannelsLayoutDescriptionType
   List<CLNChannelDescription> channels();
 
   /**
+   * @return The packing value, if any
+   */
+
+  Optional<CLNChannelLayoutPacking> packing();
+
+  /**
    * @return The total number of bits in a single sample
    */
 
   default int bitsTotal()
   {
-    var total = 0;
-    for (final var channel : this.channels()) {
-      total += channel.bits();
-    }
-    return total;
+    return CLNChannelsLayoutDescriptions.totalBits(this.channels());
   }
 
   /**
@@ -96,6 +73,9 @@ public sealed interface CLNChannelsLayoutDescriptionType
 
   default int texelBlockAlignment()
   {
-    return (int) Math.ceil((double) this.bitsTotal() / 8.0);
+    final var b = this.bitsTotal();
+    final int q = b / 8;
+    final int r = b % 8;
+    return (q * 8) + (r > 0 ? 1 : 0);
   }
 }

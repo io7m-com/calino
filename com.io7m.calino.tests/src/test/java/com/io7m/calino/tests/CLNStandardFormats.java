@@ -47,7 +47,7 @@ public final class CLNStandardFormats
       );
 
       assertTrue(alignment >= 1);
-      assertTrue(alignment <= 32);
+      assertTrue(alignment <= 256);
     }
   }
 

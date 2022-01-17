@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Section xmlns="urn:com.io7m.structural:8:0"
+         title="Notational Conventions">
+
+  <Subsection title="Unicode">
+    <Paragraph>
+      The specification makes reference to the
+      <LinkExternal target="https://www.unicode.org">Unicode</LinkExternal>
+      character set which, at the time of writing, is at version 13.0.0. The specification often references specific
+      Unicode characters, and does so using the standard notation <Term type="constant">U+NNNN</Term>, where <Term type="constant">
+      N
+    </Term> represents a hexadecimal digit. For example,
+      <Term type="constant">U+03BB</Term>
+      corresponds to the lowercase lambda symbol
+      <Term type="constant">λ</Term>.
+    </Paragraph>
+  </Subsection>
+
+  <Subsection title="Sets">
+    <Paragraph>
+      Where the specification refers to sets, it is referring to sets as defined
+      in <LinkExternal target="https://en.wikipedia.org/wiki/Zermelo-Fraenkel_set_theory">Zermelo-Fraenkel set
+      theory</LinkExternal>.
+    </Paragraph>
+    <FormalItem title="ZFC">
+      <Table>
+        <Columns>
+          <Column>Notation</Column>
+          <Column>Description</Column>
+        </Columns>
+        <Row>
+          <Cell>
+            <Term type="expression">e ∈ A</Term>
+          </Cell>
+          <Cell>
+            <Term type="expression">e</Term>
+            is an element of the set
+            <Term type="expression">A</Term>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Term type="expression">e ∉ A</Term>
+          </Cell>
+          <Cell>
+            <Term type="expression">e</Term>
+            is not an element of the set
+            <Term type="expression">A</Term>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Term type="expression">{ x₀, x₁, ... xₙ }</Term>
+          </Cell>
+          <Cell>A set consisting of values from <Term type="expression">x₀</Term> to
+            <Term type="expression">xₙ</Term>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Term type="expression">{ e ∈ A | p(e) }</Term>
+          </Cell>
+          <Cell>A set consisting of the elements of <Term type="expression">A</Term> for which the proposition <Term type="expression">
+            p
+          </Term> holds
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Term type="expression">|A|</Term>
+          </Cell>
+          <Cell>The cardinality of the set <Term type="expression">A</Term>; a measure of the number of elements in
+            <Term type="expression">A</Term>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Term type="expression">∅</Term>
+          </Cell>
+          <Cell>The empty set</Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Term type="expression">𝔹</Term>
+          </Cell>
+          <Cell>The booleans</Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Term type="expression">ℕ</Term>
+          </Cell>
+          <Cell>The natural numbers</Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Term type="expression">ℝ</Term>
+          </Cell>
+          <Cell>The real numbers</Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Term type="expression">ℤ</Term>
+          </Cell>
+          <Cell>The integers</Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Term type="expression">[a, b]</Term>
+          </Cell>
+          <Cell>A closed interval in a set (given separately or implicit from the types of <Term type="expression">a
+          </Term> and <Term type="expression">b</Term>), from <Term type="expression">a
+          </Term> to <Term type="expression">b</Term>, including <Term type="expression">a</Term> and
+            <Term type="expression">b</Term>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Term type="expression">(a, b]</Term>
+          </Cell>
+          <Cell>A closed interval in a set (given separately or implicit from the types of <Term type="expression">a
+          </Term> and <Term type="expression">b</Term>), from <Term type="expression">a
+          </Term> to <Term type="expression">b</Term>, excluding <Term type="expression">a</Term> but including
+            <Term type="expression">b</Term>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Term type="expression">[a, b)</Term>
+          </Cell>
+          <Cell>A closed interval in a set (given separately or implicit from the types of <Term type="expression">a
+          </Term> and <Term type="expression">b</Term>), from <Term type="expression">a
+          </Term> to <Term type="expression">b</Term>, including <Term type="expression">a</Term> but excluding
+            <Term type="expression">b</Term>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Term type="expression">(a, b)</Term>
+          </Cell>
+          <Cell>A closed interval in a set (given separately or implicit from the types of <Term type="expression">a
+          </Term> and <Term type="expression">b</Term>), from <Term type="expression">a
+          </Term> to <Term type="expression">b</Term>, excluding <Term type="expression">a</Term> and
+            <Term type="expression">b</Term>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Term type="expression">A ⊂ B</Term>
+          </Cell>
+          <Cell>
+            <Term type="expression">A</Term>
+            is a subset of, and is not equal to,
+            <Term type="expression">B</Term>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Term type="expression">A ⊆ B</Term>
+          </Cell>
+          <Cell>
+            <Term type="expression">A</Term>
+            is a subset of, or is equal to,
+            <Term type="expression">B</Term>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Term type="expression">A ∩ B</Term>
+          </Cell>
+          <Cell>
+            The smallest set of elements that appear in both
+            <Term type="expression">A</Term>
+            and <Term type="expression">B</Term> (intersection).
+          </Cell>
+        </Row>
+      </Table>
+    </FormalItem>
+  </Subsection>
+
+  <Subsection title="Logic">
+    <Paragraph>
+      The specification uses the following notation from
+      <LinkExternal target="https://en.wikipedia.org/wiki/Propositional_logic">propositional logic</LinkExternal>:
+    </Paragraph>
+    <FormalItem title="Propositional Logic">
+      <Table>
+        <Columns>
+          <Column>Notation</Column>
+          <Column>Description</Column>
+        </Columns>
+        <Row>
+          <Cell>
+            <Term type="expression">∀x. P x</Term>
+          </Cell>
+          <Cell>Universal quantification; for all <Term type="expression">x</Term> the proposition <Term type="expression">
+            P
+          </Term> holds for
+            <Term type="expression">x</Term>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Term type="expression">∃x. P x</Term>
+          </Cell>
+          <Cell>Existential quantification; there exists some <Term type="expression">x</Term> such that the proposition <Term type="expression">
+            P
+          </Term> holds for
+            <Term type="expression">x</Term>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Term type="expression">P ⇒ Q</Term>
+          </Cell>
+          <Cell>Implication; <Term type="expression">P</Term> implies
+            <Term type="expression">Q</Term>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Term type="expression">P ⋀ Q</Term>
+          </Cell>
+          <Cell>Conjunction; <Term type="expression">P</Term> and
+            <Term type="expression">Q</Term>
+          </Cell>
+        </Row>
+      </Table>
+    </FormalItem>
+  </Subsection>
+
+</Section>

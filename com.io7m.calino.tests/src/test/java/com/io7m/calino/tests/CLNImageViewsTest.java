@@ -33,6 +33,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestFactory;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
 
@@ -73,7 +74,7 @@ public final class CLNImageViewsTest
         1,
         new CLNChannelsLayoutDescriptionCustom(List.of(
           new CLNChannelDescription(CLNChannelSemantic.STENCIL, 128)
-        )),
+        ), Optional.empty()),
         FIXED_POINT_NORMALIZED_UNSIGNED,
         CLNCompressionMethodStandard.UNCOMPRESSED,
         CLNSuperCompressionMethodStandard.UNCOMPRESSED,
@@ -116,7 +117,7 @@ public final class CLNImageViewsTest
         1,
         new CLNChannelsLayoutDescriptionCustom(List.of(
           new CLNChannelDescription(CLNChannelSemantic.STENCIL, 128)
-        )),
+        ), Optional.empty()),
         FIXED_POINT_NORMALIZED_UNSIGNED,
         CLNCompressionMethodStandard.UNCOMPRESSED,
         CLNSuperCompressionMethodStandard.UNCOMPRESSED,

@@ -18,6 +18,7 @@ package com.io7m.calino.vanilla.internal;
 
 import com.io7m.calino.api.CLNByteOrder;
 import com.io7m.calino.api.CLNChannelsLayoutDescriptionType;
+import com.io7m.calino.api.CLNChannelsLayoutDescriptions;
 import com.io7m.calino.api.CLNChannelsTypeDescriptionCustom;
 import com.io7m.calino.api.CLNChannelsTypeDescriptionStandard;
 import com.io7m.calino.api.CLNChannelsTypeDescriptionType;
@@ -443,7 +444,7 @@ public final class CLN1SectionReadableImageInfo
       parent.skip(consumed);
 
       try {
-        return CLNChannelsLayoutDescriptionType.parseLayoutDescriptor(makeString(
+        return CLNChannelsLayoutDescriptions.parseLayoutDescriptor(makeString(
           bytes));
       } catch (final ParseException e) {
         final var lineSeparator = System.lineSeparator();

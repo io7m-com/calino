@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project
+  xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.io7m.calino</groupId>
+    <artifactId>com.io7m.calino</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+  <artifactId>com.io7m.calino.specification</artifactId>
+
+  <packaging>jar</packaging>
+  <name>com.io7m.calino.specification</name>
+  <description>Calino texture format (File format specification)</description>
+  <url>https://www.io7m.com/software/calino/</url>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.io7m.xstructural</groupId>
+      <artifactId>com.io7m.xstructural.cmdline</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.io7m.xstructural</groupId>
+      <artifactId>com.io7m.xstructural.xml</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.osgi</groupId>
+      <artifactId>org.osgi.annotation.bundle</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.osgi</groupId>
+      <artifactId>org.osgi.annotation.versioning</artifactId>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>true</filtering>
+      </resource>
+    </resources>
+
+    <plugins>
+      <!-- Copy specification resources into build directory -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>copy-specification-resources</id>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <phase>generate-resources</phase>
+            <configuration>
+              <outputDirectory>${project.build.directory}/specification/</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>src/main/resources/com/io7m/calino/specification/</directory>
+                  <filtering>false</filtering>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+
+          <execution>
+            <id>copy-specification-resources-epub</id>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <phase>generate-resources</phase>
+            <configuration>
+              <outputDirectory>${project.build.directory}/epub/</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>src/main/resources/com/io7m/calino/specification/</directory>
+                  <filtering>false</filtering>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+
+          <execution>
+            <id>copy-generated-epub</id>
+            <phase>site</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.parent.build.directory}/minisite/specification/</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>${project.build.directory}/epub/</directory>
+                  <includes>
+                    <include>specification.epub</include>
+                  </includes>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>xhtml-single</id>
+            <goals>
+              <goal>java</goal>
+            </goals>
+            <phase>package</phase>
+            <configuration>
+              <mainClass>com.io7m.xstructural.cmdline.MainExitless</mainClass>
+              <arguments>
+                <argument>xhtml</argument>
+                <argument>--brandingFile</argument>
+                <argument>${project.build.directory}/specification/brand.xml</argument>
+                <argument>--sourceFile</argument>
+                <argument>${project.build.directory}/specification/main.xml</argument>
+                <argument>--outputDirectory</argument>
+                <argument>${project.build.directory}/specification</argument>
+                <argument>--stylesheet</argument>
+                <argument>SINGLE_FILE</argument>
+              </arguments>
+            </configuration>
+          </execution>
+
+          <execution>
+            <id>xhtml-multiple</id>
+            <goals>
+              <goal>java</goal>
+            </goals>
+            <phase>package</phase>
+            <configuration>
+              <mainClass>com.io7m.xstructural.cmdline.MainExitless</mainClass>
+              <arguments>
+                <argument>xhtml</argument>
+                <argument>--brandingFile</argument>
+                <argument>${project.build.directory}/specification/brand.xml</argument>
+                <argument>--sourceFile</argument>
+                <argument>${project.build.directory}/specification/main.xml</argument>
+                <argument>--outputDirectory</argument>
+                <argument>${project.build.directory}/specification</argument>
+                <argument>--stylesheet</argument>
+                <argument>MULTIPLE_FILE</argument>
+              </arguments>
+            </configuration>
+          </execution>
+
+          <execution>
+            <id>epub</id>
+            <goals>
+              <goal>java</goal>
+            </goals>
+            <phase>package</phase>
+            <configuration>
+              <mainClass>com.io7m.xstructural.cmdline.MainExitless</mainClass>
+              <arguments>
+                <argument>epub</argument>
+                <argument>--sourceFile</argument>
+                <argument>${project.build.directory}/specification/main.xml</argument>
+                <argument>--outputDirectory</argument>
+                <argument>${project.build.directory}/epub</argument>
+                <argument>--outputFileName</argument>
+                <argument>specification.epub</argument>
+              </arguments>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!-- Produce specification archive -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <configuration>
+          <descriptors>
+            <descriptor>src/main/assembly/specification.xml</descriptor>
+          </descriptors>
+        </configuration>
+        <executions>
+          <execution>
+            <id>make-assembly</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+            <configuration>
+              <appendAssemblyId>false</appendAssemblyId>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!-- Unpack the specification archive to the parent's generated site minisite directory. -->
+      <!-- This is arguably abusive, but there appears to be no other way to achieve it. -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>truezip-maven-plugin</artifactId>
+        <inherited>false</inherited>
+        <executions>
+          <execution>
+            <id>copy-site-specification</id>
+            <goals>
+              <goal>copy</goal>
+            </goals>
+            <phase>site</phase>
+            <configuration>
+              <verbose>true</verbose>
+              <fileset>
+                <directory>${project.build.directory}/${project.name}-${project.version}.zip/${project.name}-${project.version}/</directory>
+                <outputDirectory>${project.parent.build.directory}/minisite/specification/</outputDirectory>
+              </fileset>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>
