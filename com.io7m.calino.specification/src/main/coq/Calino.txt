@@ -28,9 +28,6 @@ Open Scope string_scope.
 Open Scope char_scope.
 Open Scope nat_scope.
 
-(*
-Set Mangle Names.
-*)
 
 Example eightNotZero : 8 <> 0 := not_eq_sym (O_S 7).
 
@@ -95,21 +92,8 @@ Example mipExList : list mipMap := [mipEx3; mipEx2; mipEx1; mipEx0].
 Transparent mipExList.
 
 Example mipExListSorted : mipMapListIsSorted mipExList.
-Proof.
-  assert (mipMapLevel mipEx3 = S (mipMapLevel mipEx2)) as H3s2 by reflexivity.
-  assert (mipMapListIsSorted [mipEx2; mipEx1; mipEx0]) as Hs210.
-    assert (mipMapLevel mipEx2 = S (mipMapLevel mipEx1)) as H2s1 by reflexivity.
-    assert (mipMapListIsSorted [mipEx1; mipEx0]) as Hs10.
-      assert (mipMapLevel mipEx1 = S (mipMapLevel mipEx0)) as H1s0 by reflexivity.
-      assert (mipMapListIsSorted [mipEx0]) as Hs0.
-        apply MipsOne.
-      apply (MipsCons mipEx0 mipEx1 [] H1s0 Hs0).
-    apply (MipsCons mipEx1 mipEx2 [mipEx0] H2s1 Hs10).
-  apply (MipsCons mipEx2 mipEx3 [mipEx1;mipEx0] H3s2 Hs210).
-Qed.
 
 Example mipExListNonEmpty : nil <> mipExList.
-Proof. discriminate. Qed.
-
+ 
 Example ImageR8G8B8 : image :=
   Image2D ImageInfoR8G8B8 (MipMapList mipExList mipExListNonEmpty mipExListSorted).

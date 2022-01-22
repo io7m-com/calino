@@ -1,5 +1,4 @@
 Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
 
 Require Import Calino.Descriptor.
 
@@ -10,8 +9,8 @@ Inductive colorSpace : Set :=
 
 Definition colorSpaceDescribe (c : colorSpace) : descriptor :=
   match c with
-  | CSLinear   => "LINEAR"%string
-  | CSsRGB     => "SRGB"%string
+  | CSLinear   => "LINEAR"
+  | CSsRGB     => "SRGB"
   | CSCustom d => d
   end.
 

@@ -1,5 +1,4 @@
 Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
 
 Require Import Calino.Descriptor.
 
@@ -9,6 +8,6 @@ Inductive flag : Set :=
 
 Definition flagDescribe (f : flag) : descriptor :=
   match f with
-  | FlagAlphaPremultiplied => "ALPHA_PREMULTIPLIED"%string
+  | FlagAlphaPremultiplied => "ALPHA_PREMULTIPLIED"
   | FlagCustom d           => d
   end.

@@ -1,0 +1,766 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="512"
+   height="385"
+   viewBox="0 0 135.46667 101.86458"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20, custom)"
+   sodipodi:docname="rgb16_le.svg"
+   inkscape:export-filename="/home/rm/git/com.github/io7m/calino/com.io7m.calino.specification/src/main/resources/com/io7m/calino/specification/rgb16_le.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="mm"
+     showgrid="true"
+     units="px"
+     width="640px"
+     inkscape:zoom="2"
+     inkscape:cx="246"
+     inkscape:cy="185.5"
+     inkscape:window-width="1800"
+     inkscape:window-height="938"
+     inkscape:window-x="1929"
+     inkscape:window-y="54"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="layer1"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0">
+    <inkscape:grid
+       type="xygrid"
+       id="grid824"
+       spacingx="2.1166667"
+       spacingy="2.1166667"
+       empspacing="4"
+       originx="0"
+       originy="0" />
+  </sodipodi:namedview>
+  <defs
+     id="defs2">
+    <marker
+       style="overflow:visible;"
+       id="Arrow2Lend"
+       refX="0.0"
+       refY="0.0"
+       orient="auto"
+       inkscape:stockid="Arrow2Lend"
+       inkscape:isstock="true">
+      <path
+         transform="scale(1.1) rotate(180) translate(1,0)"
+         d="M 8.7185878,4.0337352 L -2.2072895,0.016013256 L 8.7185884,-4.0017078 C 6.9730900,-1.6296469 6.9831476,1.6157441 8.7185878,4.0337352 z "
+         style="stroke:context-stroke;fill-rule:evenodd;fill:context-stroke;stroke-width:0.62500000;stroke-linejoin:round;"
+         id="path46485" />
+    </marker>
+    <marker
+       style="overflow:visible;"
+       id="marker46725"
+       refX="0.0"
+       refY="0.0"
+       orient="auto"
+       inkscape:stockid="Arrow1Lend"
+       inkscape:isstock="true">
+      <path
+         transform="scale(0.8) rotate(180) translate(12.5,0)"
+         style="fill-rule:evenodd;fill:context-stroke;stroke:context-stroke;stroke-width:1.0pt;"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         id="path46467" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="Arrow1Lend"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="Arrow1Lend"
+       inkscape:isstock="true">
+      <path
+         transform="matrix(-0.8,0,0,-0.8,-10,0)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         id="path39394" />
+    </marker>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient87700"
+       id="linearGradient87702"
+       x1="84.666672"
+       y1="21.166668"
+       x2="67.733337"
+       y2="21.166668"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(-1.9145508e-6)" />
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient87700">
+      <stop
+         style="stop-color:#ffffff;stop-opacity:1;"
+         offset="0"
+         id="stop87696" />
+      <stop
+         style="stop-color:#ffffff;stop-opacity:0;"
+         offset="1"
+         id="stop87698" />
+    </linearGradient>
+  </defs>
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="frame"
+     sodipodi:insensitive="true">
+    <rect
+       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:0.99763"
+       id="rect42214"
+       width="135.20209"
+       height="101.6"
+       x="0.1322915"
+       y="0.1322915" />
+  </g>
+  <g
+     inkscape:label="dia"
+     inkscape:groupmode="layer"
+     id="layer1"
+     style="display:inline">
+    <text
+       xml:space="preserve"
+       style="font-size:4.23333px;line-height:1.25;font-family:'IBM Plex Mono';-inkscape-font-specification:'IBM Plex Mono';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       x="19.821386"
+       y="86.183167"
+       id="text2552"><tspan
+         sodipodi:role="line"
+         id="tspan2550"
+         style="stroke-width:0.264583"
+         x="19.821386"
+         y="86.183167">0</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:4.23333px;line-height:1.25;font-family:'IBM Plex Mono';-inkscape-font-specification:'IBM Plex Mono';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       x="28.367962"
+       y="86.233963"
+       id="text4220"><tspan
+         sodipodi:role="line"
+         id="tspan4218"
+         style="stroke-width:0.264583"
+         x="28.367962"
+         y="86.233963">1</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:4.23333px;line-height:1.25;font-family:'IBM Plex Mono';-inkscape-font-specification:'IBM Plex Mono';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       x="36.933643"
+       y="86.233963"
+       id="text4906"><tspan
+         sodipodi:role="line"
+         id="tspan4904"
+         style="stroke-width:0.264583"
+         x="36.933643"
+         y="86.233963">2</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:4.23333px;line-height:1.25;font-family:'IBM Plex Mono';-inkscape-font-specification:'IBM Plex Mono';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       x="45.586288"
+       y="86.183167"
+       id="text5548"><tspan
+         sodipodi:role="line"
+         id="tspan5546"
+         style="stroke-width:0.264583"
+         x="45.586288"
+         y="86.183167">3</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:4.23333px;line-height:1.25;font-family:'IBM Plex Mono';-inkscape-font-specification:'IBM Plex Mono';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       x="53.843109"
+       y="86.233963"
+       id="text6498"><tspan
+         sodipodi:role="line"
+         id="tspan6496"
+         style="stroke-width:0.264583"
+         x="53.843109"
+         y="86.233963">4</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:4.23333px;line-height:1.25;font-family:'IBM Plex Mono';-inkscape-font-specification:'IBM Plex Mono';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       x="62.114441"
+       y="86.183167"
+       id="text6876"><tspan
+         sodipodi:role="line"
+         id="tspan6874"
+         style="stroke-width:0.264583"
+         x="62.114441"
+         y="86.183167">5</tspan></text>
+    <rect
+       style="fill:#ff5555;stroke:#000000;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:0.99763"
+       id="rect882"
+       width="8.2020836"
+       height="8.2020836"
+       x="17.065624"
+       y="25.532291" />
+    <rect
+       style="fill:#87de87;fill-opacity:1;stroke:#000000;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:0.99763"
+       id="rect8404"
+       width="8.2020836"
+       height="8.2020836"
+       x="25.532291"
+       y="25.532291" />
+    <rect
+       style="fill:#2a7fff;stroke:#000000;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:0.99763"
+       id="rect8406"
+       width="8.2020836"
+       height="8.2020836"
+       x="33.998955"
+       y="25.532291" />
+    <rect
+       style="fill:#ff5555;fill-opacity:1;stroke:#000000;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:0.99763"
+       id="rect8408"
+       width="8.2020836"
+       height="8.2020836"
+       x="42.465622"
+       y="25.532291" />
+    <rect
+       style="fill:#87de87;fill-opacity:1;stroke:#000000;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:0.99763"
+       id="rect8410"
+       width="8.2020836"
+       height="8.2020836"
+       x="50.932289"
+       y="25.532291" />
+    <rect
+       style="fill:#2a7fff;fill-opacity:1;stroke:#000000;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:0.99763"
+       id="rect8412"
+       width="8.2020836"
+       height="8.2020836"
+       x="59.398956"
+       y="25.532291" />
+    <rect
+       style="fill:#ff8080;stroke:#000000;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:0.99763"
+       id="rect8440"
+       width="8.2020836"
+       height="8.2020836"
+       x="17.065624"
+       y="72.098961" />
+    <rect
+       style="fill:#ff8080;fill-opacity:1;stroke:#000000;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:0.99763"
+       id="rect8442"
+       width="8.2020836"
+       height="8.2020836"
+       x="25.532291"
+       y="72.098961" />
+    <rect
+       style="fill:#87de87;fill-opacity:1;stroke:#000000;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:0.99763"
+       id="rect8444"
+       width="8.2020836"
+       height="8.2020836"
+       x="33.998955"
+       y="72.098961" />
+    <rect
+       style="fill:#87de87;fill-opacity:1;stroke:#000000;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:0.99763"
+       id="rect8446"
+       width="8.2020836"
+       height="8.2020836"
+       x="42.465622"
+       y="72.098961" />
+    <rect
+       style="fill:#5599ff;fill-opacity:1;stroke:#000000;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:0.99763"
+       id="rect8448"
+       width="8.2020836"
+       height="8.2020836"
+       x="50.932289"
+       y="72.098961" />
+    <rect
+       style="fill:#5599ff;stroke:#000000;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:0.99763"
+       id="rect8450"
+       width="8.2020836"
+       height="8.2020836"
+       x="59.398956"
+       y="72.098961" />
+    <rect
+       style="fill:#ff8080;stroke:#000000;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:0.99763"
+       id="rect8452"
+       width="8.2020836"
+       height="8.2020836"
+       x="67.865639"
+       y="72.098961" />
+    <rect
+       style="fill:#ff8080;fill-opacity:1;stroke:#000000;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:0.99763"
+       id="rect8454"
+       width="8.2020836"
+       height="8.2020836"
+       x="76.332298"
+       y="72.098961" />
+    <rect
+       style="fill:#87de87;fill-opacity:1;stroke:#000000;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:0.99763"
+       id="rect8456"
+       width="8.2020836"
+       height="8.2020836"
+       x="84.798965"
+       y="72.098961" />
+    <rect
+       style="fill:#87de87;fill-opacity:1;stroke:#000000;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:0.99763"
+       id="rect8458"
+       width="8.2020836"
+       height="8.2020836"
+       x="93.265625"
+       y="72.098961" />
+    <rect
+       style="fill:#5599ff;fill-opacity:1;stroke:#000000;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:0.99763"
+       id="rect8460"
+       width="8.2020836"
+       height="8.2020836"
+       x="101.73231"
+       y="72.098961" />
+    <rect
+       style="fill:#5599ff;stroke:#000000;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:0.99763"
+       id="rect8462"
+       width="8.2020836"
+       height="8.2020836"
+       x="110.19897"
+       y="72.098961" />
+    <text
+       xml:space="preserve"
+       style="font-size:4.23333px;line-height:1.25;font-family:'IBM Plex Mono';-inkscape-font-specification:'IBM Plex Mono';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       x="70.908333"
+       y="86.183167"
+       id="text11208"><tspan
+         sodipodi:role="line"
+         id="tspan11206"
+         style="stroke-width:0.264583"
+         x="70.908333"
+         y="86.183167">6</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:4.23333px;line-height:1.25;font-family:'IBM Plex Mono';-inkscape-font-specification:'IBM Plex Mono';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       x="79.375"
+       y="86.233963"
+       id="text12092"><tspan
+         sodipodi:role="line"
+         id="tspan12090"
+         style="stroke-width:0.264583"
+         x="79.375"
+         y="86.233963">7</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:4.23333px;line-height:1.25;font-family:'IBM Plex Mono';-inkscape-font-specification:'IBM Plex Mono';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       x="87.841667"
+       y="86.183167"
+       id="text12646"><tspan
+         sodipodi:role="line"
+         id="tspan12644"
+         style="stroke-width:0.264583"
+         x="87.841667"
+         y="86.183167">8</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:4.23333px;line-height:1.25;font-family:'IBM Plex Mono';-inkscape-font-specification:'IBM Plex Mono';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       x="96.308334"
+       y="86.233963"
+       id="text13420"><tspan
+         sodipodi:role="line"
+         id="tspan13418"
+         style="stroke-width:0.264583"
+         x="96.308334"
+         y="86.233963">9</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:4.23333px;line-height:1.25;font-family:'IBM Plex Mono';-inkscape-font-specification:'IBM Plex Mono';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       x="103.18748"
+       y="86.183167"
+       id="text14414"><tspan
+         sodipodi:role="line"
+         id="tspan14412"
+         style="stroke-width:0.264583"
+         x="103.18748"
+         y="86.183167">10</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:4.23333px;line-height:1.25;font-family:'IBM Plex Mono';-inkscape-font-specification:'IBM Plex Mono';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       x="111.84135"
+       y="86.149864"
+       id="text15862"><tspan
+         sodipodi:role="line"
+         id="tspan15860"
+         style="stroke-width:0.264583"
+         x="111.84135"
+         y="86.149864">11</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:4.23333px;line-height:1.25;font-family:'IBM Plex Mono';-inkscape-font-specification:'IBM Plex Mono';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       x="27.974874"
+       y="15.010574"
+       id="text43826"><tspan
+         sodipodi:role="line"
+         id="tspan43824"
+         style="stroke-width:0.264583"
+         x="27.974874"
+         y="15.010574">P<tspan
+   style="font-size:65%;baseline-shift:sub"
+   id="tspan49046">0</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:4.23333px;line-height:1.25;font-family:'IBM Plex Mono';-inkscape-font-specification:'IBM Plex Mono';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       x="53.38773"
+       y="15.043594"
+       id="text44534"><tspan
+         sodipodi:role="line"
+         id="tspan44532"
+         style="stroke-width:0.264583"
+         x="53.38773"
+         y="15.043594">P<tspan
+   style="font-size:65%;baseline-shift:sub"
+   id="tspan50702">1</tspan></tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.264583;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:0.264583, 0.264583;stroke-dashoffset:0;stroke-opacity:1"
+       d="m 17.026878,25.400001 4.233334,-4.233334 h 8.466666 v -4.233333 4.233333 h 8.466667 l 4.233333,4.233334"
+       id="path57902" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.264583;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:0.264583, 0.264583;stroke-dashoffset:0;stroke-opacity:1"
+       d="m 42.426878,25.400001 4.233334,-4.233334 h 8.466666 v -4.233333 4.233333 h 8.466667 l 4.233333,4.233334"
+       id="path58098" />
+    <path
+       style="fill:none;stroke:#ffffff;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 21.034375,25.664583 v 7.9375"
+       id="path1522" />
+    <path
+       style="fill:none;stroke:#ffffff;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 29.765625,25.664583 v 7.9375"
+       id="path1751" />
+    <path
+       style="fill:none;stroke:#ffffff;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 37.967708,25.664583 v 7.9375"
+       id="path1753" />
+    <path
+       style="fill:none;stroke:#ffffff;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 46.698958,25.664583 v 7.9375"
+       id="path1817" />
+    <path
+       style="fill:none;stroke:#ffffff;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 55.165625,25.664583 v 7.9375"
+       id="path1819" />
+    <path
+       style="fill:none;stroke:#ffffff;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 63.632291,25.664583 v 7.9375"
+       id="path1821" />
+    <text
+       xml:space="preserve"
+       style="font-size:3.52778px;line-height:1.25;font-family:'IBM Plex Mono';-inkscape-font-specification:'IBM Plex Mono';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583;fill:#000000"
+       x="22.892408"
+       y="26.305489"
+       id="text31410"><tspan
+         sodipodi:role="line"
+         id="tspan31408"
+         style="font-size:3.52778px;writing-mode:tb-rl;fill:#000000;stroke-width:0.264583"
+         x="30.563881"
+         y="18.634016">LSB</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:3.52778px;line-height:1.25;font-family:'IBM Plex Mono';-inkscape-font-specification:'IBM Plex Mono';letter-spacing:0px;word-spacing:0px;fill:#000000;stroke-width:0.264583"
+       x="18.741251"
+       y="26.488934"
+       id="text37602"><tspan
+         sodipodi:role="line"
+         id="tspan37600"
+         style="font-size:3.52778px;writing-mode:tb-rl;fill:#000000;stroke-width:0.264583"
+         x="26.49243"
+         y="18.737755">MSB</tspan></text>
+    <rect
+       style="fill:#ff5555;fill-opacity:1;stroke:#000000;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:0.99763"
+       id="rect82080"
+       width="8.2020836"
+       height="8.2020836"
+       x="67.73333"
+       y="25.532291" />
+    <rect
+       style="fill:#87de87;fill-opacity:1;stroke:#000000;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:0.99763"
+       id="rect82082"
+       width="8.2020836"
+       height="8.2020836"
+       x="76.199997"
+       y="25.532291" />
+    <rect
+       style="fill:#2a7fff;fill-opacity:1;stroke:#000000;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:0.99763"
+       id="rect82084"
+       width="8.2020836"
+       height="8.2020836"
+       x="84.666664"
+       y="25.532291" />
+    <text
+       xml:space="preserve"
+       style="font-size:4.23333px;line-height:1.25;font-family:'IBM Plex Mono';-inkscape-font-specification:'IBM Plex Mono';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       x="78.655441"
+       y="15.043594"
+       id="text82090"><tspan
+         sodipodi:role="line"
+         id="tspan82088"
+         style="stroke-width:0.264583"
+         x="78.655441"
+         y="15.043594">P<tspan
+   style="font-size:65%;baseline-shift:sub"
+   id="tspan87092">3</tspan></tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.264583;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:0.264583, 0.264583;stroke-dashoffset:0;stroke-opacity:1"
+       d="m 67.694588,25.400001 4.233334,-4.233334 h 8.466666 v -4.233333 4.233333 h 8.466667 l 4.233333,4.233334"
+       id="path82092" />
+    <path
+       style="fill:none;stroke:#ffffff;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 71.966668,25.664583 v 7.9375"
+       id="path82094" />
+    <path
+       style="fill:none;stroke:#ffffff;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 80.433335,25.664583 v 7.9375"
+       id="path82096" />
+    <path
+       style="fill:none;stroke:#ffffff;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 88.900001,25.664583 v 7.9375"
+       id="path82098" />
+    <text
+       xml:space="preserve"
+       style="font-size:3.52778px;line-height:1.25;font-family:'IBM Plex Mono';-inkscape-font-specification:'IBM Plex Mono';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       x="86.506897"
+       y="26.364777"
+       id="text82118"><tspan
+         sodipodi:role="line"
+         id="tspan82116"
+         style="font-size:3.52778px;writing-mode:tb-rl;fill:#ffffff;stroke-width:0.264583"
+         x="26.364777"
+         y="86.506897">LSB</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:3.52778px;line-height:1.25;font-family:'IBM Plex Mono';-inkscape-font-specification:'IBM Plex Mono';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       x="90.901138"
+       y="26.548222"
+       id="text82122"><tspan
+         sodipodi:role="line"
+         id="tspan82120"
+         style="font-size:3.52778px;writing-mode:tb-rl;fill:#ffffff;stroke-width:0.264583"
+         x="26.548222"
+         y="90.901138">MSB</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:3.52778px;line-height:1.25;font-family:'IBM Plex Mono';-inkscape-font-specification:'IBM Plex Mono';letter-spacing:0px;word-spacing:0px;fill:#000000;stroke-width:0.264583"
+       x="31.52257"
+       y="26.305489"
+       id="text135614"><tspan
+         sodipodi:role="line"
+         id="tspan135612"
+         style="font-size:3.52778px;writing-mode:tb-rl;fill:#000000;stroke-width:0.264583"
+         x="34.93565"
+         y="22.892408">LSB</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:3.52778px;line-height:1.25;font-family:'IBM Plex Mono';-inkscape-font-specification:'IBM Plex Mono';letter-spacing:0px;word-spacing:0px;fill:#000000;stroke-width:0.264583"
+       x="27.371412"
+       y="26.488934"
+       id="text135618"><tspan
+         sodipodi:role="line"
+         id="tspan135616"
+         style="font-size:3.52778px;writing-mode:tb-rl;fill:#000000;stroke-width:0.264583"
+         x="35.119095"
+         y="18.741251">MSB</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:3.52778px;line-height:1.25;font-family:'IBM Plex Mono';-inkscape-font-specification:'IBM Plex Mono';letter-spacing:0px;word-spacing:0px;fill:#000000;stroke-width:0.264583"
+       x="39.838184"
+       y="26.305489"
+       id="text135622"><tspan
+         sodipodi:role="line"
+         id="tspan135620"
+         style="font-size:3.52778px;writing-mode:tb-rl;fill:#000000;stroke-width:0.264583"
+         x="34.621101"
+         y="31.52257">LSB</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:3.52778px;line-height:1.25;font-family:'IBM Plex Mono';-inkscape-font-specification:'IBM Plex Mono';letter-spacing:0px;word-spacing:0px;fill:#000000;stroke-width:0.264583"
+       x="35.687027"
+       y="26.488934"
+       id="text135626"><tspan
+         sodipodi:role="line"
+         id="tspan135624"
+         style="font-size:3.52778px;writing-mode:tb-rl;fill:#000000;stroke-width:0.264583"
+         x="34.804546"
+         y="27.371412">MSB</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:3.52778px;line-height:1.25;font-family:'IBM Plex Mono';-inkscape-font-specification:'IBM Plex Mono';letter-spacing:0px;word-spacing:0px;fill:#000000;stroke-width:0.264583"
+       x="48.480827"
+       y="26.305489"
+       id="text135630"><tspan
+         sodipodi:role="line"
+         id="tspan135628"
+         style="font-size:3.52778px;writing-mode:tb-rl;fill:#000000;stroke-width:0.264583"
+         x="34.948132"
+         y="39.838184">LSB</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:3.52778px;line-height:1.25;font-family:'IBM Plex Mono';-inkscape-font-specification:'IBM Plex Mono';letter-spacing:0px;word-spacing:0px;fill:#000000;stroke-width:0.264583"
+       x="44.32967"
+       y="26.488934"
+       id="text135634"><tspan
+         sodipodi:role="line"
+         id="tspan135632"
+         style="font-size:3.52778px;writing-mode:tb-rl;fill:#000000;stroke-width:0.264583"
+         x="35.131577"
+         y="35.687027">MSB</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:3.52778px;line-height:1.25;font-family:'IBM Plex Mono';-inkscape-font-specification:'IBM Plex Mono';letter-spacing:0px;word-spacing:0px;fill:#000000;stroke-width:0.264583"
+       x="56.89315"
+       y="26.305489"
+       id="text135638"><tspan
+         sodipodi:role="line"
+         id="tspan135636"
+         style="font-size:3.52778px;writing-mode:tb-rl;fill:#000000;stroke-width:0.264583"
+         x="34.717812"
+         y="48.480827">LSB</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:3.52778px;line-height:1.25;font-family:'IBM Plex Mono';-inkscape-font-specification:'IBM Plex Mono';letter-spacing:0px;word-spacing:0px;fill:#000000;stroke-width:0.264583"
+       x="52.741993"
+       y="26.488934"
+       id="text135642"><tspan
+         sodipodi:role="line"
+         id="tspan135640"
+         style="font-size:3.52778px;writing-mode:tb-rl;fill:#000000;stroke-width:0.264583"
+         x="34.901257"
+         y="44.32967">MSB</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:3.52778px;line-height:1.25;font-family:'IBM Plex Mono';-inkscape-font-specification:'IBM Plex Mono';letter-spacing:0px;word-spacing:0px;fill:#000000;stroke-width:0.264583"
+       x="65.401245"
+       y="26.305489"
+       id="text135646"><tspan
+         sodipodi:role="line"
+         id="tspan135644"
+         style="font-size:3.52778px;writing-mode:tb-rl;fill:#000000;stroke-width:0.264583"
+         x="34.81358"
+         y="56.89315">LSB</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:3.52778px;line-height:1.25;font-family:'IBM Plex Mono';-inkscape-font-specification:'IBM Plex Mono';letter-spacing:0px;word-spacing:0px;fill:#000000;stroke-width:0.264583"
+       x="61.250084"
+       y="26.488934"
+       id="text135650"><tspan
+         sodipodi:role="line"
+         id="tspan135648"
+         style="font-size:3.52778px;writing-mode:tb-rl;fill:#000000;stroke-width:0.264583"
+         x="34.997025"
+         y="52.741993">MSB</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:3.52778px;line-height:1.25;font-family:'IBM Plex Mono';-inkscape-font-specification:'IBM Plex Mono';letter-spacing:0px;word-spacing:0px;fill:#000000;stroke-width:0.264583"
+       x="73.74691"
+       y="26.305489"
+       id="text135654"><tspan
+         sodipodi:role="line"
+         id="tspan135652"
+         style="font-size:3.52778px;writing-mode:tb-rl;fill:#000000;stroke-width:0.264583"
+         x="34.651157"
+         y="65.401245">LSB</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:3.52778px;line-height:1.25;font-family:'IBM Plex Mono';-inkscape-font-specification:'IBM Plex Mono';letter-spacing:0px;word-spacing:0px;fill:#000000;stroke-width:0.264583"
+       x="69.595749"
+       y="26.488934"
+       id="text135658"><tspan
+         sodipodi:role="line"
+         id="tspan135656"
+         style="font-size:3.52778px;writing-mode:tb-rl;fill:#000000;stroke-width:0.264583"
+         x="34.834602"
+         y="61.250084">MSB</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:3.52778px;line-height:1.25;font-family:'IBM Plex Mono';-inkscape-font-specification:'IBM Plex Mono';letter-spacing:0px;word-spacing:0px;fill:#000000;stroke-width:0.264583"
+       x="82.19294"
+       y="26.305489"
+       id="text135662"><tspan
+         sodipodi:role="line"
+         id="tspan135660"
+         style="font-size:3.52778px;writing-mode:tb-rl;fill:#000000;stroke-width:0.264583"
+         x="34.751518"
+         y="73.74691">LSB</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:3.52778px;line-height:1.25;font-family:'IBM Plex Mono';-inkscape-font-specification:'IBM Plex Mono';letter-spacing:0px;word-spacing:0px;fill:#000000;stroke-width:0.264583"
+       x="78.041779"
+       y="26.488934"
+       id="text135666"><tspan
+         sodipodi:role="line"
+         id="tspan135664"
+         style="font-size:3.52778px;writing-mode:tb-rl;fill:#000000;stroke-width:0.264583"
+         x="34.934963"
+         y="69.595749">MSB</tspan></text>
+    <path
+       style="fill:none;stroke:#ff8080;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Lend)"
+       d="m 19.05,35.983333 v 27.516666 h 10.583333 v 6.35"
+       id="path136970" />
+    <path
+       style="fill:none;stroke:#d40000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Lend)"
+       d="m 23.283333,35.983333 v 29.633333 h -2.116666 v 4.233333"
+       id="path136972" />
+    <path
+       style="fill:none;stroke:#87de87;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Lend)"
+       d="m 27.516666,35.983333 v 25.4 h 19.05 v 8.466666"
+       id="path137210" />
+    <path
+       style="fill:none;stroke:#00aa44;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Lend)"
+       d="M 31.75,35.983333 V 59.266666 H 38.1 V 69.849999"
+       id="path137212" />
+    <path
+       style="fill:none;stroke:#5599ff;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Lend)"
+       d="m 35.983333,35.983333 v 21.166666 h 27.516666 v 12.7"
+       id="path137214" />
+    <path
+       style="fill:none;stroke:#0055d4;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Lend)"
+       d="m 40.216666,35.983333 v 19.05 h 14.816667 v 14.816666"
+       id="path137216" />
+    <path
+       style="fill:none;stroke:#ff8080;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Lend)"
+       d="M 44.449999,35.983333 V 52.916666 H 80.433332 V 69.849999"
+       id="path137218" />
+    <path
+       style="fill:none;stroke:#d40000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Lend)"
+       d="m 48.683333,35.983333 v 14.816666 h 23.283333 v 19.05"
+       id="path137220" />
+    <path
+       style="fill:none;stroke:#87de87;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Lend)"
+       d="m 52.916666,35.983333 v 12.7 h 44.450002 v 21.166666"
+       id="path137222" />
+    <path
+       style="fill:none;stroke:#00aa44;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Lend)"
+       d="M 57.149999,35.983333 V 46.566666 H 88.900002 V 69.849999"
+       id="path137224" />
+    <path
+       style="fill:none;stroke:#5599ff;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Lend)"
+       d="m 61.383333,35.983333 v 8.466666 H 114.3 v 25.4"
+       id="path137226" />
+    <path
+       style="fill:none;stroke:#0055d4;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Lend)"
+       d="m 65.616666,35.983333 v 6.35 h 40.216664 v 27.516666"
+       id="path137228" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer3"
+     inkscape:label="fade"
+     sodipodi:insensitive="true"
+     style="display:inline">
+    <rect
+       style="fill:url(#linearGradient87702);fill-opacity:1;stroke:none;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:0.264583, 0.264583;stroke-opacity:1"
+       id="rect87548"
+       width="29.633333"
+       height="29.633333"
+       x="67.73333"
+       y="6.3499999" />
+  </g>
+</svg>

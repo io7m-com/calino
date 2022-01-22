@@ -1,5 +1,4 @@
 Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
 
 Require Import Calino.Descriptor.
 
@@ -17,20 +16,20 @@ Inductive coordinateAxisT : Set :=
 
 Definition coordinateAxisRDescribe (c : coordinateAxisR) : descriptor :=
   match c with
-  | AxisRIncreasingToward => "RT"%string
-  | AxisRIncreasingAway   => "RA"%string
+  | AxisRIncreasingToward => "RT"
+  | AxisRIncreasingAway   => "RA"
   end.
 
 Definition coordinateAxisSDescribe (c : coordinateAxisS) : descriptor :=
   match c with
-  | AxisSIncreasingRight => "SR"%string
-  | AxisSIncreasingLeft  => "SL"%string
+  | AxisSIncreasingRight => "SR"
+  | AxisSIncreasingLeft  => "SL"
   end.
 
 Definition coordinateAxisTDescribe (c : coordinateAxisT) : descriptor :=
   match c with
-  | AxisTIncreasingDown => "TD"%string
-  | AxisTIncreasingUp   => "TU"%string
+  | AxisTIncreasingDown => "TD"
+  | AxisTIncreasingUp   => "TU"
   end.
 
 #[export]

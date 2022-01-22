@@ -72,6 +72,26 @@
           </execution>
 
           <execution>
+            <id>copy-specification-coq</id>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <phase>generate-resources</phase>
+            <configuration>
+              <outputDirectory>${project.build.directory}/specification/Calino/</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>src/main/coq/Calino/</directory>
+                  <filtering>false</filtering>
+                  <includes>
+                    <include>**/*.v</include>
+                  </includes>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+
+          <execution>
             <id>copy-specification-resources-epub</id>
             <goals>
               <goal>copy-resources</goal>
@@ -83,6 +103,26 @@
                 <resource>
                   <directory>src/main/resources/com/io7m/calino/specification/</directory>
                   <filtering>false</filtering>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+
+          <execution>
+            <id>copy-specification-coq-epub</id>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <phase>generate-resources</phase>
+            <configuration>
+              <outputDirectory>${project.build.directory}/epub/Calino/</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>src/main/coq/Calino/</directory>
+                  <filtering>false</filtering>
+                  <includes>
+                    <include>**/*.v</include>
+                  </includes>
                 </resource>
               </resources>
             </configuration>
@@ -113,6 +153,22 @@
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>exec-maven-plugin</artifactId>
         <executions>
+          <execution>
+            <id>excerpts</id>
+            <goals>
+              <goal>java</goal>
+            </goals>
+            <phase>package</phase>
+            <configuration>
+              <mainClass>com.io7m.calino.specification.Excerpts</mainClass>
+              <arguments>
+                <argument>${project.basedir}/src/main/coq</argument>
+                <argument>${project.basedir}/src/main/coq/excerpts.txt</argument>
+                <argument>${project.build.directory}/specification/</argument>
+              </arguments>
+            </configuration>
+          </execution>
+
           <execution>
             <id>xhtml-single</id>
             <goals>

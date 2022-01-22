@@ -16,3 +16,6 @@ rm -f Calino/ImageInfo.glob Calino/ImageInfo.vo Calino/ImageInfo.vok Calino/Imag
 rm -f Calino/MipMap.glob Calino/MipMap.vo Calino/MipMap.vok Calino/MipMap.vos Calino/.MipMap.aux
 rm -f Calino/StringUtility.glob Calino/StringUtility.vo Calino/StringUtility.vok Calino/StringUtility.vos Calino/.StringUtility.aux
 rm -f Calino/SuperCompression.glob Calino/SuperCompression.vo Calino/SuperCompression.vok Calino/SuperCompression.vos Calino/.SuperCompression.aux
+
+rm -rf html
+

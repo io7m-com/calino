@@ -1,5 +1,4 @@
 Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
 
 Require Import Calino.Descriptor.
 
@@ -10,8 +9,8 @@ Inductive superCompressionMethod : Set :=
 
 Definition superCompressionMethodDescriptor (c : superCompressionMethod) :=
   match c with
-  | SuperCompressionUncompressed => "UNCOMPRESSED"%string
-  | SuperCompressionLZ4          => "LZ4"%string
+  | SuperCompressionUncompressed => "UNCOMPRESSED"
+  | SuperCompressionLZ4          => "LZ4"
   | SuperCompressionCustom c _   => c
   end.
 

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Section title="Bits &amp; Octets"
+         xmlns="urn:com.io7m.structural:8:0"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <Paragraph>
+    A <Term type="term">bit</Term> is a single digit in the
+    <LinkExternal target="https://en.wikipedia.org/wiki/Binary_number">base-2</LinkExternal> numbering system.
+    A bit may either be 0 or 1:
+  </Paragraph>
+  <FormalItem title="Bit">
+    <Verbatim><xi:include href="30.txt" parse="text"/></Verbatim>
+  </FormalItem>
+  <Paragraph>
+    A sequence of bits may be divided into groups of eight bits known as
+    <Term type="term">octets</Term>. We avoid the use of the term <Term type="term">byte</Term> because
+    a byte hasn't consistently been equivalent to eight bits throughout all of computing history. An octet
+    may either be <Term type="term">exact</Term> or a <Term type="term">remainder</Term>. An octet may be
+    a remainder if the length of the sequence of bits used to produce it was not evenly
+    <Link target="90ccdf09-f680-44c2-848f-a352a480abbb">divisible by 8</Link>. The first <Term type="constant">n</Term>
+    groups of 8 bits consumed from a sequence of bits <Term type="constant">s</Term> will produce octets that are
+    <Term type="term">exact</Term>, with the remaining <Term type="constant">k</Term> bits (where
+    <Term type="expression">k &lt; 8</Term>) will produce at most one <Term type="term">remainder</Term>
+    octet. The remainder octet, if any, has it's least significant <Term type="expression">8 - k</Term> bits
+    set to 0.
+  </Paragraph>
+  <FormalItem title="Octet">
+    <Verbatim><xi:include href="31.txt" parse="text"/></Verbatim>
+  </FormalItem>
+  <Paragraph>
+    The sequence of bits <Term type="constant">s</Term> will be consumed in order such that octets are filled
+    from <Term type="term">most significant</Term> to <Term type="term">least significant</Term> bit order.
+  </Paragraph>
+  <Paragraph>
+    If the sequence of octets <Term type="constant">o</Term> produced is arranged such that the first bit of
+    <Term type="constant">s</Term> appears as the most significant bit of the first octet in
+    <Term type="constant">o</Term>, then <Term type="constant">o</Term> is said to be in
+    <Term type="term">big-endian</Term> order.
+  </Paragraph>
+  <FormalItem title="Big Endian Octets (Aux)">
+    <Verbatim><xi:include href="32.txt" parse="text"/></Verbatim>
+  </FormalItem>
+  <FormalItem title="Big Endian Octets">
+    <Verbatim><xi:include href="33.txt" parse="text"/></Verbatim>
+  </FormalItem>
+  <Paragraph>
+    If the sequence of octets <Term type="constant">o</Term> produced is arranged such that the first bit of
+    <Term type="constant">s</Term> appears as the most significant bit of the last octet in
+    <Term type="constant">o</Term>, then <Term type="constant">o</Term> is said to be in
+    <Term type="term">little-endian</Term> order.
+  </Paragraph>
+  <FormalItem title="Little Endian Octets">
+    <Verbatim><xi:include href="34.txt" parse="text"/></Verbatim>
+  </FormalItem>
+  <Paragraph>
+    A sequence of bits <Term type="constant">s</Term> such that <Term type="expression">divisible8 (length s)</Term>
+    will produce a sequence consisting of entirely <Term type="term">exact</Term> octets.
+  </Paragraph>
+  <FormalItem title="Divisible8 Exact Octets">
+    <Verbatim><xi:include href="35.txt" parse="text"/></Verbatim>
+  </FormalItem>
+</Section>

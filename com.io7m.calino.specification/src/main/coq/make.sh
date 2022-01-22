@@ -15,3 +15,7 @@ coqc -Q Calino Calino Calino/CoordinateSystem.v
 coqc -Q Calino Calino Calino/ImageInfo.v
 coqc -Q Calino Calino Calino/MipMap.v
 coqc -Q Calino Calino Calino/Image.v
+
+mkdir -p html
+
+coqdoc -Q Calino Calino --utf8 -d html Calino/*.v

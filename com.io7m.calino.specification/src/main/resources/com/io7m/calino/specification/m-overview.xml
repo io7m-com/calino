@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Section title="Overview"
+         xmlns="urn:com.io7m.structural:8:0">
+  <Paragraph>
+    The <Term type="package">calino</Term> texture file format is optimized for the storage of images used for
+    real-time 3D rendering. The format provides the following features:
+  </Paragraph>
+  <FormalItem title="Features">
+    <ListUnordered type="features">
+      <Item>
+        Detailed information about the format and layout of image data is included in all files. Image data,
+        in the common case, can be introspected without requiring consulting any kind of external specification.
+        The information provided about image data includes dimensions, full channel layout and type information,
+        compression and supercompression methods, color space, coordinate system, alpha premultiplication, and byte
+        ordering for formats that use components larger than a single octet.
+      </Item>
+      <Item>
+        <LinkExternal target="https://en.wikipedia.org/wiki/Mipmap">Mipmaps</LinkExternal> are natively supported
+        and are not treated differently to images that do not have mipmaps; an image without mipmaps is considered to
+        comprise of a single mip level <Term type="constant">0</Term>. Mipmaps are exposed in a manner that
+        facilitates efficient <Term type="term">texture streaming</Term>.
+      </Item>
+      <Item>
+        Rendering system independence. The format specification does not require implementers to read the
+        <LinkExternal target="https://www.vulkan.org">Vulkan</LinkExternal>,
+        <LinkExternal target="https://www.opengl.org">OpenGL</LinkExternal>,
+        <LinkExternal target="https://en.wikipedia.org/wiki/DirectX">DirectX</LinkExternal>
+        specifications in order to parse files.
+      </Item>
+      <Item>
+        Ease of parsing. The binary format is designed to facilitate easy and secure parsing without requiring
+        backtracking or unbounded storage use. A competent developer should be able to implement a full parser
+        within a week or two of work.
+      </Item>
+      <Item>
+        Carefully layered metadata. Consumers are not required to understand everything about the underlying
+        image data in order to make use of it. For example, if image data is encoded using an unusual and/or
+        proprietary texture format (such as <Term type="constant">A5B3G3R3</Term>), consumers can still trivially
+        extract the raw data of each mipmap even if they cannot necessarily perform rendering with image data of that
+        format. Likewise, the compressed bytes of each mipmap can always be obtained even if the compression method is
+        unknown to the consumer.
+      </Item>
+      <Item>
+        Extensibility. The format consists of explicitly-sized sections with a well-defined ordering. Consumers
+        can trivially skip sections that they do not understand. Sections carry unique 64-bit identifiers; if a
+        section has an identifier not recognized by a consumer, the consumer may skip the section. The raw bytes
+        that comprise a section can be extracted regardless of whether or not the consumer understands them.
+        This specification defines a number of "standard" image data types that consumers are expected to understand,
+        but the format also allows for declaring new self-describing image data types.
+      </Item>
+      <Item>
+        Practical metadata. The format provides a standard section that contains <LinkExternal
+        target="https://en.wikipedia.org/wiki/UTF-8">UTF-8</LinkExternal> encoded keys and values intended to
+        hold arbitrary metadata. Metadata that cannot be expressed as a UTF-8 string can be included as a custom
+        section that can be skipped by consumers that do not recognize it.
+      </Item>
+    </ListUnordered>
+  </FormalItem>
+  <Paragraph>
+    This section of the specification documents the abstract model that the <Term type="package">calino</Term>
+    format uses to express all of the above.
+  </Paragraph>
+</Section>

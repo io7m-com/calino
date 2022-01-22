@@ -1,5 +1,4 @@
 Require Import Coq.Strings.String.
-Require Import Coq.Strings.Ascii.
 
 Require Import Calino.Descriptor.
 
@@ -20,18 +19,18 @@ Inductive compressionMethod : Set :=
 
 Definition compressionMethodDescriptor (c : compressionMethod) :=
   match c with
-  | CompressionUncompressed     => "UNCOMPRESSED"%string
-  | CompressionBC1              => "BC1"%string
-  | CompressionBC2              => "BC2"%string
-  | CompressionBC3              => "BC3"%string
-  | CompressionBC4              => "BC4"%string
-  | CompressionBC5              => "BC5"%string
-  | CompressionBC6              => "BC6"%string
-  | CompressionBC7              => "BC7"%string
-  | CompressionETC1             => "ETC1"%string
-  | CompressionETC2             => "ETC2"%string
-  | CompressionEAC              => "EAC"%string
-  | CompressionASTC _ _         => "ASTC"%string
+  | CompressionUncompressed     => "UNCOMPRESSED"
+  | CompressionBC1              => "BC1"
+  | CompressionBC2              => "BC2"
+  | CompressionBC3              => "BC3"
+  | CompressionBC4              => "BC4"
+  | CompressionBC5              => "BC5"
+  | CompressionBC6              => "BC6"
+  | CompressionBC7              => "BC7"
+  | CompressionETC1             => "ETC1"
+  | CompressionETC2             => "ETC2"
+  | CompressionEAC              => "EAC"
+  | CompressionASTC _ _         => "ASTC"
   | CompressionCustom c _ _ _ _ => c
   end.
 
