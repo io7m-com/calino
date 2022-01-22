@@ -115,7 +115,7 @@
             </goals>
             <phase>generate-resources</phase>
             <configuration>
-              <outputDirectory>${project.build.directory}/epub/Calino/</outputDirectory>
+              <outputDirectory>${project.build.directory}/epub/</outputDirectory>
               <resources>
                 <resource>
                   <directory>src/main/coq/Calino/</directory>

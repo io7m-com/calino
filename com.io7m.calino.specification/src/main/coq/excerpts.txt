@@ -34,3 +34,6 @@
 33 ! Definition octetsBigEndian
 34 ! Definition octetsLittleEndian
 35 ! Theorem octetsBigEndianLengthDivisibleAllExact
+36 ! Theorem octetsLittleEndianLengthDivisibleAllExact
+37 ! Theorem octetsBigEndianLengthIndivisibleRemainder
+38 ! Theorem octetsLittleEndianLengthIndivisibleRemainder

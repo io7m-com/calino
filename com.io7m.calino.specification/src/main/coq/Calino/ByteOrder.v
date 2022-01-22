@@ -198,6 +198,13 @@ Proof.
     apply (@Forall_cons octet octetIsExact (OctExact b7 b6 b5 b4 b3 b2 b1 b0) (octetsBigEndianAux b []) Hexact HallExact).
 Qed.
 
+Theorem octetsLittleEndianLengthDivisibleAllExact : ∀ (b : list bit),
+  divisible8 (length b) → Forall octetIsExact (octetsLittleEndian b).
+Proof.
+  intros b Hlen8.
+  apply (Forall_rev (octetsBigEndianLengthDivisibleAllExact b Hlen8)).
+Qed.
+
 Theorem octetsBigEndianLengthDivisibleNoRemainder : ∀ (b : list bit),
   Forall octetIsExact (octetsBigEndian b) → ¬ bitsOctetsHasRemainder (octetsBigEndian b).
 Proof.
@@ -206,7 +213,6 @@ Proof.
   intro Hfalse.
   inversion Hfalse as [prefix o HprefixAllExact HoIsRemainder HprefixEq].
   unfold octetsBigEndian in HallExact.
-
   (* We know that everything in the list is exact. *)
   (* We can show that o must be in this list according to HprefixEq. *)
   assert (In o (octetsBigEndianAux b [])) as HoInB. {
@@ -214,15 +220,121 @@ Proof.
     rewrite HprefixEq in HoInPrefix.
     exact HoInPrefix.
   }
-
   (* And because o is in the list, it must be exact. *)
   assert (octetIsExact o) as HoIsExact. {
     rewrite Forall_forall in HallExact.
     apply (HallExact o HoInB).
   }
-
   (* There is a contradiction; o cannot be both exact and a remainder. *)
   apply (octetIsExactNotRemainder o HoIsExact HoIsRemainder).
 Qed.
 
+Lemma mod_8_lt_0 : ∀ (m : nat),
+  0 < m mod 8 → 0 < (m + 8) mod 8.
+Proof.
+  intros m Hlt.
+  rewrite (Nat.add_mod m 8 8).
+  rewrite (Nat.mod_same).
+  rewrite (Nat.add_0_r).
+  rewrite (Nat.mod_mod).
+  exact Hlt.
+  discriminate.
+  discriminate.
+  discriminate.
+Qed.
+
+Lemma mod_8_lt_1 : ∀ (m : nat),
+  0 < (m + 8) mod 8 -> 0 < m mod 8.
+Proof.
+  intros m Hlt.
+  rewrite (Nat.add_mod m 8 8) in Hlt.
+  rewrite (Nat.mod_same)      in Hlt.
+  rewrite (Nat.add_0_r)       in Hlt.
+  rewrite (Nat.mod_mod)       in Hlt.
+  exact Hlt.
+  discriminate.
+  discriminate.
+  discriminate.
+Qed.
+
+Lemma mod_8_lt : ∀ (m : nat),
+  0 < (m + 8) mod 8 ↔ 0 < m mod 8.
+Proof.
+  constructor.
+  apply mod_8_lt_1.
+  apply mod_8_lt_0.
+Qed.
+
+Theorem octetsBigEndianLengthIndivisibleRemainder : ∀ (b : list bit),
+  0 < length b mod 8 → ∃ o, In o (octetsBigEndian b) ∧ octetIsRemainder o.
+Proof.
+  intros b Hlength.
+  induction b using listInduction8.
+  - inversion Hlength.
+  - exists (OctRemain b0 B0 B0 B0 B0 B0 B0 B0).
+    constructor.
+    left. reflexivity.
+    constructor.
+  - exists (OctRemain b1 b0 B0 B0 B0 B0 B0 B0).
+    constructor.
+    left.
+    constructor.
+    constructor.
+  - exists (OctRemain b2 b1 b0 B0 B0 B0 B0 B0).
+    constructor.
+    left.
+    constructor.
+    constructor.
+  - exists (OctRemain b3 b2 b1 b0 B0 B0 B0 B0).
+    constructor.
+    left.
+    constructor.
+    constructor.
+  - exists (OctRemain b4 b3 b2 b1 b0 B0 B0 B0).
+    constructor.
+    left.
+    constructor.
+    constructor.
+  - exists (OctRemain b5 b4 b3 b2 b1 b0 B0 B0).
+    constructor.
+    left.
+    constructor.
+    constructor.
+  - exists (OctRemain b6 b5 b4 b3 b2 b1 b0 B0).
+    constructor.
+    left.
+    constructor.
+    constructor.
+  - assert (0 < length b mod 8) as Hlt. {
+      assert (length (b7 :: b6 :: b5 :: b4 :: b3 :: b2 :: b1 :: b0 :: b) = length b + 8) as Heq
+        by (rewrite Nat.add_comm; reflexivity).
+      rewrite Heq in Hlength.
+      rewrite <- (mod_8_lt (length b)).
+      exact Hlength.
+    }
+    assert (∃ o : octet, In o (octetsBigEndian b) ∧ octetIsRemainder o) as HEx
+      by (apply (IHb Hlt)).
+    destruct HEx as [ox [HoxIn HoxRem]].
+    simpl.
+    exists ox.
+    constructor.
+    right. 
+    exact HoxIn. 
+    exact HoxRem.
+Qed.
+
+Theorem octetsLittleEndianLengthIndivisibleRemainder : ∀ (b : list bit),
+  0 < length b mod 8 → ∃ o, In o (octetsLittleEndian b) ∧ octetIsRemainder o.
+Proof.
+  unfold octetsLittleEndian.
+  intros b Hlen.
+  assert (∃ o, In o (octetsBigEndian b) ∧ octetIsRemainder o) as Hexists
+    by (apply (octetsBigEndianLengthIndivisibleRemainder b Hlen)).
+  destruct Hexists as [ox [HoxIn HoxRem]].
+  exists ox.
+  rewrite <- (in_rev (octetsBigEndianAux b [])).
+  constructor.
+  exact HoxIn.
+  exact HoxRem.
+Qed.
 

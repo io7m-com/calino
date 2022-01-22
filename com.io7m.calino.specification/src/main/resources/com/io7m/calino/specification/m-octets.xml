@@ -56,7 +56,20 @@
     A sequence of bits <Term type="constant">s</Term> such that <Term type="expression">divisible8 (length s)</Term>
     will produce a sequence consisting of entirely <Term type="term">exact</Term> octets.
   </Paragraph>
-  <FormalItem title="Divisible8 Exact Octets">
+  <FormalItem title="Divisible8 Exact Octets (Big endian)">
     <Verbatim><xi:include href="35.txt" parse="text"/></Verbatim>
+  </FormalItem>
+  <FormalItem title="Divisible8 Exact Octets (Little endian)">
+    <Verbatim><xi:include href="36.txt" parse="text"/></Verbatim>
+  </FormalItem>
+  <Paragraph>
+    A sequence of bits <Term type="constant">s</Term> such that <Term type="expression">¬ divisible8 (length s)</Term>
+    will produce a <Term type="term">remainder</Term> octet.
+  </Paragraph>
+  <FormalItem title="Divisible8 Exact Octets (Big endian)">
+    <Verbatim><xi:include href="37.txt" parse="text"/></Verbatim>
+  </FormalItem>
+  <FormalItem title="Divisible8 Exact Octets (Little endian)">
+    <Verbatim><xi:include href="38.txt" parse="text"/></Verbatim>
   </FormalItem>
 </Section>
