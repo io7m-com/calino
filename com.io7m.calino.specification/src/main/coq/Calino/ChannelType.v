@@ -1,4 +1,5 @@
 Require Import Coq.Strings.String.
+Require Import Coq.Unicode.Utf8_core.
 
 Require Import Calino.Descriptor.
 
@@ -10,7 +11,7 @@ Inductive channelType : Set :=
   | CTIntegerUnsigned
   | CTIntegerSigned
   | CTFloatIEEE754
-  | CTCustom : descriptor -> channelType.
+  | CTCustom : descriptor → channelType.
 
 Definition channelTypeDescribe (c : channelType) : descriptor :=
   match c with

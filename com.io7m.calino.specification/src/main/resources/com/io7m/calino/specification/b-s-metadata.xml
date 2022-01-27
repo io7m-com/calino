@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Section title="Metadata"
+         xmlns:xi="http://www.w3.org/2001/XInclude"
+         id="16fddeaf-9d7f-437b-8662-01e6975f6249"
+         xmlns="urn:com.io7m.structural:8:0">
+  <Paragraph>
+    <Link target="eb8b3eb5-29b1-411c-a9ae-754d1a4b2940">Metadata</Link> values are translated to binary
+    expressions as follows:
+  </Paragraph>
+  <FormalItem title="Metadata Value Encoding">
+    <Verbatim><xi:include href="91.txt" parse="text"/></Verbatim>
+  </FormalItem>
+  <FormalItem title="Metadata Encoding">
+    <Verbatim><xi:include href="88.txt" parse="text"/></Verbatim>
+  </FormalItem>
+  <Paragraph>
+    Metadata must be encoded into a <Link target="eb66b381-4c70-4246-95e9-d3a61e19ac4c">section</Link>
+    with identifier <Term type="constant">0x434C4E49494E464F</Term> as follows:
+  </Paragraph>
+  <FormalItem title="Metadata Section">
+    <Verbatim><xi:include href="89.txt" parse="text"/></Verbatim>
+  </FormalItem>
+</Section>

@@ -3,6 +3,7 @@ Require Import Coq.Lists.List.
 Require Import Coq.Unicode.Utf8_core.
 
 Require Import Calino.Divisible8.
+Require Import Calino.Descriptor.
 
 Import ListNotations.
 
@@ -337,4 +338,18 @@ Proof.
   exact HoxIn.
   exact HoxRem.
 Qed.
+
+Require Import Coq.Strings.String.
+
+Definition byteOrderDescribe (b : byteOrder) : descriptor :=
+  match b with
+  | ByteOrderBig    => "BIG_ENDIAN"
+  | ByteOrderLittle => "LITTLE_ENDIAN"
+  end.
+
+#[export]
+Instance byteOrderDescribable : describable byteOrder := {
+  descriptorOf f := byteOrderDescribe f
+}.
+
 

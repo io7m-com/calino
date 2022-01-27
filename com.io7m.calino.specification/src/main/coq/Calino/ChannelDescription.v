@@ -2,6 +2,7 @@ Require Import Coq.Arith.PeanoNat.
 Require Import Coq.Strings.String.
 Require Import Coq.Lists.List.
 Require Import Coq.Init.Nat.
+Require Import Coq.Unicode.Utf8_core.
 
 Require Import Calino.ChannelSemantic.
 Require Import Calino.Descriptor.
@@ -15,11 +16,11 @@ Set Mangle Names.
 Inductive channelDescription : Set := channelDescriptionMake {
   cdSemantic    : channelSemantic;
   cdBits        : nat;
-  cdBitsNonzero : cdBits <> 0
+  cdBitsNonzero : 0 ≠ cdBits
 }.
 
 Definition channelDescriptionDescribe (c : channelDescription) : descriptor :=
-  append (descriptorOf (cdSemantic c)) (stringOfNat (cdBits c)).
+  descriptorOf (cdSemantic c) ++ stringOfNat (cdBits c).
 
 #[export]
 Instance channelDescriptionDescribable : describable channelDescription := {
@@ -30,7 +31,7 @@ Fixpoint channelDescriptionsDescribe (c : list channelDescription) : descriptor 
   match c with
   | nil        => ""
   | cons d nil => channelDescriptionDescribe d
-  | cons d e   => append (channelDescriptionDescribe d) (append ":" (channelDescriptionsDescribe e))
+  | cons d e   => (channelDescriptionDescribe d) ++ ":" ++ (channelDescriptionsDescribe e)
   end.
 
 Inductive channelLayoutPacking : Set :=
@@ -47,8 +48,7 @@ Definition channelLayoutPackingBits (c : channelLayoutPacking) : nat :=
   | CLPack64 => 64
   end.
 
-Theorem channelLayoutPackingBitsDiv8 : forall c,
-  divisible8 (channelLayoutPackingBits (c)).
+Theorem channelLayoutPackingBitsDiv8 : ∀ c, divisible8 (channelLayoutPackingBits (c)).
 Proof.
   intros c.
   destruct c; reflexivity.
@@ -76,23 +76,23 @@ Fixpoint channelDescriptionsBitsTotal (c : list channelDescription) : nat :=
   | (x :: rest) => (cdBits x) + (channelDescriptionsBitsTotal rest)
   end.
 
-Lemma natAddNonzero : forall (n m : nat), n <> 0 -> m + n <> 0.
+Lemma natAddNonzero : ∀ (n m : nat), 0 ≠ n → 0 ≠ m + n.
 Proof.
   intros n m HnZ.
   destruct m; simpl; auto.
 Qed.
 
-Lemma channelDescriptionsBitsNonEmptyNonZero : forall (c : list channelDescription),
-  c <> nil -> channelDescriptionsBitsTotal c <> 0.
+Lemma channelDescriptionsBitsNonEmptyNonZero : ∀ (c : list channelDescription),
+  nil ≠ c → 0 ≠ channelDescriptionsBitsTotal c.
 Proof.
   intros c HnotNil.
   induction c as [|a b]. {
     contradiction.
   } {
     simpl.
-    assert (cdBits a <> 0) as HbitsNZ
+    assert (0 ≠ cdBits a) as HbitsNZ
       by apply (cdBitsNonzero a).
-    assert (channelDescriptionsBitsTotal b + cdBits a <> 0) as Hnz2. {
+    assert (0 ≠ channelDescriptionsBitsTotal b + cdBits a) as Hnz2. {
       apply natAddNonzero.
       exact HbitsNZ.
     }
@@ -103,7 +103,7 @@ Qed.
 
 Inductive channelLayoutDescriptionUnpacked : Set := CLDUMake {
   uChannels         : list channelDescription;
-  uChannelsNonEmpty : [] <> uChannels;
+  uChannelsNonEmpty : [] ≠ uChannels;
   uInvariants       : Forall channelDescriptionBitsDivisible8 uChannels;
 }.
 
@@ -117,7 +117,7 @@ Instance channelLayoutDescriptionUnpackedDescribable : describable channelLayout
 
 Inductive channelLayoutDescriptionPacked : Set := CLDPMake {
   pChannels         : list channelDescription;
-  pChannelsNonEmpty : [] <> pChannels;
+  pChannelsNonEmpty : [] ≠ pChannels;
   pPacking          : channelLayoutPacking;
   pInvariants       : channelDescriptionsBitsTotal pChannels = channelLayoutPackingBits pPacking
 }.
@@ -125,7 +125,7 @@ Inductive channelLayoutDescriptionPacked : Set := CLDPMake {
 Definition channelLayoutDescriptionPackedDescribe (c : channelLayoutDescriptionPacked) : descriptor :=
   let packing := descriptorOf (pPacking c) in
   let channels := channelDescriptionsDescribe (pChannels c) in
-    append packing (append "|" channels).
+    packing ++ "|" ++ channels.
 
 #[export]
 Instance channelLayoutDescriptionPackedDescribable : describable channelLayoutDescriptionPacked := {
@@ -133,8 +133,8 @@ Instance channelLayoutDescriptionPackedDescribable : describable channelLayoutDe
 }.
 
 Inductive channelLayoutDescription : Set :=
-  | ChannelLayoutDescriptionUnpacked : channelLayoutDescriptionUnpacked -> channelLayoutDescription
-  | ChannelLayoutDescriptionPacked   : channelLayoutDescriptionPacked   -> channelLayoutDescription.
+  | ChannelLayoutDescriptionUnpacked : channelLayoutDescriptionUnpacked → channelLayoutDescription
+  | ChannelLayoutDescriptionPacked   : channelLayoutDescriptionPacked   → channelLayoutDescription.
 
 Definition channelLayoutDescriptionDescribe (c : channelLayoutDescription) : descriptor :=
   match c with
@@ -155,12 +155,12 @@ Definition channelLayoutDescriptionBits (c : channelLayoutDescription) : nat :=
     channelDescriptionsBitsTotal (pChannels p)
   end.
 
-Lemma channelLayoutDescriptionBitsAdd : forall d ds,
+Lemma channelLayoutDescriptionBitsAdd : ∀ d ds,
   channelDescriptionsBitsTotal (d :: ds) =
     (cdBits d) + (channelDescriptionsBitsTotal ds).
 Proof. intros d ds. reflexivity. Qed.
 
-Theorem channelLayoutDescriptionBitsDivisible8 : forall (c : channelLayoutDescription),
+Theorem channelLayoutDescriptionBitsDivisible8 : ∀ (c : channelLayoutDescription),
   divisible8 (channelLayoutDescriptionBits c).
 Proof.
   intros c.

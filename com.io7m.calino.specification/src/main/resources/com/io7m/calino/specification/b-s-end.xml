@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Section title="End"
+         xmlns="urn:com.io7m.structural:8:0"
+         id="40d09b06-b6de-4052-92fe-2829942518c9"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <Paragraph>
+    <Term type="package">calino</Term> texture files must end with exactly one
+    <Term type="term">End</Term> section,
+    which has the identifier <Term type="constant">0x434C4E5F454E4421</Term> and must be of size
+    <Term type="constant">0</Term>.
+  </Paragraph>
+  <Paragraph>
+    End sections are encoded as follows:
+  </Paragraph>
+  <FormalItem title="End Encoding">
+    <Verbatim><xi:include href="92.txt" parse="text"/></Verbatim>
+  </FormalItem>
+</Section>

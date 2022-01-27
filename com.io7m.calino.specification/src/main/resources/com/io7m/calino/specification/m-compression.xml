@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Section title="Compression"
+         id="bd75557c-d8d2-4522-93b3-e29d78d436b7"
+         xmlns="urn:com.io7m.structural:8:0"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <Subsection title="Description">
+    <Paragraph>
+      A <Term type="term">compression</Term> declaration indicates that image data is compressed in a manner
+      that is expected to interpreted directly by a consuming GPU. This is in contrast to
+      <Link target="8f83a47a-986e-4dba-bfd7-720641cee3a9">super compression</Link>, where image data must be
+      manually decompressed before it can be consumed by a GPU.
+    </Paragraph>
+    <FormalItem title="Compression Methods">
+      <Verbatim><xi:include href="42.txt" parse="text"/></Verbatim>
+    </FormalItem>
+    <Paragraph>
+      A value of <Term type="constant">CompressionUncompressed</Term> indicates that image data is not compressed.
+    </Paragraph>
+    <Paragraph>
+      A value of <Term type="constant">CompressionBC1</Term> indicates that image data is compressed
+      using <Term type="constant">BC1</Term> compression (also known as <Term type="constant">DXT1</Term>
+      compression).
+    </Paragraph>
+    <Paragraph>
+      A value of <Term type="constant">CompressionBC2</Term> indicates that image data is compressed
+      using <Term type="constant">BC2</Term> compression (also known as <Term type="constant">DXT3</Term>
+      compression).
+    </Paragraph>
+    <Paragraph>
+      A value of <Term type="constant">CompressionBC3</Term> indicates that image data is compressed
+      using <Term type="constant">BC3</Term> compression (also known as <Term type="constant">DXT5</Term>
+      compression).
+    </Paragraph>
+    <Paragraph>
+      A value of <Term type="constant">CompressionBC4</Term> indicates that image data is compressed
+      using <Term type="constant">BC4</Term> compression.
+    </Paragraph>
+    <Paragraph>
+      A value of <Term type="constant">CompressionBC5</Term> indicates that image data is compressed
+      using <Term type="constant">BC5</Term> compression.
+    </Paragraph>
+    <Paragraph>
+      A value of <Term type="constant">CompressionBC6</Term> indicates that image data is compressed
+      using <Term type="constant">BC6</Term> compression.
+    </Paragraph>
+    <Paragraph>
+      A value of <Term type="constant">CompressionBC7</Term> indicates that image data is compressed
+      using <Term type="constant">BC7</Term> compression.
+    </Paragraph>
+    <Paragraph>
+      A value of <Term type="constant">CompressionETC1</Term> indicates that image data is compressed
+      using <LinkExternal target="https://en.wikipedia.org/wiki/Ericsson_Texture_Compression">ETC1</LinkExternal>
+      compression.
+    </Paragraph>
+    <Paragraph>
+      A value of <Term type="constant">CompressionETC2</Term> indicates that image data is compressed
+      using <LinkExternal target="https://en.wikipedia.org/wiki/Ericsson_Texture_Compression">ETC2</LinkExternal>
+      compression.
+    </Paragraph>
+    <Paragraph>
+      A value of <Term type="constant">CompressionEAC</Term> indicates that image data is compressed
+      using <LinkExternal target="https://en.wikipedia.org/wiki/Ericsson_Texture_Compression">EAC</LinkExternal>
+      compression.
+    </Paragraph>
+    <Paragraph>
+      A value of <Term type="constant">CompressionASTC</Term> indicates that image data is compressed
+      using <LinkExternal target="https://en.wikipedia.org/wiki/Adaptive_scalable_texture_compression">ASTC</LinkExternal>
+      compression.
+    </Paragraph>
+    <Paragraph>
+      A value of <Term type="constant">CompressionCustom</Term> indicates that image data is compressed
+      using a method not known to this specification.
+    </Paragraph>
+    <Paragraph>
+      Compression declarations must use the following
+      <Link target="3d52e6ab-ded8-4b58-b1cc-576ced1fb578">descriptors</Link>:
+    </Paragraph>
+    <FormalItem title="Compression Description">
+      <Verbatim><xi:include href="46.txt" parse="text"/></Verbatim>
+    </FormalItem>
+    <FormalItem title="Compression Describable">
+      <Verbatim><xi:include href="47.txt" parse="text"/></Verbatim>
+    </FormalItem>
+  </Subsection>
+
+  <Subsection title="Block Sizes">
+    <Paragraph>
+      Compression methods have inherent <Term type="term">block sizes</Term> that typically influence the required
+      alignment in memory of compressed data.
+    </Paragraph>
+    <FormalItem title="Compression Block Size X">
+      <Verbatim><xi:include href="43.txt" parse="text"/></Verbatim>
+    </FormalItem>
+    <FormalItem title="Compression Block Size Y">
+      <Verbatim><xi:include href="44.txt" parse="text"/></Verbatim>
+    </FormalItem>
+    <FormalItem title="Compression Block Alignment">
+      <Verbatim><xi:include href="45.txt" parse="text"/></Verbatim>
+    </FormalItem>
+  </Subsection>
+
+  <Subsection title="Section Identifiers">
+    <Paragraph>
+      Custom compression methods may require including extra metadata in order to allow the data to be decompressed.
+      Compression methods may include a <Term type="term">section identifier</Term> value indicating that consumers
+      should look for a section with the given identifier to locate the metadata.
+    </Paragraph>
+    <FormalItem title="Compression Section Identifier">
+      <Verbatim><xi:include href="48.txt" parse="text"/></Verbatim>
+    </FormalItem>
+  </Subsection>
+
+</Section>

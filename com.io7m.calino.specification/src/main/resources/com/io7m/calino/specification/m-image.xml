@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Section title="Images"
+         xmlns:xi="http://www.w3.org/2001/XInclude"
+         id="17b69d69-176f-4db1-bab3-c1666ed58c5c"
+         xmlns="urn:com.io7m.structural:8:0">
+
+  <Subsection title="Images">
+    <Paragraph>
+      An <Term type="term">image</Term> is a <Link target="71f3233f-43eb-4ea1-96d4-bc1192553239">2D image</Link>,
+      a <Link target="60f44a91-49a1-4ee9-9659-45ed94051828">3D image</Link>, or a
+      <Link target="63a0f8cf-4a48-47bc-aa83-b35d631ad243">cube image</Link>.
+    </Paragraph>
+
+    <FormalItem title="Image">
+      <Verbatim><xi:include href="76.txt" parse="text"/></Verbatim>
+    </FormalItem>
+  </Subsection>
+
+  <Subsection title="2D Image"
+              id="71f3233f-43eb-4ea1-96d4-bc1192553239">
+    <Paragraph>
+      2D image.
+    </Paragraph>
+  </Subsection>
+
+  <Subsection title="3D Image"
+              id="60f44a91-49a1-4ee9-9659-45ed94051828">
+    <Paragraph>
+      3D image.
+    </Paragraph>
+  </Subsection>
+
+  <Subsection title="Cube Image"
+              id="63a0f8cf-4a48-47bc-aa83-b35d631ad243">
+    <Paragraph>
+      Cube image.
+    </Paragraph>
+  </Subsection>
+
+</Section>

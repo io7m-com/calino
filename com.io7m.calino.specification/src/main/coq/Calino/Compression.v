@@ -1,4 +1,5 @@
 Require Import Coq.Strings.String.
+Require Import Coq.Unicode.Utf8_core.
 
 Require Import Calino.Descriptor.
 
@@ -14,8 +15,8 @@ Inductive compressionMethod : Set :=
   | CompressionETC1
   | CompressionETC2
   | CompressionEAC
-  | CompressionASTC : nat -> nat -> compressionMethod
-  | CompressionCustom : descriptor -> nat -> nat -> nat -> nat -> compressionMethod.
+  | CompressionASTC : nat → nat → compressionMethod
+  | CompressionCustom : descriptor → nat → nat → nat → nat → compressionMethod.
 
 Definition compressionMethodDescriptor (c : compressionMethod) :=
   match c with
@@ -112,3 +113,4 @@ Definition compressionIsNotCompressed (c : compressionMethod) : Prop :=
 Instance compressionMethodDescribable : describable compressionMethod := {
   descriptorOf c := compressionMethodDescriptor c
 }.
+

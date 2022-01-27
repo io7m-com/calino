@@ -31,7 +31,7 @@
     The sequence of bits <Term type="constant">s</Term> will be consumed in order such that octets are filled
     from <Term type="term">most significant</Term> to <Term type="term">least significant</Term> bit order.
   </Paragraph>
-  <Paragraph>
+  <Paragraph id="af4e0973-1be2-4b0f-beca-1190cf84aea3">
     If the sequence of octets <Term type="constant">o</Term> produced is arranged such that the first bit of
     <Term type="constant">s</Term> appears as the most significant bit of the first octet in
     <Term type="constant">o</Term>, then <Term type="constant">o</Term> is said to be in
@@ -43,7 +43,7 @@
   <FormalItem title="Big Endian Octets">
     <Verbatim><xi:include href="33.txt" parse="text"/></Verbatim>
   </FormalItem>
-  <Paragraph>
+  <Paragraph id="7bb122e0-178c-4945-afe7-7c7b8bf04d70">
     If the sequence of octets <Term type="constant">o</Term> produced is arranged such that the first bit of
     <Term type="constant">s</Term> appears as the most significant bit of the last octet in
     <Term type="constant">o</Term>, then <Term type="constant">o</Term> is said to be in

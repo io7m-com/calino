@@ -1,4 +1,5 @@
 Require Import Coq.Strings.String.
+Require Import Coq.Unicode.Utf8_core.
 
 Require Import Calino.Descriptor.
 
@@ -48,5 +49,16 @@ Instance coordinateAxisTDescribable : describable coordinateAxisT := {
 }.
 
 Inductive coordinateSystem : Set := 
-  CoordinateSystem : coordinateAxisR -> coordinateAxisS -> coordinateAxisT -> coordinateSystem.
+  CoordinateSystem : coordinateAxisR → coordinateAxisS → coordinateAxisT → coordinateSystem.
+
+Definition coordinateSystemDescribe (c : coordinateSystem) : descriptor :=
+  match c with
+  | CoordinateSystem r s t =>
+    descriptorOf r ++ ":" ++ descriptorOf s ++ ":" ++ descriptorOf t
+  end.
+
+#[export]
+Instance coordinateSystemDescribable : describable coordinateSystem := {
+  descriptorOf c := coordinateSystemDescribe c
+}.
 

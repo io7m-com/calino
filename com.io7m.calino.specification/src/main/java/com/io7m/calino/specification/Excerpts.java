@@ -129,7 +129,7 @@ public final class Excerpts
         continue;
       }
 
-      if (lineText.startsWith(excerpt.match)) {
+      if (lineText.trim().startsWith(excerpt.match)) {
         matching = true;
         output.add(lineText);
       }
@@ -167,7 +167,7 @@ public final class Excerpts
         continue;
       }
 
-      if (lineText.startsWith(excerpt.match)) {
+      if (lineText.trim().startsWith(excerpt.match)) {
         matching = true;
         output.add(lineText);
       }

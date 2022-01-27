@@ -1,9 +1,11 @@
 Require Import Coq.PArith.PArith.
 Require Import Coq.Arith.PeanoNat.
+Require Import Coq.Program.Basics.
 Require Import Coq.Strings.String.
 Require Import Coq.Strings.Ascii.
 Require Import Coq.Lists.List.
 Require Import Coq.Init.Nat.
+Require Import Coq.Unicode.Utf8_core.
 
 Require Import Calino.Divisible8.
 Require Import Calino.StringUtility.
@@ -17,18 +19,27 @@ Require Import Calino.ColorSpace.
 Require Import Calino.Flag.
 Require Import Calino.ByteOrder.
 Require Import Calino.CoordinateSystem.
+Require Import Calino.ImageSize.
+
+Open Scope program_scope.
 
 Record imageInfo : Set := ImageInfo {
-  imageSizeX                  : nat;
-  imageSizeY                  : nat;
-  imageSizeZ                  : nat;
-  imageSizeInvariants         : imageSizeX <> 0 /\ imageSizeY <> 0 /\ imageSizeZ <> 0;
+  imageSize                   : imageSize3D;
   imageChannelsLayout         : channelLayoutDescription;
   imageChannelsType           : channelType;
   imageCompressionMethod      : compressionMethod;
   imageSuperCompressionMethod : superCompressionMethod;
   imageCoordinateSystem       : coordinateSystem;
   imageColorSpace             : colorSpace;
-  imageFlags                  : list flag;
+  imageFlags                  : flagSet;
   imageByteOrder              : byteOrder
 }.
+
+Definition imageSizeX := sizeX ∘ imageSize.
+
+Definition imageSizeY := sizeY ∘ imageSize.
+
+Definition imageSizeZ := sizeZ ∘ imageSize.
+
+Definition imageFlagSet := flags ∘ imageFlags.
+

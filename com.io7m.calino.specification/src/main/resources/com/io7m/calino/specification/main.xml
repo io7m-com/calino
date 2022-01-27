@@ -20,5 +20,7 @@
 
   <xi:include href="notation.xml" />
   <xi:include href="model.xml"/>
+  <xi:include href="binary.xml"/>
+  <xi:include href="sources.xml"/>
 
 </Document>

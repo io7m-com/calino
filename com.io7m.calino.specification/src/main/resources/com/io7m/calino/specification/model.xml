@@ -2,6 +2,7 @@
 
 <Section xmlns="urn:com.io7m.structural:8:0"
          title="The Calino Model"
+         id="73066219-7f6d-4809-b87c-897be98b4a6b"
          xmlns:xi="http://www.w3.org/2001/XInclude">
 
   <xi:include href="m-overview.xml"/>
@@ -9,4 +10,14 @@
   <xi:include href="m-octets.xml"/>
   <xi:include href="m-descriptor.xml"/>
   <xi:include href="m-channel.xml"/>
+  <xi:include href="m-colorspace.xml"/>
+  <xi:include href="m-compression.xml"/>
+  <xi:include href="m-supercompression.xml"/>
+  <xi:include href="m-coordinate-system.xml"/>
+  <xi:include href="m-flags.xml"/>
+  <xi:include href="m-image-info.xml"/>
+  <xi:include href="m-mipmaps.xml"/>
+  <xi:include href="m-metadata.xml"/>
+  <xi:include href="m-image.xml"/>
+
 </Section>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Section title="Color Spaces"
+         id="ef1a7f1b-d076-43e4-8cfc-61b6c7dc40d4"
+         xmlns="urn:com.io7m.structural:8:0"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <Paragraph>
+    The values in the <Term type="expression">n</Term> color
+    <Link target="6b4bf0e8-728e-4be4-894c-a0d0fc6e0fc1">channels</Link> of
+    an image are interpreted as coordinates in an <Term type="expression">n</Term>-dimensional
+    <Term type="term">color space</Term>. A <Term type="term">color space</Term> declaration
+    indicates which color space is intended to be used.
+  </Paragraph>
+  <FormalItem title="Color Space">
+    <Verbatim><xi:include href="39.txt" parse="text"/></Verbatim>
+  </FormalItem>
+  <Paragraph>
+    A value of <Term type="constant">CSLinear</Term> indicates that the color values
+    should be interpreted as coordinates in a pure, conceptually linear color space.
+  </Paragraph>
+  <Paragraph>
+    A value of <Term type="constant">CSsRGB</Term> indicates that the color values
+    should be interpreted as coordinates in the
+    <LinkExternal target="https://en.wikipedia.org/wiki/SRGB">sRGB</LinkExternal> color space.
+  </Paragraph>
+  <Paragraph>
+    A value of <Term type="constant">CSCustom</Term> indicates that the color values
+    should be interpreted as coordinates in a custom color space. Implementations are
+    permitted to reject files containing unrecognized color spaces.
+  </Paragraph>
+  <Paragraph>
+    Color space declarations must use the following
+    <Link target="3d52e6ab-ded8-4b58-b1cc-576ced1fb578">descriptors</Link>:
+  </Paragraph>
+  <FormalItem title="Color Space Description">
+    <Verbatim><xi:include href="40.txt" parse="text"/></Verbatim>
+  </FormalItem>
+  <FormalItem title="Color Space Describable">
+    <Verbatim><xi:include href="41.txt" parse="text"/></Verbatim>
+  </FormalItem>
+</Section>

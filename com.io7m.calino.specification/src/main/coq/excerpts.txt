@@ -37,3 +37,57 @@
 36 ! Theorem octetsLittleEndianLengthDivisibleAllExact
 37 ! Theorem octetsBigEndianLengthIndivisibleRemainder
 38 ! Theorem octetsLittleEndianLengthIndivisibleRemainder
+39 ! Inductive colorSpace
+40 ! Definition colorSpaceDescribe
+41 ! Instance colorSpaceDescribable
+42 ! Inductive compressionMethod
+43 ! Definition compressionBlockSizeX
+44 ! Definition compressionBlockSizeY
+45 ! Definition compressionBlockAlignment
+46 ! Definition compressionMethodDescriptor
+47 ! Instance compressionMethodDescribable
+48 ! Definition compressionSectionIdentifier
+49 ! Inductive superCompressionMethod
+50 ! Definition superCompressionMethodDescriptor
+51 ! Instance superCompressionMethodDescribable
+52 ! Definition superCompressionSectionIdentifier
+53 ! Inductive coordinateAxisR
+54 ! Inductive coordinateAxisS
+55 ! Inductive coordinateAxisT
+56 ! Inductive coordinateSystem
+57 ! Definition coordinateAxisRDescribe
+58 ! Definition coordinateAxisSDescribe
+59 ! Definition coordinateAxisTDescribe
+60 ! Instance coordinateAxisRDescribable
+61 ! Instance coordinateAxisSDescribable
+62 ! Instance coordinateAxisTDescribable
+63 ! Definition coordinateSystemDescribe
+64 ! Instance coordinateSystemDescribable
+65 ! Inductive flag : Set
+66 ! Definition flagDescribe
+67 ! Instance flagDescribable
+68 ! Inductive flagSet : Set
+69 ! Record imageInfo
+70 ! Inductive mipMap : Set
+71 ! Inductive mipMapListIsSorted : list mipMap → Prop
+72 ! Inductive mipMapList : Set
+73 ! Record imageSize3D
+74 ! Definition mipMapSize
+75 ! Inductive mipMapImageSize : Set
+76 ! Inductive image : Set
+77 ! Inductive binaryExp : Set
+78 ! Fixpoint binarySize (b : binaryExp)
+79 ! Definition sizeMultipleOf (size q : nat)
+80 ! Inductive streamE : Set
+81 ! Definition streamSize
+82 ! Fixpoint binaryEval
+83 ! Definition binaryEvalPaddedBytes
+84 ! Theorem binarySizeMultiple4 :
+85 ! Definition binaryExpFileHeader
+86 ! Inductive metadataValue : Set
+87 ! Inductive metadata : Set
+88 ! Definition binaryExpMetadata (m : metadata)
+89 ! Definition binaryExpMetadataSection (m : metadata)
+90 ! Definition binarySizePadded16
+91 ! Definition binaryExpMetadataValue (m : metadataValue)
+92 ! Definition binaryEndSection : binaryExp

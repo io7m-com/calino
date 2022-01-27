@@ -2,6 +2,7 @@
 
 <Section title="Channels"
          xmlns="urn:com.io7m.structural:8:0"
+         id="6b4bf0e8-728e-4be4-894c-a0d0fc6e0fc1"
          xmlns:xi="http://www.w3.org/2001/XInclude">
 
   <Subsection title="Overview" id="d830adde-cacf-4274-bc76-e5f5741b05fd">
@@ -155,8 +156,8 @@
       <Verbatim><xi:include href="4.txt" parse="text"/></Verbatim>
     </FormalItem>
     <Paragraph>
-      <Term type="term">Channel semantic</Term> values are <Link
-      target="3d52e6ab-ded8-4b58-b1cc-576ced1fb578">describable</Link>:
+      <Term type="term">Channel semantic</Term> values must use the following
+      <Link target="3d52e6ab-ded8-4b58-b1cc-576ced1fb578">descriptors</Link>:
     </Paragraph>
     <FormalItem title="Channel Semantic Description">
       <Verbatim><xi:include href="5.txt" parse="text"/></Verbatim>
@@ -176,8 +177,8 @@
       <Verbatim><xi:include href="7.txt" parse="text"/></Verbatim>
     </FormalItem>
     <Paragraph>
-      <Term type="term">Channel descriptions</Term> are <Link
-      target="3d52e6ab-ded8-4b58-b1cc-576ced1fb578">describable</Link>:
+      <Term type="term">Channel descriptions</Term> must use the following
+      <Link target="3d52e6ab-ded8-4b58-b1cc-576ced1fb578">descriptors</Link>:
     </Paragraph>
     <FormalItem title="Channel Description">
       <Verbatim><xi:include href="14.txt" parse="text"/></Verbatim>
@@ -355,8 +356,8 @@
       used on a limited range of hardware.
     </Paragraph>
     <Paragraph>
-      <Term type="term">Channel types</Term> are <Link
-      target="3d52e6ab-ded8-4b58-b1cc-576ced1fb578">describable</Link>:
+      <Term type="term">Channel types</Term> must use the following
+      <Link target="3d52e6ab-ded8-4b58-b1cc-576ced1fb578">descriptors</Link>:
     </Paragraph>
     <FormalItem title="Channel Description">
       <Verbatim><xi:include href="19.txt" parse="text"/></Verbatim>

@@ -1,10 +1,12 @@
+Require Import Coq.Unicode.Utf8_core.
+
 Require Import Calino.ImageInfo.
 Require Import Calino.MipMap.
 
 Inductive image : Set :=
-  | Image2D   : imageInfo -> mipMapList -> image
-  | Image3D   : imageInfo -> image
-  | ImageCube : imageInfo -> image.
+  | Image2D   : imageInfo → mipMapList → image
+  | Image3D   : imageInfo → image
+  | ImageCube : imageInfo → image.
 
 Definition imageInfoOf (i : image) : imageInfo :=
   match i with
@@ -12,3 +14,4 @@ Definition imageInfoOf (i : image) : imageInfo :=
   | Image3D i   => i
   | ImageCube i => i
   end.
+
