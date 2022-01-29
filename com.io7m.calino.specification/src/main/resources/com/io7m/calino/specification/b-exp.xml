@@ -115,8 +115,7 @@
       <Link target="af4e0973-1be2-4b0f-beca-1190cf84aea3">big-endian</Link> order.
     </Paragraph>
     <Paragraph>
-      An expression <Term type="expression">Vu8 n</Term> represents an unsigned 8-bit integer in
-      <Link target="af4e0973-1be2-4b0f-beca-1190cf84aea3">big-endian</Link> order.
+      An expression <Term type="expression">Vu8 n</Term> represents an unsigned 8-bit integer.
     </Paragraph>
     <Paragraph>
       A given binary expression is transformed to a stream of octets using the following encoding
