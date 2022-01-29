@@ -71,7 +71,7 @@
         <xi:include href="78.txt" parse="text"/>
       </Verbatim>
     </FormalItem>
-    <FormalItem title="Binary Expression Sizes (multiple of)">
+    <FormalItem title="Binary Expression Sizes (multiple of)" id="1f0b8741-bd88-4925-b880-f5dd6063ccf1">
       <Verbatim>
         <xi:include href="79.txt" parse="text"/>
       </Verbatim>
@@ -84,11 +84,18 @@
     <Paragraph>
       This specification text makes use of a convenient abbreviation function,
       <Term type="expression">binarySizePadded16</Term>,
-      to concisely denote the size of binary expressions padded to a size that is a multiple of 16:
+      to concisely denote the size of binary expressions padded to a size that is a multiple of 16, as well
+      as a partial application of <Link target="1f0b8741-bd88-4925-b880-f5dd6063ccf1">sizeAsMultipleOf</Link>
+      fixed to a multiple of 4:
     </Paragraph>
     <FormalItem title="Binary Expression Size Padded 16">
       <Verbatim>
         <xi:include href="90.txt" parse="text"/>
+      </Verbatim>
+    </FormalItem>
+    <FormalItem title="sizeAsMultipleOf4">
+      <Verbatim>
+        <xi:include href="96.txt" parse="text"/>
       </Verbatim>
     </FormalItem>
     <Paragraph>
@@ -124,6 +131,49 @@
       <Verbatim>
         <xi:include href="83.txt" parse="text"/>
       </Verbatim>
+    </FormalItem>
+    <Paragraph>
+      A binary stream is considered <Term type="term">well-formed</Term> according to the given inductive proposition:
+    </Paragraph>
+    <FormalItem title="Well-Formed Stream">
+      <Verbatim>
+        <xi:include href="93.txt" parse="text"/>
+      </Verbatim>
+    </FormalItem>
+    <Paragraph>
+      Informally, a stream <Term type="expression">s</Term> is <Term type="term">well-formed</Term> if exactly one
+      of the following conditions holds:
+    </Paragraph>
+    <FormalItem title="Well-Formed Stream (Informal rules)">
+      <ListUnordered>
+        <Item>
+          <Term type="expression">s</Term> is empty.
+        </Item>
+        <Item>
+          <Term type="expression">s</Term> consists of a single 64-bit integer.
+        </Item>
+        <Item>
+          <Term type="expression">s</Term> consists of a single 32-bit integer.
+        </Item>
+        <Item>
+          <Term type="expression">s</Term> consists of a sequence of <Term type="expression">n</Term> 8-bit integers,
+          where <Term type="expression">n</Term> is evenly divisible by 4.
+        </Item>
+        <Item>
+          <Term type="expression">s</Term> is the concatenation of a well-formed stream
+          <Term type="expression">t</Term> and a well-formed stream <Term type="expression">u</Term>.
+        </Item>
+      </ListUnordered>
+    </FormalItem>
+    <Paragraph>
+      The binary expression encoding rules produce <Term type="term">well-formed</Term> streams.
+      It follows that any <Term type="term">well-formed</Term> stream has a size that is evenly divisible by 4.
+    </Paragraph>
+    <FormalItem title="Binary Expression Encoding Well-Formed">
+      <Verbatim><xi:include href="94.txt" parse="text"/></Verbatim>
+    </FormalItem>
+    <FormalItem title="Binary Expression Encoding Size Divisible">
+      <Verbatim><xi:include href="95.txt" parse="text"/></Verbatim>
     </FormalItem>
   </Subsection>
 

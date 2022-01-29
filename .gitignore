@@ -7,3 +7,6 @@ target
 *.vok
 *.vos
 *.aux
+.lia.cache
+.nra.cache
+.nia.cache

@@ -77,7 +77,7 @@
 76 ! Inductive image : Set
 77 ! Inductive binaryExp : Set
 78 ! Fixpoint binarySize (b : binaryExp)
-79 ! Definition sizeMultipleOf (size q : nat)
+79 ! Definition sizeAsMultipleOf (size q : nat)
 80 ! Inductive streamE : Set
 81 ! Definition streamSize
 82 ! Fixpoint binaryEval
@@ -91,3 +91,7 @@
 90 ! Definition binarySizePadded16
 91 ! Definition binaryExpMetadataValue (m : metadataValue)
 92 ! Definition binaryEndSection : binaryExp
+93 ! Inductive streamWellFormed
+94 ! Theorem binaryEvalStreamsWellFormed
+95 ! Theorem streamsWellFormedDivisible4
+96 ! Definition sizeAsMultipleOf4

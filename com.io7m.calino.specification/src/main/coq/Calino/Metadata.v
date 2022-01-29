@@ -5,6 +5,8 @@ Require Import Coq.Unicode.Utf8_core.
 
 Open Scope string_scope.
 
+Import ListNotations.
+
 Inductive metadataValue : Set := MetadataValue {
   mKey   : string;
   mValue : string
