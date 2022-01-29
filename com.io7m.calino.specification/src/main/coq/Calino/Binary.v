@@ -270,7 +270,7 @@ Definition binaryExpMetadata (m : metadata) : binaryExp :=
   BiArray (map binaryExpMetadataValue (mValues m)).
 
 Definition binaryExpMetadataSection (m : metadata) : binaryExp := BiRecord [
-  ("id",   u64 0x434C4E49494E464F);
+  ("id",   u64 0x434C4E5F4D455441);
   ("size", u64 (binarySizePadded16 (binaryExpMetadata m)));
   ("data", binaryExpMetadata m)
 ].

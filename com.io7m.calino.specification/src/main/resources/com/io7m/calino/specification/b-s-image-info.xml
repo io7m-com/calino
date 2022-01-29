@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Section title="Image Information"
+         xmlns:xi="http://www.w3.org/2001/XInclude"
+         id="bc0e7016-7dab-4edb-a4c9-2b1492da0225"
+         xmlns="urn:com.io7m.structural:8:0">
+
+  <Paragraph>
+    <Link target="4ae63d09-ce2d-46d4-a8eb-f1f9ad382ee8">Image information</Link> values are translated to binary
+    expressions as follows:
+  </Paragraph>
+  <FormalItem title="Image Information Encoding">
+    <Verbatim><xi:include href="97.txt" parse="text"/></Verbatim>
+  </FormalItem>
+
+  <Paragraph>
+    <Link target="bd75557c-d8d2-4522-93b3-e29d78d436b7">Compression</Link> declarations are translated to binary
+    expressions as follows:
+  </Paragraph>
+  <FormalItem title="Compression Encoding">
+    <Verbatim><xi:include href="99.txt" parse="text"/></Verbatim>
+  </FormalItem>
+
+  <Paragraph>
+    <Link target="8f83a47a-986e-4dba-bfd7-720641cee3a9">Super compression</Link> declarations are translated to binary
+    expressions as follows:
+  </Paragraph>
+  <FormalItem title="Super Compression Encoding">
+    <Verbatim><xi:include href="100.txt" parse="text"/></Verbatim>
+  </FormalItem>
+
+  <Paragraph>
+    Image information must be encoded into a <Link target="eb66b381-4c70-4246-95e9-d3a61e19ac4c">section</Link>
+    with identifier <Term type="constant">0x434C4E49494E464F</Term> as follows:
+  </Paragraph>
+  <FormalItem title="Image Information Section">
+    <Verbatim><xi:include href="98.txt" parse="text"/></Verbatim>
+  </FormalItem>
+</Section>

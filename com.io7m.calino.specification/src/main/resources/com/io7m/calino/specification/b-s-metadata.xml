@@ -16,7 +16,7 @@
   </FormalItem>
   <Paragraph>
     Metadata must be encoded into a <Link target="eb66b381-4c70-4246-95e9-d3a61e19ac4c">section</Link>
-    with identifier <Term type="constant">0x434C4E49494E464F</Term> as follows:
+    with identifier <Term type="constant">0x434C4E5F4D455441</Term> as follows:
   </Paragraph>
   <FormalItem title="Metadata Section">
     <Verbatim><xi:include href="89.txt" parse="text"/></Verbatim>

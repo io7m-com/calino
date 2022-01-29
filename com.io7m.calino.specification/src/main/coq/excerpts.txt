@@ -95,3 +95,7 @@
 94 ! Theorem binaryEvalStreamsWellFormed
 95 ! Theorem streamsWellFormedDivisible4
 96 ! Definition sizeAsMultipleOf4
+97 ! Definition binaryExpImageInfo
+98 ! Definition binaryExpImageInfoSection
+99 ! Definition binaryExpCompression
+100 ! Definition binaryExpSuperCompression
