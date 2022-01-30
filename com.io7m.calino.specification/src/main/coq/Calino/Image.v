@@ -4,8 +4,7 @@ Require Import Calino.ImageInfo.
 Require Import Calino.MipMap.
 
 Inductive image : Set :=
-  | Image2D   : ∀ (i : imageInfo), 
-    mipMapList (imageInfoTexelBlockAlignment i) (imageInfoTexelBlockAlignmentNonZero i) → image
+  | Image2D   : imageInfo → mipMapList → image
   | Image3D   : imageInfo → image
   | ImageCube : imageInfo → image.
 

@@ -4,7 +4,6 @@ Require Import Coq.Init.Nat.
 Require Import Coq.Bool.Bool.
 Require Import Coq.Unicode.Utf8_core.
 
-Require Import Calino.Alignment.
 Require Import Calino.ImageSize.
 
 Import ListNotations.
@@ -24,17 +23,17 @@ Inductive mipMapListIsSorted : list mipMap → Prop :=
       mipMapListIsSorted (mm0 :: mxs) →
         mipMapListIsSorted (mm1 :: mm0 :: mxs).
 
-Inductive mipMapOffsetsSorted (alignment : nat) (Hnz : 0 ≠ alignment) : list mipMap → Prop :=
-  | MMSizeOne  : ∀ m, mipMapOffsetsSorted alignment Hnz [m]
+Inductive mipMapOffsetsSorted : list mipMap → Prop :=
+  | MMSizeOne  : ∀ m, mipMapOffsetsSorted [m]
   | MMSizeCons : ∀ mm0 mm1 mxs,
-    (asMultipleOf ((mipMapOffset mm1) + (mipMapSizeCompressed mm1)) alignment Hnz) < (mipMapOffset mm0) →
-      mipMapOffsetsSorted alignment Hnz (mm0 :: mxs) →
-        mipMapOffsetsSorted alignment Hnz (mm1 :: mm0 :: mxs).
+    ((mipMapOffset mm1) + (mipMapSizeCompressed mm1)) < (mipMapOffset mm0) →
+      mipMapOffsetsSorted (mm0 :: mxs) →
+        mipMapOffsetsSorted (mm1 :: mm0 :: mxs).
 
-Inductive mipMapList (alignment : nat) (Hnz : 0 ≠ alignment) : Set := MipMapList {
+Inductive mipMapList : Set := MipMapList {
   mipMaps            : list mipMap;
   mipMapListSorted   : mipMapListIsSorted mipMaps;
-  mipMapOffsetSorted : mipMapOffsetsSorted alignment Hnz mipMaps;
+  mipMapOffsetSorted : mipMapOffsetsSorted mipMaps;
 }.
 
 Inductive mipMapImageSize : Set := MipMapImageSize {
@@ -46,23 +45,19 @@ Inductive mipMapImageSize : Set := MipMapImageSize {
   mmSizeZRange : 0 < mmSizeZ;
 }.
 
-Lemma mipMapsNonEmpty : ∀ a (Ha : 0 ≠ a) (m : mipMapList a Ha),
-  [] ≠ mipMaps a Ha m.
+Lemma mipMapsNonEmpty : ∀ (m : mipMapList),
+  [] ≠ mipMaps m.
 Proof.
-  intros a Ha m.
-  destruct (mipMapListSorted _ _ m).
+  intros m.
+  destruct (mipMapListSorted m).
   - discriminate.
   - discriminate.
 Qed.
 
-Definition mipMapFirst
-  (alignment : nat)
-  (Hnz       : 0 ≠ alignment)   
-  (m         : mipMapList alignment Hnz)
-: mipMap.
+Definition mipMapFirst (m : mipMapList) : mipMap.
 Proof.
-  assert ([] ≠ mipMaps _ _ m) as Hneq by (apply (mipMapsNonEmpty)).
-  destruct (mipMaps _ _ m) eqn:Hm.
+  assert ([] ≠ mipMaps m) as Hneq by (apply (mipMapsNonEmpty)).
+  destruct (mipMaps m) eqn:Hm.
   - contradiction.
   - exact m0.
 Defined.
@@ -111,22 +106,14 @@ Definition mipMapSize
       None
     end.
 
-Fixpoint mipMapImageDataSizeTotalAux
-  (alignment : nat)
-  (Hnz       : 0 ≠ alignment)
-  (m         : list mipMap) 
-: nat :=
+Fixpoint mipMapImageDataSizeTotalAux (m : list mipMap) : nat :=
   match m with
   | []        => 0
-  | (x :: []) => asMultipleOf ((mipMapOffset x) + (mipMapSizeCompressed x)) alignment Hnz
-  | (x :: xs) => mipMapImageDataSizeTotalAux alignment Hnz xs
+  | (x :: []) => (mipMapOffset x) + (mipMapSizeCompressed x)
+  | (x :: xs) => mipMapImageDataSizeTotalAux xs
   end.
 
-Definition mipMapImageDataSizeTotal 
-  (alignment : nat)
-  (Hnz       : 0 ≠ alignment) 
-  (m         : mipMapList alignment Hnz) 
-: nat :=
-  mipMapImageDataSizeTotalAux alignment Hnz (mipMaps _ _ m).
+Definition mipMapImageDataSizeTotal (m : mipMapList) : nat :=
+  mipMapImageDataSizeTotalAux (mipMaps m).
 
 

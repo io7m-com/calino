@@ -30,11 +30,9 @@
     <Term type="term">first</Term>, whilst the data for the mipmap with level <Term type="constant">0</Term>
     is encountered <Term type="term">last</Term>. This facilitates a common implementation pattern where
     textures are progressively streamed onto the GPU starting with the highest mipmap levels first. The
-    inductive proposition <Term type="expression">mipMapOffsetsSorted</Term> declares that, for a given mipmap
+    proposition <Term type="expression">mipMapOffsetsSorted</Term> declares that, for a given mipmap
     <Term type="expression">m</Term>, the offset of <Term type="expression">m</Term> plus the compressed size of
-    <Term type="expression">m</Term> aligned to the required
-    <Link target="e92704bb-ce55-4d97-8a9a-7d3b495a5d35">texel block alignment</Link>,
-    must be less than the offset of the next mipmap in the sequence.
+    <Term type="expression">m</Term>, must be less than the offset of the next mipmap in the sequence.
   </Paragraph>
 
   <FormalItem title="MipMap">

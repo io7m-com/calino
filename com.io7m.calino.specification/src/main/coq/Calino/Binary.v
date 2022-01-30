@@ -194,22 +194,18 @@ Definition binaryExpMipMap (m : mipMap) : binaryExp := BiRecord [
   ("mipMapCRC32",            u32 (mipMapCRC32 m))
 ].
 
-Definition binaryExpMipMaps 
-  (alignment : nat) 
-  (anz       : 0 ≠ alignment) 
-  (m         : mipMapList alignment anz) 
-: binaryExp :=
-  BiArray (map binaryExpMipMap (mipMaps _ _ m)).
+Definition binaryExpMipMaps (m : mipMapList) : binaryExp :=
+  BiArray (map binaryExpMipMap (mipMaps m)).
 
 Definition binaryExpImage2D
   (i : imageInfo)
-  (m : mipMapList (imageInfoTexelBlockAlignment i) (imageInfoTexelBlockAlignmentNonZero i)) 
+  (m : mipMapList) 
 : binaryExp :=
-  let imageDataStart := mipMapOffset (mipMapFirst _ _ m) in
-  let encMips        := binaryExpMipMaps _ _ m in
+  let imageDataStart := mipMapOffset (mipMapFirst m) in
+  let encMips        := binaryExpMipMaps m in
   let encMipsSize    := binarySize encMips in
   let encMipsPad     := imageDataStart - encMipsSize in
-  let imageSize      := mipMapImageDataSizeTotal _ _ m in
+  let imageSize      := mipMapImageDataSizeTotal m in
   let imageSize16    := asMultipleOf16 imageSize in
     BiRecord [
       ("mipMaps", encMips);
@@ -219,7 +215,7 @@ Definition binaryExpImage2D
 
 Definition binaryExpImage2DSection
   (i : imageInfo)
-  (m : mipMapList (imageInfoTexelBlockAlignment i) (imageInfoTexelBlockAlignmentNonZero i)) 
+  (m : mipMapList) 
 : binaryExp := BiRecord [
   ("id",   u64 0x434C4E5F49324421);
   ("size", u64 (binarySizePadded16 (binaryExpImage2D i m)));

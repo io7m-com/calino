@@ -70,7 +70,7 @@
 69 ! Record imageInfo
 70 ! Inductive mipMap : Set
 71 ! Inductive mipMapListIsSorted : list mipMap → Prop
-72 ! Inductive mipMapList (
+72 ! Inductive mipMapList :
 73 ! Record imageSize3D
 74 ! Definition mipMapSize
 75 ! Inductive mipMapImageSize : Set
