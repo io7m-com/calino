@@ -49,18 +49,10 @@ Definition streamEIsU8 (e : streamE) : Prop :=
 
 Inductive streamWellFormed : list streamE → Prop :=
   | BEPEmpty : streamWellFormed []
-  | BEPVu64 : ∀ k, 
-      streamWellFormed [Vu64 k]
-  | BEPVu32 : ∀ k, 
-      streamWellFormed [Vu32 k]
-  | BEPVu8s : ∀ es,
-      Forall streamEIsU8 es →
-        length (es) mod 4 = 0 →
-          streamWellFormed es
-  | BEPAppend : ∀ xs ys,
-    streamWellFormed xs →
-      streamWellFormed ys →
-        streamWellFormed (xs ++ ys).
+  | BEPVu64 : ∀ k, streamWellFormed [Vu64 k]
+  | BEPVu32 : ∀ k, streamWellFormed [Vu32 k]
+  | BEPVu8s : ∀ es, Forall streamEIsU8 es → length (es) mod 4 = 0 → streamWellFormed es
+  | BEPAppend : ∀ xs ys, streamWellFormed xs → streamWellFormed ys → streamWellFormed (xs ++ ys).
 
 Definition streamElementSize (s : streamE) : nat :=
   match s with

@@ -20,7 +20,9 @@
   <Subsection title="2D Image"
               id="71f3233f-43eb-4ea1-96d4-bc1192553239">
     <Paragraph>
-      2D image.
+      A 2D image aggregates <Link target="4ae63d09-ce2d-46d4-a8eb-f1f9ad382ee8">image information</Link> and
+      a sequence of <Link target="b8d20538-e4ac-4674-aa43-d5ab93c07149">mipmaps</Link> for a single two-dimensional
+      image.
     </Paragraph>
   </Subsection>
 
