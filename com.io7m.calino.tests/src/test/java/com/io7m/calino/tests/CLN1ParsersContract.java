@@ -381,8 +381,8 @@ public abstract class CLN1ParsersContract
       final var metadata = section.metadata();
       LOG.debug("metadata: {}", metadata);
       assertEquals(2, metadata.size());
-      assertEquals("VAL0", metadata.get("K0"));
-      assertEquals("VAL1", metadata.get("KEY1"));
+      assertEquals(List.of("VAL0"), metadata.get("K0"));
+      assertEquals(List.of("VAL1"), metadata.get("KEY1"));
     }
 
     assertEquals(0, this.events.size());

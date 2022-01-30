@@ -22,7 +22,9 @@ import com.io7m.calino.parser.api.CLNParseRequest;
 import com.io7m.jbssio.api.BSSReaderRandomAccessType;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -59,7 +61,7 @@ public final class CLN1SectionReadableMetadata
   }
 
   @Override
-  public Map<String, String> metadata()
+  public Map<String, List<String>> metadata()
     throws IOException
   {
     final var reader =
@@ -72,7 +74,7 @@ public final class CLN1SectionReadableMetadata
     reader.seekTo(fileOffset);
     reader.skip(16L);
 
-    final var metadata = new HashMap<String, String>();
+    final var metadata = new HashMap<String, List<String>>();
     try (var subReader =
            reader.createSubReaderAtBounded(
              "metadata", 0L, sectionSize)) {
@@ -114,7 +116,13 @@ public final class CLN1SectionReadableMetadata
 
         final var key = makeString(keyData);
         final var val = makeString(valData);
-        metadata.put(key, val);
+
+        List<String> values = metadata.get(key);
+        if (values == null) {
+          values = new ArrayList<>();
+        }
+        values.add(val);
+        metadata.put(key, values);
       }
     }
     return Map.copyOf(metadata);

@@ -23,6 +23,7 @@ import com.io7m.jbssio.api.BSSWriterProviderType;
 import com.io7m.jbssio.api.BSSWriterRandomAccessType;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -62,7 +63,7 @@ public final class CLN1SectionWritableMetadata
 
   @Override
   public void setMetadata(
-    final Map<String, String> metadata)
+    final Map<String, List<String>> metadata)
     throws IOException
   {
     Objects.requireNonNull(metadata, "metadata");
@@ -76,16 +77,17 @@ public final class CLN1SectionWritableMetadata
 
         for (final var entry : metadata.entrySet()) {
           final var key = entry.getKey();
-          final var val = entry.getValue();
+          final var values = entry.getValue();
           final var keyBytes = key.getBytes(UTF_8);
-          final var valBytes = val.getBytes(UTF_8);
-
-          writer.writeU32BE(toUnsignedLong(keyBytes.length));
-          writer.writeBytes(keyBytes);
-          writer.align(4);
-          writer.writeU32BE(toUnsignedLong(valBytes.length));
-          writer.writeBytes(valBytes);
-          writer.align(4);
+          for (final var value : values) {
+            final var valBytes = value.getBytes(UTF_8);
+            writer.writeU32BE(toUnsignedLong(keyBytes.length));
+            writer.writeBytes(keyBytes);
+            writer.align(4);
+            writer.writeU32BE(toUnsignedLong(valBytes.length));
+            writer.writeBytes(valBytes);
+            writer.align(4);
+          }
         }
       }
     }

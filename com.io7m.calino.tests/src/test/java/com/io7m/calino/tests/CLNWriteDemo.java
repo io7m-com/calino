@@ -122,16 +122,16 @@ public final class CLNWriteDemo
       try (var section = writable.createSectionMetadata()) {
         section.setMetadata(
           ofEntries(
-            entry("key0", "value0"),
-            entry("key1", "value1"),
-            entry("key2", "value2"),
-            entry("key3", "value3"),
-            entry("key4", "value4"),
-            entry("key5", "value5"),
-            entry("key6", "value6"),
-            entry("key7", "value7"),
-            entry("key8", "value8"),
-            entry("key9", "value9")
+            entry("key0", List.of("value0")),
+            entry("key1", List.of("value1")),
+            entry("key2", List.of("value2")),
+            entry("key3", List.of("value3")),
+            entry("key4", List.of("value4")),
+            entry("key5", List.of("value5")),
+            entry("key6", List.of("value6")),
+            entry("key7", List.of("value7")),
+            entry("key8", List.of("value8")),
+            entry("key9", List.of("value9"))
           )
         );
       }

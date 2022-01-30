@@ -48,6 +48,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
@@ -221,15 +222,15 @@ public final class CLNCommandCreate extends CLNAbstractCommand
     }
   }
 
-  private Map<String, String> openMetadataFile()
+  private Map<String, List<String>> openMetadataFile()
     throws IOException
   {
     try (var stream = Files.newInputStream(this.metadataFile)) {
       final var properties = new Properties();
       properties.load(stream);
-      final var data = new HashMap<String, String>(properties.size());
+      final var data = new HashMap<String, List<String>>(properties.size());
       for (final var entry : properties.entrySet()) {
-        data.put((String) entry.getKey(), (String) entry.getValue());
+        data.put((String) entry.getKey(), List.of((String) entry.getValue()));
       }
       return data;
     }
