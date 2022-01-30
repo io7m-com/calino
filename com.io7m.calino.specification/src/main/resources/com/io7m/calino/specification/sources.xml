@@ -61,6 +61,9 @@
   <FormalItem title="Calino/MipMap.v" id="d53ca60c-d42d-55dc-8b64-bf455fa425cf">
     <Verbatim><xi:include href="Calino/MipMap.v" parse="text"/></Verbatim>
   </FormalItem>
+  <FormalItem title="Calino/StandardFormats.v" id="be0229cf-3715-56c9-a354-36cff710d917">
+    <Verbatim><xi:include href="Calino/StandardFormats.v" parse="text"/></Verbatim>
+  </FormalItem>
   <FormalItem title="Calino/StringUtility.v" id="2f33fe01-a908-5f47-8299-74f7f27ad031">
     <Verbatim><xi:include href="Calino/StringUtility.v" parse="text"/></Verbatim>
   </FormalItem>

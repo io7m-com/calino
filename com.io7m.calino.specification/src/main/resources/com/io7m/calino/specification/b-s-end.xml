@@ -32,7 +32,7 @@
 
   <Subsection title="Cardinality">
     <Paragraph>
-      An   <Term type="term">End</Term> section must appear in a <Term type="package">calino</Term> texture file exactly
+      An <Term type="term">End</Term> section must appear in a <Term type="package">calino</Term> texture file exactly
       once, and must be the last section present in the file.
     </Paragraph>
   </Subsection>

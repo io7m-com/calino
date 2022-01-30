@@ -8,6 +8,7 @@ coqc -Q Calino Calino Calino/Descriptor.v
 coqc -Q Calino Calino Calino/ChannelSemantic.v
 coqc -Q Calino Calino Calino/ChannelDescription.v
 coqc -Q Calino Calino Calino/ChannelType.v
+coqc -Q Calino Calino Calino/StandardFormats.v
 coqc -Q Calino Calino Calino/Compression.v
 coqc -Q Calino Calino Calino/SuperCompression.v
 coqc -Q Calino Calino Calino/ColorSpace.v

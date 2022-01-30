@@ -107,3 +107,21 @@
 106 ! Definition binaryExpMipMaps
 107 ! Definition binaryExpMipMap (m : mipMap)
 108 ! Definition binaryExpImage2DSection
+109 ! Definition Layout_R4_G4_B4_A4 : channelLayoutDescription
+110 ! Definition Layout_R5_G6_B5 : channelLayoutDescription
+111 ! Definition Layout_R8_G8_B8_A8 : channelLayoutDescription
+112 ! Definition Layout_R8_G8_B8 : channelLayoutDescription
+113 ! Definition Layout_R8_G8 : channelLayoutDescription
+114 ! Definition Layout_R8 : channelLayoutDescription
+115 ! Definition Layout_R16_G16_B16_A16 : channelLayoutDescription
+116 ! Definition Layout_R16_G16_B16 : channelLayoutDescription
+117 ! Definition Layout_R16_G16 : channelLayoutDescription
+118 ! Definition Layout_R16 : channelLayoutDescription
+119 ! Definition Layout_R32_G32_B32_A32 : channelLayoutDescription
+120 ! Definition Layout_R32_G32_B32 : channelLayoutDescription
+121 ! Definition Layout_R32_G32 : channelLayoutDescription
+122 ! Definition Layout_R32 : channelLayoutDescription
+123 ! Definition Layout_R64_G64_B64_A64 : channelLayoutDescription
+124 ! Definition Layout_R64_G64_B64 : channelLayoutDescription
+125 ! Definition Layout_R64_G64 : channelLayoutDescription
+126 ! Definition Layout_R64 : channelLayoutDescription
