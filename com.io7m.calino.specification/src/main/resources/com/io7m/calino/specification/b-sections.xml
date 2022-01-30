@@ -21,6 +21,10 @@
     <Link target="40d09b06-b6de-4052-92fe-2829942518c9">End</Link> section.
   </Paragraph>
 
+  <Paragraph id="2ccedb5d-d5ec-40ba-a965-04bba40ce4ec">
+    Sections should start at offsets that are evenly divisible by 16.
+  </Paragraph>
+
   <Paragraph>
     The following standard sections are defined by this version of the specification:
   </Paragraph>

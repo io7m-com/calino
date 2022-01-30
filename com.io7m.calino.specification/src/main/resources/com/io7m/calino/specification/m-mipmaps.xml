@@ -5,8 +5,8 @@
          xmlns="urn:com.io7m.structural:8:0"
          xmlns:xi="http://www.w3.org/2001/XInclude">
 
-  <Paragraph>
-    A texture consists of a sequence of <Term type="term">mipmaps</Term>. A sequence of
+  <Paragraph id="7d6373a7-e330-4cec-8528-b054a1c683ef">
+    A texture consists of a non-empty sequence of <Term type="term">mipmaps</Term>. A sequence of
     mipmaps is a sequence of progressively scaled-down copies of a <Term type="term">base image</Term>.
     Each mipmap <Term type="term">level</Term> is numbered with the base image being at level
     <Term type="constant">0</Term> and the number of each subsequent level is the successor of the
@@ -14,7 +14,7 @@
     of the previous level.
   </Paragraph>
 
-  <Paragraph>
+  <Paragraph id="e676eaef-f25a-44e8-9360-bcfaf35ce1e6">
     A mipmap stores an <Term type="term">offset</Term> indicating the start of the actual image data for the mipmap
     relative to the first octet of the first mipmap declaration. A mipmap also stores the
     <Link target="8f83a47a-986e-4dba-bfd7-720641cee3a9">compressed size</Link> and uncompressed size of the
@@ -76,5 +76,13 @@
   <FormalItem title="MipMap Data Size">
     <Verbatim><xi:include href="104.txt" parse="text" /></Verbatim>
   </FormalItem>
+
+  <Paragraph id="41c816ac-d7ee-4041-a764-9a36a983080c">
+    The uncompressed size of a mipmap should be non-zero.
+  </Paragraph>
+
+  <Paragraph id="2c3420bb-1273-4f1e-9212-9f259d60d6f1">
+    The compressed size of a mipmap should be non-zero.
+  </Paragraph>
 
 </Section>

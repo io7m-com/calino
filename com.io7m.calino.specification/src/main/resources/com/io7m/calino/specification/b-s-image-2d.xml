@@ -5,33 +5,54 @@
          id="8321ef71-e529-4764-abf1-e678e42c03af"
          xmlns="urn:com.io7m.structural:8:0">
 
-  <Paragraph>
-    <Link target="71f3233f-43eb-4ea1-96d4-bc1192553239">2D image</Link> values are translated to binary
-    expressions as follows:
-  </Paragraph>
+  <Subsection title="Description">
+    <Paragraph>
+      <Link target="71f3233f-43eb-4ea1-96d4-bc1192553239">2D image</Link>
+      values are translated to binary expressions as follows:
+    </Paragraph>
 
-  <FormalItem title="MipMap Encoding">
-    <Verbatim><xi:include href="107.txt" parse="text"/></Verbatim>
-  </FormalItem>
-  <FormalItem title="MipMaps Encoding">
-    <Verbatim><xi:include href="106.txt" parse="text"/></Verbatim>
-  </FormalItem>
-  <FormalItem title="Image 2D Encoding">
-    <Verbatim><xi:include href="105.txt" parse="text"/></Verbatim>
-  </FormalItem>
+    <FormalItem title="MipMap Encoding">
+      <Verbatim>
+        <xi:include href="107.txt"
+                    parse="text"/>
+      </Verbatim>
+    </FormalItem>
+    <FormalItem title="MipMaps Encoding">
+      <Verbatim>
+        <xi:include href="106.txt"
+                    parse="text"/>
+      </Verbatim>
+    </FormalItem>
+    <FormalItem title="Image 2D Encoding">
+      <Verbatim>
+        <xi:include href="105.txt"
+                    parse="text"/>
+      </Verbatim>
+    </FormalItem>
 
-  <Paragraph>
-    Informally, an array of <Link target="b8d20538-e4ac-4674-aa43-d5ab93c07149">mipmap</Link> descriptions
-    are serialized, followed by any required padding to reach the offset value declared by the first mipmap,
-    followed by the image data for each mipmap in the order specified by the mipmap descriptions.
-  </Paragraph>
+    <Paragraph>
+      Informally, an array of <Link target="b8d20538-e4ac-4674-aa43-d5ab93c07149">mipmap</Link> descriptions are
+      serialized, followed by any required padding to reach the offset value declared by the first mipmap, followed by
+      the image data for each mipmap in the order specified by the mipmap descriptions.
+    </Paragraph>
 
-  <Paragraph>
-    2D images must be encoded into a <Link target="eb66b381-4c70-4246-95e9-d3a61e19ac4c">section</Link>
-    with identifier <Term type="constant">0x434C4E5F49324421</Term> as follows:
-  </Paragraph>
-  <FormalItem title="Image 2D Section">
-    <Verbatim><xi:include href="108.txt" parse="text"/></Verbatim>
-  </FormalItem>
+    <Paragraph>
+      2D images must be encoded into a
+      <Link target="eb66b381-4c70-4246-95e9-d3a61e19ac4c">section</Link>
+      with identifier <Term type="constant">0x434C4E5F49324421</Term> as follows:
+    </Paragraph>
+    <FormalItem title="Image 2D Section">
+      <Verbatim>
+        <xi:include href="108.txt"
+                    parse="text"/>
+      </Verbatim>
+    </FormalItem>
+  </Subsection>
+
+  <Subsection title="Cardinality">
+    <Paragraph>
+      A 2D image section can appear in a <Term type="package">calino</Term> texture file at most once.
+    </Paragraph>
+  </Subsection>
 
 </Section>

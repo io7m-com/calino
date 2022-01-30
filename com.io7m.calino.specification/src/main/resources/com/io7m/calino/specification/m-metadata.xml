@@ -28,7 +28,7 @@
   </FormalItem>
 
   <Paragraph>
-    Conceptually, metadata is structure as a function from keys to non-empty lists of values; the values
+    Conceptually, metadata is structured as a function from keys to non-empty lists of values; the values
     associated with multiple occurrences of a given key are expected to be combined into a list of values for
     the given key by consumers.
   </Paragraph>
