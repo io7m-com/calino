@@ -77,14 +77,10 @@ public final class CLN1SectionWritableImageInfo
     final CLNByteOrder dataByteOrder)
     throws IOException
   {
-    switch (dataByteOrder) {
-      case BIG_ENDIAN -> {
-        writer.writeU32BE("byteOrder", 0L);
-      }
-      case LITTLE_ENDIAN -> {
-        writer.writeU32BE("byteOrder", 1L);
-      }
-    }
+    final var bytes = dataByteOrder.descriptor().getBytes(UTF_8);
+    writer.writeU32BE(toUnsignedLong(bytes.length));
+    writer.writeBytes(bytes);
+    writer.align(4);
   }
 
   private static void writeFlags(

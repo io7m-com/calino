@@ -18,6 +18,10 @@
   <description>Calino texture format (File format specification)</description>
   <url>https://www.io7m.com/software/calino/</url>
 
+  <properties>
+    <checkstyle.skip>true</checkstyle.skip>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>com.io7m.xstructural</groupId>

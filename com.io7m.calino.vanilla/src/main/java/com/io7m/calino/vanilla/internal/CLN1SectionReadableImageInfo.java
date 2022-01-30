@@ -115,31 +115,49 @@ public final class CLN1SectionReadableImageInfo
     // CHECKSTYLE:ON
   }
 
-  private static CLNByteOrder readByteOrder(
-    final BSSReaderRandomAccessType reader)
+  private CLNByteOrder readByteOrder(
+    final BSSReaderRandomAccessType parent)
     throws IOException
   {
-    final var byteOrder = reader.readU32BE("byteOrder");
-    if (byteOrder == 0L) {
-      return CLNByteOrder.BIG_ENDIAN;
-    }
-    if (byteOrder == 1L) {
-      return CLNByteOrder.LITTLE_ENDIAN;
-    }
+    var consumed = 0L;
 
-    final var lineSeparator = System.lineSeparator();
-    final var error = new StringBuilder(64);
-    error.append("Unparseable byte order.");
-    error.append(lineSeparator);
-    error.append("  Offset: 0x");
-    error.append(toUnsignedString(reader.offsetCurrentAbsolute(), 16));
-    error.append(lineSeparator);
-    error.append("  Problem: Expected a value in the range [0, 1]");
-    error.append(lineSeparator);
-    error.append("  Received: 0x");
-    error.append(toUnsignedString(byteOrder, 16));
-    error.append(lineSeparator);
-    throw new IOException(error.toString());
+    try (var reader =
+           parent.createSubReaderAt("byteOrder", 0L)) {
+
+      final var length =
+        reader.readU32BE("descriptorLength");
+
+      this.checkDescriptorLengthLimit(
+        length, this.request().descriptorLengthLimit());
+
+      final var bytes = new byte[(int) length];
+      reader.readBytes(bytes);
+      reader.align(4);
+      consumed = reader.offsetCurrentRelative();
+      parent.skip(consumed);
+      final var text = makeString(bytes);
+
+      return switch (text) {
+        case "BIG_ENDIAN" -> CLNByteOrder.BIG_ENDIAN;
+        case "LITTLE_ENDIAN" -> CLNByteOrder.LITTLE_ENDIAN;
+
+        default -> {
+          final var lineSeparator = System.lineSeparator();
+          final var error = new StringBuilder(64);
+          error.append("Unparseable byte order.");
+          error.append(lineSeparator);
+          error.append("  Offset: 0x");
+          error.append(toUnsignedString(reader.offsetCurrentAbsolute(), 16));
+          error.append(lineSeparator);
+          error.append("  Problem: Expected BIG_ENDIAN | LITTLE_ENDIAN");
+          error.append(lineSeparator);
+          error.append("  Received: ");
+          error.append(text);
+          error.append(lineSeparator);
+          throw new IOException(error.toString());
+        }
+      };
+    }
   }
 
   private static CLNImageFlagType readFlag(
@@ -193,7 +211,7 @@ public final class CLN1SectionReadableImageInfo
       final var flags =
         this.readImageFlags(subReader);
       final var byteOrder =
-        readByteOrder(subReader);
+        this.readByteOrder(subReader);
 
       return new CLNImageInfo(
         (int) (sizeX & 0xffff_ffffL),
