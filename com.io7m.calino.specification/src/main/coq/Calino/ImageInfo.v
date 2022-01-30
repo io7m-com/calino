@@ -35,13 +35,17 @@ Record imageInfo : Set := ImageInfo {
   imageByteOrder              : byteOrder
 }.
 
-Definition imageSizeX := sizeX ∘ imageSize.
+Definition imageSizeX :=
+  sizeX ∘ imageSize.
 
-Definition imageSizeY := sizeY ∘ imageSize.
+Definition imageSizeY :=
+  sizeY ∘ imageSize.
 
-Definition imageSizeZ := sizeZ ∘ imageSize.
+Definition imageSizeZ :=
+  sizeZ ∘ imageSize.
 
-Definition imageFlagSet := flags ∘ imageFlags.
+Definition imageFlagSet :=
+  flags ∘ imageFlags.
 
 Definition imageInfoTexelBlockAlignment (i : imageInfo) :=
   let c := imageCompressionMethod i in
