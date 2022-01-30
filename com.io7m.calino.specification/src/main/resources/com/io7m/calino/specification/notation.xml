@@ -43,7 +43,7 @@
       theory</LinkExternal>.
     </Paragraph>
     <FormalItem title="ZFC">
-      <Table>
+      <Table type="genericTable">
         <Columns>
           <Column>Notation</Column>
           <Column>Description</Column>
