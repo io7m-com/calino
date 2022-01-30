@@ -36,4 +36,165 @@
     </Paragraph>
   </Subsection>
 
+  <Subsection title="Sets">
+    <Paragraph>
+      Where the specification refers to sets, it is referring to sets as defined
+      in <LinkExternal target="https://en.wikipedia.org/wiki/Zermelo-Fraenkel_set_theory">Zermelo-Fraenkel set
+      theory</LinkExternal>.
+    </Paragraph>
+    <FormalItem title="ZFC">
+      <Table>
+        <Columns>
+          <Column>Notation</Column>
+          <Column>Description</Column>
+        </Columns>
+        <Row>
+          <Cell>
+            <Term type="expression">e ∈ A</Term>
+          </Cell>
+          <Cell>
+            <Term type="expression">e</Term>
+            is an element of the set
+            <Term type="expression">A</Term>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Term type="expression">e ∉ A</Term>
+          </Cell>
+          <Cell>
+            <Term type="expression">e</Term>
+            is not an element of the set
+            <Term type="expression">A</Term>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Term type="expression">{ x₀, x₁, ... xₙ }</Term>
+          </Cell>
+          <Cell>A set consisting of values from <Term type="expression">x₀</Term> to
+            <Term type="expression">xₙ</Term>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Term type="expression">{ e ∈ A | p(e) }</Term>
+          </Cell>
+          <Cell>A set consisting of the elements of <Term type="expression">A</Term> for which the proposition <Term type="expression">
+            p
+          </Term> holds
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Term type="expression">|A|</Term>
+          </Cell>
+          <Cell>The cardinality of the set <Term type="expression">A</Term>; a measure of the number of elements in
+            <Term type="expression">A</Term>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Term type="expression">∅</Term>
+          </Cell>
+          <Cell>The empty set</Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Term type="expression">𝔹</Term>
+          </Cell>
+          <Cell>The booleans</Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Term type="expression">ℕ</Term>
+          </Cell>
+          <Cell>The natural numbers</Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Term type="expression">ℝ</Term>
+          </Cell>
+          <Cell>The real numbers</Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Term type="expression">ℤ</Term>
+          </Cell>
+          <Cell>The integers</Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Term type="expression">[a, b]</Term>
+          </Cell>
+          <Cell>A closed interval in a set (given separately or implicit from the types of <Term type="expression">a
+          </Term> and <Term type="expression">b</Term>), from <Term type="expression">a
+          </Term> to <Term type="expression">b</Term>, including <Term type="expression">a</Term> and
+            <Term type="expression">b</Term>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Term type="expression">(a, b]</Term>
+          </Cell>
+          <Cell>A closed interval in a set (given separately or implicit from the types of <Term type="expression">a
+          </Term> and <Term type="expression">b</Term>), from <Term type="expression">a
+          </Term> to <Term type="expression">b</Term>, excluding <Term type="expression">a</Term> but including
+            <Term type="expression">b</Term>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Term type="expression">[a, b)</Term>
+          </Cell>
+          <Cell>A closed interval in a set (given separately or implicit from the types of <Term type="expression">a
+          </Term> and <Term type="expression">b</Term>), from <Term type="expression">a
+          </Term> to <Term type="expression">b</Term>, including <Term type="expression">a</Term> but excluding
+            <Term type="expression">b</Term>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Term type="expression">(a, b)</Term>
+          </Cell>
+          <Cell>A closed interval in a set (given separately or implicit from the types of <Term type="expression">a
+          </Term> and <Term type="expression">b</Term>), from <Term type="expression">a
+          </Term> to <Term type="expression">b</Term>, excluding <Term type="expression">a</Term> and
+            <Term type="expression">b</Term>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Term type="expression">A ⊂ B</Term>
+          </Cell>
+          <Cell>
+            <Term type="expression">A</Term>
+            is a subset of, and is not equal to,
+            <Term type="expression">B</Term>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Term type="expression">A ⊆ B</Term>
+          </Cell>
+          <Cell>
+            <Term type="expression">A</Term>
+            is a subset of, or is equal to,
+            <Term type="expression">B</Term>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Term type="expression">A ∩ B</Term>
+          </Cell>
+          <Cell>
+            The smallest set of elements that appear in both
+            <Term type="expression">A</Term>
+            and <Term type="expression">B</Term> (intersection).
+          </Cell>
+        </Row>
+      </Table>
+    </FormalItem>
+  </Subsection>
+
 </Section>
