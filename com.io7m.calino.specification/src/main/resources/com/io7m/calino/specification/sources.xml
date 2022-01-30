@@ -10,6 +10,9 @@
     included here.
   </Paragraph>
 
+  <FormalItem title="Calino/Alignment.v" id="f798840c-90b5-55c0-99f6-cdba4abcbd30">
+    <Verbatim><xi:include href="Calino/Alignment.v" parse="text"/></Verbatim>
+  </FormalItem>
   <FormalItem title="Calino/Binary.v" id="e34eccb9-9f08-53ad-9bf5-29a577d25116">
     <Verbatim><xi:include href="Calino/Binary.v" parse="text"/></Verbatim>
   </FormalItem>

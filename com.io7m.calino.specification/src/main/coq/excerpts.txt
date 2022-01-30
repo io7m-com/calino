@@ -70,14 +70,14 @@
 69 ! Record imageInfo
 70 ! Inductive mipMap : Set
 71 ! Inductive mipMapListIsSorted : list mipMap → Prop
-72 ! Inductive mipMapList : Set
+72 ! Inductive mipMapList (
 73 ! Record imageSize3D
 74 ! Definition mipMapSize
 75 ! Inductive mipMapImageSize : Set
 76 ! Inductive image : Set
 77 ! Inductive binaryExp : Set
 78 ! Fixpoint binarySize (b : binaryExp)
-79 ! Definition sizeAsMultipleOf (size q : nat)
+79 ! Definition asMultipleOf (size q : nat)
 80 ! Inductive streamE : Set
 81 ! Definition streamSize
 82 ! Fixpoint binaryEval
@@ -94,8 +94,16 @@
 93 ! Inductive streamWellFormed
 94 ! Theorem binaryEvalStreamsWellFormed
 95 ! Theorem streamsWellFormedDivisible4
-96 ! Definition sizeAsMultipleOf4
+96 ! Definition asMultipleOf4
 97 ! Definition binaryExpImageInfo
 98 ! Definition binaryExpImageInfoSection
 99 ! Definition binaryExpCompression
 100 ! Definition binaryExpSuperCompression
+101 ! Definition imageInfoTexelBlockAlignment
+102 ! Inductive mipMapOffsetsSorted
+103 ! Fixpoint mipMapImageDataSizeTotalAux
+104 ! Definition mipMapImageDataSizeTotal
+105 ! Definition binaryExpImage2D
+106 ! Definition binaryExpMipMaps
+107 ! Definition binaryExpMipMap (m : mipMap)
+108 ! Definition binaryExpImage2DSection

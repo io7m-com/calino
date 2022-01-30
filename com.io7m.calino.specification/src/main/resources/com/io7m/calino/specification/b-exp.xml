@@ -85,7 +85,7 @@
       This specification text makes use of a convenient abbreviation function,
       <Term type="expression">binarySizePadded16</Term>,
       to concisely denote the size of binary expressions padded to a size that is a multiple of 16, as well
-      as a partial application of <Link target="1f0b8741-bd88-4925-b880-f5dd6063ccf1">sizeAsMultipleOf</Link>
+      as a partial application of <Link target="1f0b8741-bd88-4925-b880-f5dd6063ccf1">asMultipleOf</Link>
       fixed to a multiple of 4:
     </Paragraph>
     <FormalItem title="Binary Expression Size Padded 16">
@@ -93,7 +93,7 @@
         <xi:include href="90.txt" parse="text"/>
       </Verbatim>
     </FormalItem>
-    <FormalItem title="sizeAsMultipleOf4">
+    <FormalItem title="asMultipleOf4">
       <Verbatim>
         <xi:include href="96.txt" parse="text"/>
       </Verbatim>
@@ -132,14 +132,6 @@
       </Verbatim>
     </FormalItem>
     <Paragraph>
-      A binary stream is considered <Term type="term">well-formed</Term> according to the given inductive proposition:
-    </Paragraph>
-    <FormalItem title="Well-Formed Stream">
-      <Verbatim>
-        <xi:include href="93.txt" parse="text"/>
-      </Verbatim>
-    </FormalItem>
-    <Paragraph>
       Informally, a stream <Term type="expression">s</Term> is <Term type="term">well-formed</Term> if exactly one
       of the following conditions holds:
     </Paragraph>
@@ -163,6 +155,14 @@
           <Term type="expression">t</Term> and a well-formed stream <Term type="expression">u</Term>.
         </Item>
       </ListUnordered>
+    </FormalItem>
+    <Paragraph>
+      The rules for <Term type="term">well-formedness</Term> correspond to the following proposition:
+    </Paragraph>
+    <FormalItem title="Well-Formed Stream">
+      <Verbatim>
+        <xi:include href="93.txt" parse="text"/>
+      </Verbatim>
     </FormalItem>
     <Paragraph>
       The binary expression encoding rules produce <Term type="term">well-formed</Term> streams.

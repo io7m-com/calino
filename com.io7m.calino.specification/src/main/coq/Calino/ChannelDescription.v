@@ -190,3 +190,40 @@ Proof.
   }
 Qed.
 
+Theorem channelLayoutDescriptionBitsLe8 : ∀ (c : channelLayoutDescription),
+  8 <= channelLayoutDescriptionBits c.
+Proof.
+  intros c.
+  assert (divisible8 (channelLayoutDescriptionBits c)) as Hdiv8
+    by (apply (channelLayoutDescriptionBitsDivisible8 c)).
+  unfold divisible8 in Hdiv8.
+  
+  destruct c as [u|p].
+  - simpl.
+    destruct (uChannels u) as [|ch0 chs] eqn:Hcheq.
+    -- symmetry in Hcheq.
+       assert ([] ≠ uChannels u) as Hne by (apply (uChannelsNonEmpty u)).
+       contradiction.
+    -- unfold channelLayoutDescriptionBits in Hdiv8.
+       rewrite Nat.mod_divide in Hdiv8.
+       rewrite <- Hcheq.
+       apply (Nat.divide_pos_le 8 (channelDescriptionsBitsTotal (uChannels u))).
+       rewrite Hcheq.
+       simpl.
+       assert (0 < cdBits ch0) as HbitnZ. {
+         apply Lt.neq_0_lt.
+         apply (cdBitsNonzero ch0).
+       }
+       apply Nat.add_pos_l.
+       exact HbitnZ.
+       exact Hdiv8.
+       discriminate.
+  - simpl.
+    rewrite (pInvariants p).
+    destruct (pPacking p) eqn:Hpack.
+    -- constructor.
+    -- repeat (constructor).
+    -- repeat (constructor).
+    -- repeat (constructor).
+Qed.
+

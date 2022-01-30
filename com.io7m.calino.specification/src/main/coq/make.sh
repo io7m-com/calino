@@ -1,5 +1,6 @@
 #!/bin/sh -ex
 
+coqc -Q Calino Calino Calino/Alignment.v
 coqc -Q Calino Calino Calino/StringUtility.v
 coqc -Q Calino Calino Calino/Divisible8.v
 coqc -Q Calino Calino Calino/Metadata.v

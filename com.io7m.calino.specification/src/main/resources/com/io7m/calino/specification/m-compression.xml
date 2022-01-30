@@ -85,7 +85,7 @@
     </FormalItem>
   </Subsection>
 
-  <Subsection title="Block Sizes">
+  <Subsection title="Block Sizes" id="a1b65dcf-36d1-4519-a765-06a3bd1e68c2">
     <Paragraph>
       Compression methods have inherent <Term type="term">block sizes</Term> that typically influence the required
       alignment in memory of compressed data.

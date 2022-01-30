@@ -43,3 +43,43 @@ Definition imageSizeZ := sizeZ ∘ imageSize.
 
 Definition imageFlagSet := flags ∘ imageFlags.
 
+Definition imageInfoTexelBlockAlignment (i : imageInfo) :=
+  let c := imageCompressionMethod i in
+    match c with
+    | CompressionUncompressed => channelLayoutDescriptionBits (imageChannelsLayout i) / 8
+    | _                       => compressionBlockAlignment c
+    end.
+
+Theorem imageInfoTexelBlockAlignmentPositive : ∀ i,
+  0 < imageInfoTexelBlockAlignment i.
+Proof.
+  intros i.
+  unfold imageInfoTexelBlockAlignment.
+  destruct (imageCompressionMethod i) eqn:Hm.
+  - assert (8 <= channelLayoutDescriptionBits (imageChannelsLayout i)) as Hle8
+      by (apply (channelLayoutDescriptionBitsLe8)).
+    apply (Nat.div_le_lower_bound (channelLayoutDescriptionBits (imageChannelsLayout i)) 8 1).
+    discriminate.
+    rewrite Nat.mul_1_r.
+    exact Hle8.
+  - repeat (constructor).
+  - repeat (constructor).
+  - repeat (constructor).
+  - repeat (constructor).
+  - repeat (constructor).
+  - repeat (constructor).
+  - repeat (constructor).
+  - repeat (constructor).
+  - repeat (constructor).
+  - repeat (constructor).
+  - repeat (constructor).
+  - auto.
+Qed.
+
+Theorem imageInfoTexelBlockAlignmentNonZero : ∀ i,
+  0 ≠ imageInfoTexelBlockAlignment i.
+Proof.
+  intros i.
+  apply Lt.lt_0_neq.
+  apply imageInfoTexelBlockAlignmentPositive.
+Qed.

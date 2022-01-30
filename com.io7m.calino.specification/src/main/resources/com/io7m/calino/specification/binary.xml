@@ -5,7 +5,8 @@
          xmlns:xi="http://www.w3.org/2001/XInclude">
 
   <xi:include href="b-exp.xml"/>
-  <xi:include href="b-model.xml"/>
+  <xi:include href="b-file.xml"/>
+  <xi:include href="b-sections.xml"/>
   <xi:include href="b-s-image-info.xml"/>
   <xi:include href="b-s-image-2d.xml"/>
   <xi:include href="b-s-metadata.xml"/>

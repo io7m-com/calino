@@ -26,4 +26,15 @@
     size values by specific <Link target="17b69d69-176f-4db1-bab3-c1666ed58c5c">image</Link> types.
   </Paragraph>
 
+  <Paragraph id="e92704bb-ce55-4d97-8a9a-7d3b495a5d35">
+    The <Term type="term">texel block alignment</Term> is a value in octets to which image data is expected
+    to be aligned. For <Link target="bd75557c-d8d2-4522-93b3-e29d78d436b7">compressed</Link> images, this
+    is equal to the declared <Link target="a1b65dcf-36d1-4519-a765-06a3bd1e68c2">block alignment</Link>. For
+    uncompressed images, this is equal to the total size of all of the channels in bits, divided by 8.
+  </Paragraph>
+
+  <FormalItem title="Texel Block Alignment">
+    <Verbatim><xi:include href="101.txt" parse="text"/></Verbatim>
+  </FormalItem>
+
 </Section>

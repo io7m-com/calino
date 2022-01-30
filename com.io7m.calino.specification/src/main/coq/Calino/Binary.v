@@ -7,6 +7,7 @@ Require Import Coq.Bool.Bool.
 Require Import Coq.Program.Basics.
 Require Import Coq.Unicode.Utf8_core.
 
+Require Import Calino.Alignment.
 Require Import Calino.Metadata.
 Require Import Calino.MipMap.
 Require Import Calino.ImageInfo.
@@ -151,32 +152,14 @@ Section binaryExpressions.
   End binaryExp_ind.
 End binaryExpressions.
 
-Definition sizeAsMultipleOf (size q : nat) (Hnz : 0 ≠ q) : nat :=
-  let r := size / q in
-    match Nat.ltb_spec0 r q with
-    | ReflectT _ _ => (r + 1) * q
-    | ReflectF _ _ => r * q
-    end.
-
-Lemma p0not4 : 0 ≠ 4.
-Proof. discriminate. Qed.
-
-Lemma p0not16 : 0 ≠ 16.
-Proof. discriminate. Qed.
-
-Definition sizeAsMultipleOf4 (size : nat) : nat :=
-  sizeAsMultipleOf size 4 p0not4.
-
-Transparent sizeAsMultipleOf4.
-
 Fixpoint binarySize (b : binaryExp) : nat :=
   match b with
   | BiU32 _     => 4
   | BiU64 _     => 8
-  | BiBytes s   => 4 + sizeAsMultipleOf4 (length s)
-  | BiUTF8 s    => 4 + sizeAsMultipleOf4 (length s)
+  | BiBytes s   => 4 + asMultipleOf4 (length s)
+  | BiUTF8 s    => 4 + asMultipleOf4 (length s)
   | BiArray f   => 4 + fold_right plus 0 (map binarySize f)
-  | BiReserve s => sizeAsMultipleOf4 s
+  | BiReserve s => asMultipleOf4 s
   | BiRecord f  => fold_right plus 0 (map (binarySize ∘ snd) f)
   end.
 
@@ -198,12 +181,12 @@ Fixpoint binaryEval (b : binaryExp) : list streamE :=
   | BiBytes s   => (Vu32 (length s)) :: (binaryEvalPaddedBytes s 4 p0not4)
   | BiUTF8 s    => (Vu32 (length s)) :: (binaryEvalPaddedBytes s 4 p0not4)
   | BiArray f   => (Vu32 (length f)) :: concat (map binaryEval f)
-  | BiReserve s => repeat (Vu8 0) (sizeAsMultipleOf4 s)
+  | BiReserve s => repeat (Vu8 0) (asMultipleOf4 s)
   | BiRecord f  => concat (map (binaryEval ∘ snd) f)
   end.
 
 Definition binarySizePadded16 (b : binaryExp) : nat :=
-  sizeAsMultipleOf (binarySize b) 16 p0not16.
+  asMultipleOf16 (binarySize b).
 
 Definition utf8 (s : string) : binaryExp :=
   BiUTF8 (list_byte_of_string s).
@@ -219,8 +202,37 @@ Definition binaryExpMipMap (m : mipMap) : binaryExp := BiRecord [
   ("mipMapCRC32",            u32 (mipMapCRC32 m))
 ].
 
-Definition binaryExpMipMaps (m : mipMapList) : binaryExp :=
-  BiArray (map binaryExpMipMap (mipMaps m)).
+Definition binaryExpMipMaps 
+  (alignment : nat) 
+  (anz       : 0 ≠ alignment) 
+  (m         : mipMapList alignment anz) 
+: binaryExp :=
+  BiArray (map binaryExpMipMap (mipMaps _ _ m)).
+
+Definition binaryExpImage2D
+  (i : imageInfo)
+  (m : mipMapList (imageInfoTexelBlockAlignment i) (imageInfoTexelBlockAlignmentNonZero i)) 
+: binaryExp :=
+  let imageDataStart := mipMapOffset (mipMapFirst _ _ m) in
+  let encMips        := binaryExpMipMaps _ _ m in
+  let encMipsSize    := binarySize encMips in
+  let encMipsPad     := imageDataStart - encMipsSize in
+  let imageSize      := mipMapImageDataSizeTotal _ _ m in
+  let imageSize16    := asMultipleOf16 imageSize in
+    BiRecord [
+      ("mipMaps", encMips);
+      ("mipPad",  BiReserve encMipsPad);
+      ("mipData", BiReserve imageSize16)
+    ].
+
+Definition binaryExpImage2DSection
+  (i : imageInfo)
+  (m : mipMapList (imageInfoTexelBlockAlignment i) (imageInfoTexelBlockAlignmentNonZero i)) 
+: binaryExp := BiRecord [
+  ("id",   u64 0x434C4E5F49324421);
+  ("size", u64 (binarySizePadded16 (binaryExpImage2D i m)));
+  ("data", binaryExpImage2D i m)
+].
 
 Definition binaryExpCompression (c : compressionMethod) : binaryExp := BiRecord [
   ("descriptor",        utf8 (descriptorOf c));
@@ -280,15 +292,6 @@ Definition binaryEndSection : binaryExp := BiRecord [
   ("size", u64 0)
 ].
 
-Lemma sizeAsMultipleOfMod : ∀ s q (Hneq : 0 ≠ q), (sizeAsMultipleOf s q Hneq) mod q = 0.
-Proof.
-  intros s q Hneq.
-  unfold sizeAsMultipleOf.
-  destruct (Nat.ltb_spec0 (s / q) q) as [Hlt|H1].
-  - apply (Nat.mod_mul (s / q + 1) q (Nat.neq_sym _ _ Hneq)).
-  - apply (Nat.mod_mul (s / q) q (Nat.neq_sym _ _ Hneq)).
-Qed.
-
 Lemma fold_right_add_cons : ∀ x xs,
   x + fold_right plus 0 xs = fold_right plus 0 (x :: xs).
 Proof. reflexivity. Qed.
@@ -320,25 +323,25 @@ Proof.
   - reflexivity.
   (* Byte array values are rounded up to a multiple of 4 and prefixed with 4 *)
   - unfold binarySize.
-    unfold sizeAsMultipleOf4.
-    remember (sizeAsMultipleOf (Datatypes.length Hbbyte) 4 p0not4) as size eqn:Heqsize.
+    unfold asMultipleOf4.
+    remember (asMultipleOf (Datatypes.length Hbbyte) 4 p0not4) as size eqn:Heqsize.
     rewrite Nat.add_comm.
     rewrite <- (Nat.add_mod_idemp_l size 4 4 (Nat.neq_sym _ _ p0not4)).
     assert (size mod 4 = 0) as Hm0. {
       rewrite Heqsize.
-      apply (sizeAsMultipleOfMod (Datatypes.length Hbbyte) 4 (p0not4)).
+      apply (asMultipleOfMod (Datatypes.length Hbbyte) 4 (p0not4)).
     }
     rewrite Hm0.
     reflexivity.
   (* UTF-8 values are rounded up to a multiple of 4 and prefixed with 4 *)
   - unfold binarySize.
-    unfold sizeAsMultipleOf4.
-    remember (sizeAsMultipleOf (Datatypes.length Hbutf) 4 p0not4) as size eqn:Heqsize.
+    unfold asMultipleOf4.
+    remember (asMultipleOf (Datatypes.length Hbutf) 4 p0not4) as size eqn:Heqsize.
     rewrite Nat.add_comm.
     rewrite <- (Nat.add_mod_idemp_l size 4 4 (Nat.neq_sym _ _ p0not4)).
     assert (size mod 4 = 0) as Hm0. {
       rewrite Heqsize.
-      apply (sizeAsMultipleOfMod (Datatypes.length Hbutf) 4 (p0not4)).
+      apply (asMultipleOfMod (Datatypes.length Hbutf) 4 (p0not4)).
     }
     rewrite Hm0.
     reflexivity.
@@ -360,8 +363,8 @@ Proof.
        apply (divisiblityNAdd 4 (fold_right add 0 (binarySize y :: map binarySize ys)) 4 H0n4 H4mod40 HfoldEq).
   (* Unspecified values are rounded up. *)
   - unfold binarySize.
-    unfold sizeAsMultipleOf4.
-    rewrite sizeAsMultipleOfMod.
+    unfold asMultipleOf4.
+    rewrite asMultipleOfMod.
     reflexivity.
   (* Each element of an record is a multiple of 4, so the entire record is too. *)
   - unfold binarySize.
@@ -563,11 +566,11 @@ Proof.
        exact HqsWF.
   (* Reserve *)
   - simpl.
-    unfold sizeAsMultipleOf4.
-    remember (sizeAsMultipleOf a5 4 p0not4) as size eqn:Heqsize.
+    unfold asMultipleOf4.
+    remember (asMultipleOf a5 4 p0not4) as size eqn:Heqsize.
     assert (size mod 4 = 0) as Heqm. {
       rewrite Heqsize.
-      apply (sizeAsMultipleOfMod).
+      apply (asMultipleOfMod).
     }
     assert ((Vu8 ∘ Byte.to_nat) "000"%byte = (Vu8 0)) as HbyteEq by reflexivity.
     apply BEPVu8s.

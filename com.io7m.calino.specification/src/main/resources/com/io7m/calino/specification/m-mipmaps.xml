@@ -25,22 +25,30 @@
     size of the uncompressed data.
   </Paragraph>
 
+  <Paragraph>
+    Mipmap sequences are stored such that the data for the mipmap with the highest level is encountered
+    <Term type="term">first</Term>, whilst the data for the mipmap with level <Term type="constant">0</Term>
+    is encountered <Term type="term">last</Term>. This facilitates a common implementation pattern where
+    textures are progressively streamed onto the GPU starting with the highest mipmap levels first. The
+    inductive proposition <Term type="expression">mipMapOffsetsSorted</Term> declares that, for a given mipmap
+    <Term type="expression">m</Term>, the offset of <Term type="expression">m</Term> plus the compressed size of
+    <Term type="expression">m</Term> aligned to the required
+    <Link target="e92704bb-ce55-4d97-8a9a-7d3b495a5d35">texel block alignment</Link>,
+    must be less than the offset of the next mipmap in the sequence.
+  </Paragraph>
+
   <FormalItem title="MipMap">
     <Verbatim><xi:include href="70.txt" parse="text" /></Verbatim>
   </FormalItem>
   <FormalItem title="MipMap Sequence Sorting">
     <Verbatim><xi:include href="71.txt" parse="text" /></Verbatim>
   </FormalItem>
+  <FormalItem title="MipMap Offsets Sorting">
+    <Verbatim><xi:include href="102.txt" parse="text" /></Verbatim>
+  </FormalItem>
   <FormalItem title="MipMap Sequence">
     <Verbatim><xi:include href="72.txt" parse="text" /></Verbatim>
   </FormalItem>
-
-  <Paragraph>
-    Mipmap sequences are stored such that the data for the mipmap with the highest level is encountered
-    <Term type="term">first</Term>, whilst the data for the mipmap with level <Term type="constant">0</Term>
-    is encountered <Term type="term">last</Term>. This facilitates a common implementation pattern where
-    textures are progressively streamed onto the GPU starting with the highest mipmap levels first.
-  </Paragraph>
 
   <Paragraph>
     Given a base image of size <Term type="expression">(sizeX, sizeY)</Term>, the size of the mipmap
@@ -55,6 +63,18 @@
   </FormalItem>
   <FormalItem title="MipMap Size Calculation">
     <Verbatim><xi:include href="74.txt" parse="text" /></Verbatim>
+  </FormalItem>
+
+  <Paragraph id="8522affa-6919-4bc2-9aaa-fbfde3e73570">
+    The total size required to hold the image data for all mipmaps is effectively equal to the offset of the
+    largest mipmap, plus the compressed size of the mipmap, rounded up to the required alignment of the image data.
+  </Paragraph>
+
+  <FormalItem title="MipMap Data Size (Aux)">
+    <Verbatim><xi:include href="103.txt" parse="text" /></Verbatim>
+  </FormalItem>
+  <FormalItem title="MipMap Data Size">
+    <Verbatim><xi:include href="104.txt" parse="text" /></Verbatim>
   </FormalItem>
 
 </Section>
