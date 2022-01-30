@@ -17,7 +17,7 @@
 -->
 
 <div xmlns="http://www.w3.org/1999/xhtml"
-     class="brandingContainer">
+     class="brandingContainer brandingContainerHeader">
   <div class="branding">
     <a href="https://www.io7m.com/">io7m</a> |
     <a href="index.xhtml">single-page</a> |

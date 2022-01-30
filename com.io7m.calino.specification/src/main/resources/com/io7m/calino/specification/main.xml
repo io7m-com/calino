@@ -14,8 +14,8 @@
     <dc:rights>Public Domain</dc:rights>
     <dc:title>Calino 1.0</dc:title>
 
-    <MetaProperty name="com.io7m.xstructural.web.branding.header">brand.xml</MetaProperty>
-    <MetaProperty name="com.io7m.xstructural.web.branding.footer">brand.xml</MetaProperty>
+    <MetaProperty name="com.io7m.xstructural.web.branding.header">brand-header.xml</MetaProperty>
+    <MetaProperty name="com.io7m.xstructural.web.branding.footer">brand-footer.xml</MetaProperty>
   </Metadata>
 
   <xi:include href="notation.xml" />

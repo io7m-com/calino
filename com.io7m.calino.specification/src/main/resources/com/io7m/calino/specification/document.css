@@ -25,6 +25,15 @@
   font-size:   80%;
 }
 
+.brandingContainerHeader
+{
+
+}
+.brandingContainerFooter
+{
+  margin-top: 2em;
+}
+
 .command,
 .constant,
 .element,
