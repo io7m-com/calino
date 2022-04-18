@@ -10,8 +10,9 @@
     very similar to <Link target="b8d20538-e4ac-4674-aa43-d5ab93c07149">mipmaps</Link> with the primary difference that,
     for a texture with <Term type="constant">n</Term> array <Term type="term">layers</Term>, each array mipmap
     <Term type="term">level</Term>
-    stores a sequence of <Term type="constant">n</Term> images. This facilitates a common implementation pattern where
-    textures are progressively streamed onto the GPU starting with the array layers in the highest mipmap levels first.
+    stores a sequence of <Term type="constant">n</Term> images of the same size. This facilitates a common
+    implementation pattern where textures are progressively streamed onto the GPU starting with the array layers in
+    the highest mipmap levels first.
   </Paragraph>
 
   <FormalItem title="Array Mipmaps Arrangement"
