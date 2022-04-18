@@ -35,6 +35,50 @@
     </Verbatim>
   </FormalItem>
 
+  <Paragraph id="4d7423ef-2f74-4612-9685-1615ea0c5c7e">
+    An array mipmap stores an <Term type="term">offset</Term> indicating the start of the actual image data for the
+    mipmap relative to the first octet of the first mipmap declaration. An array mipmap also stores the
+    <Link target="8f83a47a-986e-4dba-bfd7-720641cee3a9">compressed size</Link>
+    and uncompressed size of the image data, along with a
+    <LinkExternal target="https://en.wikipedia.org/wiki/Cyclic_redundancy_check">CRC32</LinkExternal>
+    checksum of the <Term type="term">uncompressed</Term> data. A CRC32 value of <Term type="constant">0</Term> indicates
+    that no checksum is available. For uncompressed data, the compressed and uncompressed sizes must equal the size of
+    the uncompressed data.
+  </Paragraph>
+
+  <FormalItem title="ArrayMipMap">
+    <Verbatim>
+      <xi:include href="131.txt"
+                  parse="text"/>
+    </Verbatim>
+  </FormalItem>
+
+  <Paragraph>
+    The number of layers present in an array mipmap must equal the
+    <Term type="term">sizeZ</Term> value defined in the
+    <Link target="3dde6403-729d-4eaa-9179-17d9a9fbe7a6">image info</Link>, and it follows that all array mipmaps
+    must contain the same number of layers.
+  </Paragraph>
+
+  <FormalItem title="ArrayMipMap Layer Count For Level">
+    <Verbatim>
+      <xi:include href="141.txt"
+                  parse="text"/>
+    </Verbatim>
+  </FormalItem>
+  <FormalItem title="ArrayMipMap Levels">
+    <Verbatim>
+      <xi:include href="142.txt"
+                  parse="text"/>
+    </Verbatim>
+  </FormalItem>
+  <FormalItem title="ArrayMipMap Levels Count Equality">
+    <Verbatim>
+      <xi:include href="143.txt"
+                  parse="text"/>
+    </Verbatim>
+  </FormalItem>
+
   <Paragraph>
     Array mipmap sequences are stored such that the data for the mipmap with the highest level is
     encountered <Term type="term">first</Term>, whilst the data for the mipmap with level
@@ -60,17 +104,12 @@
                   parse="text"/>
     </Verbatim>
   </FormalItem>
-
-  <Paragraph id="4d7423ef-2f74-4612-9685-1615ea0c5c7e">
-    An array mipmap stores an <Term type="term">offset</Term> indicating the start of the actual image data for the
-    mipmap relative to the first octet of the first mipmap declaration. An array mipmap also stores the
-    <Link target="8f83a47a-986e-4dba-bfd7-720641cee3a9">compressed size</Link>
-    and uncompressed size of the image data, along with a
-    <LinkExternal target="https://en.wikipedia.org/wiki/Cyclic_redundancy_check">CRC32</LinkExternal>
-    checksum of the <Term type="term">uncompressed</Term> data. A CRC32 value of <Term type="constant">0</Term> indicates
-    that no checksum is available. For uncompressed data, the compressed and uncompressed sizes must equal the size of
-    the uncompressed data.
-  </Paragraph>
+  <FormalItem title="ArrayMipMap Sequence">
+    <Verbatim>
+      <xi:include href="132.txt"
+                  parse="text"/>
+    </Verbatim>
+  </FormalItem>
 
   <Paragraph>
     The proposition <Term type="expression">arrayMipMapOffsetsSorted</Term> declares that, for a given array mipmap

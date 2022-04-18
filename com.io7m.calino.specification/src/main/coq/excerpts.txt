@@ -139,3 +139,6 @@
 138 ! Definition binaryExpArrayMipMaps
 139 ! Definition binaryExpArrayMipMap (m : arrayMipMap)
 140 ! Definition binaryExpImageArraySection
+141 ! Fixpoint arrayMipMapLayerCountForLevel
+142 ! Definition arrayMipMapLevels
+143 ! Definition arrayMipMapsHaveSameLayers

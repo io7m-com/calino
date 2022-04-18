@@ -10,3 +10,4 @@ target
 .lia.cache
 .nra.cache
 .nia.cache
+com.io7m.calino.specification/src/main/coq/html

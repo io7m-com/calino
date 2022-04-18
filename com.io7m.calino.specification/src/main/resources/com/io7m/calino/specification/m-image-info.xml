@@ -18,7 +18,7 @@
     <Verbatim><xi:include href="73.txt" parse="text"/></Verbatim>
   </FormalItem>
 
-  <Paragraph>
+  <Paragraph id="3dde6403-729d-4eaa-9179-17d9a9fbe7a6">
     The <Term type="expression">sizeX</Term>, <Term type="expression">sizeY</Term>, and
     <Term type="expression">sizeZ</Term> values declare the size of the image on the
     <Term type="expression">X</Term>, <Term type="expression">Y</Term>, and <Term type="expression">Z</Term>

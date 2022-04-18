@@ -29,6 +29,10 @@
     size of the uncompressed data.
   </Paragraph>
 
+  <FormalItem title="MipMap">
+    <Verbatim><xi:include href="70.txt" parse="text" /></Verbatim>
+  </FormalItem>
+
   <Paragraph>
     Mipmap sequences are stored such that the data for the mipmap with the highest level is encountered
     <Term type="term">first</Term>, whilst the data for the mipmap with level <Term type="constant">0</Term>
@@ -39,9 +43,6 @@
     <Term type="expression">m</Term>, must be less than the offset of the next mipmap in the sequence.
   </Paragraph>
 
-  <FormalItem title="MipMap">
-    <Verbatim><xi:include href="70.txt" parse="text" /></Verbatim>
-  </FormalItem>
   <FormalItem title="MipMap Sequence Sorting">
     <Verbatim><xi:include href="71.txt" parse="text" /></Verbatim>
   </FormalItem>
