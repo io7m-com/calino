@@ -39,10 +39,8 @@ Inductive mipMapList : Set := MipMapList {
 Inductive mipMapImageSize : Set := MipMapImageSize {
   mmSizeX      : nat;
   mmSizeY      : nat;
-  mmSizeZ      : nat;
   mmSizeXRange : 1 < mmSizeX;
   mmSizeYRange : 1 < mmSizeY;
-  mmSizeZRange : 0 < mmSizeZ;
 }.
 
 Lemma mipMapsNonEmpty : ∀ (m : mipMapList),
@@ -99,9 +97,7 @@ Definition mipMapSize
   let sy := (sizeY imageSize) / 2 ^ level in
     match (Nat.ltb_spec0 1 sx, Nat.ltb_spec0 1 sy) with
     | (ReflectT _ xt, ReflectT _ yt) =>
-      let z  := sizeZ imageSize in
-      let zn := lt_neq_0 z (sizeZnot0 imageSize) in
-        Some (MipMapImageSize sx sy z xt yt zn)
+        Some (MipMapImageSize sx sy xt yt)
     | (_, _) => 
       None
     end.
