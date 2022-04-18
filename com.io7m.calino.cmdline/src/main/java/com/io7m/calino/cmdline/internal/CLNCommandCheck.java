@@ -105,7 +105,7 @@ public final class CLNCommandCheck extends CLNAbstractReadFileCommand
       final var data = section.metadata();
       LOG.info("read {} metadata entries successfully", data.size());
     } catch (final IOException e) {
-      LOG.error("error metadata: ", e.getMessage());
+      LOG.error("error metadata: {}", e.getMessage());
       this.incrementValidationErrors();
       return;
     }
@@ -120,7 +120,7 @@ public final class CLNCommandCheck extends CLNAbstractReadFileCommand
       descriptions = sectionImage2D.mipMapDescriptions();
       LOG.info("opened image 2D mipmap descriptions successfully");
     } catch (final IOException e) {
-      LOG.error("error opening image 2D: ", e.getMessage());
+      LOG.error("error opening image 2D: {}", e.getMessage());
       this.incrementValidationErrors();
       return;
     }
@@ -151,7 +151,7 @@ public final class CLNCommandCheck extends CLNAbstractReadFileCommand
           description.mipMapLevel()
         );
       } catch (final IOException e) {
-        LOG.error("error reading compressed mipmap data: ", e.getMessage());
+        LOG.error("error reading compressed mipmap data: {}", e.getMessage());
         this.incrementValidationErrors();
         return;
       }
@@ -222,7 +222,7 @@ public final class CLNCommandCheck extends CLNAbstractReadFileCommand
     try {
       return Optional.of(sectionImageInfo.info());
     } catch (final IOException e) {
-      LOG.error("error opening image info: ", e.getMessage());
+      LOG.error("error opening image info: {}", e.getMessage());
       this.incrementValidationErrors();
       return Optional.empty();
     }
