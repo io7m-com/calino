@@ -9,6 +9,7 @@ Require Import Coq.Unicode.Utf8_core.
 
 Require Import Calino.Alignment.
 Require Import Calino.Metadata.
+Require Import Calino.ArrayMipMap.
 Require Import Calino.MipMap.
 Require Import Calino.ImageInfo.
 Require Import Calino.Divisible8.
@@ -220,6 +221,43 @@ Definition binaryExpImage2DSection
   ("id",   u64 0x434C4E5F49324421);
   ("size", u64 (binarySizePadded16 (binaryExpImage2D i m)));
   ("data", binaryExpImage2D i m)
+].
+
+Definition binaryExpArrayMipMap (m : arrayMipMap) : binaryExp := BiRecord [
+  ("arrayMipMapLevel",            u32 (arrayMipMapLevel (arrayMipMapIndex m)));
+  ("arrayMipMapLayer",            u32 (arrayMipMapLayer (arrayMipMapIndex m)));
+  ("arrayMipMapDataOffset",       u64 (arrayMipMapOffset m));
+  ("arrayMipMapSizeUncompressed", u64 (arrayMipMapSizeUncompressed m));
+  ("arrayMipMapSizeCompressed",   u64 (arrayMipMapSizeCompressed m));
+  ("arrayMipMapCRC32",            u32 (arrayMipMapCRC32 m))
+].
+
+Definition binaryExpArrayMipMaps (m : arrayMipMapList) : binaryExp :=
+  BiArray (map binaryExpArrayMipMap (arrayMipMaps m)).
+
+Definition binaryExpImageArray
+  (i : imageInfo)
+  (m : arrayMipMapList) 
+: binaryExp :=
+  let imageDataStart := arrayMipMapOffset (arrayMipMapFirst m) in
+  let encMips        := binaryExpArrayMipMaps m in
+  let encMipsSize    := binarySize encMips in
+  let encMipsPad     := imageDataStart - encMipsSize in
+  let imageSize      := arrayMipMapImageDataSizeTotal m in
+  let imageSize16    := asMultipleOf16 imageSize in
+    BiRecord [
+      ("arrayMipMaps", encMips);
+      ("arrayMipPad",  BiReserve encMipsPad);
+      ("arrayMipData", BiReserve imageSize16)
+    ].
+
+Definition binaryExpImageArraySection
+  (i : imageInfo)
+  (m : arrayMipMapList) 
+: binaryExp := BiRecord [
+  ("id",   u64 0x434C4E5F41525221);
+  ("size", u64 (binarySizePadded16 (binaryExpImageArray i m)));
+  ("data", binaryExpImageArray i m)
 ].
 
 Definition binaryExpCompression (c : compressionMethod) : binaryExp := BiRecord [

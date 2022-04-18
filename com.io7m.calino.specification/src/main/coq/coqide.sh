@@ -1,3 +1,3 @@
 #!/bin/sh
 
-exec coqide
+exec coqide -Q Calino Calino "$@"

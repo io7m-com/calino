@@ -26,6 +26,15 @@
     </Paragraph>
   </Subsection>
 
+  <Subsection title="Array Image"
+              id="4947de09-7eb6-4439-90e1-1b94adcf8d0a">
+    <Paragraph>
+      An array image aggregates <Link target="4ae63d09-ce2d-46d4-a8eb-f1f9ad382ee8">image information</Link> and
+      a sequence of <Link target="f4b4fff9-a443-4430-a37b-ed939e606bef">array mipmaps</Link> for a single
+      two-dimensional array image.
+    </Paragraph>
+  </Subsection>
+
   <Subsection title="3D Image"
               id="60f44a91-49a1-4ee9-9659-45ed94051828">
     <Paragraph>

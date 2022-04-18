@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Section title="Array Images"
+         xmlns:xi="http://www.w3.org/2001/XInclude"
+         id="a91529c1-d7c4-4e6e-abcb-bfeb3d536aba"
+         xmlns="urn:com.io7m.structural:8:0">
+
+  <Subsection title="Description">
+    <Paragraph>
+      <Link target="4947de09-7eb6-4439-90e1-1b94adcf8d0a">Array image</Link>
+      values are translated to binary expressions as follows:
+    </Paragraph>
+
+    <FormalItem title="Array MipMap Encoding">
+      <Verbatim>
+        <xi:include href="139.txt"
+                    parse="text"/>
+      </Verbatim>
+    </FormalItem>
+    <FormalItem title="Array MipMaps Encoding">
+      <Verbatim>
+        <xi:include href="138.txt"
+                    parse="text"/>
+      </Verbatim>
+    </FormalItem>
+    <FormalItem title="Array Image Encoding">
+      <Verbatim>
+        <xi:include href="137.txt"
+                    parse="text"/>
+      </Verbatim>
+    </FormalItem>
+
+    <Paragraph>
+      Informally, an array of <Link target="f4b4fff9-a443-4430-a37b-ed939e606bef">array mipmap</Link> descriptions are
+      serialized, followed by any required padding to reach the offset value declared by the first mipmap, followed by
+      the image data for each mipmap in the order specified by the mipmap descriptions.
+    </Paragraph>
+
+    <Paragraph>
+      Array images must be encoded into a
+      <Link target="eb66b381-4c70-4246-95e9-d3a61e19ac4c">section</Link>
+      with identifier <Term type="constant">0x434C4E5F41525221</Term> as follows:
+    </Paragraph>
+    <FormalItem title="Array Image Section">
+      <Verbatim>
+        <xi:include href="140.txt"
+                    parse="text"/>
+      </Verbatim>
+    </FormalItem>
+  </Subsection>
+
+  <Subsection title="Cardinality">
+    <Paragraph>
+      An array image section can appear in a <Term type="package">calino</Term> texture file at most once.
+    </Paragraph>
+  </Subsection>
+
+</Section>

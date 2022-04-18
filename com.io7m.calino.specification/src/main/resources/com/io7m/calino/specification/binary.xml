@@ -9,6 +9,7 @@
   <xi:include href="b-sections.xml"/>
   <xi:include href="b-s-image-info.xml"/>
   <xi:include href="b-s-image-2d.xml"/>
+  <xi:include href="b-s-image-array.xml"/>
   <xi:include href="b-s-metadata.xml"/>
   <xi:include href="b-s-end.xml"/>
   <xi:include href="b-s-examples.xml"/>

@@ -135,3 +135,7 @@
 134 ! Definition arrayMipMapImageDataSizeTotal
 135 ! Definition arrayMipMapSize
 136 ! Inductive arrayMipMapImageSize : Set
+137 ! Definition binaryExpImageArray
+138 ! Definition binaryExpArrayMipMaps
+139 ! Definition binaryExpArrayMipMap (m : arrayMipMap)
+140 ! Definition binaryExpImageArraySection
