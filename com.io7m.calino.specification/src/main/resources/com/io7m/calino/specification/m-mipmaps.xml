@@ -81,11 +81,15 @@
   </FormalItem>
 
   <Paragraph id="41c816ac-d7ee-4041-a764-9a36a983080c">
-    The uncompressed size of a mipmap should be non-zero.
+    The uncompressed size of a mipmap should be non-zero. This property is implicit in the definitions above;
+    images must be of a non-zero width and height, and there are no channel layouts where the sizes of the channels
+    sum to zero.
   </Paragraph>
 
   <Paragraph id="2c3420bb-1273-4f1e-9212-9f259d60d6f1">
-    The compressed size of a mipmap should be non-zero.
+    The compressed size of a mipmap should be non-zero. This property is implicit in the definitions above;
+    images must be of a non-zero width and height, and there are no channel layouts where the sizes of the channels
+    sum to zero.
   </Paragraph>
 
 </Section>
