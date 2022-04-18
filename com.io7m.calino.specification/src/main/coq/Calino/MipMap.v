@@ -96,10 +96,8 @@ Definition mipMapSize
   let sx := (sizeX imageSize) / 2 ^ level in
   let sy := (sizeY imageSize) / 2 ^ level in
     match (Nat.ltb_spec0 1 sx, Nat.ltb_spec0 1 sy) with
-    | (ReflectT _ xt, ReflectT _ yt) =>
-        Some (MipMapImageSize sx sy xt yt)
-    | (_, _) => 
-      None
+    | (ReflectT _ xt, ReflectT _ yt) => Some (MipMapImageSize sx sy xt yt)
+    | (_, _)                         => None
     end.
 
 Fixpoint mipMapImageDataSizeTotalAux (m : list mipMap) : nat :=

@@ -17,6 +17,7 @@
   <xi:include href="m-flags.xml"/>
   <xi:include href="m-image-info.xml"/>
   <xi:include href="m-mipmaps.xml"/>
+  <xi:include href="m-arraymipmaps.xml"/>
   <xi:include href="m-metadata.xml"/>
   <xi:include href="m-image.xml"/>
 

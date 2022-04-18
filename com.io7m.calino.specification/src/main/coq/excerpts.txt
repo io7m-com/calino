@@ -125,3 +125,13 @@
 124 ! Definition Layout_R64_G64_B64 : channelLayoutDescription
 125 ! Definition Layout_R64_G64 : channelLayoutDescription
 126 ! Definition Layout_R64 : channelLayoutDescription
+127 ! Inductive arrayMipMapIndexT : Set
+128 ! Inductive arrayMipMapIndicesSorted
+129 ! Inductive arrayMipMapIndexOrd
+130 ! Inductive arrayMipMapOffsetsSorted
+131 ! Inductive arrayMipMap : Set
+132 ! Inductive arrayMipMapList :
+133 ! Fixpoint arrayMipMapImageDataSizeTotalAux
+134 ! Definition arrayMipMapImageDataSizeTotal
+135 ! Definition arrayMipMapSize
+136 ! Inductive arrayMipMapImageSize : Set

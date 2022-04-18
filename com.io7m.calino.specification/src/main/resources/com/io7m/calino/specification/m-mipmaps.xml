@@ -14,6 +14,10 @@
     of the previous level.
   </Paragraph>
 
+  <FormalItem title="Mipmaps Arrangement" id="95083e5f-b497-4e29-a59d-d1d142d0fc4e">
+    <Image source="mipmaps.png" width="400" height="321">Mipmaps Arrangement</Image>
+  </FormalItem>
+
   <Paragraph id="e676eaef-f25a-44e8-9360-bcfaf35ce1e6">
     A mipmap stores an <Term type="term">offset</Term> indicating the start of the actual image data for the mipmap
     relative to the first octet of the first mipmap declaration. A mipmap also stores the

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Section title="Array Mipmaps"
+         xmlns:xi="http://www.w3.org/2001/XInclude"
+         id="f4b4fff9-a443-4430-a37b-ed939e606bef"
+         xmlns="urn:com.io7m.structural:8:0">
+
+  <Paragraph id="69ecc574-b200-4e74-b15d-24eab0ed9c9b">
+    A 2D array texture consists of a non-empty sequence of <Term type="term">array mipmaps</Term>. Array mipmaps are
+    very similar to <Link target="b8d20538-e4ac-4674-aa43-d5ab93c07149">mipmaps</Link> with the primary difference that,
+    for a texture with <Term type="constant">n</Term> array <Term type="term">layers</Term>, each array mipmap
+    <Term type="term">level</Term>
+    stores a sequence of <Term type="constant">n</Term> images. This facilitates a common implementation pattern where
+    textures are progressively streamed onto the GPU starting with the array layers in the highest mipmap levels first.
+  </Paragraph>
+
+  <FormalItem title="Array Mipmaps Arrangement"
+              id="89a8ec92-260e-4aef-93df-d5a6215cec2c">
+    <Image source="arrayMipmaps.png"
+           width="400"
+           height="528">
+      Array Mipmaps Arrangement
+    </Image>
+  </FormalItem>
+
+  <Paragraph>
+    An array mipmap is uniquely identified with a <Term type="term">level</Term> and a
+    <Term type="term">layer</Term>.
+  </Paragraph>
+
+  <FormalItem title="ArrayMipMap Index">
+    <Verbatim>
+      <xi:include href="127.txt"
+                  parse="text"/>
+    </Verbatim>
+  </FormalItem>
+
+  <Paragraph>
+    Array mipmap sequences are stored such that the data for the mipmap with the highest level is
+    encountered <Term type="term">first</Term>, whilst the data for the mipmap with level
+    <Term type="constant">0</Term>
+    is encountered <Term type="term">last</Term>. Within a given level, images are stored such that the data for layer
+    <Term type="constant">0</Term>
+    is encountered
+    <Term type="term">first</Term>, whilst the data for the highest layer is encountered
+    <Term type="term">last</Term>. The proposition <Term type="expression">arrayMipMapIndexOrd</Term> formally specifies
+    the ordering for level/layer pairs, whilst the <Term type="expression">arrayMipMapIndicesSorted</Term> proposition
+    formally specifies the conditions under which lists of level/layer pairs are considered to be ordered.
+  </Paragraph>
+
+  <FormalItem title="ArrayMipMap Index Ordering">
+    <Verbatim>
+      <xi:include href="129.txt"
+                  parse="text"/>
+    </Verbatim>
+  </FormalItem>
+  <FormalItem title="ArrayMipMap Index List Sorted">
+    <Verbatim>
+      <xi:include href="128.txt"
+                  parse="text"/>
+    </Verbatim>
+  </FormalItem>
+
+  <Paragraph id="4d7423ef-2f74-4612-9685-1615ea0c5c7e">
+    An array mipmap stores an <Term type="term">offset</Term> indicating the start of the actual image data for the
+    mipmap relative to the first octet of the first mipmap declaration. An array mipmap also stores the
+    <Link target="8f83a47a-986e-4dba-bfd7-720641cee3a9">compressed size</Link>
+    and uncompressed size of the image data, along with a
+    <LinkExternal target="https://en.wikipedia.org/wiki/Cyclic_redundancy_check">CRC32</LinkExternal>
+    checksum of the <Term type="term">uncompressed</Term> data. A CRC32 value of <Term type="constant">0</Term> indicates
+    that no checksum is available. For uncompressed data, the compressed and uncompressed sizes must equal the size of
+    the uncompressed data.
+  </Paragraph>
+
+  <Paragraph>
+    The proposition <Term type="expression">arrayMipMapOffsetsSorted</Term> declares that, for a given array mipmap
+    <Term type="expression">m</Term>, the offset of <Term type="expression">m</Term> plus the compressed size of
+    <Term type="expression">m</Term>, must be less than the offset of the next mipmap in the sequence.
+  </Paragraph>
+
+  <FormalItem title="ArrayMipMap Offsets Sorted">
+    <Verbatim>
+      <xi:include href="130.txt"
+                  parse="text"/>
+    </Verbatim>
+  </FormalItem>
+
+  <Paragraph>
+    Given a base image of size <Term type="expression">(sizeX, sizeY)</Term>, the size of the mipmap
+    at level <Term type="expression">n</Term> is given by <Term type="expression">(sizeX / 2ⁿ, sizeY / 2ⁿ)</Term>.
+    Mipmap images are required to be of a size <Term type="expression">&gt;= 2</Term> on the X and Y axes. Note
+    that this restriction does <Term type="emphasis">not</Term> apply to the base image; a base image with a size
+    of 1 on any axis simply cannot have anything but a level 0 mipmap.
+  </Paragraph>
+
+  <FormalItem title="Array MipMap Size">
+    <Verbatim><xi:include href="136.txt" parse="text" /></Verbatim>
+  </FormalItem>
+  <FormalItem title="Array MipMap Size Calculation">
+    <Verbatim><xi:include href="135.txt" parse="text" /></Verbatim>
+  </FormalItem>
+
+  <Paragraph id="806e025f-fe05-4117-8d9a-a62e311fe89a">
+    The total size required to hold the image data for all mipmaps is effectively equal to the offset of the
+    largest mipmap, plus the compressed size of the mipmap, rounded up to the required alignment of the image data.
+  </Paragraph>
+
+  <FormalItem title="Array MipMap Data Size (Aux)">
+    <Verbatim><xi:include href="133.txt" parse="text" /></Verbatim>
+  </FormalItem>
+  <FormalItem title="Array MipMap Data Size">
+    <Verbatim><xi:include href="134.txt" parse="text" /></Verbatim>
+  </FormalItem>
+
+  <Paragraph id="5a5a6f15-82f6-4188-8417-e1e0a0e37fc1">
+    The uncompressed size of a mipmap should be non-zero.
+  </Paragraph>
+
+  <Paragraph id="0afd8e85-daa5-459a-af8e-6657716959b0">
+    The compressed size of a mipmap should be non-zero.
+  </Paragraph>
+
+</Section>
+
