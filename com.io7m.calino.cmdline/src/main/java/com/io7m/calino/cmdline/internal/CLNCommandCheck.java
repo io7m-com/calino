@@ -20,8 +20,10 @@ import com.beust.jcommander.Parameter;
 import com.beust.jcommander.Parameters;
 import com.io7m.calino.api.CLNFileReadableType;
 import com.io7m.calino.api.CLNImage2DDescription;
+import com.io7m.calino.api.CLNImageArrayDescription;
 import com.io7m.calino.api.CLNImageInfo;
 import com.io7m.calino.api.CLNSectionReadableImage2DType;
+import com.io7m.calino.api.CLNSectionReadableImageArrayType;
 import com.io7m.calino.api.CLNSectionReadableImageInfoType;
 import com.io7m.calino.api.CLNSectionReadableMetadataType;
 import com.io7m.claypot.core.CLPCommandContextType;
@@ -55,6 +57,8 @@ public final class CLNCommandCheck extends CLNAbstractReadFileCommand
     names = "--warnings-as-errors")
   private boolean warningsAsErrors;
 
+  private boolean processedImageData;
+
   /**
    * The 'check' command.
    *
@@ -81,8 +85,15 @@ public final class CLNCommandCheck extends CLNAbstractReadFileCommand
       .flatMap(this::checkSectionImageInfo);
     fileParsed.openImage2D()
       .ifPresent(this::checkImage2D);
+    fileParsed.openImageArray()
+      .ifPresent(this::checkImageArray);
     fileParsed.openMetadata()
       .ifPresent(this::checkMetadata);
+
+    if (!this.processedImageData) {
+      LOG.error("file does not contain any image data");
+      this.incrementValidationErrors();
+    }
 
     if (this.validationErrors() > 0) {
       return FAILURE;
@@ -96,6 +107,113 @@ public final class CLNCommandCheck extends CLNAbstractReadFileCommand
     }
 
     return SUCCESS;
+  }
+
+  private void checkImageArray(
+    final CLNSectionReadableImageArrayType sectionArray)
+  {
+    this.processedImageData = true;
+
+    final List<CLNImageArrayDescription> descriptions;
+
+    try {
+      descriptions = sectionArray.mipMapDescriptions();
+      LOG.info("opened image array mipmap descriptions successfully");
+    } catch (final IOException e) {
+      LOG.error("error opening image 2D: {}", e.getMessage());
+      this.incrementValidationErrors();
+      return;
+    }
+
+    for (final var description : descriptions) {
+      try {
+        final var channel =
+          sectionArray.mipMapDataRaw(description);
+        final var stream =
+          Channels.newInputStream(channel);
+        final var data =
+          stream.readAllBytes();
+
+        final var received = toUnsignedLong(data.length);
+        final var expected = description.dataSizeCompressed();
+        if (received != expected) {
+          LOG.error(
+            "expected {} octets of compressed data, but received {}",
+            Long.toUnsignedString(expected),
+            Long.toUnsignedString(received)
+          );
+          this.incrementValidationErrors();
+          continue;
+        }
+
+        LOG.info(
+          "read compressed image array mipmap [{}] data successfully",
+          description.mipMapLevel()
+        );
+      } catch (final IOException e) {
+        LOG.error("error reading compressed mipmap data: {}", e.getMessage());
+        this.incrementValidationErrors();
+        return;
+      }
+    }
+
+    this.decompressAllMipMapsArray(sectionArray, descriptions);
+  }
+
+  private void decompressAllMipMapsArray(
+    final CLNSectionReadableImageArrayType sectionArray,
+    final List<CLNImageArrayDescription> descriptions)
+  {
+    for (final var description : descriptions) {
+      try {
+        try (var channel =
+               sectionArray.mipMapDataWithoutSupercompression(description)) {
+          final var stream =
+            Channels.newInputStream(channel);
+          final var data =
+            stream.readAllBytes();
+
+          final var received = toUnsignedLong(data.length);
+          final var expected = description.dataSizeUncompressed();
+          if (received != expected) {
+            LOG.error(
+              "expected {} octets of decompressed data, but received {}",
+              Long.toUnsignedString(expected),
+              Long.toUnsignedString(received)
+            );
+            this.incrementValidationErrors();
+            continue;
+          }
+
+          final var crc32 = new CRC32();
+          crc32.update(data);
+          final var crc32Received =
+            crc32.getValue() & 0xffff_ffffL;
+          final var crc32Expected =
+            toUnsignedLong(description.crc32Uncompressed());
+
+          if (crc32Expected != crc32Received) {
+            LOG.error(
+              "CRC32 checksum of mipmap [{}] did not match (expected 0x{} but received 0x{})",
+              description.mipMapLevel(),
+              Long.toUnsignedString(crc32Expected, 16),
+              Long.toUnsignedString(crc32Received, 16)
+            );
+            this.incrementValidationErrors();
+            continue;
+          }
+
+          LOG.info(
+            "decompressed and verified image array mipmap [{}]",
+            description.mipMapLevel()
+          );
+        }
+      } catch (final IOException e) {
+        LOG.error("error decompressing mipmap data: {}", e.getMessage());
+        this.incrementValidationErrors();
+        return;
+      }
+    }
   }
 
   private void checkMetadata(
@@ -114,6 +232,8 @@ public final class CLNCommandCheck extends CLNAbstractReadFileCommand
   private void checkImage2D(
     final CLNSectionReadableImage2DType sectionImage2D)
   {
+    this.processedImageData = true;
+
     final List<CLNImage2DDescription> descriptions;
 
     try {
@@ -157,10 +277,10 @@ public final class CLNCommandCheck extends CLNAbstractReadFileCommand
       }
     }
 
-    this.decompressAllMipMaps(sectionImage2D, descriptions);
+    this.decompressAllMipMaps2D(sectionImage2D, descriptions);
   }
 
-  private void decompressAllMipMaps(
+  private void decompressAllMipMaps2D(
     final CLNSectionReadableImage2DType sectionImage2D,
     final List<CLNImage2DDescription> descriptions)
   {
@@ -209,7 +329,7 @@ public final class CLNCommandCheck extends CLNAbstractReadFileCommand
           );
         }
       } catch (final IOException e) {
-        LOG.error("error decompressing mipmap data: ", e.getMessage());
+        LOG.error("error decompressing mipmap data: {}", e.getMessage());
         this.incrementValidationErrors();
         return;
       }

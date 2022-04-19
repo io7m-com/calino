@@ -28,6 +28,7 @@ import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestFactory;
 
+import javax.imageio.ImageIO;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -36,9 +37,12 @@ import java.nio.file.Path;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 import java.util.stream.Stream;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.nio.file.StandardOpenOption.CREATE;
+import static java.nio.file.StandardOpenOption.WRITE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTimeout;
 
@@ -51,12 +55,16 @@ public final class CLNCommandLineTest
   private ByteArrayOutputStream errLog;
   private PrintStream errPrint;
   private PrintStream errSaved;
+  private Path directoryOutput;
 
   @BeforeEach
   public void setup()
     throws IOException
   {
-    this.directory = CLNTestDirectories.createTempDirectory();
+    this.directory =
+      CLNTestDirectories.createTempDirectory();
+    this.directoryOutput =
+      this.directory.resolve("outputs");
 
     this.errLog = new ByteArrayOutputStream();
     this.errPrint = new PrintStream(this.errLog, true, UTF_8);
@@ -154,10 +162,19 @@ public final class CLNCommandLineTest
   }
 
   @Test
-  public void testCreate()
+  public void testCreate2D()
   {
     final var r = CLNMain.mainExitless(new String[]{
-      "create"
+      "create-2d"
+    });
+    assertEquals(1, r);
+  }
+
+  @Test
+  public void testCreateArray()
+  {
+    final var r = CLNMain.mainExitless(new String[]{
+      "create-array"
     });
     assertEquals(1, r);
   }
@@ -237,6 +254,26 @@ public final class CLNCommandLineTest
     final var r = CLNMain.mainExitless(new String[]{
       "help",
       "check"
+    });
+    assertEquals(0, r);
+  }
+
+  @Test
+  public void testHelpCreate2D()
+  {
+    final var r = CLNMain.mainExitless(new String[]{
+      "help",
+      "create-2d"
+    });
+    assertEquals(0, r);
+  }
+
+  @Test
+  public void testHelpCreateArray()
+  {
+    final var r = CLNMain.mainExitless(new String[]{
+      "help",
+      "create-array"
     });
     assertEquals(0, r);
   }
@@ -366,20 +403,141 @@ public final class CLNCommandLineTest
         "basic.ctf"
       );
 
-    final var outputPath =
-      this.directory.resolve("output.bin").toAbsolutePath();
-
     final var r = CLNMain.mainExitless(new String[]{
-      "extract-image-data",
+      "extract-image-data-2d",
       "--file",
       file.toAbsolutePath().toString(),
-      "--output-file",
-      outputPath.toString(),
+      "--output-directory",
+      this.directoryOutput.toString(),
       "--decompress",
       "true"
     });
     assertEquals(0, r);
-    assertEquals(3072L, Files.size(outputPath));
+    assertEquals(3072L, Files.size(this.directoryOutput.resolve("m000.raw")));
+  }
+
+  @Test
+  public void testCreateFromProduce8_RGBA8_ExtractArray()
+    throws IOException
+  {
+    final var file0 =
+      CLNTestDirectories.resourceOf(
+        CLN1ParsersContract.class,
+        this.directory,
+        "produce8.png"
+      );
+
+    final var file1 =
+      CLNTestDirectories.resourceOf(
+        CLN1ParsersContract.class,
+        this.directory,
+        "produceFade.png"
+      );
+
+    {
+      final var r = CLNMain.mainExitless(new String[]{
+        "create-array",
+        "--source-layer",
+        file0.toAbsolutePath().toString(),
+        "--source-layer",
+        file1.toAbsolutePath().toString(),
+        "--output",
+        this.directory.resolve("output.ctf").toString(),
+        "--convert-layout-to",
+        "R8:G8:B8:A8",
+        "--mipmap-generate",
+        "BILINEAR",
+        "--verbose",
+        "trace"
+      });
+      assertEquals(0, r);
+    }
+
+    {
+      final var r = CLNMain.mainExitless(new String[]{
+        "extract-image-data-array",
+        "--file",
+        this.directory.resolve("output.ctf").toString(),
+        "--output-directory",
+        this.directoryOutput.toString(),
+        "--output-format",
+        "PNG",
+        "--verbose",
+        "trace"
+      });
+      assertEquals(0, r);
+    }
+
+    for (int mip = 7; mip >= 0; --mip) {
+      for (int layer = 0; layer < 2; ++layer) {
+        final var i =
+          ImageIO.read(
+            this.directoryOutput.resolve(
+                String.format(
+                  "m%03dv%03d.png",
+                  Integer.valueOf(mip),
+                  Integer.valueOf(layer)))
+              .toFile()
+          );
+        assertEquals(256 >>> mip, i.getWidth());
+        assertEquals(256 >>> mip, i.getHeight());
+      }
+    }
+  }
+
+  @Test
+  public void testCreateFromProduce8_RGBA8_Extract2D()
+    throws IOException
+  {
+    final var file =
+      CLNTestDirectories.resourceOf(
+        CLN1ParsersContract.class,
+        this.directory,
+        "produce8.png"
+      );
+
+    {
+      final var r = CLNMain.mainExitless(new String[]{
+        "create-2d",
+        "--source",
+        file.toAbsolutePath().toString(),
+        "--output",
+        this.directory.resolve("output.ctf").toString(),
+        "--convert-layout-to",
+        "R8:G8:B8:A8",
+        "--mipmap-generate",
+        "BILINEAR",
+        "--verbose",
+        "trace"
+      });
+      assertEquals(0, r);
+    }
+
+    {
+      final var r = CLNMain.mainExitless(new String[]{
+        "extract-image-data-2d",
+        "--file",
+        this.directory.resolve("output.ctf").toString(),
+        "--output-directory",
+        this.directoryOutput.toString(),
+        "--output-format",
+        "PNG",
+        "--verbose",
+        "trace"
+      });
+      assertEquals(0, r);
+    }
+
+    for (int mip = 7; mip >= 0; --mip) {
+      final var i =
+        ImageIO.read(
+          this.directoryOutput.resolve(
+              String.format("m%03d.png", Integer.valueOf(mip)))
+            .toFile()
+        );
+      assertEquals(256 >>> mip, i.getWidth());
+      assertEquals(256 >>> mip, i.getHeight());
+    }
   }
 
   @Test
@@ -393,20 +551,17 @@ public final class CLNCommandLineTest
         "basic.ctf"
       );
 
-    final var outputPath =
-      this.directory.resolve("output.bin").toAbsolutePath();
-
     final var r = CLNMain.mainExitless(new String[]{
-      "extract-image-data",
+      "extract-image-data-2d",
       "--file",
       file.toAbsolutePath().toString(),
-      "--output-file",
-      outputPath.toString(),
+      "--output-directory",
+      this.directoryOutput.toString(),
       "--decompress",
       "false"
     });
     assertEquals(0, r);
-    assertEquals(3072L, Files.size(outputPath));
+    assertEquals(3072L, Files.size(this.directoryOutput.resolve("m000.raw")));
   }
 
   @Test
@@ -459,7 +614,7 @@ public final class CLNCommandLineTest
       );
 
     final var r = CLNMain.mainExitless(new String[]{
-      "create",
+      "create-2d",
       "--source",
       file.toAbsolutePath().toString(),
       "--output",
@@ -482,7 +637,7 @@ public final class CLNCommandLineTest
       );
 
     final var r = CLNMain.mainExitless(new String[]{
-      "create",
+      "create-2d",
       "--source",
       file.toAbsolutePath().toString(),
       "--output",
@@ -507,7 +662,7 @@ public final class CLNCommandLineTest
       );
 
     final var r = CLNMain.mainExitless(new String[]{
-      "create",
+      "create-2d",
       "--source",
       file.toAbsolutePath().toString(),
       "--output",
@@ -532,7 +687,7 @@ public final class CLNCommandLineTest
       );
 
     final var r = CLNMain.mainExitless(new String[]{
-      "create",
+      "create-2d",
       "--source",
       file.toAbsolutePath().toString(),
       "--output",
@@ -557,7 +712,7 @@ public final class CLNCommandLineTest
       );
 
     final var r = CLNMain.mainExitless(new String[]{
-      "create",
+      "create-2d",
       "--source",
       file.toAbsolutePath().toString(),
       "--output",
@@ -582,7 +737,7 @@ public final class CLNCommandLineTest
       );
 
     final var r = CLNMain.mainExitless(new String[]{
-      "create",
+      "create-2d",
       "--source",
       file.toAbsolutePath().toString(),
       "--output",
@@ -607,7 +762,7 @@ public final class CLNCommandLineTest
       );
 
     final var r = CLNMain.mainExitless(new String[]{
-      "create",
+      "create-2d",
       "--source",
       file.toAbsolutePath().toString(),
       "--output",
@@ -632,7 +787,7 @@ public final class CLNCommandLineTest
       );
 
     final var r = CLNMain.mainExitless(new String[]{
-      "create",
+      "create-2d",
       "--source",
       file.toAbsolutePath().toString(),
       "--output",
@@ -657,7 +812,7 @@ public final class CLNCommandLineTest
       );
 
     final var r = CLNMain.mainExitless(new String[]{
-      "create",
+      "create-2d",
       "--source",
       file.toAbsolutePath().toString(),
       "--output",
@@ -680,7 +835,7 @@ public final class CLNCommandLineTest
       );
 
     final var r = CLNMain.mainExitless(new String[]{
-      "create",
+      "create-2d",
       "--source",
       file.toAbsolutePath().toString(),
       "--output",
@@ -705,7 +860,7 @@ public final class CLNCommandLineTest
       );
 
     final var r = CLNMain.mainExitless(new String[]{
-      "create",
+      "create-2d",
       "--source",
       file.toAbsolutePath().toString(),
       "--output",
@@ -730,7 +885,7 @@ public final class CLNCommandLineTest
       );
 
     final var r = CLNMain.mainExitless(new String[]{
-      "create",
+      "create-2d",
       "--source",
       file.toAbsolutePath().toString(),
       "--output",
@@ -755,7 +910,7 @@ public final class CLNCommandLineTest
       );
 
     final var r = CLNMain.mainExitless(new String[]{
-      "create",
+      "create-2d",
       "--source",
       file.toAbsolutePath().toString(),
       "--output",
@@ -780,7 +935,7 @@ public final class CLNCommandLineTest
       );
 
     final var r = CLNMain.mainExitless(new String[]{
-      "create",
+      "create-2d",
       "--source",
       file.toAbsolutePath().toString(),
       "--output",
@@ -807,7 +962,7 @@ public final class CLNCommandLineTest
       );
 
     final var r = CLNMain.mainExitless(new String[]{
-      "create",
+      "create-2d",
       "--source",
       file.toAbsolutePath().toString(),
       "--output",
@@ -834,7 +989,7 @@ public final class CLNCommandLineTest
       );
 
     final var r = CLNMain.mainExitless(new String[]{
-      "create",
+      "create-2d",
       "--format-version",
       "99999999.0",
       "--source",
@@ -857,7 +1012,7 @@ public final class CLNCommandLineTest
       );
 
     final var r = CLNMain.mainExitless(new String[]{
-      "create",
+      "create-2d",
       "--source",
       file.toAbsolutePath().toString(),
       "--output",
@@ -880,7 +1035,7 @@ public final class CLNCommandLineTest
       );
 
     final var r = CLNMain.mainExitless(new String[]{
-      "create",
+      "create-2d",
       "--source",
       file.toAbsolutePath().toString(),
       "--output",
@@ -905,7 +1060,7 @@ public final class CLNCommandLineTest
       );
 
     final var r = CLNMain.mainExitless(new String[]{
-      "create",
+      "create-2d",
       "--source",
       file.toAbsolutePath().toString(),
       "--output",
@@ -960,12 +1115,12 @@ public final class CLNCommandLineTest
     return cases.stream();
   }
 
-  private DynamicTest createCreationTestCase(
+  private DynamicTest createCreationTestCase2D(
     final ImageFormatTestCase testCase)
   {
-    return DynamicTest.dynamicTest(
+    final var testName =
       new StringBuilder(128)
-        .append("testCreateExhaustion_")
+        .append("testCreateExhaustion2D_")
         .append(testCase.name)
         .append("|")
         .append(testCase.layout.descriptor())
@@ -973,13 +1128,28 @@ public final class CLNCommandLineTest
         .append(testCase.superCompression.descriptor())
         .append("|")
         .append(testCase.byteOrder.name())
-        .toString(),
+        .toString();
+
+    return DynamicTest.dynamicTest(
+      testName,
       () -> {
+        final var properties = new Properties();
+        properties.put("test", testName);
+
+        final var propsFile =
+          this.directory.resolve("test.properties");
+        try (var writer =
+               Files.newBufferedWriter(propsFile, CREATE, WRITE)) {
+          properties.store(writer, "");
+        }
+
         assertTimeout(Duration.ofSeconds(10L), () -> {
           final var r = CLNMain.mainExitless(new String[]{
-            "create",
+            "create-2d",
             "--verbose",
             "trace",
+            "--metadata",
+            propsFile.toAbsolutePath().toString(),
             "--source",
             testCase.file.toAbsolutePath().toString(),
             "--output",
@@ -1009,13 +1179,13 @@ public final class CLNCommandLineTest
 
         assertTimeout(Duration.ofSeconds(10L), () -> {
           final var r = CLNMain.mainExitless(new String[]{
-            "extract-image-data",
+            "extract-image-data-2d",
             "--verbose",
             "trace",
             "--file",
             this.directory.resolve("output.ctf").toString(),
-            "--output-file",
-            this.directory.resolve("output.png").toString(),
+            "--output-directory",
+            this.directoryOutput.toString(),
             "--decompress",
             "true",
             "--output-format",
@@ -1026,13 +1196,116 @@ public final class CLNCommandLineTest
 
         assertTimeout(Duration.ofSeconds(10L), () -> {
           final var r = CLNMain.mainExitless(new String[]{
-            "extract-image-data",
+            "extract-image-data-2d",
             "--verbose",
             "trace",
             "--file",
             this.directory.resolve("output.ctf").toString(),
-            "--output-file",
-            this.directory.resolve("output.bin").toString(),
+            "--output-directory",
+            this.directoryOutput.toString(),
+            "--decompress",
+            "true",
+            "--output-format",
+            "RAW"
+          });
+          assertEquals(0, r);
+        });
+      }
+    );
+  }
+
+  private DynamicTest createCreationTestCaseArray(
+    final ImageFormatTestCase testCase)
+  {
+    final var testName =
+      new StringBuilder(128)
+        .append("testCreateExhaustionArray_")
+        .append(testCase.name)
+        .append("|")
+        .append(testCase.layout.descriptor())
+        .append("|")
+        .append(testCase.superCompression.descriptor())
+        .append("|")
+        .append(testCase.byteOrder.name())
+        .toString();
+
+    return DynamicTest.dynamicTest(
+      testName,
+      () -> {
+        final var properties = new Properties();
+        properties.put("test", testName);
+
+        final var propsFile =
+          this.directory.resolve("test.properties");
+        try (var writer =
+               Files.newBufferedWriter(propsFile, CREATE, WRITE)) {
+          properties.store(writer, "");
+        }
+
+        assertTimeout(Duration.ofSeconds(10L), () -> {
+          final var r = CLNMain.mainExitless(new String[]{
+            "create-array",
+            "--verbose",
+            "trace",
+            "--metadata",
+            propsFile.toAbsolutePath().toString(),
+            "--source-layer",
+            testCase.file.toAbsolutePath().toString(),
+            "--source-layer",
+            testCase.file.toAbsolutePath().toString(),
+            "--source-layer",
+            testCase.file.toAbsolutePath().toString(),
+            "--output",
+            this.directory.resolve("output.ctf").toString(),
+            "--convert-layout-to",
+            testCase.layout.descriptor(),
+            "--byte-order",
+            testCase.byteOrder.name(),
+            "--super-compression",
+            testCase.superCompression.descriptor()
+          });
+          assertEquals(0, r);
+        });
+
+        assertTimeout(Duration.ofSeconds(10L), () -> {
+          final var r = CLNMain.mainExitless(new String[]{
+            "check",
+            "--verbose",
+            "trace",
+            "--warnings-as-errors",
+            "true",
+            "--file",
+            this.directory.resolve("output.ctf").toString(),
+          });
+          assertEquals(0, r);
+        });
+
+        assertTimeout(Duration.ofSeconds(10L), () -> {
+          final var r = CLNMain.mainExitless(new String[]{
+            "extract-image-data-array",
+            "--verbose",
+            "trace",
+            "--file",
+            this.directory.resolve("output.ctf").toString(),
+            "--output-directory",
+            this.directoryOutput.toString(),
+            "--decompress",
+            "true",
+            "--output-format",
+            "PNG"
+          });
+          assertEquals(0, r);
+        });
+
+        assertTimeout(Duration.ofSeconds(10L), () -> {
+          final var r = CLNMain.mainExitless(new String[]{
+            "extract-image-data-array",
+            "--verbose",
+            "trace",
+            "--file",
+            this.directory.resolve("output.ctf").toString(),
+            "--output-directory",
+            this.directoryOutput.toString(),
             "--decompress",
             "true",
             "--output-format",
@@ -1045,11 +1318,19 @@ public final class CLNCommandLineTest
   }
 
   @TestFactory
-  public Stream<DynamicTest> testCreateAllFormatCases()
+  public Stream<DynamicTest> testCreateAllFormatCases2D()
     throws IOException
   {
     return this.imageFormatTestCases()
-      .map(this::createCreationTestCase);
+      .map(this::createCreationTestCase2D);
+  }
+
+  @TestFactory
+  public Stream<DynamicTest> testCreateAllFormatCasesArray()
+    throws IOException
+  {
+    return this.imageFormatTestCases()
+      .map(this::createCreationTestCaseArray);
   }
 
   @Test
@@ -1091,7 +1372,91 @@ public final class CLNCommandLineTest
       "--warnings-as-errors",
       "true"
     });
-    assertEquals(0, r);
+    assertEquals(1, r);
+  }
+
+  @Test
+  public void testCheckLZ4CorruptedData()
+    throws IOException
+  {
+    final var file =
+      CLNTestDirectories.resourceOf(
+        CLN1ParsersContract.class,
+        this.directory,
+        "lz4-corrupted.ctf"
+      );
+
+    final var r = CLNMain.mainExitless(new String[]{
+      "check",
+      "--file",
+      file.toAbsolutePath().toString(),
+      "--warnings-as-errors",
+      "true"
+    });
+    assertEquals(1, r);
+  }
+
+  @Test
+  public void testCheckLZ4WrongCRC32()
+    throws IOException
+  {
+    final var file =
+      CLNTestDirectories.resourceOf(
+        CLN1ParsersContract.class,
+        this.directory,
+        "lz4-wrong-crc32.ctf"
+      );
+
+    final var r = CLNMain.mainExitless(new String[]{
+      "check",
+      "--file",
+      file.toAbsolutePath().toString(),
+      "--warnings-as-errors",
+      "true"
+    });
+    assertEquals(1, r);
+  }
+
+  @Test
+  public void testCheckLZ4WrongSize()
+    throws IOException
+  {
+    final var file =
+      CLNTestDirectories.resourceOf(
+        CLN1ParsersContract.class,
+        this.directory,
+        "lz4-wrong-size.ctf"
+      );
+
+    final var r = CLNMain.mainExitless(new String[]{
+      "check",
+      "--file",
+      file.toAbsolutePath().toString(),
+      "--warnings-as-errors",
+      "true"
+    });
+    assertEquals(1, r);
+  }
+
+  @Test
+  public void testCheckMissingImageData()
+    throws IOException
+  {
+    final var file =
+      CLNTestDirectories.resourceOf(
+        CLN1ParsersContract.class,
+        this.directory,
+        "missing-image-data.ctf"
+      );
+
+    final var r = CLNMain.mainExitless(new String[]{
+      "check",
+      "--file",
+      file.toAbsolutePath().toString(),
+      "--warnings-as-errors",
+      "true"
+    });
+    assertEquals(1, r);
   }
 
   @Test

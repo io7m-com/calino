@@ -115,6 +115,17 @@ public final class CLN1SectionReadableImageInfo
     // CHECKSTYLE:ON
   }
 
+  private static CLNImageFlagType readFlag(
+    final String text)
+  {
+    for (final var standard : CLNImageFlagStandard.values()) {
+      if (Objects.equals(standard.descriptor(), text)) {
+        return standard;
+      }
+    }
+    return new CLNImageFlagCustom(text);
+  }
+
   private CLNByteOrder readByteOrder(
     final BSSReaderRandomAccessType parent)
     throws IOException
@@ -158,17 +169,6 @@ public final class CLN1SectionReadableImageInfo
         }
       };
     }
-  }
-
-  private static CLNImageFlagType readFlag(
-    final String text)
-  {
-    for (final var standard : CLNImageFlagStandard.values()) {
-      if (Objects.equals(standard.descriptor(), text)) {
-        return standard;
-      }
-    }
-    return new CLNImageFlagCustom(text);
   }
 
   @Override

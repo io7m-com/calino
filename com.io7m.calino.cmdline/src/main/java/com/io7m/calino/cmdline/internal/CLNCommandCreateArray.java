@@ -21,8 +21,8 @@ import com.beust.jcommander.Parameters;
 import com.io7m.calino.api.CLNByteOrder;
 import com.io7m.calino.api.CLNChannelsLayoutDescriptionType;
 import com.io7m.calino.api.CLNFileWritableType;
-import com.io7m.calino.api.CLNImage2DMipMapDeclaration;
-import com.io7m.calino.api.CLNImage2DMipMapDeclarations;
+import com.io7m.calino.api.CLNImageArrayMipMapDeclaration;
+import com.io7m.calino.api.CLNImageArrayMipMapDeclarations;
 import com.io7m.calino.api.CLNImageInfo;
 import com.io7m.calino.api.CLNSuperCompressionMethodType;
 import com.io7m.calino.api.CLNVersion;
@@ -46,14 +46,17 @@ import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Properties;
+import java.util.Set;
+import java.util.SortedMap;
+import java.util.TreeMap;
 import java.util.zip.CRC32;
 
 import static com.io7m.calino.api.CLNSuperCompressionMethodStandard.UNCOMPRESSED;
@@ -65,20 +68,20 @@ import static java.nio.file.StandardOpenOption.TRUNCATE_EXISTING;
 import static java.nio.file.StandardOpenOption.WRITE;
 
 /**
- * The 'create' command.
+ * The 'create-array' command.
  */
 
-@Parameters(commandDescription = "Create a texture from an existing image.")
-public final class CLNCommandCreate extends CLNAbstractCommand
+@Parameters(commandDescription = "Create an array texture from an existing image.")
+public final class CLNCommandCreateArray extends CLNAbstractCommand
 {
   private static final Logger LOG =
-    LoggerFactory.getLogger(CLNCommandCreate.class);
+    LoggerFactory.getLogger(CLNCommandCreateArray.class);
 
   @Parameter(
     required = true,
-    description = "The source image file",
-    names = "--source")
-  private Path source;
+    description = "The source image layer files, in layer order starting at 0",
+    names = "--source-layer")
+  private List<Path> layers;
 
   @Parameter(
     required = true,
@@ -133,12 +136,12 @@ public final class CLNCommandCreate extends CLNAbstractCommand
   private Path metadataFile;
 
   /**
-   * The 'create' command.
+   * The 'create-array' command.
    *
    * @param inContext The context
    */
 
-  public CLNCommandCreate(
+  public CLNCommandCreateArray(
     final CLPCommandContextType inContext)
   {
     super(Locale.getDefault(), inContext);
@@ -147,7 +150,7 @@ public final class CLNCommandCreate extends CLNAbstractCommand
   @Override
   public String extendedHelp()
   {
-    return this.calinoStrings().format("cmd.create.helpExt");
+    return this.calinoStrings().format("cmd.create-array.helpExt");
   }
 
   @Override
@@ -166,28 +169,47 @@ public final class CLNCommandCreate extends CLNAbstractCommand
       return FAILURE;
     }
 
+    if (this.layers.isEmpty()) {
+      LOG.error("at least one image source file is required");
+      return FAILURE;
+    }
+
     final var writerFactory = writerOpt.get();
     final var processors = new CLNImageProcessorsAWT();
     final var compressors = new CLNCompressors();
 
     try (var resources = CloseableCollection.create()) {
-      final var layoutConversion =
-        Optional.ofNullable(this.convertLayoutTo)
-          .map(CLNImageLayoutConversion::new);
+      final var imageInfos =
+        new HashSet<CLNImageInfo>();
+      final var chainsForLayers =
+        new TreeMap<Integer, CLNImageMipMapChainType>();
 
-      final var processorRequest =
-        new CLNImageProcessorRequest(
-          this.source,
-          this.premultiplyAlpha,
-          this.byteOrder,
-          layoutConversion,
-          Optional.ofNullable(this.mipMapGenerate)
-        );
+      for (int layer = 0; layer < this.layers.size(); ++layer) {
+        final var source = this.layers.get(layer);
 
-      final var processor =
-        processors.createProcessor(processorRequest);
-      final var chain =
-        processor.process();
+        final var layoutConversion =
+          Optional.ofNullable(this.convertLayoutTo)
+            .map(CLNImageLayoutConversion::new);
+
+        final var processorRequest =
+          new CLNImageProcessorRequest(
+            source,
+            this.premultiplyAlpha,
+            this.byteOrder,
+            layoutConversion,
+            Optional.ofNullable(this.mipMapGenerate)
+          );
+
+        final var processor =
+          processors.createProcessor(processorRequest);
+        final var chain =
+          processor.process();
+
+        imageInfos.add(chain.imageInfo());
+        chainsForLayers.put(Integer.valueOf(layer), chain);
+      }
+
+      checkImageInfos(imageInfos);
 
       final var channel =
         resources.add(
@@ -201,13 +223,23 @@ public final class CLNCommandCreate extends CLNAbstractCommand
       final var writable =
         resources.add(writer.execute());
 
-      this.writeImageInfo(chain, writable);
+      this.writeImageInfo(chainsForLayers.get(Integer.valueOf(0)), writable);
       this.writeMetadata(writable);
-      this.writeImage2D(compressors, chain, writable);
+      this.writeImageArray(compressors, chainsForLayers, writable);
       this.writeEnd(writable);
     }
 
     return SUCCESS;
+  }
+
+  private static void checkImageInfos(
+    final Set<CLNImageInfo> imageInfos)
+  {
+    if (imageInfos.size() > 1) {
+      LOG.error("the format and size of all source images must be the same");
+      throw new IllegalArgumentException(
+        "the format and size of all source images must be the same");
+    }
   }
 
   private void writeMetadata(
@@ -236,72 +268,115 @@ public final class CLNCommandCreate extends CLNAbstractCommand
     }
   }
 
-  private void writeImage2D(
+  private void writeImageArray(
     final CLNCompressors compressors,
-    final CLNImageMipMapChainType chain,
+    final SortedMap<Integer, CLNImageMipMapChainType> chains,
     final CLNFileWritableType writable)
     throws IOException
   {
-    try (var section = writable.createSectionImage2D()) {
+    try (var section = writable.createSectionImageArray()) {
+      final var chain0 =
+        chains.get(Integer.valueOf(0));
       final var chainSize =
-        chain.mipMapLevelCount();
-      final var descriptions =
-        new ArrayList<CLNImage2DMipMapDeclaration>(chainSize);
-      final var dataForMipMap =
-        new ArrayList<byte[]>(chainSize);
+        chain0.mipMapLevelCount();
+      final var dataForDescriptions =
+        new HashMap<CLNImageArrayMipMapDeclaration, byte[]>();
 
-      for (var level = 0; level < chainSize; ++level) {
-        final var data = chain.mipMapUncompressedBytes(level);
+      /*
+       * Create declarations for each layer of each level.
+       */
 
-        if (Objects.equals(this.superCompression, UNCOMPRESSED)) {
-          dataForMipMap.add(data);
+      for (var level = chainSize - 1; level >= 0; --level) {
+        for (final var chainEntry : chains.entrySet()) {
+          final var layer =
+            chainEntry.getKey().intValue();
+          final var chain =
+            chainEntry.getValue();
+          final var data =
+            chain.mipMapUncompressedBytes(level);
 
+          /*
+           * If the data is uncompressed, then add the data to the list
+           * directly.
+           */
+
+          if (Objects.equals(this.superCompression, UNCOMPRESSED)) {
+            final var crc32 = new CRC32();
+            crc32.update(data);
+
+            final var declaration =
+              new CLNImageArrayMipMapDeclaration(
+                level,
+                layer,
+                toUnsignedLong(data.length),
+                toUnsignedLong(data.length),
+                (int) (crc32.getValue() & 0xffff_ffffL)
+              );
+
+            dataForDescriptions.put(declaration, data);
+            continue;
+          }
+
+          /*
+           * Otherwise, compress the data and add the compressed data to
+           * the list.
+           */
+
+          final var compressor =
+            compressors.createCompressor(
+              new CLNCompressorRequest(this.superCompression)
+            );
+
+          final var compressedData = compressor.execute(data);
           final var crc32 = new CRC32();
           crc32.update(data);
-          descriptions.add(
-            new CLNImage2DMipMapDeclaration(
+
+          final var declaration =
+            new CLNImageArrayMipMapDeclaration(
               level,
-              toUnsignedLong(data.length),
+              layer,
+              toUnsignedLong(compressedData.length),
               toUnsignedLong(data.length),
               (int) (crc32.getValue() & 0xffff_ffffL)
-            )
-          );
-          continue;
+            );
+
+          dataForDescriptions.put(declaration, compressedData);
         }
-
-        final var compressor =
-          compressors.createCompressor(
-            new CLNCompressorRequest(this.superCompression)
-          );
-
-        final var compressedData = compressor.execute(data);
-        dataForMipMap.add(compressedData);
-
-        final var crc32 = new CRC32();
-        crc32.update(data);
-        descriptions.add(
-          new CLNImage2DMipMapDeclaration(
-            level,
-            toUnsignedLong(compressedData.length),
-            toUnsignedLong(data.length),
-            (int) (crc32.getValue() & 0xffff_ffffL)
-          )
-        );
       }
 
+      /*
+       * For each declaration, write the data for each level and layer.
+       */
+
       final var declarations =
-        new CLNImage2DMipMapDeclarations(
-          descriptions,
-          chain.imageInfo().texelBlockAlignment()
+        new CLNImageArrayMipMapDeclarations(
+          dataForDescriptions.keySet()
+            .stream()
+            .sorted()
+            .toList(),
+          chain0.imageInfo()
+            .texelBlockAlignment()
         );
 
       final var writableMipMaps =
         section.createMipMaps(declarations);
 
-      for (var level = 0; level < chainSize; ++level) {
-        final var data = dataForMipMap.get(level);
-        try (var mipChannel = writableMipMaps.writeMipMap(level)) {
-          mipChannel.write(ByteBuffer.wrap(data));
+      for (final var declaration : declarations.mipMaps()) {
+        final var data = dataForDescriptions.get(declaration);
+        final var level = declaration.mipMapLevel();
+        final var layer = declaration.layer();
+        try (var mipChannel =
+               writableMipMaps.writeMipMap(level, layer)) {
+          final var wrote = mipChannel.write(ByteBuffer.wrap(data));
+          if (wrote != data.length) {
+            throw new IOException(
+              "Expected to write %d bytes but wrote %d"
+                .formatted(
+                  Integer.valueOf(data.length),
+                  Integer.valueOf(wrote)
+                )
+            );
+          }
         }
       }
     }
@@ -343,6 +418,6 @@ public final class CLNCommandCreate extends CLNAbstractCommand
   @Override
   public String name()
   {
-    return "create";
+    return "create-array";
   }
 }

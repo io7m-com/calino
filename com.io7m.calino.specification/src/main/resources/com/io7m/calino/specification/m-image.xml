@@ -8,7 +8,7 @@
   <Subsection title="Images">
     <Paragraph>
       An <Term type="term">image</Term> is a <Link target="71f3233f-43eb-4ea1-96d4-bc1192553239">2D image</Link>,
-      a <Link target="60f44a91-49a1-4ee9-9659-45ed94051828">3D image</Link>, or a
+      an <Link target="60f44a91-49a1-4ee9-9659-45ed94051828">array image</Link>, or a
       <Link target="63a0f8cf-4a48-47bc-aa83-b35d631ad243">cube image</Link>.
     </Paragraph>
 

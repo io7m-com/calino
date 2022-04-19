@@ -98,12 +98,6 @@ public enum CLNChannelLayoutPacking implements CLNDescribableType
   };
 
   /**
-   * @return The bit count
-   */
-
-  public abstract int bitCount();
-
-  /**
    * Parse a packing value.
    *
    * @param text The text
@@ -130,4 +124,10 @@ public enum CLNChannelLayoutPacking implements CLNDescribableType
       0
     );
   }
+
+  /**
+   * @return The bit count
+   */
+
+  public abstract int bitCount();
 }

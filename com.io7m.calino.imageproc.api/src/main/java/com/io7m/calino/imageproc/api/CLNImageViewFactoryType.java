@@ -17,6 +17,7 @@
 package com.io7m.calino.imageproc.api;
 
 import com.io7m.calino.api.CLNImage2DDescription;
+import com.io7m.calino.api.CLNImageArrayDescription;
 import com.io7m.calino.api.CLNImageInfo;
 
 /**
@@ -38,6 +39,22 @@ public interface CLNImageViewFactoryType
   CLNImageView2DType createImageView2D(
     CLNImageInfo imageInfo,
     CLNImage2DDescription image2DDescription,
+    byte[] data
+  );
+
+  /**
+   * Create a new view of the given data.
+   *
+   * @param imageInfo             The image info
+   * @param imageArrayDescription The particular array image description
+   * @param data                  The raw image bytes
+   *
+   * @return A new image view
+   */
+
+  CLNImageView2DType createImageViewArray(
+    CLNImageInfo imageInfo,
+    CLNImageArrayDescription imageArrayDescription,
     byte[] data
   );
 }

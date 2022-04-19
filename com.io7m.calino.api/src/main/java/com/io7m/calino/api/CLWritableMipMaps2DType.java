@@ -20,7 +20,7 @@ import java.io.IOException;
 import java.nio.channels.WritableByteChannel;
 
 /**
- * The writable mipmaps for an image.
+ * The writable mipmaps for a 2D image.
  *
  * Users are expected to retrieve the byte channel associated with each mipmap
  * level using {@link #writeMipMap(int)}, and are expected to write
@@ -28,7 +28,7 @@ import java.nio.channels.WritableByteChannel;
  * image info.
  */
 
-public interface CLWritableMipMapsType
+public interface CLWritableMipMaps2DType
 {
   /**
    * Retrieve the byte channel associated with a mipmap level.

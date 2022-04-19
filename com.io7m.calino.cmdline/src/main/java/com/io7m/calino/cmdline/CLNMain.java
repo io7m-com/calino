@@ -17,8 +17,10 @@
 package com.io7m.calino.cmdline;
 
 import com.io7m.calino.cmdline.internal.CLNCommandCheck;
-import com.io7m.calino.cmdline.internal.CLNCommandCreate;
-import com.io7m.calino.cmdline.internal.CLNCommandExtractImageData;
+import com.io7m.calino.cmdline.internal.CLNCommandCreate2D;
+import com.io7m.calino.cmdline.internal.CLNCommandCreateArray;
+import com.io7m.calino.cmdline.internal.CLNCommandExtractImageData2D;
+import com.io7m.calino.cmdline.internal.CLNCommandExtractImageDataArray;
 import com.io7m.calino.cmdline.internal.CLNCommandShowImageInfo;
 import com.io7m.calino.cmdline.internal.CLNCommandShowMetadata;
 import com.io7m.calino.cmdline.internal.CLNCommandShowSections;
@@ -72,8 +74,10 @@ public final class CLNMain
           "https://www.io7m.com/software/calino/documentation/index.xhtml"))
         .setProgramName("calino")
         .addCommands(CLNCommandCheck::new)
-        .addCommands(CLNCommandCreate::new)
-        .addCommands(CLNCommandExtractImageData::new)
+        .addCommands(CLNCommandCreate2D::new)
+        .addCommands(CLNCommandCreateArray::new)
+        .addCommands(CLNCommandExtractImageData2D::new)
+        .addCommands(CLNCommandExtractImageDataArray::new)
         .addCommands(CLNCommandShowImageInfo::new)
         .addCommands(CLNCommandShowMetadata::new)
         .addCommands(CLNCommandShowSections::new)

@@ -31,6 +31,7 @@ module com.io7m.calino.vanilla
   requires com.io7m.jaffirm.core;
   requires com.io7m.jbssio.api;
   requires com.io7m.junreachable.core;
+  requires org.slf4j;
 
   uses com.io7m.jbssio.api.BSSReaderProviderType;
   uses com.io7m.jbssio.api.BSSWriterProviderType;

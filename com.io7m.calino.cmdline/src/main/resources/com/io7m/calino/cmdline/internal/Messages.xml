@@ -3,13 +3,66 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 
 <properties>
-  <entry key="cmd.extract-image-data.helpExt">The "extract-image-data" command copies image data out of a texture file.</entry>
   <entry key="cmd.show-sections.helpExt">The "show-sections" command lists the sections in a given texture file.</entry>
   <entry key="cmd.show-summary.helpExt">The "show-summary" command shows a summary of a given texture file.</entry>
   <entry key="cmd.show-version.helpExt">The "show-version" command displays the format version of a given texture file.</entry>
   <entry key="cmd.show-image-info.helpExt">The "show-image-info" command displays the image info in a given texture file.</entry>
   <entry key="cmd.show-metadata.helpExt">The "show-metadata" command displays the metadata in a given texture file.</entry>
   <entry key="cmd.version.helpExt">The "version" command displays the current application version.</entry>
-  <entry key="cmd.create.helpExt">The "create" command creates textures from existing images.</entry>
+  <entry key="cmd.create2d.helpExt">The "create-2d" command creates 2D textures from existing images.</entry>
+  <entry key="cmd.create-array.helpExt">The "create-array" command creates array textures from existing images.</entry>
   <entry key="cmd.check.helpExt">The "check" command exhaustively validates texture files.</entry>
+
+  <entry key="cmd.extract-image-data-2d.helpExt"><![CDATA[
+The "extract-image-data-2d" command copies image data out of a
+2D texture file.
+
+For a given output directory D, the command will write each of
+the mipmap levels of the input image to files in D. The name
+of each output file will be 'm', followed by a zero-padded
+level number, followed by an appropriate file suffix such as
+'.png' or '.raw'.
+
+For example:
+
+$ calino extract-image-data-2d --output-directory /tmp/out ...
+calino: INFO: writing level 7 to /tmp/out/m007.png
+calino: INFO: writing level 6 to /tmp/out/m006.png
+calino: INFO: writing level 5 to /tmp/out/m005.png
+calino: INFO: writing level 4 to /tmp/out/m004.png
+calino: INFO: writing level 3 to /tmp/out/m003.png
+calino: INFO: writing level 2 to /tmp/out/m002.png
+calino: INFO: writing level 1 to /tmp/out/m001.png
+calino: INFO: writing level 0 to /tmp/out/m000.png
+
+]]></entry>
+
+  <entry key="cmd.extract-image-data-array.helpExt"><![CDATA[
+The "extract-image-data-array" command copies image data out of
+an array texture file.
+
+For a given output directory D, the command will write each of
+the mipmap levels of the input image to files in D. The name
+of each output file will be 'm', followed by a zero-padded
+level number, followed by 'v', followed by a zero-padded
+layer number, followed by an appropriate file suffix such as
+'.png' or '.raw'.
+
+For example:
+
+$ calino extract-image-data-array --output-directory /tmp/out ...
+calino: INFO: writing level 3 to /tmp/out/m003v000.png
+calino: INFO: writing level 3 to /tmp/out/m003v001.png
+calino: INFO: writing level 3 to /tmp/out/m003v002.png
+calino: INFO: writing level 3 to /tmp/out/m002v000.png
+calino: INFO: writing level 3 to /tmp/out/m002v001.png
+calino: INFO: writing level 3 to /tmp/out/m002v002.png
+calino: INFO: writing level 3 to /tmp/out/m001v000.png
+calino: INFO: writing level 3 to /tmp/out/m001v001.png
+calino: INFO: writing level 3 to /tmp/out/m001v002.png
+calino: INFO: writing level 3 to /tmp/out/m000v000.png
+calino: INFO: writing level 3 to /tmp/out/m000v001.png
+calino: INFO: writing level 3 to /tmp/out/m000v002.png
+]]></entry>
+
 </properties>

@@ -34,20 +34,27 @@ public final class CLNImageView2DFixedU4444 implements CLNImageView2DType
   private final CLNImageInfo imageInfo;
   private final int lineWidth;
   private final int pixelSize;
+  private final int sizeX;
+  private final int sizeY;
 
   /**
    * An unsigned 4444 view.
    *
    * @param inData      The image data
+   * @param mipLevel    The mip level
    * @param inImageInfo The image info
    */
 
   public CLNImageView2DFixedU4444(
     final CLNImageInfo inImageInfo,
+    final int mipLevel,
     final byte[] inData)
   {
     this.imageInfo =
       Objects.requireNonNull(inImageInfo, "inImageInfo");
+
+    this.sizeX = inImageInfo.sizeX() >>> mipLevel;
+    this.sizeY = inImageInfo.sizeY() >>> mipLevel;
 
     this.pixelData = ByteBuffer.wrap(inData);
     this.pixelData.order(
@@ -57,7 +64,19 @@ public final class CLNImageView2DFixedU4444 implements CLNImageView2DType
       });
 
     this.pixelSize = COMPONENT_SIZE;
-    this.lineWidth = this.imageInfo.sizeX() * this.pixelSize;
+    this.lineWidth = this.sizeX * this.pixelSize;
+  }
+
+  @Override
+  public int sizeX()
+  {
+    return this.sizeX;
+  }
+
+  @Override
+  public int sizeY()
+  {
+    return this.sizeY;
   }
 
   @Override

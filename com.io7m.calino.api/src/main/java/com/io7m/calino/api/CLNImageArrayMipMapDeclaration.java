@@ -22,25 +22,29 @@ import java.util.Comparator;
  * The declaration of a single mipmap.
  *
  * @param mipMapLevel      The mipmap level
+ * @param layer            The layer
  * @param sizeCompressed   The size of the supercompressed data in octets
  * @param sizeUncompressed The size of the uncompressed data in octets
  * @param crc32            The CRC32 checksum of the uncompressed data
  */
 
-public record CLNImage2DMipMapDeclaration(
+public record CLNImageArrayMipMapDeclaration(
   int mipMapLevel,
+  int layer,
   long sizeCompressed,
   long sizeUncompressed,
   int crc32)
-  implements Comparable<CLNImage2DMipMapDeclaration>
+  implements Comparable<CLNImageArrayMipMapDeclaration>
 {
   @Override
   public int compareTo(
-    final CLNImage2DMipMapDeclaration other)
+    final CLNImageArrayMipMapDeclaration other)
   {
-    return ((Comparator<CLNImage2DMipMapDeclaration>) (o1, o2) -> {
+    return ((Comparator<CLNImageArrayMipMapDeclaration>) (o1, o2) -> {
       return Integer.compareUnsigned(o1.mipMapLevel(), o2.mipMapLevel());
     }).reversed()
-      .compare(this, other);
+      .thenComparing((o1, o2) -> {
+        return Integer.compareUnsigned(o1.layer(), o2.layer());
+      }).compare(this, other);
   }
 }

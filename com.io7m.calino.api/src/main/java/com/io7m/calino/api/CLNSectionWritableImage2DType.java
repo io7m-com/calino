@@ -35,7 +35,7 @@ public non-sealed interface CLNSectionWritableImage2DType
    * @throws IOException On errors
    */
 
-  CLWritableMipMapsType createMipMaps(
+  CLWritableMipMaps2DType createMipMaps(
     CLNImage2DMipMapDeclarations mipMaps)
     throws IOException;
 }

@@ -31,6 +31,7 @@ module com.io7m.calino.cmdline
   requires com.io7m.calino.writer.api;
 
   requires com.io7m.claypot.core;
+  requires com.io7m.jaffirm.core;
   requires com.io7m.jmulticlose.core;
   requires com.io7m.jxtrand.vanilla;
   requires java.desktop;

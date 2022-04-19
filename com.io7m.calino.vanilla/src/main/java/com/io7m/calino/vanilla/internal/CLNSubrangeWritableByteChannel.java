@@ -82,9 +82,21 @@ public final class CLNSubrangeWritableByteChannel
     final ByteBuffer src)
     throws IOException
   {
+    final var remaining = (long) src.remaining();
+    final var possible = this.canWrite();
+    if (remaining > possible) {
+      src.limit(Math.toIntExact(remaining - possible));
+    }
+
     final var wrote = this.delegate.write(src);
     this.uppermost = maxUnsigned(this.position(), this.uppermost);
     return wrote;
+  }
+
+  private long canWrite()
+    throws IOException
+  {
+    return (this.baseStart + this.limit) - this.position();
   }
 
   @Override

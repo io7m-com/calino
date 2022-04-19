@@ -25,6 +25,7 @@ import com.io7m.calino.api.CLNImageInfo;
 import com.io7m.calino.api.CLNSectionReadableImage2DType;
 import com.io7m.calino.imageview.CLNImageViews;
 import com.io7m.claypot.core.CLPCommandContextType;
+import com.io7m.jaffirm.core.Invariants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,7 +36,6 @@ import java.io.InputStream;
 import java.nio.channels.Channels;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Comparator;
 
 import static com.io7m.calino.api.CLNImageFlagStandard.ALPHA_PREMULTIPLIED;
 import static com.io7m.claypot.core.CLPCommandType.Status.FAILURE;
@@ -48,26 +48,21 @@ import static java.nio.file.StandardOpenOption.TRUNCATE_EXISTING;
 import static java.nio.file.StandardOpenOption.WRITE;
 
 /**
- * The 'extract-image-data' command.
+ * The 'extract-image-data-2d' command.
  */
 
-@Parameters(commandDescription = "Extract image data from a file")
-public final class CLNCommandExtractImageData extends CLNAbstractReadFileCommand
+@Parameters(commandDescription = "Extract 2D image data from a file")
+public final class CLNCommandExtractImageData2D extends
+  CLNAbstractReadFileCommand
 {
   private static final Logger LOG =
-    LoggerFactory.getLogger(CLNCommandExtractImageData.class);
+    LoggerFactory.getLogger(CLNCommandExtractImageData2D.class);
 
   @Parameter(
     required = true,
-    description = "The output file",
-    names = "--output-file")
-  private Path outputFile;
-
-  @Parameter(
-    required = false,
-    description = "The mipmap level",
-    names = "--mipmap-level")
-  private int mipMapLevel;
+    description = "The output directory",
+    names = "--output-directory")
+  private Path outputDirectory;
 
   @Parameter(
     required = false,
@@ -83,12 +78,12 @@ public final class CLNCommandExtractImageData extends CLNAbstractReadFileCommand
   private CLNOutputFormat outputFormat = CLNOutputFormat.RAW;
 
   /**
-   * The 'extract-image-data' command.
+   * The 'extract-image-data-2d' command.
    *
    * @param inContext The context
    */
 
-  public CLNCommandExtractImageData(
+  public CLNCommandExtractImageData2D(
     final CLPCommandContextType inContext)
   {
     super(inContext);
@@ -97,7 +92,7 @@ public final class CLNCommandExtractImageData extends CLNAbstractReadFileCommand
   @Override
   public String extendedHelp()
   {
-    return this.calinoStrings().format("cmd.extract-image-data.helpExt");
+    return this.calinoStrings().format("cmd.extract-image-data-2d.helpExt");
   }
 
   @Override
@@ -105,6 +100,10 @@ public final class CLNCommandExtractImageData extends CLNAbstractReadFileCommand
     final CLNFileReadableType fileParsed)
     throws IOException
   {
+    if (this.outputFormat == CLNOutputFormat.PNG) {
+      LOG.warn("extracting to PNG might be a lossy operation due to possible downsampling!");
+    }
+
     final var section2dOpt =
       fileParsed.openImage2D();
     final var sectionImageInfoOpt =
@@ -118,36 +117,40 @@ public final class CLNCommandExtractImageData extends CLNAbstractReadFileCommand
       final var imageDescriptions =
         section2d.mipMapDescriptions();
 
+      Files.createDirectories(this.outputDirectory);
+
       for (final var imageDescription : imageDescriptions) {
-        if (imageDescription.mipMapLevel() == this.mipMapLevel) {
-          return switch (this.outputFormat) {
-            case RAW -> this.outputRaw(section2d, imageDescription);
-            case PNG -> this.outputPNG(imageInfo, section2d, imageDescription);
-          };
+        switch (this.outputFormat) {
+          case RAW -> this.outputRaw(section2d, imageDescription);
+          case PNG -> this.outputPNG(imageInfo, section2d, imageDescription);
         }
       }
 
-      LOG.error(
-        "no such mipmap level (valid range is [0, {}}])",
-        imageDescriptions.stream()
-          .max(Comparator.comparingInt(CLNImage2DDescription::mipMapLevel))
-          .get()
-          .mipMapLevel()
-      );
-      return FAILURE;
+      return SUCCESS;
     }
 
     LOG.error("no available image 2D section");
     return FAILURE;
   }
 
-  private Status outputPNG(
+  private void outputPNG(
     final CLNImageInfo imageInfo,
     final CLNSectionReadableImage2DType section2d,
     final CLNImage2DDescription imageDescription)
     throws IOException
   {
-    LOG.warn("extracting to PNG is a lossy operation due to downsampling!");
+    final var outputFile =
+      this.outputDirectory.resolve(
+        String.format(
+          "m%03d.png",
+          Integer.valueOf(imageDescription.mipMapLevel()))
+      );
+
+    LOG.info(
+      "writing level {} to {}",
+      Integer.valueOf(imageDescription.mipMapLevel()),
+      outputFile
+    );
 
     final var imageViews = new CLNImageViews();
 
@@ -163,9 +166,22 @@ public final class CLNCommandExtractImageData extends CLNAbstractReadFileCommand
       final var raster =
         outputImage.getRaster();
 
+      Invariants.checkInvariantV(
+        view.sizeX() == raster.getWidth(),
+        "View size X %d must match raster size X %d",
+        Integer.valueOf(view.sizeX()),
+        Integer.valueOf(raster.getWidth())
+      );
+      Invariants.checkInvariantV(
+        view.sizeY() == raster.getHeight(),
+        "View size Y %d must match raster size Y %d",
+        Integer.valueOf(view.sizeY()),
+        Integer.valueOf(raster.getHeight())
+      );
+
       final var pixel = new double[4];
-      for (int y = 0; y < imageInfo.sizeY(); ++y) {
-        for (int x = 0; x < imageInfo.sizeX(); ++x) {
+      for (int y = 0; y < view.sizeY(); ++y) {
+        for (int x = 0; x < view.sizeX(); ++x) {
           pixel[0] = 0.0;
           pixel[1] = 0.0;
           pixel[2] = 0.0;
@@ -180,8 +196,7 @@ public final class CLNCommandExtractImageData extends CLNAbstractReadFileCommand
         }
       }
 
-      ImageIO.write(outputImage, "PNG", this.outputFile.toFile());
-      return SUCCESS;
+      ImageIO.write(outputImage, "PNG", outputFile.toFile());
     }
   }
 
@@ -233,14 +248,30 @@ public final class CLNCommandExtractImageData extends CLNAbstractReadFileCommand
     );
   }
 
-  private Status outputRaw(
+  private void outputRaw(
     final CLNSectionReadableImage2DType section2d,
     final CLNImage2DDescription imageDescription)
     throws IOException
   {
+    final var outputFile =
+      this.outputDirectory.resolve(
+        String.format(
+          "m%03d.raw",
+          Integer.valueOf(imageDescription.mipMapLevel()))
+      );
+
+    LOG.info(
+      "writing level {} to {}",
+      Integer.valueOf(imageDescription.mipMapLevel()),
+      outputFile
+    );
+
     try (var outputStream =
            Files.newOutputStream(
-             this.outputFile, CREATE, WRITE, TRUNCATE_EXISTING)) {
+             outputFile,
+             CREATE,
+             WRITE,
+             TRUNCATE_EXISTING)) {
 
       final InputStream inputStream;
       if (this.decompress) {
@@ -255,13 +286,12 @@ public final class CLNCommandExtractImageData extends CLNAbstractReadFileCommand
 
       inputStream.transferTo(outputStream);
       outputStream.flush();
-      return SUCCESS;
     }
   }
 
   @Override
   public String name()
   {
-    return "extract-image-data";
+    return "extract-image-data-2d";
   }
 }

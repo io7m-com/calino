@@ -34,6 +34,8 @@ public final class CLNIdentifiers
     0x434C_4E5F_4D45_5441L;
   private static final long SECTION_IMAGE_2D_IDENTIFIER =
     0x434C_4E5F_4932_4421L;
+  private static final long SECTION_IMAGE_ARRAY_IDENTIFIER =
+    0x434C_4E5F_4152_5221L;
 
   private CLNIdentifiers()
   {
@@ -86,6 +88,15 @@ public final class CLNIdentifiers
   }
 
   /**
+   * @return The identifier used to identify <tt>image array</tt> sections
+   */
+
+  public static long sectionImageArrayIdentifier()
+  {
+    return SECTION_IMAGE_ARRAY_IDENTIFIER;
+  }
+
+  /**
    * Determine a humanly-readable name of an identifier.
    *
    * @param identifier The identifier
@@ -107,6 +118,9 @@ public final class CLNIdentifiers
     }
     if (identifier == SECTION_END_IDENTIFIER) {
       return Optional.of("END");
+    }
+    if (identifier == SECTION_IMAGE_ARRAY_IDENTIFIER) {
+      return Optional.of("IMAGE_ARRAY");
     }
     return Optional.empty();
   }

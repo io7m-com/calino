@@ -19,6 +19,8 @@ package com.io7m.calino.vanilla.internal;
 import com.io7m.calino.api.CLNSectionWritableType;
 import com.io7m.calino.writer.api.CLNWriteRequest;
 import com.io7m.jbssio.api.BSSWriterRandomAccessType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.channels.SeekableByteChannel;
@@ -31,6 +33,9 @@ import java.util.Objects;
 public abstract class CLN1SectionWritableAbstract
   implements CLNSectionWritableType
 {
+  private static final Logger LOG =
+    LoggerFactory.getLogger(CLN1SectionWritableAbstract.class);
+
   private final BSSWriterRandomAccessType writer;
   private final CLNWriteRequest request;
   private final long identifier;
@@ -67,6 +72,12 @@ public abstract class CLN1SectionWritableAbstract
       this.writer.offsetCurrentAbsolute();
     this.offsetStartData =
       this.offsetStart + 16L;
+  }
+
+  @Override
+  public final long identifier()
+  {
+    return this.identifier;
   }
 
   protected final long offsetStartData()

@@ -24,6 +24,7 @@ public sealed interface CLNSectionReadableStandardType
   extends CLNSectionReadableType
   permits CLNSectionReadableEndType,
   CLNSectionReadableImage2DType,
+  CLNSectionReadableImageArrayType,
   CLNSectionReadableImageInfoType,
   CLNSectionReadableMetadataType
 {

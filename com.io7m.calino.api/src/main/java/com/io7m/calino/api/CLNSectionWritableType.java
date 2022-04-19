@@ -27,6 +27,12 @@ import java.nio.channels.SeekableByteChannel;
 public interface CLNSectionWritableType extends Closeable
 {
   /**
+   * @return The section identifier
+   */
+
+  long identifier();
+
+  /**
    * Obtain a writable channel that can write data within the section.
    *
    * @return A readable channel

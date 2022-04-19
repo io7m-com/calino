@@ -17,33 +17,25 @@
 package com.io7m.calino.api;
 
 /**
- * The endianness/byte order for the components of image data that are larger
- * than a single byte.
+ * A description of a single array image.
+ *
+ * @param mipMapLevel             The mipmap level
+ * @param layer                   The layer
+ * @param dataOffsetWithinSection The offset of the data from the start of the
+ *                                section data
+ * @param dataSizeCompressed      The size of the supercompressed data
+ * @param dataSizeUncompressed    The size of the uncompressed data
+ * @param crc32Uncompressed       The CRC32 of the uncompressed data
  */
 
-public enum CLNByteOrder implements CLNDescribableType
+public record CLNImageArrayDescription(
+  int mipMapLevel,
+  int layer,
+  long dataOffsetWithinSection,
+  long dataSizeUncompressed,
+  long dataSizeCompressed,
+  int crc32Uncompressed)
+  implements CLNImageDescriptionType
 {
-  /**
-   * The most significant byte appears first.
-   */
 
-  BIG_ENDIAN {
-    @Override
-    public String descriptor()
-    {
-      return "BIG_ENDIAN";
-    }
-  },
-
-  /**
-   * The most significant byte appears last.
-   */
-
-  LITTLE_ENDIAN {
-    @Override
-    public String descriptor()
-    {
-      return "LITTLE_ENDIAN";
-    }
-  }
 }

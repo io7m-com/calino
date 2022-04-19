@@ -16,34 +16,33 @@
 
 package com.io7m.calino.api;
 
+import java.io.IOException;
+import java.nio.channels.WritableByteChannel;
+
 /**
- * The endianness/byte order for the components of image data that are larger
- * than a single byte.
+ * The writable mipmaps for an array image.
+ *
+ * Users are expected to retrieve the byte channel associated with each mipmap
+ * level using {@link #writeMipMap(int, int)}, and are expected to write
+ * supercompressed data to the byte channel in accordance with the declared
+ * image info.
  */
 
-public enum CLNByteOrder implements CLNDescribableType
+public interface CLWritableMipMapsArrayType
 {
   /**
-   * The most significant byte appears first.
+   * Retrieve the byte channel associated with a mipmap level and layer.
+   *
+   * @param mipMapLevel The mipmap level
+   * @param layer       The image layer
+   *
+   * @return A byte channel that must receive supercompressed image data
+   *
+   * @throws IOException On errors
    */
 
-  BIG_ENDIAN {
-    @Override
-    public String descriptor()
-    {
-      return "BIG_ENDIAN";
-    }
-  },
-
-  /**
-   * The most significant byte appears last.
-   */
-
-  LITTLE_ENDIAN {
-    @Override
-    public String descriptor()
-    {
-      return "LITTLE_ENDIAN";
-    }
-  }
+  WritableByteChannel writeMipMap(
+    int mipMapLevel,
+    int layer)
+    throws IOException;
 }

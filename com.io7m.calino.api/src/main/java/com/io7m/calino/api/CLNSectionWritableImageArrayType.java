@@ -16,34 +16,26 @@
 
 package com.io7m.calino.api;
 
+import java.io.IOException;
+
 /**
- * The endianness/byte order for the components of image data that are larger
- * than a single byte.
+ * A writable array image section.
  */
 
-public enum CLNByteOrder implements CLNDescribableType
+public non-sealed interface CLNSectionWritableImageArrayType
+  extends CLNSectionWritableStandardType
 {
   /**
-   * The most significant byte appears first.
+   * Create a set of mipmaps in the image.
+   *
+   * @param mipMaps The mipmap descriptions
+   *
+   * @return An interface used to write mipmap data
+   *
+   * @throws IOException On errors
    */
 
-  BIG_ENDIAN {
-    @Override
-    public String descriptor()
-    {
-      return "BIG_ENDIAN";
-    }
-  },
-
-  /**
-   * The most significant byte appears last.
-   */
-
-  LITTLE_ENDIAN {
-    @Override
-    public String descriptor()
-    {
-      return "LITTLE_ENDIAN";
-    }
-  }
+  CLWritableMipMapsArrayType createMipMaps(
+    CLNImageArrayMipMapDeclarations mipMaps)
+    throws IOException;
 }

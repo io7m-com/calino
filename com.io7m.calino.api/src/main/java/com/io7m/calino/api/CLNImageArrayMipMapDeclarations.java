@@ -16,8 +16,9 @@
 
 package com.io7m.calino.api;
 
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -29,8 +30,8 @@ import java.util.Objects;
  * @see CLNImageInfo#texelBlockAlignment()
  */
 
-public record CLNImage2DMipMapDeclarations(
-  List<CLNImage2DMipMapDeclaration> mipMaps,
+public record CLNImageArrayMipMapDeclarations(
+  List<CLNImageArrayMipMapDeclaration> mipMaps,
   int texelBlockAlignment)
 {
   /**
@@ -42,36 +43,63 @@ public record CLNImage2DMipMapDeclarations(
    * @see CLNImageInfo#texelBlockAlignment()
    */
 
-  public CLNImage2DMipMapDeclarations
+  public CLNImageArrayMipMapDeclarations
   {
     Objects.requireNonNull(mipMaps, "mipMaps");
     checkMipMaps(mipMaps);
   }
 
   private static void checkMipMaps(
-    final List<CLNImage2DMipMapDeclaration> mipMaps)
+    final List<CLNImageArrayMipMapDeclaration> mipMaps)
   {
-    final var mipLevelSet = new HashSet<Integer>(mipMaps.size());
+    final var mips =
+      new HashMap<Integer, Map<Integer, CLNImageArrayMipMapDeclaration>>(
+        mipMaps.size());
+
     var mipHighest = 0;
+    var layerHighest = 0;
+
     for (final var mipMap : mipMaps) {
       final var level = mipMap.mipMapLevel();
-      if (mipLevelSet.contains(level)) {
+      final var layer = mipMap.layer();
+
+      var layers = mips.get(level);
+      if (layers == null) {
+        layers = new HashMap<>();
+      }
+      if (layers.containsKey(layer)) {
         throw new IllegalArgumentException(
-          String.format("Duplicate mip level %d specified", level)
+          String.format("Mip level %d layer %d is not unique", level, layer)
         );
       }
-      mipLevelSet.add(level);
+
+      layers.put(layer, mipMap);
+      mips.put(level, layers);
       mipHighest = Math.max(mipHighest, level);
+      layerHighest = Math.max(layerHighest, layer);
     }
 
     for (int mipLevel = 0; mipLevel <= mipHighest; ++mipLevel) {
-      if (!mipLevelSet.contains(mipLevel)) {
+      final var layers = mips.get(mipLevel);
+      if (layers == null) {
         throw new IllegalArgumentException(
           String.format(
             "Mip levels must be strictly increasing with all values present in the range [%d, %d]",
             0,
             mipHighest)
         );
+      }
+
+      for (int layer = 0; layer <= layerHighest; ++layer) {
+        if (!layers.containsKey(layer)) {
+          throw new IllegalArgumentException(
+            String.format(
+              "Mip layers for level %d must be strictly increasing with all values present in the range [%d, %d]",
+              mipLevel,
+              0,
+              layerHighest)
+          );
+        }
       }
     }
 
@@ -82,7 +110,7 @@ public record CLNImage2DMipMapDeclarations(
 
     if (!Objects.equals(sorted, mipMaps)) {
       throw new IllegalArgumentException(
-        "2D image mipmaps must be provided in sorted order!");
+        "Array image mipmaps must be provided in sorted order!");
     }
   }
 }
