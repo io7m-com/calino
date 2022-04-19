@@ -42,9 +42,6 @@
     <com.io7m.jxtrand.version>1.1.0</com.io7m.jxtrand.version>
     <io7m.api.previousVersion>0.0.1-SNAPSHOT</io7m.api.previousVersion>
     <junit.version>5.8.2</junit.version>
-
-    <!-- https://issues.apache.org/jira/browse/MDEP-774 -->
-    <mdep.analyze.skip>true</mdep.analyze.skip>
   </properties>
 
   <licenses>
@@ -195,6 +192,11 @@
         <groupId>com.io7m.xstructural</groupId>
         <artifactId>com.io7m.xstructural.xml</artifactId>
         <version>${com.io7m.xstructural.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.beust</groupId>
+        <artifactId>jcommander</artifactId>
+        <version>1.82</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
