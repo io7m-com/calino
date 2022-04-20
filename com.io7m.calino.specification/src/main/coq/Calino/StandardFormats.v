@@ -11,6 +11,7 @@ Declare Scope Forall_scope.
 
 Open Scope Forall_scope.
 
+Definition p0n1  : 0 ≠ 1  := O_S 0.
 Definition p0n4  : 0 ≠ 4  := O_S 3.
 Definition p0n5  : 0 ≠ 5  := O_S 4.
 Definition p0n6  : 0 ≠ 6  := O_S 5.
@@ -19,9 +20,13 @@ Definition p0n16 : 0 ≠ 16 := O_S 15.
 Definition p0n32 : 0 ≠ 32 := O_S 31.
 Definition p0n64 : 0 ≠ 64 := O_S 63.
 
+Definition A1 : channelDescription := channelDescriptionMake CSAlpha 1 p0n1.
+
 Definition R5 : channelDescription := channelDescriptionMake CSRed   5 p0n5.
 Definition G6 : channelDescription := channelDescriptionMake CSGreen 6 p0n6.
 Definition B5 : channelDescription := channelDescriptionMake CSBlue  5 p0n5.
+
+Definition G5 : channelDescription := channelDescriptionMake CSGreen 5 p0n5.
 
 Definition R4 : channelDescription := channelDescriptionMake CSRed   4 p0n4.
 Definition G4 : channelDescription := channelDescriptionMake CSGreen 4 p0n4.
@@ -69,6 +74,9 @@ Definition B64_Div8 : channelDescriptionBitsDivisible8 B64 := eq_refl.
 Definition A64_Div8 : channelDescriptionBitsDivisible8 A64 := eq_refl.
 
 (* Packed channels *)
+
+Definition A1_R5_G5_B5_Channels : list channelDescription := [A1; R5; G5; B5].
+Definition A1_R5_G5_B5_NonEmpty := nil_cons (x := A1) (l := [R5; G5; B5]).
 
 Definition R4_G4_B4_A4_Channels : list channelDescription := [R4; G4; B4; A4].
 Definition R4_G4_B4_A4_NonEmpty := nil_cons (x := R4) (l := [G4; B4; A4]).
@@ -201,6 +209,9 @@ Definition R64_FDiv8 : Forall channelDescriptionBitsDivisible8 R64_Channels :=
   Forall_cons R64 R64_Div8 (Forall_nil _).
 
 (* Layouts *)
+
+Definition Layout_A1_R5_G5_B5 : channelLayoutDescription :=
+  ChannelLayoutDescriptionPacked (CLDPMake A1_R5_G5_B5_Channels A1_R5_G5_B5_NonEmpty CLPack16 eq_refl).
 
 Definition Layout_R4_G4_B4_A4 : channelLayoutDescription :=
   ChannelLayoutDescriptionPacked (CLDPMake R4_G4_B4_A4_Channels R4_G4_B4_A4_NonEmpty CLPack16 eq_refl).

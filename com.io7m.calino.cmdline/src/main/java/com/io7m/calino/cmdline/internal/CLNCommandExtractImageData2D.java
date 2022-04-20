@@ -226,7 +226,9 @@ public final class CLNCommandExtractImageData2D extends
           R8_G8, R8 -> {
           yield new BufferedImage(width, height, TYPE_3BYTE_BGR);
         }
-        case R4_G4_B4_A4,
+        case
+          A1_R5_G5_B5,
+          R4_G4_B4_A4,
           R64_G64_B64_A64,
           R32_G32_B32_A32,
           R16_G16_B16_A16,

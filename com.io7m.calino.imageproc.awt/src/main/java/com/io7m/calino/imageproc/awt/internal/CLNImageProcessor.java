@@ -106,6 +106,7 @@ public final class CLNImageProcessor implements CLNImageProcessorType
     };
 
     return switch (layout) {
+      case A1_R5_G5_B5 -> new CLNImageDecodeA1R5G5B5(bufferOrder);
       case R5_G6_B5 -> new CLNImageDecodeR5G6B5(bufferOrder);
       case R4_G4_B4_A4 -> new CLNImageDecodeR4G4B4A4(bufferOrder);
       case R8 -> new CLNImageDecode8(bufferOrder, 1);

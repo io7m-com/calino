@@ -24,6 +24,7 @@ import com.io7m.calino.api.CLNImageDescriptionType;
 import com.io7m.calino.api.CLNImageInfo;
 import com.io7m.calino.imageproc.api.CLNImageView2DType;
 import com.io7m.calino.imageproc.api.CLNImageViewFactoryType;
+import com.io7m.calino.imageview.internal.CLNImageView2DFixedU1555;
 import com.io7m.calino.imageview.internal.CLNImageView2DFixedU16;
 import com.io7m.calino.imageview.internal.CLNImageView2DFixedU32;
 import com.io7m.calino.imageview.internal.CLNImageView2DFixedU4444;
@@ -190,6 +191,9 @@ public final class CLNImageViews implements CLNImageViewFactoryType
     final int componentCount)
   {
     return switch (standard) {
+      case A1_R5_G5_B5 -> {
+        yield new CLNImageView2DFixedU1555(imageInfo, mipLevel, data);
+      }
       case R5_G6_B5 -> {
         yield new CLNImageView2DFixedU565(imageInfo, mipLevel, data);
       }

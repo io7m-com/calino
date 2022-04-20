@@ -142,3 +142,4 @@
 141 ! Fixpoint arrayMipMapLayerCountForLevel
 142 ! Definition arrayMipMapLevels
 143 ! Definition arrayMipMapsHaveSameLayers
+144 ! Definition Layout_A1_R5_G5_B5 : channelLayoutDescription

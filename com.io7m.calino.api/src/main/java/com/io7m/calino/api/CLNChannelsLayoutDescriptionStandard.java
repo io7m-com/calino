@@ -78,6 +78,29 @@ public enum CLNChannelsLayoutDescriptionStandard
   },
 
   /**
+   * The ARGB1555 format.
+   */
+
+  A1_R5_G5_B5 {
+    @Override
+    public List<CLNChannelDescription> channels()
+    {
+      return List.of(
+        new CLNChannelDescription(ALPHA, 1),
+        new CLNChannelDescription(RED, 5),
+        new CLNChannelDescription(GREEN, 5),
+        new CLNChannelDescription(BLUE, 5)
+      );
+    }
+
+    @Override
+    public Optional<CLNChannelLayoutPacking> packing()
+    {
+      return Optional.of(PACK_16);
+    }
+  },
+
+  /**
    * The R8 format.
    */
 

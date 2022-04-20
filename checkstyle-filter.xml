@@ -8,6 +8,8 @@
   <!-- Not a boolean expression! -->
   <suppress files="CLNImageDecodeR4G4B4A4\.java"
             checks="BooleanExpressionComplexity"/>
+  <suppress files="CLNImageDecodeA1R5G5B5\.java"
+            checks="BooleanExpressionComplexity"/>
 
   <!-- Switch over enum -->
   <suppress files="CLNImageProcessor\.java"

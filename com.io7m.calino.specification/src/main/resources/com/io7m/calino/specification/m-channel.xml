@@ -393,6 +393,16 @@
       </FormalItem>
     </Subsection>
 
+    <Subsection title="A1 R5 G5 B5">
+      <Paragraph>
+        An RGBA layout with 1 bit of precision in the alpha channel, and 5 bits of precision in each of the other
+        channels, packed into a 16-bit integer.
+      </Paragraph>
+      <FormalItem title="A1 R5 G5 B5 Definition">
+        <Verbatim><xi:include href="144.txt" parse="text"/></Verbatim>
+      </FormalItem>
+    </Subsection>
+
     <Subsection title="R5 G6 B5">
       <Paragraph>
         An RGB layout with 5 bits of precision in the red and blue channels, and 6 bits of precision in the green

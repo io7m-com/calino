@@ -87,9 +87,9 @@ public final class CLNImageView2DFixedU4444 implements CLNImageView2DType
   {
     final var base = (y * this.lineWidth) + (x * this.pixelSize);
     final var data = ((int) this.pixelData.getShort(base)) & 0xffff;
-    final var r = (data >> 12) & 0b1111;
-    final var g = (data >> 8) & 0b1111;
-    final var b = (data >> 4) & 0b1111;
+    final var r = (data >>> 12) & 0b1111;
+    final var g = (data >>> 8) & 0b1111;
+    final var b = (data >>> 4) & 0b1111;
     final var a = data & 0b1111;
     pixel[0] = (double) r / 15.0;
     pixel[1] = (double) g / 15.0;

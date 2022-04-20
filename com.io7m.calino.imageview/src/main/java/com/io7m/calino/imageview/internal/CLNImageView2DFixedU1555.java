@@ -24,10 +24,10 @@ import java.nio.ByteOrder;
 import java.util.Objects;
 
 /**
- * An unsigned 565 view.
+ * An unsigned 1555 view.
  */
 
-public final class CLNImageView2DFixedU565 implements CLNImageView2DType
+public final class CLNImageView2DFixedU1555 implements CLNImageView2DType
 {
   private static final int COMPONENT_SIZE = 2;
   private final ByteBuffer pixelData;
@@ -38,14 +38,14 @@ public final class CLNImageView2DFixedU565 implements CLNImageView2DType
   private final int sizeY;
 
   /**
-   * An unsigned 565 view.
+   * An unsigned 1555 view.
    *
    * @param inData      The image data
    * @param mipLevel    The mip level
    * @param inImageInfo The image info
    */
 
-  public CLNImageView2DFixedU565(
+  public CLNImageView2DFixedU1555(
     final CLNImageInfo inImageInfo,
     final int mipLevel,
     final byte[] inData)
@@ -87,11 +87,13 @@ public final class CLNImageView2DFixedU565 implements CLNImageView2DType
   {
     final var base = (y * this.lineWidth) + (x * this.pixelSize);
     final var data = ((int) this.pixelData.getShort(base)) & 0xffff;
-    final var r = (data >>> 11) & 0b11111;
-    final var g = (data >>> 5) & 0b111111;
+
+    final var a = (data >>> 15) & 0b1;
+    final var r = (data >>> 10) & 0b11111;
+    final var g = (data >>> 5) & 0b11111;
     final var b = data & 0b11111;
     pixel[0] = (double) r / 31.0;
-    pixel[1] = (double) g / 63.0;
+    pixel[1] = (double) g / 31.0;
     pixel[2] = (double) b / 31.0;
   }
 }
