@@ -507,6 +507,46 @@ public abstract class CLN1ParsersContract
   }
 
   @Test
+  public void testBasicImage2DLZ4Dump0()
+    throws IOException
+  {
+    final var parser =
+      this.parserFor("basic-lz4.ctf");
+    final var file =
+      this.resources.add(parser.execute());
+
+    assertEquals(new CLNVersion(1, 0), file.version());
+
+    final var sections = file.sections();
+    showSections(sections);
+    assertEquals(4, sections.size());
+
+    try (var section =
+           (CLNSectionReadableImage2DType) file.openSection(sections.get(2))) {
+      final var mipmaps = section.mipMapDescriptions();
+      final var map0 = mipmaps.get(0);
+
+      try (var channel = section.mipMapDataRaw(map0)) {
+        final var buffer = new byte[(int) map0.dataSizeCompressed()];
+        final var byteBuffer = ByteBuffer.wrap(buffer);
+        channel.read(byteBuffer);
+
+        final var text = new StringBuilder(128);
+        for (int index = 0; index < buffer.length; ++index) {
+          text.append(String.format("%02x", Byte.valueOf(buffer[index])));
+          if ((index + 1) % 16 == 0) {
+            text.append('\n');
+          } else if ((index + 1) % 4 == 0) {
+            text.append(' ');
+          }
+        }
+
+        System.out.println(text);
+      }
+    }
+  }
+
+  @Test
   public void testBasicImage2DUnknownDescription0()
     throws IOException
   {
