@@ -33,6 +33,7 @@ module com.io7m.calino.vanilla
   requires com.io7m.jbssio.api;
   requires com.io7m.junreachable.core;
   requires com.io7m.jxtrand.vanilla;
+  requires com.io7m.wendover.core;
   requires org.slf4j;
 
   opens com.io7m.calino.vanilla.internal

@@ -24,6 +24,8 @@ import com.io7m.calino.api.CLWritableMipMaps2DType;
 import com.io7m.calino.writer.api.CLNWriteRequest;
 import com.io7m.jbssio.api.BSSWriterProviderType;
 import com.io7m.jbssio.api.BSSWriterRandomAccessType;
+import com.io7m.wendover.core.CloseShieldSeekableByteChannel;
+import com.io7m.wendover.core.SubrangeSeekableByteChannel;
 
 import java.io.IOException;
 import java.nio.channels.SeekableByteChannel;
@@ -163,13 +165,14 @@ public final class CLN1SectionWritableImage2D
             this.fileSectionDataStart + description.dataOffsetWithinSection();
 
           this.fileChannel.position(offset);
-          return new CLNSubrangeWritableByteChannel(
-            this.fileChannel,
-            offset,
-            description.dataSizeCompressed(),
-            context -> {
 
-            }
+          final var closeShieldChannel =
+            new CloseShieldSeekableByteChannel(this.fileChannel);
+
+          return new SubrangeSeekableByteChannel(
+            closeShieldChannel,
+            offset,
+            description.dataSizeCompressed()
           );
         }
       }

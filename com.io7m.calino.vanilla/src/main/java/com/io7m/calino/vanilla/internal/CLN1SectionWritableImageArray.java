@@ -24,6 +24,8 @@ import com.io7m.calino.api.CLWritableMipMapsArrayType;
 import com.io7m.calino.writer.api.CLNWriteRequest;
 import com.io7m.jbssio.api.BSSWriterProviderType;
 import com.io7m.jbssio.api.BSSWriterRandomAccessType;
+import com.io7m.wendover.core.CloseShieldSeekableByteChannel;
+import com.io7m.wendover.core.SubrangeSeekableByteChannel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -206,13 +208,13 @@ public final class CLN1SectionWritableImageArray
             Long.toUnsignedString(offset + description.dataSizeCompressed())
           );
 
-          return new CLNSubrangeWritableByteChannel(
-            this.fileChannel,
-            offset,
-            description.dataSizeCompressed(),
-            context -> {
+          final var closeShieldChannel =
+            new CloseShieldSeekableByteChannel(this.fileChannel);
 
-            }
+          return new SubrangeSeekableByteChannel(
+            closeShieldChannel,
+            offset,
+            description.dataSizeCompressed()
           );
         }
       }

@@ -100,6 +100,11 @@
   <dependencyManagement>
     <dependencies>
       <dependency>
+        <groupId>com.io7m.wendover</groupId>
+        <artifactId>com.io7m.wendover.core</artifactId>
+        <version>0.0.3</version>
+      </dependency>
+      <dependency>
         <groupId>com.io7m.claypot</groupId>
         <artifactId>com.io7m.claypot.core</artifactId>
         <version>0.0.6</version>

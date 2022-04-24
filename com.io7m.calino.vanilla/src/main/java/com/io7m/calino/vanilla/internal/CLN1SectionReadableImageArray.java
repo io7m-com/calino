@@ -24,6 +24,9 @@ import com.io7m.calino.parser.api.CLNParseRequest;
 import com.io7m.calino.supercompression.api.CLNDecompressorFactoryType;
 import com.io7m.calino.supercompression.api.CLNDecompressorRequest;
 import com.io7m.jbssio.api.BSSReaderRandomAccessType;
+import com.io7m.wendover.core.CloseShieldSeekableByteChannel;
+import com.io7m.wendover.core.ReadOnlySeekableByteChannel;
+import com.io7m.wendover.core.SubrangeSeekableByteChannel;
 
 import java.io.IOException;
 import java.nio.channels.ReadableByteChannel;
@@ -171,15 +174,14 @@ public final class CLN1SectionReadableImageArray
     baseChannel.position(fileSectionImageDataOffset);
 
     final var closeShield =
-      new CLNCloseShieldSeekableByteChannel(baseChannel);
+      new CloseShieldSeekableByteChannel(baseChannel);
+    final var readOnlyChannel =
+      new ReadOnlySeekableByteChannel(closeShield);
     final var boundedChannel =
-      new CLNSubrangeReadableByteChannel(
-        closeShield,
+      new SubrangeSeekableByteChannel(
+        readOnlyChannel,
         fileSectionImageDataOffset,
-        dataSize,
-        context -> {
-
-        }
+        dataSize
       );
 
     return this.decompressors.createDecompressor(
@@ -223,13 +225,16 @@ public final class CLN1SectionReadableImageArray
       this.request().channel();
 
     baseChannel.position(fileSectionImageDataOffset);
-    return new CLNSubrangeReadableByteChannel(
-      baseChannel,
-      fileSectionImageDataOffset,
-      dataSize,
-      (section) -> {
 
-      }
+    final var closeShield =
+      new CloseShieldSeekableByteChannel(baseChannel);
+    final var readOnlyChannel =
+      new ReadOnlySeekableByteChannel(closeShield);
+
+    return new SubrangeSeekableByteChannel(
+      readOnlyChannel,
+      fileSectionImageDataOffset,
+      dataSize
     );
   }
 }

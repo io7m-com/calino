@@ -19,6 +19,9 @@ package com.io7m.calino.vanilla.internal;
 import com.io7m.calino.api.CLNSectionWritableType;
 import com.io7m.calino.writer.api.CLNWriteRequest;
 import com.io7m.jbssio.api.BSSWriterRandomAccessType;
+import com.io7m.wendover.core.CloseShieldSeekableByteChannel;
+import com.io7m.wendover.core.SubrangeSeekableByteChannel;
+import com.io7m.wendover.core.UpperRangeTrackingSeekableByteChannel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -105,12 +108,18 @@ public abstract class CLN1SectionWritableAbstract
       this.request().channel();
 
     channel.position(this.offsetStartData);
-    return new CLNSubrangeWritableByteChannel(
-      channel,
+
+    final var closeShield =
+      new CloseShieldSeekableByteChannel(channel);
+    final var upperTracker =
+      new UpperRangeTrackingSeekableByteChannel(closeShield);
+
+    return new SubrangeSeekableByteChannel(
+      upperTracker,
       startOffset,
       Long.MAX_VALUE - startOffset,
-      (byteChannel) -> {
-        this.wrote = byteChannel.wroteAtMost();
+      context -> {
+        this.wrote = upperTracker.uppermostWritten() - startOffset;
       }
     );
   }
