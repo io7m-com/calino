@@ -20,6 +20,7 @@ import com.beust.jcommander.Parameter;
 import com.beust.jcommander.Parameters;
 import com.io7m.calino.api.CLNFileReadableType;
 import com.io7m.calino.api.CLNVersion;
+import com.io7m.calino.validation.api.CLNValidationError;
 import com.io7m.calino.validation.api.CLNValidationRequest;
 import com.io7m.calino.validation.api.CLNValidators;
 import com.io7m.claypot.core.CLPCommandContextType;
@@ -118,6 +119,7 @@ public final class CLNCommandCheck extends CLNAbstractReadFileCommand
         Long.toUnsignedString(e.offset(), 16),
         e.message()
       );
+      quoteSpec(e);
     }
 
     for (final var e : allWarnings) {
@@ -127,6 +129,7 @@ public final class CLNCommandCheck extends CLNAbstractReadFileCommand
         Long.toUnsignedString(e.offset(), 16),
         e.message()
       );
+      quoteSpec(e);
     }
 
     if (!allErrors.isEmpty()) {
@@ -141,6 +144,21 @@ public final class CLNCommandCheck extends CLNAbstractReadFileCommand
     }
 
     return SUCCESS;
+  }
+
+  private static void quoteSpec(
+    final CLNValidationError e)
+  {
+    e.specificationSectionId().ifPresent(id -> {
+      switch (e.status()) {
+        case STATUS_WARNING -> {
+          LOG.warn("  See https://www.io7m.com/software/calino/specification/index.xhtml#id_{} for details.", id);
+        }
+        case STATUS_ERROR -> {
+          LOG.error("  See https://www.io7m.com/software/calino/specification/index.xhtml#id_{} for details.", id);
+        }
+      }
+    });
   }
 
   @Override
