@@ -16,7 +16,18 @@
     section by seeking forwards by <Term type="expression">s</Term> octets to find the next section.
   </Paragraph>
 
-  <Paragraph>
+  <Paragraph id="2d4988b3-86e5-4bbe-8fbe-526b5b2b16d5">
+    The first section in a <Term type="package">calino</Term> texture should be an
+    <Link target="bc0e7016-7dab-4edb-a4c9-2b1492da0225">image information</Link> section.
+  </Paragraph>
+
+  <Paragraph id="2803ef9e-a1de-4d28-a0ab-a03eec53582e">
+    Following an <Link target="bc0e7016-7dab-4edb-a4c9-2b1492da0225">image information</Link> section,
+    <Term type="package">calino</Term> texture files must contain exactly one of any of the various
+    image data sections.
+  </Paragraph>
+
+  <Paragraph id="a24164fd-3bdb-41fc-b04f-f7ebd4d65c4a">
     <Term type="package">calino</Term> texture files must end with exactly one
     <Link target="40d09b06-b6de-4052-92fe-2829942518c9">End</Link> section.
   </Paragraph>

@@ -16,6 +16,8 @@
 
 package com.io7m.calino.api;
 
+import java.util.Comparator;
+
 /**
  * A description of a single array image.
  *
@@ -35,7 +37,17 @@ public record CLNImageArrayDescription(
   long dataSizeUncompressed,
   long dataSizeCompressed,
   int crc32Uncompressed)
-  implements CLNImageDescriptionType
+  implements CLNImageDescriptionType, Comparable<CLNImageArrayDescription>
 {
-
+  @Override
+  public int compareTo(
+    final CLNImageArrayDescription other)
+  {
+    return ((Comparator<CLNImageArrayDescription>) (o1, o2) -> {
+      return Integer.compareUnsigned(o1.mipMapLevel(), o2.mipMapLevel());
+    }).reversed()
+      .thenComparing((o1, o2) -> {
+        return Integer.compareUnsigned(o1.layer(), o2.layer());
+      }).compare(this, other);
+  }
 }

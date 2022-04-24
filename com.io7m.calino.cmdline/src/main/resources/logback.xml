@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration debug="false">
 
-  <appender
-    name="STDERR"
-    class="ch.qos.logback.core.ConsoleAppender">
+  <appender name="STDERR"
+            class="ch.qos.logback.core.ConsoleAppender">
     <encoder>
       <pattern>calino: %level: %msg%n</pattern>
     </encoder>
     <target>System.err</target>
   </appender>
+
+  <logger name="com.io7m.calino.vanilla.internal.CLN1Validator"
+          level="ERROR"/>
 
   <root level="INFO">
     <appender-ref ref="STDERR"/>

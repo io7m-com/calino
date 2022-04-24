@@ -1,5 +1,5 @@
 /*
- * Copyright © 2021 Mark Raynsford <code@io7m.com> https://www.io7m.com
+ * Copyright © 2022 Mark Raynsford <code@io7m.com> https://www.io7m.com
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -14,39 +14,18 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.calino.api;
-
-import java.io.Closeable;
-import java.io.IOException;
-import java.nio.channels.SeekableByteChannel;
-
 /**
- * A readable section.
+ * Calino texture format (Validation API)
  */
 
-public interface CLNSectionReadableType extends Closeable
+module com.io7m.calino.validation.api
 {
-  /**
-   * @return A file section description
-   */
+  requires static org.osgi.annotation.bundle;
+  requires static org.osgi.annotation.versioning;
 
-  CLNFileSectionDescription fileSectionDescription();
+  requires transitive com.io7m.calino.api;
 
-  /**
-   * @return A section description
-   */
+  uses com.io7m.calino.validation.api.CLNValidatorFactoryType;
 
-  CLNSectionDescription description();
-
-  /**
-   * Obtain a readable channel that delivers the data contained within the
-   * section.
-   *
-   * @return A readable channel
-   *
-   * @throws IOException On errors
-   */
-
-  SeekableByteChannel sectionDataChannel()
-    throws IOException;
+  exports com.io7m.calino.validation.api;
 }

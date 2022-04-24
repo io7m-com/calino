@@ -24,6 +24,13 @@
       a sequence of <Link target="b8d20538-e4ac-4674-aa43-d5ab93c07149">mipmaps</Link> for a single two-dimensional
       image.
     </Paragraph>
+    <Paragraph id="909468f0-a253-4e8f-82ff-6a6909bf1220">
+      2D images must have <Link target="3dde6403-729d-4eaa-9179-17d9a9fbe7a6">sizeZ</Link> values equal to
+      <Term type="constant">1</Term>.
+    </Paragraph>
+    <FormalItem title="2D Image">
+      <Verbatim><xi:include href="145.txt" parse="text"/></Verbatim>
+    </FormalItem>
   </Subsection>
 
   <Subsection title="Array Image"
@@ -33,6 +40,13 @@
       a sequence of <Link target="f4b4fff9-a443-4430-a37b-ed939e606bef">array mipmaps</Link> for a single
       two-dimensional array image.
     </Paragraph>
+    <Paragraph id="e824acd8-5c93-4874-9e17-2010d189bc86">
+      Array images must have <Link target="3dde6403-729d-4eaa-9179-17d9a9fbe7a6">sizeZ</Link> values equal to
+      the number of <Link target="cb73941f-ab0c-46cd-a8a2-94ca912eda3a">array layers</Link> in the image.
+    </Paragraph>
+    <FormalItem title="Array Image">
+      <Verbatim><xi:include href="146.txt" parse="text"/></Verbatim>
+    </FormalItem>
   </Subsection>
 
   <Subsection title="3D Image"

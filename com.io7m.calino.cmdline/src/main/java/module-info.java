@@ -28,6 +28,7 @@ module com.io7m.calino.cmdline
   requires com.io7m.calino.imageview;
   requires com.io7m.calino.parser.api;
   requires com.io7m.calino.supercompression.api;
+  requires com.io7m.calino.validation.api;
   requires com.io7m.calino.writer.api;
 
   requires com.io7m.claypot.core;

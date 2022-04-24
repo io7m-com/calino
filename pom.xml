@@ -34,6 +34,7 @@
     <module>com.io7m.calino.tests</module>
     <module>com.io7m.calino.vanilla</module>
     <module>com.io7m.calino.writer.api</module>
+    <module>com.io7m.calino.validation.api</module>
   </modules>
 
   <properties>

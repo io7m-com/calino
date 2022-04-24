@@ -33,7 +33,7 @@
     <Verbatim><xi:include href="70.txt" parse="text" /></Verbatim>
   </FormalItem>
 
-  <Paragraph>
+  <Paragraph id="f868cdeb-21ce-4b89-9c2d-b1383b07cbd7">
     Mipmap sequences are stored such that the data for the mipmap with the highest level is encountered
     <Term type="term">first</Term>, whilst the data for the mipmap with level <Term type="constant">0</Term>
     is encountered <Term type="term">last</Term>. This facilitates a common implementation pattern where

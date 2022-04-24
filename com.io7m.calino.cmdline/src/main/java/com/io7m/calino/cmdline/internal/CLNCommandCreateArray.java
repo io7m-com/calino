@@ -223,7 +223,11 @@ public final class CLNCommandCreateArray extends CLNAbstractCommand
       final var writable =
         resources.add(writer.execute());
 
-      this.writeImageInfo(chainsForLayers.get(Integer.valueOf(0)), writable);
+      this.writeImageInfo(
+        chainsForLayers.get(Integer.valueOf(0)),
+        this.layers.size(),
+        writable
+      );
       this.writeMetadata(writable);
       this.writeImageArray(compressors, chainsForLayers, writable);
       this.writeEnd(writable);
@@ -393,6 +397,7 @@ public final class CLNCommandCreateArray extends CLNAbstractCommand
 
   private void writeImageInfo(
     final CLNImageMipMapChainType chain,
+    final int layerCount,
     final CLNFileWritableType writable)
     throws IOException
   {
@@ -401,7 +406,7 @@ public final class CLNCommandCreateArray extends CLNAbstractCommand
       final var withCompression = new CLNImageInfo(
         imageInfo.sizeX(),
         imageInfo.sizeY(),
-        imageInfo.sizeZ(),
+        layerCount,
         imageInfo.channelsLayout(),
         imageInfo.channelsType(),
         imageInfo.compressionMethod(),

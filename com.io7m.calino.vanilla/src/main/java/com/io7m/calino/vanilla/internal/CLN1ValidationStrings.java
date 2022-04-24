@@ -14,32 +14,50 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.calino.api;
+package com.io7m.calino.vanilla.internal;
+
+import com.io7m.jxtrand.vanilla.JXTAbstractStrings;
+
+import java.io.IOException;
+import java.util.Locale;
+import java.util.regex.Pattern;
 
 /**
- * A description of a single 2D image.
- *
- * @param mipMapLevel             The mipmap level
- * @param dataOffsetWithinSection The offset of the data from the start of the
- *                                section data
- * @param dataSizeCompressed      The size of the supercompressed data
- * @param dataSizeUncompressed    The size of the uncompressed data
- * @param crc32Uncompressed       The CRC32 of the uncompressed data
+ * A provider of strings.
  */
 
-public record CLNImage2DDescription(
-  int mipMapLevel,
-  long dataOffsetWithinSection,
-  long dataSizeUncompressed,
-  long dataSizeCompressed,
-  int crc32Uncompressed)
-  implements CLNImageDescriptionType, Comparable<CLNImage2DDescription>
+public final class CLN1ValidationStrings extends JXTAbstractStrings
 {
+  private static final Pattern WHITESPACE =
+    Pattern.compile("\\s+");
+
+  /**
+   * A provider of strings.
+   *
+   * @param locale The locale
+   *
+   * @throws IOException On I/O errors
+   */
+
+  public CLN1ValidationStrings(
+    final Locale locale)
+    throws IOException
+  {
+    super(
+      locale,
+      CLN1ValidationStrings.class,
+      "/com/io7m/calino/vanilla/internal",
+      "Messages"
+    );
+  }
 
   @Override
-  public int compareTo(
-    final CLNImage2DDescription other)
+  public String format(
+    final String id,
+    final Object... args)
   {
-    return Integer.compareUnsigned(other.mipMapLevel(), this.mipMapLevel());
+    return WHITESPACE.matcher(super.format(id, args))
+      .replaceAll(" ")
+      .strip();
   }
 }

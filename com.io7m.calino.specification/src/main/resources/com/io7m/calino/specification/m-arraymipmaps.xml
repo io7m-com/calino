@@ -54,7 +54,7 @@
     </Verbatim>
   </FormalItem>
 
-  <Paragraph>
+  <Paragraph id="cb73941f-ab0c-46cd-a8a2-94ca912eda3a">
     The number of layers present in an array mipmap must equal the
     <Term type="term">sizeZ</Term> value defined in the
     <Link target="3dde6403-729d-4eaa-9179-17d9a9fbe7a6">image info</Link>, and it follows that all array mipmaps
@@ -80,7 +80,7 @@
     </Verbatim>
   </FormalItem>
 
-  <Paragraph>
+  <Paragraph id="8729926f-ca1d-4b06-a7bb-295ecd38d12a">
     Array mipmap sequences are stored such that the data for the mipmap with the highest level is
     encountered <Term type="term">first</Term>, whilst the data for the mipmap with level
     <Term type="constant">0</Term>

@@ -1,5 +1,5 @@
 /*
- * Copyright © 2021 Mark Raynsford <code@io7m.com> https://www.io7m.com
+ * Copyright © 2022 Mark Raynsford <code@io7m.com> https://www.io7m.com
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -14,39 +14,21 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.calino.api;
+package com.io7m.calino.validation.api;
 
-import java.io.Closeable;
-import java.io.IOException;
-import java.nio.channels.SeekableByteChannel;
+import java.util.List;
 
 /**
- * A readable section.
+ * A validator.
  */
 
-public interface CLNSectionReadableType extends Closeable
+public interface CLNValidatorType
 {
   /**
-   * @return A file section description
-   */
-
-  CLNFileSectionDescription fileSectionDescription();
-
-  /**
-   * @return A section description
-   */
-
-  CLNSectionDescription description();
-
-  /**
-   * Obtain a readable channel that delivers the data contained within the
-   * section.
+   * Execute the validator.
    *
-   * @return A readable channel
-   *
-   * @throws IOException On errors
+   * @return The validation errors, if any occurred
    */
 
-  SeekableByteChannel sectionDataChannel()
-    throws IOException;
+  List<CLNValidationError> execute();
 }

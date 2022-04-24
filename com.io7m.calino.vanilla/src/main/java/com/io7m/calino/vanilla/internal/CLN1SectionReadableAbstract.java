@@ -55,7 +55,8 @@ public abstract class CLN1SectionReadableAbstract
     return this.request;
   }
 
-  protected final CLNFileSectionDescription fileSectionDescription()
+  @Override
+  public final CLNFileSectionDescription fileSectionDescription()
   {
     return this.description;
   }

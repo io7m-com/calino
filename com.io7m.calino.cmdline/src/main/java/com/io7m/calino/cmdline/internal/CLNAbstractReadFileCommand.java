@@ -22,6 +22,8 @@ import com.io7m.calino.parser.api.CLNParseRequest;
 import com.io7m.calino.parser.api.CLNParserValidationEvent;
 import com.io7m.calino.parser.api.CLNParsers;
 import com.io7m.calino.supercompression.api.CLNDecompressors;
+import com.io7m.calino.validation.api.CLNValidationError;
+import com.io7m.calino.validation.api.CLNValidationStatus;
 import com.io7m.claypot.core.CLPCommandContextType;
 import com.io7m.claypot.core.CLPCommandType;
 import com.io7m.jmulticlose.core.CloseableCollection;
@@ -29,9 +31,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.net.URI;
 import java.nio.channels.FileChannel;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 import static java.nio.file.StandardOpenOption.READ;
 
@@ -45,8 +51,8 @@ public abstract class CLNAbstractReadFileCommand
   private static final Logger LOG =
     LoggerFactory.getLogger(CLNAbstractReadFileCommand.class);
 
-  private int validationErrors;
-  private int validationWarnings;
+  private List<CLNValidationError> parserValidationErrors;
+  private List<CLNValidationError> parserValidationWarnings;
 
   @Parameter(
     required = true,
@@ -62,6 +68,8 @@ public abstract class CLNAbstractReadFileCommand
     final CLPCommandContextType inContext)
   {
     super(Locale.getDefault(), inContext);
+    this.parserValidationErrors = new ArrayList<>();
+    this.parserValidationWarnings = new ArrayList<>();
   }
 
   @Override
@@ -87,46 +95,47 @@ public abstract class CLNAbstractReadFileCommand
     }
   }
 
+  protected final List<CLNValidationError> parserValidationErrors()
+  {
+    return this.parserValidationErrors;
+  }
+
+  protected final List<CLNValidationError> parserValidationWarnings()
+  {
+    return this.parserValidationWarnings;
+  }
+
   private void onValidationEvent(
     final CLNParserValidationEvent event)
   {
     if (event.isError()) {
-      LOG.error(
-        "validation: {}: @ 0x{}: {}",
-        this.file.getFileName(),
-        Long.toUnsignedString(event.offset(), 16),
-        event.message()
+      this.parserValidationErrors.add(
+        new CLNValidationError(
+          event.source(),
+          event.offset(),
+          CLNValidationStatus.STATUS_ERROR,
+          Optional.of(event.id()),
+          event.message(),
+          Optional.empty()
+        )
       );
-      this.incrementValidationErrors();
     } else {
-      LOG.warn(
-        "validation: {}: @ 0x{}: {}",
-        this.file.getFileName(),
-        Long.toUnsignedString(event.offset(), 16),
-        event.message()
+      this.parserValidationWarnings.add(
+        new CLNValidationError(
+          event.source(),
+          event.offset(),
+          CLNValidationStatus.STATUS_WARNING,
+          Optional.of(event.id()),
+          event.message(),
+          Optional.empty()
+        )
       );
-      this.incrementValidationWarnings();
     }
   }
 
-  protected final int incrementValidationWarnings()
+  protected final URI source()
   {
-    return ++this.validationWarnings;
-  }
-
-  protected final int incrementValidationErrors()
-  {
-    return ++this.validationErrors;
-  }
-
-  protected final int validationErrors()
-  {
-    return this.validationErrors;
-  }
-
-  protected final int validationWarnings()
-  {
-    return this.validationWarnings;
+    return this.file.toUri();
   }
 
   protected abstract Status executeWithReadFile(CLNFileReadableType fileParsed)

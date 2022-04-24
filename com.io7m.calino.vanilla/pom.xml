@@ -39,6 +39,11 @@
       <artifactId>com.io7m.calino.supercompression.api</artifactId>
       <version>${project.version}</version>
     </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>com.io7m.calino.validation.api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
 
     <dependency>
       <groupId>com.io7m.jbssio</groupId>
@@ -47,6 +52,10 @@
     <dependency>
       <groupId>com.io7m.jaffirm</groupId>
       <artifactId>com.io7m.jaffirm.core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.io7m.jxtrand</groupId>
+      <artifactId>com.io7m.jxtrand.vanilla</artifactId>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
