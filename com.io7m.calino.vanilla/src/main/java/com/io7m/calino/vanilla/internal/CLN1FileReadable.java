@@ -48,13 +48,15 @@ public final class CLN1FileReadable implements CLNFileReadableType
   private final CLNParseRequest request;
   private final CLNVersion version;
   private final List<CLNFileSectionDescription> fileSections;
+  private final long remainingOctets;
 
   CLN1FileReadable(
     final CLNDecompressorFactoryType inDecompressors,
     final BSSReaderRandomAccessType inReader,
     final CLNParseRequest inRequest,
     final CLNVersion inVersion,
-    final ArrayList<CLNFileSectionDescription> inFileSections)
+    final ArrayList<CLNFileSectionDescription> inFileSections,
+    final long inRemainingOctets)
   {
     this.decompressors =
       Objects.requireNonNull(inDecompressors, "inDecompressors");
@@ -67,6 +69,7 @@ public final class CLN1FileReadable implements CLNFileReadableType
     this.fileSections =
       List.copyOf(
         Objects.requireNonNull(inFileSections, "fileSections"));
+    this.remainingOctets = inRemainingOctets;
   }
 
   @Override
@@ -148,6 +151,12 @@ public final class CLN1FileReadable implements CLNFileReadableType
     }
 
     return new CLN1SectionReadableOther(this.reader, this.request, description);
+  }
+
+  @Override
+  public long trailingOctets()
+  {
+    return this.remainingOctets;
   }
 
   private CLNImageInfo findImageInfo()

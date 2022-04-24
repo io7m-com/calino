@@ -17,13 +17,16 @@
 package com.io7m.calino.vanilla.internal;
 
 import com.io7m.calino.api.CLNFileReadableType;
+import com.io7m.calino.api.CLNFileSectionDescription;
 import com.io7m.calino.api.CLNImage2DDescription;
 import com.io7m.calino.api.CLNImageArrayDescription;
 import com.io7m.calino.api.CLNImageInfo;
+import com.io7m.calino.api.CLNSectionReadableEndType;
 import com.io7m.calino.api.CLNSectionReadableImage2DType;
 import com.io7m.calino.api.CLNSectionReadableImageArrayType;
 import com.io7m.calino.api.CLNSectionReadableImageInfoType;
 import com.io7m.calino.api.CLNSectionReadableMetadataType;
+import com.io7m.calino.api.CLNSuperCompressionMethodType;
 import com.io7m.calino.validation.api.CLNValidationError;
 import com.io7m.calino.validation.api.CLNValidatorType;
 import org.slf4j.Logger;
@@ -40,6 +43,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.zip.CRC32;
 
+import static com.io7m.calino.api.CLNSuperCompressionMethodStandard.UNCOMPRESSED;
 import static java.lang.Integer.toUnsignedLong;
 
 /**
@@ -52,9 +56,9 @@ public final class CLN1Validator implements CLNValidatorType
     LoggerFactory.getLogger(CLN1Validator.class);
 
   private final CLNFileReadableType file;
+  private final CLN1ValidationErrors errorFactory;
   private List<CLNValidationError> errors;
   private boolean processedImageData;
-  private final CLN1ValidationErrors errorFactory;
 
   /**
    * A validator.
@@ -77,6 +81,10 @@ public final class CLN1Validator implements CLNValidatorType
   public List<CLNValidationError> execute()
   {
     this.errors = new ArrayList<>();
+
+    for (final var section : this.file.sections()) {
+      this.checkSectionAlignment(section);
+    }
 
     final var infoSectionOpt =
       this.file.openImageInfo();
@@ -105,12 +113,39 @@ public final class CLN1Validator implements CLNValidatorType
       .ifPresent(imageArray -> this.checkImageArray(imageInfo, imageArray));
     this.file.openMetadata()
       .ifPresent(this::checkMetadata);
+    this.file.openEnd()
+      .ifPresentOrElse(this::checkEnd, () -> {
+        this.publishError(this.errorFactory.errorNoEndSection());
+      });
 
     if (!this.processedImageData) {
       this.publishError(this.errorFactory.errorImageDataNotPresent());
     }
 
+    if (this.file.trailingOctets() != 0L) {
+      this.publishError(
+        this.errorFactory.warnTrailingData(0L, this.file.trailingOctets()
+        ));
+    }
+
     return this.errors;
+  }
+
+  private void checkEnd(
+    final CLNSectionReadableEndType section)
+  {
+    if (section.description().size() != 0L) {
+      this.publishError(this.errorFactory.warnEndSectionNotZeroSize(
+        section.fileSectionDescription()));
+    }
+  }
+
+  private void checkSectionAlignment(
+    final CLNFileSectionDescription section)
+  {
+    if (section.fileOffset() % 16L != 0L) {
+      this.publishError(this.errorFactory.warnSectionUnaligned(section));
+    }
   }
 
   private void checkImage2D(
@@ -137,8 +172,17 @@ public final class CLN1Validator implements CLNValidatorType
       return;
     }
 
+    if (descriptions.isEmpty()) {
+      this.publishError(this.errorFactory.error2DNoMipmaps(section));
+      return;
+    }
+
     this.check2DMipMapWellOrdered(section, descriptions);
-    this.check2DMipMapCompressedDataAll(section, descriptions);
+    this.check2DMipMapCompressedDataAll(
+      section,
+      imageInfo.imageInfo.superCompressionMethod(),
+      descriptions
+    );
   }
 
   private void check2DMipMapWellOrdered(
@@ -180,17 +224,49 @@ public final class CLN1Validator implements CLNValidatorType
 
   private void check2DMipMapCompressedDataAll(
     final CLNSectionReadableImage2DType section,
+    final CLNSuperCompressionMethodType superCompression,
     final List<CLNImage2DDescription> descriptions)
   {
     for (final var description : descriptions) {
-      this.check2DMipMapCompressedDataOne(section, description);
+      this.check2DMipMapCompressedDataOne(
+        section,
+        superCompression,
+        description);
     }
   }
 
   private void check2DMipMapCompressedDataOne(
     final CLNSectionReadableImage2DType section,
+    final CLNSuperCompressionMethodType superCompression,
     final CLNImage2DDescription description)
   {
+    if (description.dataSizeUncompressed() == 0L) {
+      this.publishError(
+        this.errorFactory.warn2DUncompressedSizeZero(section, description)
+      );
+    }
+
+    if (description.dataSizeCompressed() == 0L) {
+      this.publishError(
+        this.errorFactory.warn2DCompressedSizeZero(section, description)
+      );
+    }
+
+    if (description.dataOffsetWithinSection() == 0L) {
+      this.publishError(
+        this.errorFactory.warn2DImageOffsetZero(section)
+      );
+    }
+
+    if (superCompression == UNCOMPRESSED) {
+      if (description.dataSizeCompressed() != description.dataSizeUncompressed()) {
+        this.publishError(
+          this.errorFactory.warn2DUncompressedDataSizeMismatch(
+            section, description)
+        );
+      }
+    }
+
     try (var channel =
            section.mipMapDataWithoutSupercompression(description)) {
       final var stream =
@@ -236,13 +312,6 @@ public final class CLN1Validator implements CLNValidatorType
     return this.errors.add(error);
   }
 
-  private record ImageInfoParsed(
-    CLNSectionReadableImageInfoType section,
-    CLNImageInfo imageInfo)
-  {
-
-  }
-
   private Optional<ImageInfoParsed> checkSectionImageInfo(
     final CLNSectionReadableImageInfoType sectionImageInfo)
   {
@@ -275,11 +344,22 @@ public final class CLN1Validator implements CLNValidatorType
       return;
     }
 
+    if (descriptions.isEmpty()) {
+      this.publishError(this.errorFactory.errorArrayNoMipmaps(section));
+      return;
+    }
+
     this.checkArrayMipMapWellOrdered(
       section,
       imageInfo.imageInfo.sizeZ(),
-      descriptions);
-    this.checkArrayMipMapCompressedDataAll(section, descriptions);
+      descriptions
+    );
+
+    this.checkArrayMipMapCompressedDataAll(
+      section,
+      imageInfo.imageInfo.superCompressionMethod(),
+      descriptions
+    );
   }
 
   private void checkArrayMipMapWellOrdered(
@@ -360,17 +440,48 @@ public final class CLN1Validator implements CLNValidatorType
 
   private void checkArrayMipMapCompressedDataAll(
     final CLNSectionReadableImageArrayType section,
+    final CLNSuperCompressionMethodType superCompression,
     final List<CLNImageArrayDescription> descriptions)
   {
     for (final var description : descriptions) {
-      this.checkArrayMipMapCompressedDataOne(section, description);
+      this.checkArrayMipMapCompressedDataOne(
+        section, superCompression, description);
     }
   }
 
   private void checkArrayMipMapCompressedDataOne(
     final CLNSectionReadableImageArrayType section,
+    final CLNSuperCompressionMethodType superCompression,
     final CLNImageArrayDescription description)
   {
+    if (description.dataSizeUncompressed() == 0L) {
+      this.publishError(
+        this.errorFactory.warnArrayUncompressedSizeZero(section, description)
+      );
+    }
+
+    if (description.dataSizeCompressed() == 0L) {
+      this.publishError(
+        this.errorFactory.warnArrayCompressedSizeZero(section, description)
+      );
+    }
+
+    if (description.dataOffsetWithinSection() == 0L) {
+      this.publishError(
+        this.errorFactory.warnArrayImageOffsetZero(section)
+      );
+    }
+
+    if (superCompression == UNCOMPRESSED) {
+      if (description.dataSizeCompressed() != description.dataSizeUncompressed()) {
+        this.publishError(
+          this.errorFactory.warnArrayUncompressedDataSizeMismatch(
+            section,
+            description)
+        );
+      }
+    }
+
     try (var channel =
            section.mipMapDataWithoutSupercompression(description)) {
       final var stream =
@@ -418,5 +529,12 @@ public final class CLN1Validator implements CLNValidatorType
       this.publishError(this.errorFactory.errorOfException(
         section, e, "I/O error reading metadata values"));
     }
+  }
+
+  private record ImageInfoParsed(
+    CLNSectionReadableImageInfoType section,
+    CLNImageInfo imageInfo)
+  {
+
   }
 }

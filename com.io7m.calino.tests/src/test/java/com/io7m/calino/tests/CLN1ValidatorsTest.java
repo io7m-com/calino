@@ -18,7 +18,6 @@ package com.io7m.calino.tests;
 
 import com.io7m.calino.api.CLNFileReadableType;
 import com.io7m.calino.parser.api.CLNParseRequest;
-import com.io7m.calino.parser.api.CLNParserValidationEvent;
 import com.io7m.calino.parser.api.CLNParsers;
 import com.io7m.calino.supercompression.api.CLNDecompressors;
 import com.io7m.calino.validation.api.CLNValidationError;
@@ -35,7 +34,6 @@ import java.io.IOException;
 import java.net.URI;
 import java.nio.channels.FileChannel;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.List;
 
 import static java.nio.file.StandardOpenOption.READ;
@@ -49,9 +47,8 @@ public final class CLN1ValidatorsTest
   private Path directory;
   private Path directoryOutput;
   private CLNParsers parsers;
-  private ArrayList<CLNParserValidationEvent> validationEvents;
   private FileChannel channel;
-  private CLN1Validators validators = new CLN1Validators();
+  private final CLN1Validators validators = new CLN1Validators();
 
   private CLNValidatorType validatorFor(
     final CLNFileReadableType file,
@@ -70,8 +67,6 @@ public final class CLN1ValidatorsTest
       new CLNParsers();
     this.directory =
       CLNTestDirectories.createTempDirectory();
-    this.validationEvents =
-      new ArrayList<CLNParserValidationEvent>();
   }
 
   @AfterEach
@@ -226,6 +221,128 @@ public final class CLN1ValidatorsTest
     );
     assertEquals(
       "The mipmap description for level 0 specifies a CRC32 value of 0x8bef08f2 but the actual data had a CRC32 of 0x8bff08f2.",
+      errors.remove(0).message()
+    );
+  }
+
+  /**
+   * A 2D image with incorrect uncompressed sizes fails.
+   *
+   * @throws Exception On errors
+   */
+
+  @Test
+  public void testValidation2DUncompressedSizeMismatch()
+    throws Exception
+  {
+    final var errors =
+      this.validate("validation-2d-uncompressed-size-mismatch.ctf");
+
+    assertEquals(2, errors.size());
+    assertEquals(
+      "For uncompressed image data, the compressed size 13 must equal the uncompressed size 12 (at level 2).",
+      errors.remove(0).message()
+    );
+    assertEquals(
+      "The mipmap description for level 2 specifies that the mipmap data should be 12 octets uncompressed, but the actual data was 13 octets.",
+      errors.remove(0).message()
+    );
+  }
+
+
+  /**
+   * A 2D image with a zero uncompressed size fails.
+   *
+   * @throws Exception On errors
+   */
+
+  @Test
+  public void testValidation2DUncompressedSizeZero()
+    throws Exception
+  {
+    final var errors =
+      this.validate("validation-2d-uncompressed-size-zero.ctf");
+
+    assertEquals(3, errors.size());
+    assertEquals(
+      "The uncompressed size of image data should be greater than zero (at level 2).",
+      errors.remove(0).message()
+    );
+    assertEquals(
+      "For uncompressed image data, the compressed size 12 must equal the uncompressed size 0 (at level 2).",
+      errors.remove(0).message()
+    );
+    assertEquals(
+      "The mipmap description for level 2 specifies that the mipmap data should be 0 octets uncompressed, but the actual data was 12 octets.",
+      errors.remove(0).message()
+    );
+  }
+
+
+  /**
+   * A 2D image with a zero compressed size fails.
+   *
+   * @throws Exception On errors
+   */
+
+  @Test
+  public void testValidation2DCompressedSizeZero()
+    throws Exception
+  {
+    final var errors =
+      this.validate("validation-2d-compressed-size-zero.ctf");
+
+    assertEquals(3, errors.size());
+    assertEquals(
+      "The compressed size of image data should be greater than zero (at level 2).",
+      errors.remove(0).message()
+    );
+    assertEquals(
+      "For uncompressed image data, the compressed size 0 must equal the uncompressed size 12 (at level 2).",
+      errors.remove(0).message()
+    );
+    assertEquals(
+      "The mipmap description for level 2 specifies that the mipmap data should be 12 octets uncompressed, but the actual data was 0 octets.",
+      errors.remove(0).message()
+    );
+  }
+
+  /**
+   * A 2D image with no mipmaps fails.
+   *
+   * @throws Exception On errors
+   */
+
+  @Test
+  public void testValidation2DNoMipMaps()
+    throws Exception
+  {
+    final var errors =
+      this.validate("validation-2d-no-mipmaps.ctf");
+
+    assertEquals(1, errors.size());
+    assertEquals(
+      "2D images must have at least one mipmap.",
+      errors.remove(0).message()
+    );
+  }
+
+  /**
+   * An 2D image with no mipmaps fails.
+   *
+   * @throws Exception On errors
+   */
+
+  @Test
+  public void testValidation2DImageOffsetZero()
+    throws Exception
+  {
+    final var errors =
+      this.validate("validation-2d-image-offset-zero.ctf");
+
+    assertEquals(2, errors.size());
+    assertEquals(
+      "The data offset of image data within a section should be greater than zero.",
       errors.remove(0).message()
     );
   }
@@ -438,6 +555,215 @@ public final class CLN1ValidatorsTest
     );
   }
 
+  /**
+   * An array image with incorrect uncompressed sizes fails.
+   *
+   * @throws Exception On errors
+   */
+
+  @Test
+  public void testValidationArrayUncompressedSizeMismatch()
+    throws Exception
+  {
+    final var errors =
+      this.validate("validation-array-uncompressed-size-mismatch.ctf");
+
+    assertEquals(2, errors.size());
+    assertEquals(
+      "For uncompressed image data, the compressed size 193 must equal the uncompressed size 192 (at layer 1, level 0).",
+      errors.remove(0).message()
+    );
+    assertEquals(
+      "The mipmap description for layer 1, level 0 specifies that the mipmap data should be 192 octets uncompressed, but the actual data was 193 octets.",
+      errors.remove(0).message()
+    );
+  }
+
+
+  /**
+   * An array image with a zero uncompressed size fails.
+   *
+   * @throws Exception On errors
+   */
+
+  @Test
+  public void testValidationArrayUncompressedSizeZero()
+    throws Exception
+  {
+    final var errors =
+      this.validate("validation-array-uncompressed-size-zero.ctf");
+
+    assertEquals(3, errors.size());
+    assertEquals(
+      "The uncompressed size of image data should be greater than zero (at layer 0, level 0).",
+      errors.remove(0).message()
+    );
+    assertEquals(
+      "For uncompressed image data, the compressed size 192 must equal the uncompressed size 0 (at layer 0, level 0).",
+      errors.remove(0).message()
+    );
+    assertEquals(
+      "The mipmap description for layer 0, level 0 specifies that the mipmap data should be 0 octets uncompressed, but the actual data was 192 octets.",
+      errors.remove(0).message()
+    );
+  }
+
+  /**
+   * An array image with a zero compressed size fails.
+   *
+   * @throws Exception On errors
+   */
+
+  @Test
+  public void testValidationArrayCompressedSizeZero()
+    throws Exception
+  {
+    final var errors =
+      this.validate("validation-array-compressed-size-zero.ctf");
+
+    assertEquals(3, errors.size());
+    assertEquals(
+      "The compressed size of image data should be greater than zero (at layer 0, level 0).",
+      errors.remove(0).message()
+    );
+    assertEquals(
+      "For uncompressed image data, the compressed size 0 must equal the uncompressed size 192 (at layer 0, level 0).",
+      errors.remove(0).message()
+    );
+    assertEquals(
+      "The mipmap description for layer 0, level 0 specifies that the mipmap data should be 192 octets uncompressed, but the actual data was 0 octets.",
+      errors.remove(0).message()
+    );
+  }
+
+  /**
+   * An array image with no mipmaps fails.
+   *
+   * @throws Exception On errors
+   */
+
+  @Test
+  public void testValidationArrayNoMipMaps()
+    throws Exception
+  {
+    final var errors =
+      this.validate("validation-array-no-mipmaps.ctf");
+
+    assertEquals(1, errors.size());
+    assertEquals(
+      "Array images must have at least one mipmap.",
+      errors.remove(0).message()
+    );
+  }
+
+  /**
+   * An array image with no mipmaps fails.
+   *
+   * @throws Exception On errors
+   */
+
+  @Test
+  public void testValidationArrayImageOffsetZero()
+    throws Exception
+  {
+    final var errors =
+      this.validate("validation-array-image-offset-zero.ctf");
+
+    assertEquals(2, errors.size());
+    assertEquals(
+      "The data offset of image data within a section should be greater than zero.",
+      errors.remove(0).message()
+    );
+  }
+
+  /**
+   * Unaligned sections are noticed.
+   *
+   * @throws Exception On errors
+   */
+
+  @Test
+  public void testValidationUnaligned()
+    throws Exception
+  {
+    final var errors =
+      this.validate("warn-unaligned.ctf");
+
+    assertEquals(3, errors.size());
+    assertEquals(
+      "File section 0x6146922337310035489 is unaligned; it begins at 0x36 which is not a 16-octet boundary.",
+      errors.remove(0).message()
+    );
+    assertEquals(
+      "File section 0x4849337069862798369 is unaligned; it begins at 0x52 which is not a 16-octet boundary.",
+      errors.remove(0).message()
+    );
+    assertEquals(
+      "The first section in a texture should be an image information section.",
+      errors.remove(0).message()
+    );
+  }
+
+  /**
+   * A missing end section is disallowed.
+   *
+   * @throws Exception On errors
+   */
+
+  @Test
+  public void testValidationNoEnd()
+    throws Exception
+  {
+    final var errors =
+      this.validate("validation-end-missing.ctf");
+
+    assertEquals(1, errors.size());
+    assertEquals(
+      "Texture files are required to have a zero-size end section.",
+      errors.remove(0).message()
+    );
+  }
+
+  /**
+   * An end section with a non-zero size is disallowed.
+   *
+   * @throws Exception On errors
+   */
+
+  @Test
+  public void testValidationEndSizeNonzero()
+    throws Exception
+  {
+    final var errors =
+      this.validate("validation-end-nonzero.ctf");
+
+    assertEquals(2, errors.size());
+    assertEquals(
+      "The end section is of a non-zero size (1).",
+      errors.remove(0).message()
+    );
+  }
+
+  /**
+   * Trailing data is noticed.
+   *
+   * @throws Exception On errors
+   */
+
+  @Test
+  public void testValidationEndTrailing()
+    throws Exception
+  {
+    final var errors =
+      this.validate("validation-end-trailing.ctf");
+
+    assertEquals(1, errors.size());
+    assertEquals(
+      "16 octets of trailing data were encountered after the end section.",
+      errors.remove(0).message()
+    );
+  }
+
   private List<CLNValidationError> validate(
     final String name)
     throws IOException
@@ -461,19 +787,11 @@ public final class CLN1ValidatorsTest
         new CLNDecompressors(),
         this.channel,
         file.toUri(),
-        this::onParserValidationEvent,
         8192L,
         8192L
       );
     try (var parser = this.parsers.createParser(request)) {
       return parser.execute();
     }
-  }
-
-  private boolean onParserValidationEvent(
-    final CLNParserValidationEvent event)
-  {
-    LOG.debug("{}", event);
-    return this.validationEvents.add(event);
   }
 }

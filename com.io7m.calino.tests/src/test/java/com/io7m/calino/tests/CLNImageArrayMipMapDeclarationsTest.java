@@ -35,9 +35,13 @@ public final class CLNImageArrayMipMapDeclarationsTest
   @Test
   public void testEmpty()
   {
-    final var ex = Assertions.assertThrows(IllegalArgumentException.class, () -> {
-      new CLNImageArrayMipMapDeclarations(List.of(), 0);
-    });
+    final var ex = Assertions.assertThrows(
+      IllegalArgumentException.class,
+      () -> {
+        new CLNImageArrayMipMapDeclarations(
+          List.of(),
+          0);
+      });
 
     assertEquals(
       "Mip levels must be strictly increasing with all values present in the range [0, 0]",

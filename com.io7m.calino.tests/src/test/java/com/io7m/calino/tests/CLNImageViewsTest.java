@@ -48,6 +48,52 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public final class CLNImageViewsTest
 {
+  private static DynamicTest unsupportedTypeCase(
+    final CLNChannelsTypeDescriptionType s)
+  {
+    final var imageViews = new CLNImageViews();
+
+    return DynamicTest.dynamicTest(
+      String.format("testUnsupportedTypeCase|%s", s),
+      () -> {
+        final var imageInfo =
+          new CLNImageInfo(
+            32,
+            32,
+            1,
+            R8_G8_B8,
+            s,
+            CLNCompressionMethodStandard.UNCOMPRESSED,
+            CLNSuperCompressionMethodStandard.UNCOMPRESSED,
+            new CLNCoordinateSystem(
+              AXIS_R_INCREASING_TOWARD,
+              AXIS_S_INCREASING_RIGHT,
+              AXIS_T_INCREASING_DOWN),
+            COLOR_SPACE_SRGB,
+            Set.of(),
+            LITTLE_ENDIAN
+          );
+
+        final var imageDescription =
+          new CLNImage2DDescription(
+            0,
+            0L,
+            3L,
+            3L,
+            0
+          );
+
+        assertThrows(UnsupportedOperationException.class, () -> {
+          imageViews.createImageView2D(
+            imageInfo,
+            imageDescription,
+            new byte[3]
+          );
+        });
+      }
+    );
+  }
+
   @TestFactory
   public Stream<DynamicTest> testUnsupportedTypeCases()
   {
@@ -146,51 +192,5 @@ public final class CLNImageViewsTest
         new byte[3]
       );
     });
-  }
-
-  private static DynamicTest unsupportedTypeCase(
-    final CLNChannelsTypeDescriptionType s)
-  {
-    final var imageViews = new CLNImageViews();
-
-    return DynamicTest.dynamicTest(
-      String.format("testUnsupportedTypeCase|%s", s),
-      () -> {
-        final var imageInfo =
-          new CLNImageInfo(
-            32,
-            32,
-            1,
-            R8_G8_B8,
-            s,
-            CLNCompressionMethodStandard.UNCOMPRESSED,
-            CLNSuperCompressionMethodStandard.UNCOMPRESSED,
-            new CLNCoordinateSystem(
-              AXIS_R_INCREASING_TOWARD,
-              AXIS_S_INCREASING_RIGHT,
-              AXIS_T_INCREASING_DOWN),
-            COLOR_SPACE_SRGB,
-            Set.of(),
-            LITTLE_ENDIAN
-          );
-
-        final var imageDescription =
-          new CLNImage2DDescription(
-            0,
-            0L,
-            3L,
-            3L,
-            0
-          );
-
-        assertThrows(UnsupportedOperationException.class, () -> {
-          imageViews.createImageView2D(
-            imageInfo,
-            imageDescription,
-            new byte[3]
-          );
-        });
-      }
-    );
   }
 }

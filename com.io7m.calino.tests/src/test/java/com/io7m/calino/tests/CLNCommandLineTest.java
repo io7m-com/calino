@@ -1069,16 +1069,6 @@ public final class CLNCommandLineTest
     assertEquals(0, r);
   }
 
-  private record ImageFormatTestCase(
-    String name,
-    Path file,
-    CLNByteOrder byteOrder,
-    CLNSuperCompressionMethodType superCompression,
-    CLNChannelsLayoutDescriptionType layout)
-  {
-
-  }
-
   private Stream<ImageFormatTestCase> imageFormatTestCases()
     throws IOException
   {
@@ -1558,5 +1548,15 @@ public final class CLNCommandLineTest
       file.toAbsolutePath().toString()
     });
     assertEquals(1, r);
+  }
+
+  private record ImageFormatTestCase(
+    String name,
+    Path file,
+    CLNByteOrder byteOrder,
+    CLNSuperCompressionMethodType superCompression,
+    CLNChannelsLayoutDescriptionType layout)
+  {
+
   }
 }

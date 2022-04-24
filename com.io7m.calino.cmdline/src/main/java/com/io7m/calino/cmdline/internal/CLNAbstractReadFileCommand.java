@@ -19,25 +19,17 @@ package com.io7m.calino.cmdline.internal;
 import com.beust.jcommander.Parameter;
 import com.io7m.calino.api.CLNFileReadableType;
 import com.io7m.calino.parser.api.CLNParseRequest;
-import com.io7m.calino.parser.api.CLNParserValidationEvent;
 import com.io7m.calino.parser.api.CLNParsers;
 import com.io7m.calino.supercompression.api.CLNDecompressors;
-import com.io7m.calino.validation.api.CLNValidationError;
-import com.io7m.calino.validation.api.CLNValidationStatus;
 import com.io7m.claypot.core.CLPCommandContextType;
 import com.io7m.claypot.core.CLPCommandType;
 import com.io7m.jmulticlose.core.CloseableCollection;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.URI;
 import java.nio.channels.FileChannel;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
-import java.util.Optional;
 
 import static java.nio.file.StandardOpenOption.READ;
 
@@ -48,12 +40,6 @@ import static java.nio.file.StandardOpenOption.READ;
 public abstract class CLNAbstractReadFileCommand
   extends CLNAbstractCommand
 {
-  private static final Logger LOG =
-    LoggerFactory.getLogger(CLNAbstractReadFileCommand.class);
-
-  private List<CLNValidationError> parserValidationErrors;
-  private List<CLNValidationError> parserValidationWarnings;
-
   @Parameter(
     required = true,
     description = "The texture file",
@@ -68,8 +54,6 @@ public abstract class CLNAbstractReadFileCommand
     final CLPCommandContextType inContext)
   {
     super(Locale.getDefault(), inContext);
-    this.parserValidationErrors = new ArrayList<>();
-    this.parserValidationWarnings = new ArrayList<>();
   }
 
   @Override
@@ -84,7 +68,6 @@ public abstract class CLNAbstractReadFileCommand
         resources.add(FileChannel.open(this.file, READ));
       final var request =
         CLNParseRequest.builder(compressors, channel, this.file.toUri())
-          .setValidationReceiver(this::onValidationEvent)
           .build();
       final var parser =
         resources.add(parsers.createParser(request));
@@ -92,44 +75,6 @@ public abstract class CLNAbstractReadFileCommand
         resources.add(parser.execute());
 
       return this.executeWithReadFile(fileParsed);
-    }
-  }
-
-  protected final List<CLNValidationError> parserValidationErrors()
-  {
-    return this.parserValidationErrors;
-  }
-
-  protected final List<CLNValidationError> parserValidationWarnings()
-  {
-    return this.parserValidationWarnings;
-  }
-
-  private void onValidationEvent(
-    final CLNParserValidationEvent event)
-  {
-    if (event.isError()) {
-      this.parserValidationErrors.add(
-        new CLNValidationError(
-          event.source(),
-          event.offset(),
-          CLNValidationStatus.STATUS_ERROR,
-          Optional.of(event.id()),
-          event.message(),
-          Optional.empty()
-        )
-      );
-    } else {
-      this.parserValidationWarnings.add(
-        new CLNValidationError(
-          event.source(),
-          event.offset(),
-          CLNValidationStatus.STATUS_WARNING,
-          Optional.of(event.id()),
-          event.message(),
-          Optional.empty()
-        )
-      );
     }
   }
 

@@ -17,9 +17,6 @@
 package com.io7m.calino.tests;
 
 import com.io7m.calino.api.CLNCompressionMethodStandard;
-import com.io7m.calino.api.CLNCoordinateAxisR;
-import com.io7m.calino.api.CLNCoordinateAxisS;
-import com.io7m.calino.api.CLNCoordinateAxisT;
 import com.io7m.calino.api.CLNFileSectionDescription;
 import com.io7m.calino.api.CLNIdentifiers;
 import com.io7m.calino.api.CLNImage2DDescription;
@@ -31,7 +28,6 @@ import com.io7m.calino.api.CLNSuperCompressionMethodStandard;
 import com.io7m.calino.api.CLNVersion;
 import com.io7m.calino.parser.api.CLNParseRequestBuilderType;
 import com.io7m.calino.parser.api.CLNParserType;
-import com.io7m.calino.parser.api.CLNParserValidationEvent;
 import com.io7m.calino.vanilla.CLN1Parsers;
 import com.io7m.jmulticlose.core.CloseableCollectionType;
 import com.io7m.jmulticlose.core.ClosingResourceFailedException;
@@ -42,7 +38,6 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.zip.CRC32;
@@ -50,9 +45,9 @@ import java.util.zip.CRC32;
 import static com.io7m.calino.api.CLNChannelsLayoutDescriptionStandard.R8_G8_B8;
 import static com.io7m.calino.api.CLNChannelsTypeDescriptionStandard.FIXED_POINT_NORMALIZED_UNSIGNED;
 import static com.io7m.calino.api.CLNColorSpaceStandard.COLOR_SPACE_SRGB;
-import static com.io7m.calino.api.CLNCoordinateAxisR.*;
-import static com.io7m.calino.api.CLNCoordinateAxisS.*;
-import static com.io7m.calino.api.CLNCoordinateAxisT.*;
+import static com.io7m.calino.api.CLNCoordinateAxisR.AXIS_R_INCREASING_TOWARD;
+import static com.io7m.calino.api.CLNCoordinateAxisS.AXIS_S_INCREASING_RIGHT;
+import static com.io7m.calino.api.CLNCoordinateAxisT.AXIS_T_INCREASING_DOWN;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -65,7 +60,6 @@ public abstract class CLN1ParsersContract
   protected Path directory;
   protected CLN1Parsers parsers;
   protected CloseableCollectionType<ClosingResourceFailedException> resources;
-  protected ArrayList<CLNParserValidationEvent> events;
 
   private static void showSections(
     final List<CLNFileSectionDescription> sections)
@@ -90,7 +84,9 @@ public abstract class CLN1ParsersContract
       this.parserFor("broken-truncated.ctf");
 
     final var ex =
-    assertThrows(IOException.class, () -> this.resources.add(parser.execute()));
+      assertThrows(
+        IOException.class,
+        () -> this.resources.add(parser.execute()));
     assertTrue(ex.getMessage().contains("Out of bounds."));
   }
 
@@ -102,7 +98,9 @@ public abstract class CLN1ParsersContract
       this.parserFor("broken-bad-identifier.ctf");
 
     final var ex =
-      assertThrows(IOException.class, () -> this.resources.add(parser.execute()));
+      assertThrows(
+        IOException.class,
+        () -> this.resources.add(parser.execute()));
     assertTrue(ex.getMessage().contains("Unrecognized file identifier."));
   }
 
@@ -114,7 +112,9 @@ public abstract class CLN1ParsersContract
       this.parserFor("broken-unsupported-version.ctf");
 
     final var ex =
-      assertThrows(IOException.class, () -> this.resources.add(parser.execute()));
+      assertThrows(
+        IOException.class,
+        () -> this.resources.add(parser.execute()));
     assertTrue(ex.getMessage().contains("Unrecognized major version."));
   }
 
@@ -182,8 +182,6 @@ public abstract class CLN1ParsersContract
         }
       }
     }
-
-    assertEquals(0, this.events.size());
   }
 
   @Test
@@ -221,8 +219,6 @@ public abstract class CLN1ParsersContract
       assertEquals(AXIS_T_INCREASING_DOWN, info.coordinateSystem().axisT());
       assertEquals(COLOR_SPACE_SRGB, info.colorSpace());
     }
-
-    assertEquals(0, this.events.size());
   }
 
   @Test
@@ -254,8 +250,6 @@ public abstract class CLN1ParsersContract
         assertThrows(IOException.class, section::info);
       assertTrue(ex.getMessage().contains("Limit exceeded."));
     }
-
-    assertEquals(0, this.events.size());
   }
 
   @Test
@@ -288,8 +282,6 @@ public abstract class CLN1ParsersContract
       LOG.debug("ex: ", ex);
       assertTrue(ex.getMessage().contains("Limit exceeded."));
     }
-
-    assertEquals(0, this.events.size());
   }
 
   @Test
@@ -322,8 +314,6 @@ public abstract class CLN1ParsersContract
       LOG.debug("ex: ", ex);
       assertTrue(ex.getMessage().contains("Limit exceeded."));
     }
-
-    assertEquals(0, this.events.size());
   }
 
   @Test
@@ -356,8 +346,6 @@ public abstract class CLN1ParsersContract
       LOG.debug("ex: ", ex);
       assertTrue(ex.getMessage().contains("Limit exceeded."));
     }
-
-    assertEquals(0, this.events.size());
   }
 
   @Test
@@ -384,8 +372,6 @@ public abstract class CLN1ParsersContract
       assertEquals(List.of("VAL0"), metadata.get("K0"));
       assertEquals(List.of("VAL1"), metadata.get("KEY1"));
     }
-
-    assertEquals(0, this.events.size());
   }
 
   @Test
@@ -398,7 +384,7 @@ public abstract class CLN1ParsersContract
       });
     final var file =
       this.resources.add(parser.execute());
-    
+
     assertEquals(new CLNVersion(1, 0), file.version());
 
     final var sections = file.sections();
@@ -412,8 +398,6 @@ public abstract class CLN1ParsersContract
         assertThrows(IOException.class, section::metadata);
       assertTrue(ex.getMessage().contains("Limit exceeded."));
     }
-
-    assertEquals(0, this.events.size());
   }
 
   @Test
@@ -455,16 +439,16 @@ public abstract class CLN1ParsersContract
         crc32.update(buffer);
         final int crc32Received = (int) crc32.getValue();
 
-        LOG.debug("crc32 declared: 0x{}",
-                  Integer.toUnsignedString(crc32Declared, 16));
-        LOG.debug("crc32 received: 0x{}",
-                  Integer.toUnsignedString(crc32Received, 16));
+        LOG.debug(
+          "crc32 declared: 0x{}",
+          Integer.toUnsignedString(crc32Declared, 16));
+        LOG.debug(
+          "crc32 received: 0x{}",
+          Integer.toUnsignedString(crc32Received, 16));
 
         assertEquals(crc32Declared, crc32Received);
       }
     }
-
-    assertEquals(0, this.events.size());
   }
 
   @Test
@@ -510,16 +494,16 @@ public abstract class CLN1ParsersContract
         crc32.update(buffer);
         final int crc32Received = (int) crc32.getValue();
 
-        LOG.debug("crc32 declared: 0x{}",
-                  Integer.toUnsignedString(crc32Declared, 16));
-        LOG.debug("crc32 received: 0x{}",
-                  Integer.toUnsignedString(crc32Received, 16));
+        LOG.debug(
+          "crc32 declared: 0x{}",
+          Integer.toUnsignedString(crc32Declared, 16));
+        LOG.debug(
+          "crc32 received: 0x{}",
+          Integer.toUnsignedString(crc32Received, 16));
 
         assertEquals(crc32Declared, crc32Received);
       }
     }
-
-    assertEquals(0, this.events.size());
   }
 
   @Test
@@ -558,74 +542,14 @@ public abstract class CLN1ParsersContract
         ));
       });
     }
-
-    assertEquals(0, this.events.size());
-  }
-
-  @Test
-  public void testWarnUnaligned()
-    throws IOException
-  {
-    final var parser =
-      this.parserFor("warn-unaligned.ctf");
-    final var file =
-      this.resources.add(parser.execute());
-
-    assertEquals(new CLNVersion(1, 0), file.version());
-
-    final var sections = file.sections();
-    showSections(sections);
-    assertEquals(3, sections.size());
-
-    assertEquals(2, this.events.size());
-    assertTrue(this.events.remove(0).message().contains("not aligned"));
-    assertTrue(this.events.remove(0).message().contains("not aligned"));
-  }
-
-
-  @Test
-  public void testWarnTrailing()
-    throws IOException
-  {
-    final var parser =
-      this.parserFor("warn-trailing.ctf");
-    final var file =
-      this.resources.add(parser.execute());
-
-    assertEquals(new CLNVersion(1, 0), file.version());
-
-    final var sections = file.sections();
-    showSections(sections);
-    assertEquals(1, sections.size());
-
-    assertEquals(1, this.events.size());
-    assertTrue(this.events.remove(0).message().contains("trailing data"));
-  }
-
-  @Test
-  public void testWarnEndNonzero()
-    throws IOException
-  {
-    final var parser =
-      this.parserFor("warn-end-nonzero.ctf");
-    final var file =
-      this.resources.add(parser.execute());
-
-    assertEquals(new CLNVersion(1, 0), file.version());
-
-    final var sections = file.sections();
-    showSections(sections);
-    assertEquals(1, sections.size());
-
-    assertEquals(1, this.events.size());
-    assertTrue(this.events.remove(0).message().contains("non-zero size"));
   }
 
   protected final CLNParserType parserFor(
     final String name)
     throws IOException
   {
-    return this.parserFor(name, builder -> {});
+    return this.parserFor(name, builder -> {
+    });
   }
 
   protected abstract CLNParserType parserFor(

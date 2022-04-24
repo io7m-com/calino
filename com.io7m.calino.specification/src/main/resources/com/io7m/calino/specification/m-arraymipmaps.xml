@@ -112,7 +112,7 @@
     </Verbatim>
   </FormalItem>
 
-  <Paragraph>
+  <Paragraph id="cf42f33c-e410-42b9-8cb8-ef1d5a7d044f">
     The proposition <Term type="expression">arrayMipMapOffsetsSorted</Term> declares that, for a given array mipmap
     <Term type="expression">m</Term>, the offset of <Term type="expression">m</Term> plus the compressed size of
     <Term type="expression">m</Term>, must be less than the offset of the next mipmap in the sequence.

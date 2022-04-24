@@ -18,7 +18,6 @@ package com.io7m.calino.parser.api;
 
 import java.net.URI;
 import java.nio.channels.SeekableByteChannel;
-import java.util.function.Consumer;
 
 /**
  * A mutable parser request builder.
@@ -95,23 +94,6 @@ public interface CLNParseRequestBuilderType
 
   CLNParseRequestBuilderType setKeyValueDatumLimit(
     long limit);
-
-  /**
-   * Set the validation receiver.
-   *
-   * @param receiver The receiver
-   *
-   * @return this
-   */
-
-  CLNParseRequestBuilderType setValidationReceiver(
-    Consumer<CLNParserValidationEvent> receiver);
-
-  /**
-   * @return The validation receiver function
-   */
-
-  Consumer<CLNParserValidationEvent> validationReceiver();
 
   /**
    * @return An immutable parse request

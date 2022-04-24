@@ -20,6 +20,7 @@ import java.io.Closeable;
 import java.util.List;
 import java.util.Optional;
 
+import static com.io7m.calino.api.CLNIdentifiers.sectionEndIdentifier;
 import static com.io7m.calino.api.CLNIdentifiers.sectionImage2DIdentifier;
 import static com.io7m.calino.api.CLNIdentifiers.sectionImageArrayIdentifier;
 import static com.io7m.calino.api.CLNIdentifiers.sectionImageInfoIdentifier;
@@ -121,4 +122,30 @@ public interface CLNFileReadableType extends Closeable
     }
     return Optional.empty();
   }
+
+  /**
+   * @return The first available end section, if one exists
+   */
+
+  default Optional<CLNSectionReadableEndType> openEnd()
+  {
+    for (final var section : this.sections()) {
+      final var description = section.description();
+      if (description.identifier() == sectionEndIdentifier()) {
+        return Optional.of(
+          (CLNSectionReadableEndType) this.openSection(section)
+        );
+      }
+    }
+    return Optional.empty();
+  }
+
+  /**
+   * Obtain the number of trailing octets in the file. This value should always
+   * be zero for valid files.
+   *
+   * @return The number of trailing octets
+   */
+
+  long trailingOctets();
 }

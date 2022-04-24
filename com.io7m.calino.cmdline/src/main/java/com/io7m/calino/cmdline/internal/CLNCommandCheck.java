@@ -111,9 +111,6 @@ public final class CLNCommandCheck extends CLNAbstractReadFileCommand
         .filter(e -> e.status() == STATUS_WARNING)
         .collect(Collectors.toList());
 
-    allErrors.addAll(this.parserValidationErrors());
-    allWarnings.addAll(this.parserValidationWarnings());
-
     for (final var e : allErrors) {
       LOG.error(
         "{}: @0x{}: {}",

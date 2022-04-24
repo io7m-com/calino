@@ -106,8 +106,6 @@ public final class CLN1SectionReadableImage2D
       final var mipMapCount =
         (int) (subReader.readU32BE("mipMapCount") & 0xFFFFFFFFL);
 
-      this.checkMipMapCount(subReader, mipMapCount);
-
       for (var index = 0; index < mipMapCount; ++index) {
         final var mipMapLevel =
           (int) (subReader.readU32BE("mipMapLevel") & 0xFFFFFFFFL);
@@ -119,15 +117,6 @@ public final class CLN1SectionReadableImage2D
           subReader.readU64BE("dataSizeCompressed");
         final var crc32 =
           (int) (subReader.readU32BE("crc32") & 0xFFFFFFFFL);
-
-        this.checkDataOffsetWithinSection(
-          subReader, dataOffsetWithinSection);
-        this.checkDataSizeCompressed(
-          subReader, dataSizeCompressed);
-        this.checkDataSizeUncompressed(
-          subReader, dataSizeUncompressed);
-        this.checkDataSizeCompressionMatches(
-          subReader, dataSizeCompressed, dataSizeUncompressed);
 
         this.mipMapDescriptions.add(
           new CLNImage2DDescription(
@@ -143,82 +132,6 @@ public final class CLN1SectionReadableImage2D
 
     this.mipMapDescriptions = List.copyOf(this.mipMapDescriptions);
     return this.mipMapDescriptions;
-  }
-
-  private void checkDataSizeCompressionMatches(
-    final BSSReaderRandomAccessType reader,
-    final long dataSizeCompressed,
-    final long dataSizeUncompressed)
-  {
-    if (this.imageInfo.superCompressionMethod() == UNCOMPRESSED) {
-      if (dataSizeCompressed != dataSizeUncompressed) {
-        final var request = this.request();
-        request.validationReceiver().accept(
-          CLNValidation.imageDataSizeCompressionSizeMismatch(
-            request.source(),
-            reader.offsetCurrentAbsolute(),
-            dataSizeCompressed,
-            dataSizeUncompressed
-          )
-        );
-      }
-    }
-  }
-
-  private void checkDataSizeUncompressed(
-    final BSSReaderRandomAccessType reader,
-    final long dataSizeUncompressed)
-  {
-    if (Long.compareUnsigned(dataSizeUncompressed, 0L) == 0) {
-      final var request = this.request();
-      request.validationReceiver().accept(
-        CLNValidation.imageDataSizeUncompressedZero(
-          request.source(),
-          reader.offsetCurrentAbsolute())
-      );
-    }
-  }
-
-  private void checkDataSizeCompressed(
-    final BSSReaderRandomAccessType reader,
-    final long dataSizeCompressed)
-  {
-    if (Long.compareUnsigned(dataSizeCompressed, 0L) == 0) {
-      final var request = this.request();
-      request.validationReceiver().accept(
-        CLNValidation.imageDataSizeCompressedZero(
-          request.source(),
-          reader.offsetCurrentAbsolute())
-      );
-    }
-  }
-
-  private void checkDataOffsetWithinSection(
-    final BSSReaderRandomAccessType reader,
-    final long dataOffsetWithinSection)
-  {
-    if (Long.compareUnsigned(dataOffsetWithinSection, 0L) == 0) {
-      final var request = this.request();
-      request.validationReceiver().accept(
-        CLNValidation.imageDataOffsetWithinSectionZero(
-          request.source(),
-          reader.offsetCurrentAbsolute())
-      );
-    }
-  }
-
-  private void checkMipMapCount(
-    final BSSReaderRandomAccessType reader,
-    final int mipMapCount)
-  {
-    if (Integer.compareUnsigned(mipMapCount, 0) == 0) {
-      final var request = this.request();
-      request.validationReceiver().accept(
-        CLNValidation.imageDataMipMapCountZero(
-          request.source(),
-          reader.offsetCurrentAbsolute())
-      );
-    }
   }
 
   @Override

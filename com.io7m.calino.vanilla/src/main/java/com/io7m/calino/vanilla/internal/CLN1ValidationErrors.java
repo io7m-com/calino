@@ -17,6 +17,7 @@
 
 package com.io7m.calino.vanilla.internal;
 
+import com.io7m.calino.api.CLNFileSectionDescription;
 import com.io7m.calino.api.CLNImage2DDescription;
 import com.io7m.calino.api.CLNImageArrayDescription;
 import com.io7m.calino.api.CLNSectionReadableImage2DType;
@@ -32,6 +33,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import static com.io7m.calino.validation.api.CLNValidationStatus.STATUS_ERROR;
+import static com.io7m.calino.validation.api.CLNValidationStatus.STATUS_WARNING;
 
 /**
  * A factory of errors.
@@ -57,6 +59,14 @@ public final class CLN1ValidationErrors
       Objects.requireNonNull(inSource, "source");
     this.strings =
       Objects.requireNonNull(inStrings, "strings");
+  }
+
+  private static String formatSet(
+    final Set<Integer> set)
+  {
+    return set.toString()
+      .replace('[', '{')
+      .replace(']', '}');
   }
 
   /**
@@ -423,10 +433,11 @@ public final class CLN1ValidationErrors
   /**
    * Construct an error.
    *
-   * @param section      The section
-   * @param level        The mip level
-   * @param layerHighest The highest layer
+   * @param section        The section
+   * @param level          The mip level
+   * @param layerHighest   The highest layer
    * @param receivedLayers The received layers
+   *
    * @return An error
    */
 
@@ -449,14 +460,6 @@ public final class CLN1ValidationErrors
       ),
       Optional.empty()
     );
-  }
-
-  private static String formatSet(
-    final Set<Integer> set)
-  {
-    return set.toString()
-      .replace('[', '{')
-      .replace(']', '}');
   }
 
   /**
@@ -484,6 +487,343 @@ public final class CLN1ValidationErrors
         Integer.toUnsignedString(sizeZ),
         Integer.toUnsignedString(layerHighest)
       ),
+      Optional.empty()
+    );
+  }
+
+  /**
+   * Construct an error.
+   *
+   * @param section     The section
+   * @param description The description
+   *
+   * @return An error
+   */
+
+  public CLNValidationError warnArrayUncompressedDataSizeMismatch(
+    final CLNSectionReadableImageArrayType section,
+    final CLNImageArrayDescription description)
+  {
+    return new CLNValidationError(
+      this.source,
+      section.fileSectionDescription().fileOffsetData(),
+      STATUS_WARNING,
+      Optional.of(UUID.fromString("4d7423ef-2f74-4612-9685-1615ea0c5c7e")),
+      this.strings.format(
+        "warnArrayUncompressedDataSizeMismatch",
+        Long.toUnsignedString(description.dataSizeCompressed()),
+        Long.toUnsignedString(description.dataSizeUncompressed()),
+        Integer.toUnsignedString(description.layer()),
+        Integer.toUnsignedString(description.mipMapLevel())
+      ),
+      Optional.empty()
+    );
+  }
+
+  /**
+   * Construct an error.
+   *
+   * @param section     The section
+   * @param description The description
+   *
+   * @return An error
+   */
+
+  public CLNValidationError warn2DUncompressedDataSizeMismatch(
+    final CLNSectionReadableImage2DType section,
+    final CLNImage2DDescription description)
+  {
+    return new CLNValidationError(
+      this.source,
+      section.fileSectionDescription().fileOffsetData(),
+      STATUS_WARNING,
+      Optional.of(UUID.fromString("4d7423ef-2f74-4612-9685-1615ea0c5c7e")),
+      this.strings.format(
+        "warn2DUncompressedDataSizeMismatch",
+        Long.toUnsignedString(description.dataSizeCompressed()),
+        Long.toUnsignedString(description.dataSizeUncompressed()),
+        Integer.toUnsignedString(description.mipMapLevel())
+      ),
+      Optional.empty()
+    );
+  }
+
+  /**
+   * Construct an error.
+   *
+   * @param section     The section
+   * @param description The description
+   *
+   * @return An error
+   */
+
+  public CLNValidationError warnArrayCompressedSizeZero(
+    final CLNSectionReadableImageArrayType section,
+    final CLNImageArrayDescription description)
+  {
+    return new CLNValidationError(
+      this.source,
+      section.fileSectionDescription().fileOffsetData(),
+      STATUS_WARNING,
+      Optional.of(UUID.fromString("0afd8e85-daa5-459a-af8e-6657716959b0")),
+      this.strings.format(
+        "warnArrayCompressedSizeZero",
+        Integer.toUnsignedString(description.layer()),
+        Integer.toUnsignedString(description.mipMapLevel())
+      ),
+      Optional.empty()
+    );
+  }
+
+  /**
+   * Construct an error.
+   *
+   * @param section     The section
+   * @param description The description
+   *
+   * @return An error
+   */
+
+  public CLNValidationError warn2DCompressedSizeZero(
+    final CLNSectionReadableImage2DType section,
+    final CLNImage2DDescription description)
+  {
+    return new CLNValidationError(
+      this.source,
+      section.fileSectionDescription().fileOffsetData(),
+      STATUS_WARNING,
+      Optional.of(UUID.fromString("2c3420bb-1273-4f1e-9212-9f259d60d6f1")),
+      this.strings.format(
+        "warn2DCompressedSizeZero",
+        Integer.toUnsignedString(description.mipMapLevel())
+      ),
+      Optional.empty()
+    );
+  }
+
+  /**
+   * Construct an error.
+   *
+   * @param section     The section
+   * @param description The description
+   *
+   * @return An error
+   */
+
+  public CLNValidationError warnArrayUncompressedSizeZero(
+    final CLNSectionReadableImageArrayType section,
+    final CLNImageArrayDescription description)
+  {
+    return new CLNValidationError(
+      this.source,
+      section.fileSectionDescription().fileOffsetData(),
+      STATUS_WARNING,
+      Optional.of(UUID.fromString("5a5a6f15-82f6-4188-8417-e1e0a0e37fc1")),
+      this.strings.format(
+        "warnArrayUncompressedSizeZero",
+        Integer.toUnsignedString(description.layer()),
+        Integer.toUnsignedString(description.mipMapLevel())
+      ),
+      Optional.empty()
+    );
+  }
+
+  /**
+   * Construct an error.
+   *
+   * @param section     The section
+   * @param description The description
+   *
+   * @return An error
+   */
+
+  public CLNValidationError warn2DUncompressedSizeZero(
+    final CLNSectionReadableImage2DType section,
+    final CLNImage2DDescription description)
+  {
+    return new CLNValidationError(
+      this.source,
+      section.fileSectionDescription().fileOffsetData(),
+      STATUS_WARNING,
+      Optional.of(UUID.fromString("41c816ac-d7ee-4041-a764-9a36a983080c")),
+      this.strings.format(
+        "warn2DUncompressedSizeZero",
+        Integer.toUnsignedString(description.mipMapLevel())
+      ),
+      Optional.empty()
+    );
+  }
+
+  /**
+   * Construct an error.
+   *
+   * @param section The section
+   *
+   * @return An error
+   */
+
+  public CLNValidationError error2DNoMipmaps(
+    final CLNSectionReadableImage2DType section)
+  {
+    return new CLNValidationError(
+      this.source,
+      section.fileSectionDescription().fileOffsetData(),
+      STATUS_WARNING,
+      Optional.of(UUID.fromString("f868cdeb-21ce-4b89-9c2d-b1383b07cbd7")),
+      this.strings.format("error2DNoMipmaps"),
+      Optional.empty()
+    );
+  }
+
+  /**
+   * Construct an error.
+   *
+   * @param section The section
+   *
+   * @return An error
+   */
+
+  public CLNValidationError errorArrayNoMipmaps(
+    final CLNSectionReadableImageArrayType section)
+  {
+    return new CLNValidationError(
+      this.source,
+      section.fileSectionDescription().fileOffsetData(),
+      STATUS_WARNING,
+      Optional.of(UUID.fromString("cf42f33c-e410-42b9-8cb8-ef1d5a7d044f")),
+      this.strings.format("errorArrayNoMipmaps"),
+      Optional.empty()
+    );
+  }
+
+  /**
+   * Construct an error.
+   *
+   * @param section The section
+   *
+   * @return An error
+   */
+
+  public CLNValidationError warnSectionUnaligned(
+    final CLNFileSectionDescription section)
+  {
+    return new CLNValidationError(
+      this.source,
+      section.fileOffset(),
+      STATUS_WARNING,
+      Optional.of(UUID.fromString("2ccedb5d-d5ec-40ba-a965-04bba40ce4ec")),
+      this.strings.format(
+        "warnSectionUnaligned",
+        Long.toUnsignedString(section.description().identifier()),
+        Long.toUnsignedString(section.fileOffset())
+      ),
+      Optional.empty()
+    );
+  }
+
+  /**
+   * Construct an error.
+   *
+   * @param section The section
+   *
+   * @return An error
+   */
+
+  public CLNValidationError warnEndSectionNotZeroSize(
+    final CLNFileSectionDescription section)
+  {
+    return new CLNValidationError(
+      this.source,
+      section.fileOffset(),
+      STATUS_WARNING,
+      Optional.of(UUID.fromString("75b25aca-58ce-4dfe-9c1b-c3140fda18e3")),
+      this.strings.format(
+        "warnEndSectionNotZeroSize",
+        Long.toUnsignedString(section.description().size())
+      ),
+      Optional.empty()
+    );
+  }
+
+  /**
+   * Construct an error.
+   *
+   * @return An error
+   */
+
+  public CLNValidationError errorNoEndSection()
+  {
+    return new CLNValidationError(
+      this.source,
+      0L,
+      STATUS_ERROR,
+      Optional.of(UUID.fromString("a24164fd-3bdb-41fc-b04f-f7ebd4d65c4a")),
+      this.strings.format("errorNoEndSection"),
+      Optional.empty()
+    );
+  }
+
+  /**
+   * Construct an error.
+   *
+   * @param section The section
+   *
+   * @return An error
+   */
+
+  public CLNValidationError warnArrayImageOffsetZero(
+    final CLNSectionReadableImageArrayType section)
+  {
+    return new CLNValidationError(
+      this.source,
+      section.fileSectionDescription().fileOffsetData(),
+      STATUS_WARNING,
+      Optional.empty(),
+      this.strings.format("warnArrayImageOffsetZero"),
+      Optional.empty()
+    );
+  }
+
+  /**
+   * Construct an error.
+   *
+   * @param section The section
+   *
+   * @return An error
+   */
+
+  public CLNValidationError warn2DImageOffsetZero(
+    final CLNSectionReadableImage2DType section)
+  {
+    return new CLNValidationError(
+      this.source,
+      section.fileSectionDescription().fileOffsetData(),
+      STATUS_WARNING,
+      Optional.empty(),
+      this.strings.format("warn2DImageOffsetZero"),
+      Optional.empty()
+    );
+  }
+
+  /**
+   * Construct an error.
+   *
+   * @param octets The octets
+   * @param offset The offset of the data
+   *
+   * @return An error
+   */
+
+  public CLNValidationError warnTrailingData(
+    final long offset,
+    final long octets)
+  {
+    return new CLNValidationError(
+      this.source,
+      offset,
+      STATUS_WARNING,
+      Optional.of(UUID.fromString("e5108d48-42fd-4de3-8137-f42aafc44e20")),
+      this.strings.format("warnTrailingData", Long.toUnsignedString(octets)),
       Optional.empty()
     );
   }

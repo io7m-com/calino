@@ -85,13 +85,6 @@ public final class CLNParsers
     return Optional.of(candidates.get(candidates.size() - 1));
   }
 
-  private record FindResult(
-    CLNVersion version,
-    Optional<CLNParserFactoryType> factory)
-  {
-
-  }
-
   /**
    * Find a parser factory for the given file. The file will be probed to
    * determine which file version is present.
@@ -158,5 +151,12 @@ public final class CLNParsers
 
     final var factory = factoryOpt.get();
     return factory.createParser(request);
+  }
+
+  private record FindResult(
+    CLNVersion version,
+    Optional<CLNParserFactoryType> factory)
+  {
+
   }
 }
