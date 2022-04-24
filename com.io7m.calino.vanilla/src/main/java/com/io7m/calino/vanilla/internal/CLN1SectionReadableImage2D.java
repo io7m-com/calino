@@ -24,6 +24,7 @@ import com.io7m.calino.parser.api.CLNParseRequest;
 import com.io7m.calino.supercompression.api.CLNDecompressorFactoryType;
 import com.io7m.calino.supercompression.api.CLNDecompressorRequest;
 import com.io7m.jbssio.api.BSSReaderRandomAccessType;
+import com.io7m.wendover.core.CloseShieldSeekableByteChannel;
 
 import java.io.IOException;
 import java.nio.channels.ReadableByteChannel;
@@ -167,7 +168,7 @@ public final class CLN1SectionReadableImage2D
     baseChannel.position(fileSectionImageDataOffset);
 
     final var closeShield =
-      new CLNCloseShieldSeekableByteChannel(baseChannel);
+      new CloseShieldSeekableByteChannel(baseChannel);
     final var boundedChannel =
       new CLNSubrangeReadableByteChannel(
         closeShield,
