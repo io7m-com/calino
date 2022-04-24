@@ -21,9 +21,9 @@ import com.io7m.calino.parser.api.CLNParseRequestBuilderType;
 import com.io7m.calino.parser.api.CLNParserType;
 import com.io7m.calino.supercompression.api.CLNDecompressors;
 import com.io7m.calino.vanilla.CLN1Parsers;
-import com.io7m.calino.vanilla.internal.CLNByteBufferByteChannel;
 import com.io7m.jmulticlose.core.CloseableCollection;
 import com.io7m.jmulticlose.core.ClosingResourceFailedException;
+import com.io7m.wendover.core.internal.ByteBufferChannel;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -74,7 +74,7 @@ public final class CLN1ParsersMappedTest extends CLN1ParsersContract
       channel.map(FileChannel.MapMode.READ_ONLY, 0L, channel.size());
 
     final var mappedChannel =
-      new CLNByteBufferByteChannel(map);
+      new ByteBufferChannel(map);
 
     this.resources.add(mappedChannel);
 
