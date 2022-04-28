@@ -29,9 +29,9 @@
      showgrid="true"
      units="px"
      width="600px"
-     inkscape:zoom="6.0033364"
-     inkscape:cx="101.86003"
-     inkscape:cy="185.23033"
+     inkscape:zoom="1.5008341"
+     inkscape:cx="183.56459"
+     inkscape:cy="161.24367"
      inkscape:window-width="1758"
      inkscape:window-height="1020"
      inkscape:window-x="1933"
@@ -434,13 +434,13 @@
        xml:space="preserve"
        style="font-size:2.82222px;line-height:1.25;font-family:'IBM Plex Mono';-inkscape-font-specification:'IBM Plex Mono';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
        x="3.4529917"
-       y="76.26123"
+       y="69.897224"
        id="text17380"><tspan
          sodipodi:role="line"
          id="tspan17378"
          style="font-size:2.82222px;stroke-width:0.264583"
          x="3.4529917"
-         y="76.26123">Level 0</tspan></text>
+         y="69.897224">Level 0</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:3.175px;line-height:1.25;font-family:'IBM Plex Mono';-inkscape-font-specification:'IBM Plex Mono';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
@@ -474,17 +474,6 @@
          style="fill:#ffffff;stroke-width:0.264583"
          x="51.019062"
          y="66.345711">-x</tspan></text>
-    <text
-       xml:space="preserve"
-       style="font-size:2.82223px;line-height:1.25;font-family:'IBM Plex Mono';-inkscape-font-specification:'IBM Plex Mono';letter-spacing:0px;word-spacing:0px;fill:#ffffff;stroke-width:0.264583"
-       x="12.812682"
-       y="66.391266"
-       id="text12267-6"><tspan
-         sodipodi:role="line"
-         id="tspan12265-3"
-         style="fill:#ffffff;stroke-width:0.264583"
-         x="12.812682"
-         y="66.391266">+x</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:2.82223px;line-height:1.25;font-family:'IBM Plex Mono';-inkscape-font-specification:'IBM Plex Mono';letter-spacing:0px;word-spacing:0px;fill:#ffffff;stroke-width:0.264583"
