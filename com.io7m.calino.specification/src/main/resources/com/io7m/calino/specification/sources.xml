@@ -40,6 +40,9 @@
   <FormalItem title="Calino/CoordinateSystem.v" id="6a334487-965f-583e-89e0-0da0ec538e5e">
     <Verbatim><xi:include href="Calino/CoordinateSystem.v" parse="text"/></Verbatim>
   </FormalItem>
+  <FormalItem title="Calino/CubeMipMap.v" id="527b3cf7-0441-50c8-a50b-b92dbc09580c">
+    <Verbatim><xi:include href="Calino/CubeMipMap.v" parse="text"/></Verbatim>
+  </FormalItem>
   <FormalItem title="Calino/Descriptor.v" id="b2bfd972-cb6c-5f30-8e06-493f818d4ebd">
     <Verbatim><xi:include href="Calino/Descriptor.v" parse="text"/></Verbatim>
   </FormalItem>
