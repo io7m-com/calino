@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Section title="Cube Images"
+         xmlns:xi="http://www.w3.org/2001/XInclude"
+         id="df607ad1-a586-4a3f-b8bc-f322142056f9"
+         xmlns="urn:com.io7m.structural:8:0">
+
+  <Subsection title="Description">
+    <Paragraph>
+      <Link target="63a0f8cf-4a48-47bc-aa83-b35d631ad243">Cube image</Link>
+      values are translated to binary expressions as follows:
+    </Paragraph>
+
+    <FormalItem title="Cube MipMap Face Encoding">
+      <Verbatim>
+        <xi:include href="155.txt"
+                    parse="text"/>
+      </Verbatim>
+    </FormalItem>
+    <FormalItem title="Cube MipMap Encoding">
+      <Verbatim>
+        <xi:include href="156.txt"
+                    parse="text"/>
+      </Verbatim>
+    </FormalItem>
+    <FormalItem title="Cube MipMaps Encoding">
+      <Verbatim>
+        <xi:include href="157.txt"
+                    parse="text"/>
+      </Verbatim>
+    </FormalItem>
+    <FormalItem title="Image Cube Encoding">
+      <Verbatim>
+        <xi:include href="158.txt"
+                    parse="text"/>
+      </Verbatim>
+    </FormalItem>
+
+    <Paragraph>
+      Informally, an array of <Link target="e8125add-3c83-47a1-9997-1f15867068dd">mipmap</Link> descriptions are
+      serialized, followed by any required padding to reach the offset value declared by the first mipmap, followed by
+      the image data for each mipmap in the order specified by the mipmap descriptions.
+    </Paragraph>
+
+    <Paragraph>
+      Cube images must be encoded into a
+      <Link target="eb66b381-4c70-4246-95e9-d3a61e19ac4c">section</Link>
+      with identifier <Term type="constant">0x434C4E5F43554245</Term> as follows:
+    </Paragraph>
+    <FormalItem title="Image Cube Section">
+      <Verbatim>
+        <xi:include href="159.txt"
+                    parse="text"/>
+      </Verbatim>
+    </FormalItem>
+  </Subsection>
+
+  <Subsection title="Cardinality">
+    <Paragraph>
+      A cube image section can appear in a <Term type="package">calino</Term> texture file at most once.
+    </Paragraph>
+  </Subsection>
+
+</Section>

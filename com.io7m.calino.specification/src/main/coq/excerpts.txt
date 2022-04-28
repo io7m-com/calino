@@ -145,3 +145,16 @@
 144 ! Definition Layout_A1_R5_G5_B5 : channelLayoutDescription
 145 ! Inductive image2d : Set
 146 ! Inductive imageArray : Set
+147 ! Inductive cubeMapFace : Set
+148 ! Inductive cubeMipMap : Set
+149 ! Inductive cubeMipMapListIsSorted : list cubeMipMap
+150 ! Definition cubeFaceExtent (f : cubeMapFace)
+151 ! Inductive cubeOffsetsSorted : list cubeMipMap
+152 ! Fixpoint cubeMipMapImageDataSizeTotalAux (m : list cubeMipMap)
+153 ! Definition cubeMipMapImageDataSizeTotal (m : cubeMipMapList)
+154 ! Inductive imageCube : Set
+155 ! Definition binaryExpCubeMipMapFace (m : cubeMapFace)
+156 ! Definition binaryExpCubeMipMap (m : cubeMipMap)
+157 ! Definition binaryExpCubeMipMaps (m : cubeMipMapList)
+158 ! Definition binaryExpImageCubeMap
+159 ! Definition binaryExpImageCubeSection

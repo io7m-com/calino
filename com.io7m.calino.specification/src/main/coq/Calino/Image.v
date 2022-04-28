@@ -1,5 +1,6 @@
 Require Import Coq.Unicode.Utf8_core.
 
+Require Import Calino.CubeMipMap.
 Require Import Calino.ArrayMipMap.
 Require Import Calino.ImageInfo.
 Require Import Calino.MipMap.
@@ -16,14 +17,20 @@ Inductive imageArray : Set := ImageArray {
   iaSize    : 1 <= imageSizeZ iaInfo
 }.
 
+Inductive imageCube : Set := ImageCube {
+  icubeInfo    : imageInfo;
+  icubeMipMaps : cubeMipMapList;
+  icubeSize    : 1 = imageSizeZ icubeInfo
+}.
+
 Inductive image : Set :=
   | IImage2D    : image2d → image
   | IImageArray : imageArray → image
-  | IImageCube  : imageInfo → image.
+  | IImageCube  : imageCube → image.
 
 Definition imageInfoOf (i : image) : imageInfo :=
   match i with
   | IImage2D (Image2D i _ _)       => i
   | IImageArray (ImageArray i _ _) => i
-  | IImageCube i                   => i
+  | IImageCube (ImageCube i _ _)   => i
   end.

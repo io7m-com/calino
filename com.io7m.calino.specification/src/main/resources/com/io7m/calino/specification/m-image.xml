@@ -52,15 +52,24 @@
   <Subsection title="3D Image"
               id="60f44a91-49a1-4ee9-9659-45ed94051828">
     <Paragraph>
-      3D image.
+      3D images are not yet specified.
     </Paragraph>
   </Subsection>
 
   <Subsection title="Cube Image"
               id="63a0f8cf-4a48-47bc-aa83-b35d631ad243">
     <Paragraph>
-      Cube image.
+      A cube image aggregates <Link target="4ae63d09-ce2d-46d4-a8eb-f1f9ad382ee8">image information</Link> and
+      a sequence of <Link target="e8125add-3c83-47a1-9997-1f15867068dd">cube mipmaps</Link> for a single cube
+      image.
     </Paragraph>
+    <Paragraph id="21c2587a-17e5-45fb-b17f-968814d2ba17">
+      Cube images must have <Link target="3dde6403-729d-4eaa-9179-17d9a9fbe7a6">sizeZ</Link> values equal to
+      <Term type="constant">1</Term>.
+    </Paragraph>
+    <FormalItem title="Cube Image">
+      <Verbatim><xi:include href="154.txt" parse="text"/></Verbatim>
+    </FormalItem>
   </Subsection>
 
 </Section>

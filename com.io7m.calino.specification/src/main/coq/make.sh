@@ -17,6 +17,7 @@ coqc -Q Calino Calino Calino/Flag.v
 coqc -Q Calino Calino Calino/CoordinateSystem.v
 coqc -Q Calino Calino Calino/ImageSize.v
 coqc -Q Calino Calino Calino/ImageInfo.v
+coqc -Q Calino Calino Calino/CubeMipMap.v
 coqc -Q Calino Calino Calino/MipMap.v
 coqc -Q Calino Calino Calino/ArrayMipMap.v
 coqc -Q Calino Calino Calino/Image.v

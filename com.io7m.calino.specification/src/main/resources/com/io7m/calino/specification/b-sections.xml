@@ -59,6 +59,10 @@
         <Cell>Image data for array images.</Cell>
       </Row>
       <Row>
+        <Cell><Link target="df607ad1-a586-4a3f-b8bc-f322142056f9">0x434C4E5F43554245</Link></Cell>
+        <Cell>Image data for cube images.</Cell>
+      </Row>
+      <Row>
         <Cell><Link target="16fddeaf-9d7f-437b-8662-01e6975f6249">0x434C4E5F4D455441</Link></Cell>
         <Cell>Key/value metadata.</Cell>
       </Row>

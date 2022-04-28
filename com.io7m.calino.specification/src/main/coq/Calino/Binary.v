@@ -10,6 +10,7 @@ Require Import Coq.Unicode.Utf8_core.
 Require Import Calino.Alignment.
 Require Import Calino.Metadata.
 Require Import Calino.ArrayMipMap.
+Require Import Calino.CubeMipMap.
 Require Import Calino.MipMap.
 Require Import Calino.ImageInfo.
 Require Import Calino.Divisible8.
@@ -258,6 +259,51 @@ Definition binaryExpImageArraySection
   ("id",   u64 0x434C4E5F41525221);
   ("size", u64 (binarySizePadded16 (binaryExpImageArray i m)));
   ("data", binaryExpImageArray i m)
+].
+
+Definition binaryExpCubeMipMapFace (m : cubeMapFace) : binaryExp := BiRecord [
+  ("cubeFaceDataOffset",       u64 (cubeFaceOffset m));
+  ("cubeFaceSizeUncompressed", u64 (cubeFaceSizeUncompressed m));
+  ("cubeFaceSizeCompressed",   u64 (cubeFaceSizeCompressed m));
+  ("cubeFaceCRC32",            u32 (cubeFaceCRC32 m))
+].
+
+Definition binaryExpCubeMipMap (m : cubeMipMap) : binaryExp := BiRecord [
+  ("cubeMipMapLevel",    u32 (cubeMapLevel m));
+  ("cubeMipMapFacePosX", binaryExpCubeMipMapFace (cubeMapFaceXPos m));
+  ("cubeMipMapFaceNegX", binaryExpCubeMipMapFace (cubeMapFaceXNeg m));
+  ("cubeMipMapFacePosY", binaryExpCubeMipMapFace (cubeMapFaceYPos m));
+  ("cubeMipMapFaceNegY", binaryExpCubeMipMapFace (cubeMapFaceYNeg m));
+  ("cubeMipMapFacePosZ", binaryExpCubeMipMapFace (cubeMapFaceZPos m));
+  ("cubeMipMapFaceNegZ", binaryExpCubeMipMapFace (cubeMapFaceZNeg m))
+].
+
+Definition binaryExpCubeMipMaps (m : cubeMipMapList) : binaryExp :=
+  BiArray (map binaryExpCubeMipMap (cubeMipMaps m)).
+
+Definition binaryExpImageCubeMap
+  (i : imageInfo)
+  (m : cubeMipMapList) 
+: binaryExp :=
+  let imageDataStart := cubeFaceOffset (cubeMapFaceXPos (cubeMipMapsFirst m)) in
+  let encMips        := binaryExpCubeMipMaps m in
+  let encMipsSize    := binarySize encMips in
+  let encMipsPad     := imageDataStart - encMipsSize in
+  let imageSize      := cubeMipMapImageDataSizeTotal m in
+  let imageSize16    := asMultipleOf16 imageSize in
+    BiRecord [
+      ("cubeMipMaps", encMips);
+      ("cubeMipPad",  BiReserve encMipsPad);
+      ("cubeMipData", BiReserve imageSize16)
+    ].
+
+Definition binaryExpImageCubeSection
+  (i : imageInfo)
+  (m : cubeMipMapList) 
+: binaryExp := BiRecord [
+  ("id",   u64 0x434C4E5F43554245);
+  ("size", u64 (binarySizePadded16 (binaryExpImageCubeMap i m)));
+  ("data", binaryExpImageCubeMap i m)
 ].
 
 Definition binaryExpCompression (c : compressionMethod) : binaryExp := BiRecord [
