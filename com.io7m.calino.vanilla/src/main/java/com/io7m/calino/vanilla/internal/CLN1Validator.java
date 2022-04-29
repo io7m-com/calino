@@ -16,10 +16,12 @@
 
 package com.io7m.calino.vanilla.internal;
 
+import com.io7m.calino.api.CLNCubeFace;
 import com.io7m.calino.api.CLNFileReadableType;
 import com.io7m.calino.api.CLNFileSectionDescription;
 import com.io7m.calino.api.CLNImage2DDescription;
 import com.io7m.calino.api.CLNImageArrayDescription;
+import com.io7m.calino.api.CLNImageCubeDescription;
 import com.io7m.calino.api.CLNImageInfo;
 import com.io7m.calino.api.CLNSectionReadableEndType;
 import com.io7m.calino.api.CLNSectionReadableImage2DType;
@@ -36,6 +38,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.nio.channels.Channels;
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -44,8 +47,10 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.zip.CRC32;
 
+import static com.io7m.calino.api.CLNCubeFace.facesInOrder;
 import static com.io7m.calino.api.CLNSuperCompressionMethodStandard.UNCOMPRESSED;
 import static java.lang.Integer.toUnsignedLong;
+import static java.lang.Math.max;
 
 /**
  * A validator.
@@ -154,7 +159,7 @@ public final class CLN1Validator implements CLNValidatorType
 
   private void checkImageCube(
     final ImageInfoParsed imageInfo,
-    final CLNSectionReadableImageCubeType imageCube)
+    final CLNSectionReadableImageCubeType section)
   {
     this.processedImageData = true;
 
@@ -165,6 +170,28 @@ public final class CLN1Validator implements CLNValidatorType
         infoSection,
         sizeZ));
     }
+
+    final List<CLNImageCubeDescription> descriptions;
+
+    try {
+      descriptions = section.mipMapDescriptions();
+    } catch (final IOException e) {
+      this.publishError(this.errorFactory.errorOfException(
+        section, e, "Failed to parse cube image mipmaps"));
+      return;
+    }
+
+    if (descriptions.isEmpty()) {
+      this.publishError(this.errorFactory.errorCubeNoMipmaps(section));
+      return;
+    }
+
+    this.checkCubeMipMapWellOrdered(section, descriptions);
+    this.checkCubeMipMapCompressedDataAll(
+      section,
+      imageInfo.imageInfo.superCompressionMethod(),
+      descriptions
+    );
   }
 
   private void checkImage2D(
@@ -218,7 +245,7 @@ public final class CLN1Validator implements CLNValidatorType
         );
       }
       mipLevelSet.add(level);
-      mipHighest = Math.max(mipHighest, level);
+      mipHighest = max(mipHighest, level);
     }
 
     for (int mipLevel = 0; mipLevel <= mipHighest; ++mipLevel) {
@@ -238,6 +265,148 @@ public final class CLN1Validator implements CLNValidatorType
       this.publishError(
         this.errorFactory.error2DMipLevelGaps(section, mipHighest)
       );
+    }
+  }
+
+  private void checkCubeMipMapWellOrdered(
+    final CLNSectionReadableImageCubeType section,
+    final List<CLNImageCubeDescription> descriptions)
+  {
+    final var facesByLevel =
+      new HashMap<Integer, EnumMap<CLNCubeFace, CLNImageCubeDescription>>();
+
+    var mipHighest = 0;
+    for (final var mipMap : descriptions) {
+      final var level =
+        mipMap.mipMapLevel();
+
+      mipHighest = max(level, mipHighest);
+
+      var byFace =
+        facesByLevel.get(Integer.valueOf(level));
+
+      if (byFace == null) {
+        byFace = new EnumMap<>(CLNCubeFace.class);
+      }
+
+      byFace.put(mipMap.face(), mipMap);
+      facesByLevel.put(Integer.valueOf(level), byFace);
+    }
+
+    for (int mipLevel = 0; mipLevel <= mipHighest; ++mipLevel) {
+      final var byFace =
+        facesByLevel.get(Integer.valueOf(mipLevel));
+
+      if (byFace == null) {
+        this.publishError(
+          this.errorFactory.errorCubeMipLevelGaps(section, mipHighest)
+        );
+        continue;
+      }
+
+      for (final var face : facesInOrder()) {
+        if (!byFace.containsKey(face)) {
+          this.publishError(
+            this.errorFactory.errorCubeMipFaceMissing(section, mipLevel, face)
+          );
+        }
+      }
+    }
+
+    final var sorted =
+      descriptions.stream()
+        .sorted()
+        .toList();
+
+    if (!Objects.equals(sorted, descriptions)) {
+      this.publishError(
+        this.errorFactory.errorCubeMipLevelGaps(section, mipHighest)
+      );
+    }
+  }
+
+  private void checkCubeMipMapCompressedDataAll(
+    final CLNSectionReadableImageCubeType section,
+    final CLNSuperCompressionMethodType superCompression,
+    final List<CLNImageCubeDescription> descriptions)
+  {
+    for (final var description : descriptions) {
+      this.checkCubeMipMapCompressedDataOne(
+        section,
+        superCompression,
+        description);
+    }
+  }
+
+  private void checkCubeMipMapCompressedDataOne(
+    final CLNSectionReadableImageCubeType section,
+    final CLNSuperCompressionMethodType superCompression,
+    final CLNImageCubeDescription description)
+  {
+    if (description.dataSizeUncompressed() == 0L) {
+      this.publishError(
+        this.errorFactory.warnCubeUncompressedSizeZero(section, description)
+      );
+    }
+
+    if (description.dataSizeCompressed() == 0L) {
+      this.publishError(
+        this.errorFactory.warnCubeCompressedSizeZero(section, description)
+      );
+    }
+
+    if (description.dataOffsetWithinSection() == 0L) {
+      this.publishError(
+        this.errorFactory.warnCubeImageOffsetZero(section)
+      );
+    }
+
+    if (superCompression == UNCOMPRESSED) {
+      if (description.dataSizeCompressed() != description.dataSizeUncompressed()) {
+        this.publishError(
+          this.errorFactory.warnCubeUncompressedDataSizeMismatch(
+            section, description)
+        );
+      }
+    }
+
+    try (var channel =
+           section.mipMapDataWithoutSupercompression(description)) {
+      final var stream =
+        Channels.newInputStream(channel);
+      final var data =
+        stream.readAllBytes();
+
+      final var received = toUnsignedLong(data.length);
+      final var expected = description.dataSizeUncompressed();
+      if (received != expected) {
+        this.publishError(this.errorFactory.errorCubeCompressedDataSizeMismatch(
+          section,
+          description,
+          received
+        ));
+        return;
+      }
+
+      final var crc32 = new CRC32();
+      crc32.update(data);
+      final var crc32Received =
+        crc32.getValue() & 0xffff_ffffL;
+      final var crc32Expected =
+        toUnsignedLong(description.crc32Uncompressed());
+
+      if (crc32Expected != 0L) {
+        if (crc32Expected != crc32Received) {
+          this.publishError(this.errorFactory.errorCubeUncompressedDataCRC32Mismatch(
+            section,
+            description,
+            crc32Received
+          ));
+        }
+      }
+    } catch (final IOException e) {
+      this.publishError(this.errorFactory.errorOfException(
+        section, e, "I/O error reading compressed mipmap data"));
     }
   }
 
@@ -311,12 +480,14 @@ public final class CLN1Validator implements CLNValidatorType
       final var crc32Expected =
         toUnsignedLong(description.crc32Uncompressed());
 
-      if (crc32Expected != crc32Received) {
-        this.publishError(this.errorFactory.error2DUncompressedDataCRC32Mismatch(
-          section,
-          description,
-          crc32Received
-        ));
+      if (crc32Expected != 0L) {
+        if (crc32Expected != crc32Received) {
+          this.publishError(this.errorFactory.error2DUncompressedDataCRC32Mismatch(
+            section,
+            description,
+            crc32Received
+          ));
+        }
       }
     } catch (final IOException e) {
       this.publishError(this.errorFactory.errorOfException(
@@ -409,8 +580,8 @@ public final class CLN1Validator implements CLNValidatorType
 
       layers.put(layer, mipMap);
       mips.put(level, layers);
-      mipHighest = Math.max(mipHighest, level);
-      layerHighest = Math.max(layerHighest, layer);
+      mipHighest = max(mipHighest, level);
+      layerHighest = max(layerHighest, layer);
     }
 
     for (int mipLevel = 0; mipLevel <= mipHighest; ++mipLevel) {
@@ -526,12 +697,14 @@ public final class CLN1Validator implements CLNValidatorType
       final var crc32Expected =
         toUnsignedLong(description.crc32Uncompressed());
 
-      if (crc32Expected != crc32Received) {
-        this.publishError(this.errorFactory.errorArrayUncompressedDataCRC32Mismatch(
-          section,
-          description,
-          crc32Received
-        ));
+      if (crc32Expected != 0L) {
+        if (crc32Expected != crc32Received) {
+          this.publishError(this.errorFactory.errorArrayUncompressedDataCRC32Mismatch(
+            section,
+            description,
+            crc32Received
+          ));
+        }
       }
     } catch (final IOException e) {
       this.publishError(this.errorFactory.errorOfException(

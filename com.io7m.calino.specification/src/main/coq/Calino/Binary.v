@@ -129,7 +129,7 @@ Section binaryExpressions.
     Hypothesis P_BiRecord  : ∀ fs, Forall P (map snd fs) → P (BiRecord fs).
 
     Definition binaryExp_ind (b : binaryExp) : P b :=
-      binaryExp_rect 
+      binaryExp_rect
         P
         (List.Forall P)
         (List.Forall_nil _)
@@ -158,9 +158,9 @@ Fixpoint binarySize (b : binaryExp) : nat :=
   end.
 
 Definition binaryEvalPaddedBytes
-  (b     : list byte) 
-  (align : nat) 
-  (Hneq  : 0 ≠ align) 
+  (b     : list byte)
+  (align : nat)
+  (Hneq  : 0 ≠ align)
 : list streamE :=
   let vremaining := length b mod align in
     match vremaining with
@@ -196,12 +196,15 @@ Definition binaryExpMipMap (m : mipMap) : binaryExp := BiRecord [
   ("mipMapCRC32",            u32 (mipMapCRC32 m))
 ].
 
+Remark binaryExpMipMapSize : ∀ m, binarySize (binaryExpMipMap m) = 32.
+Proof. reflexivity. Qed.
+
 Definition binaryExpMipMaps (m : mipMapList) : binaryExp :=
   BiArray (map binaryExpMipMap (mipMaps m)).
 
 Definition binaryExpImage2D
   (i : imageInfo)
-  (m : mipMapList) 
+  (m : mipMapList)
 : binaryExp :=
   let imageDataStart := mipMapOffset (mipMapFirst m) in
   let encMips        := binaryExpMipMaps m in
@@ -217,7 +220,7 @@ Definition binaryExpImage2D
 
 Definition binaryExpImage2DSection
   (i : imageInfo)
-  (m : mipMapList) 
+  (m : mipMapList)
 : binaryExp := BiRecord [
   ("id",   u64 0x434C4E5F49324421);
   ("size", u64 (binarySizePadded16 (binaryExpImage2D i m)));
@@ -233,12 +236,15 @@ Definition binaryExpArrayMipMap (m : arrayMipMap) : binaryExp := BiRecord [
   ("arrayMipMapCRC32",            u32 (arrayMipMapCRC32 m))
 ].
 
+Remark binaryExpArrayMipMapSize : ∀ m, binarySize (binaryExpArrayMipMap m) = 36.
+Proof. reflexivity. Qed.
+
 Definition binaryExpArrayMipMaps (m : arrayMipMapList) : binaryExp :=
   BiArray (map binaryExpArrayMipMap (arrayMipMaps m)).
 
 Definition binaryExpImageArray
   (i : imageInfo)
-  (m : arrayMipMapList) 
+  (m : arrayMipMapList)
 : binaryExp :=
   let imageDataStart := arrayMipMapOffset (arrayMipMapFirst m) in
   let encMips        := binaryExpArrayMipMaps m in
@@ -254,7 +260,7 @@ Definition binaryExpImageArray
 
 Definition binaryExpImageArraySection
   (i : imageInfo)
-  (m : arrayMipMapList) 
+  (m : arrayMipMapList)
 : binaryExp := BiRecord [
   ("id",   u64 0x434C4E5F41525221);
   ("size", u64 (binarySizePadded16 (binaryExpImageArray i m)));
@@ -268,6 +274,9 @@ Definition binaryExpCubeMipMapFace (m : cubeMapFace) : binaryExp := BiRecord [
   ("cubeFaceCRC32",            u32 (cubeFaceCRC32 m))
 ].
 
+Remark binaryExpCubeMipMapFaceSize : ∀ m, binarySize (binaryExpCubeMipMapFace m) = 28.
+Proof. reflexivity. Qed.
+
 Definition binaryExpCubeMipMap (m : cubeMipMap) : binaryExp := BiRecord [
   ("cubeMipMapLevel",    u32 (cubeMapLevel m));
   ("cubeMipMapFacePosX", binaryExpCubeMipMapFace (cubeMapFaceXPos m));
@@ -278,12 +287,15 @@ Definition binaryExpCubeMipMap (m : cubeMipMap) : binaryExp := BiRecord [
   ("cubeMipMapFaceNegZ", binaryExpCubeMipMapFace (cubeMapFaceZNeg m))
 ].
 
+Remark binaryExpCubeMipMapSize : ∀ m, binarySize (binaryExpCubeMipMap m) = 172.
+Proof. reflexivity. Qed.
+
 Definition binaryExpCubeMipMaps (m : cubeMipMapList) : binaryExp :=
   BiArray (map binaryExpCubeMipMap (cubeMipMaps m)).
 
 Definition binaryExpImageCubeMap
   (i : imageInfo)
-  (m : cubeMipMapList) 
+  (m : cubeMipMapList)
 : binaryExp :=
   let imageDataStart := cubeFaceOffset (cubeMapFaceXPos (cubeMipMapsFirst m)) in
   let encMips        := binaryExpCubeMipMaps m in
@@ -299,7 +311,7 @@ Definition binaryExpImageCubeMap
 
 Definition binaryExpImageCubeSection
   (i : imageInfo)
-  (m : cubeMipMapList) 
+  (m : cubeMipMapList)
 : binaryExp := BiRecord [
   ("id",   u64 0x434C4E5F43554245);
   ("size", u64 (binarySizePadded16 (binaryExpImageCubeMap i m)));
@@ -368,8 +380,8 @@ Lemma fold_right_add_cons : ∀ x xs,
   x + fold_right plus 0 xs = fold_right plus 0 (x :: xs).
 Proof. reflexivity. Qed.
 
-Lemma forall_map_binarySize : ∀ es, 
-  Forall (λ b : binaryExp, binarySize b mod 4 = 0) es 
+Lemma forall_map_binarySize : ∀ es,
+  Forall (λ b : binaryExp, binarySize b mod 4 = 0) es
     ↔ Forall (λ n, n mod 4 = 0) (map binarySize es).
 Proof.
   intros es.
@@ -537,7 +549,7 @@ Proof.
     exact Hm.
 Qed.
 
-Lemma Forall_implies : ∀ (A : Type) (P : A → Prop) (Q : A → Prop) (xs : list A) (H : ∀ x, P x → Q x), 
+Lemma Forall_implies : ∀ (A : Type) (P : A → Prop) (Q : A → Prop) (xs : list A) (H : ∀ x, P x → Q x),
   Forall P xs → Forall Q xs.
 Proof.
   intros A P Q xs Ht HforAll.
@@ -729,7 +741,7 @@ Proof.
   - reflexivity.
   - reflexivity.
   - unfold streamSize.
-    assert (Forall (λ e, 1 = streamElementSize e) es) as HFaSize. { 
+    assert (Forall (λ e, 1 = streamElementSize e) es) as HFaSize. {
       apply (@Forall_implies streamE streamEIsU8 (λ e : streamE, 1 = streamElementSize e) es). {
         intros x His.
         destruct x as [u64|u32|u8].

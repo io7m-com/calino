@@ -43,6 +43,7 @@ public final class CLN1ValidatorsTest
 {
   private static final Logger LOG =
     LoggerFactory.getLogger(CLN1ValidatorsTest.class);
+
   private final CLN1Validators validators = new CLN1Validators();
   private Path directory;
   private Path directoryOutput;
@@ -111,7 +112,7 @@ public final class CLN1ValidatorsTest
 
     assertEquals(1, errors.size());
     assertEquals(
-      "The Z size of a 2D image must equal 1, but was 23.",
+      "The Z size of a 2D texture must equal 1, but was 23.",
       errors.remove(0).message()
     );
   }
@@ -321,7 +322,7 @@ public final class CLN1ValidatorsTest
 
     assertEquals(1, errors.size());
     assertEquals(
-      "2D images must have at least one mipmap.",
+      "2D textures must have at least one mipmap.",
       errors.remove(0).message()
     );
   }
@@ -650,7 +651,7 @@ public final class CLN1ValidatorsTest
 
     assertEquals(1, errors.size());
     assertEquals(
-      "Array images must have at least one mipmap.",
+      "Array textures must have at least one mipmap.",
       errors.remove(0).message()
     );
   }
@@ -759,6 +760,140 @@ public final class CLN1ValidatorsTest
     assertEquals(1, errors.size());
     assertEquals(
       "16 octets of trailing data were encountered after the end section.",
+      errors.remove(0).message()
+    );
+  }
+
+  /**
+   * A cube image with no mipmaps fails.
+   *
+   * @throws Exception On errors
+   */
+
+  @Test
+  public void testValidationCubeNoMipMaps()
+    throws Exception
+  {
+    final var errors =
+      this.validate("validation-cube-no-mipmaps.ctf");
+
+    assertEquals(1, errors.size());
+    assertEquals(
+      "Cube textures must have at least one mipmap.",
+      errors.remove(0).message()
+    );
+  }
+
+  /**
+   * A cube image with a disordered mipmaps fails.
+   *
+   * @throws Exception On errors
+   */
+
+  @Test
+  public void testValidationCubeMipMapDisordered()
+    throws Exception
+  {
+    final var errors =
+      this.validate("validation-cube-mip-disordered.ctf");
+
+    assertEquals(
+      "Mip levels must be strictly decreasing with all values present in the range [0 … 1].",
+      errors.remove(errors.size() - 1).message()
+    );
+  }
+
+  /**
+   * A cube image with a bad CRC32 fails.
+   *
+   * @throws Exception On errors
+   */
+
+  @Test
+  public void testValidationCubeMipMapBadCRC32()
+    throws Exception
+  {
+    final var errors =
+      this.validate("validation-cube-crc-mismatch.ctf");
+
+    assertEquals(
+      "The mipmap description for layer 2, face X_NEGATIVE specifies a CRC32 value of 0x5edf2461 but the actual data had a CRC32 of 0x5edf2460.",
+      errors.remove(0).message()
+    );
+  }
+
+  /**
+   * A cube image with a zero compressed size fails.
+   *
+   * @throws Exception On errors
+   */
+
+  @Test
+  public void testValidationCubeSizeCompressedZero()
+    throws Exception
+  {
+    final var errors =
+      this.validate("validation-cube-size-compressed-zero.ctf");
+
+    assertEquals(
+      "The compressed size of image data should be greater than zero (at level 2, face X_POSITIVE).",
+      errors.remove(0).message()
+    );
+  }
+
+  /**
+   * A cube image with a zero uncompressed size fails.
+   *
+   * @throws Exception On errors
+   */
+
+  @Test
+  public void testValidationCubeSizeUncompressedZero()
+    throws Exception
+  {
+    final var errors =
+      this.validate("validation-cube-size-uncompressed-zero.ctf");
+
+    assertEquals(
+      "The uncompressed size of image data should be greater than zero (at level 2, face X_POSITIVE).",
+      errors.remove(0).message()
+    );
+  }
+
+  /**
+   * A cube image with a zero image data offset fails.
+   *
+   * @throws Exception On errors
+   */
+
+  @Test
+  public void testValidationCubeImageOffsetZero()
+    throws Exception
+  {
+    final var errors =
+      this.validate("validation-cube-image-offset-zero.ctf");
+
+    assertEquals(
+      "The data offset of image data within a section should be greater than zero.",
+      errors.remove(0).message()
+    );
+  }
+
+  /**
+   * An uncompressed cube image with a size mismatch fails.
+   *
+   * @throws Exception On errors
+   */
+
+  @Test
+  public void testValidationCubeUncompressedSizeMismatch()
+    throws Exception
+  {
+    final var errors =
+      this.validate("validation-cube-size-mismatch.ctf");
+
+    assertEquals(
+      "For uncompressed image data, the compressed size 13 must equal the uncompressed size 12 (at level 2).",
       errors.remove(0).message()
     );
   }

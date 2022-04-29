@@ -17,11 +17,14 @@
 
 package com.io7m.calino.vanilla.internal;
 
+import com.io7m.calino.api.CLNCubeFace;
 import com.io7m.calino.api.CLNFileSectionDescription;
 import com.io7m.calino.api.CLNImage2DDescription;
 import com.io7m.calino.api.CLNImageArrayDescription;
+import com.io7m.calino.api.CLNImageCubeDescription;
 import com.io7m.calino.api.CLNSectionReadableImage2DType;
 import com.io7m.calino.api.CLNSectionReadableImageArrayType;
+import com.io7m.calino.api.CLNSectionReadableImageCubeType;
 import com.io7m.calino.api.CLNSectionReadableImageInfoType;
 import com.io7m.calino.api.CLNSectionReadableType;
 import com.io7m.calino.validation.api.CLNValidationError;
@@ -704,6 +707,27 @@ public final class CLN1ValidationErrors
    * @return An error
    */
 
+  public CLNValidationError errorCubeNoMipmaps(
+    final CLNSectionReadableImageCubeType section)
+  {
+    return new CLNValidationError(
+      this.source,
+      section.fileSectionDescription().fileOffsetData(),
+      STATUS_WARNING,
+      Optional.of(UUID.fromString("121da0f4-d967-463d-93a3-89fc953cb427")),
+      this.strings.format("errorCubeNoMipmaps"),
+      Optional.empty()
+    );
+  }
+
+  /**
+   * Construct an error.
+   *
+   * @param section The section
+   *
+   * @return An error
+   */
+
   public CLNValidationError warnSectionUnaligned(
     final CLNFileSectionDescription section)
   {
@@ -849,6 +873,263 @@ public final class CLN1ValidationErrors
       this.strings.format(
         "errorCubeExpectedSizeZ1",
         Integer.toUnsignedString(sizeZ)),
+      Optional.empty()
+    );
+  }
+
+  /**
+   * Construct an error.
+   *
+   * @param section The section
+   * @param level   The level
+   *
+   * @return An error
+   */
+
+  public CLNValidationError errorCubeMipLevelDuplicate(
+    final CLNSectionReadableImageCubeType section,
+    final int level)
+  {
+    return new CLNValidationError(
+      this.source,
+      section.fileSectionDescription().fileOffsetData(),
+      STATUS_ERROR,
+      Optional.of(UUID.fromString("121da0f4-d967-463d-93a3-89fc953cb427")),
+      this.strings.format(
+        "errorCubeMipLevelDuplicate",
+        Integer.toUnsignedString(level)
+      ),
+      Optional.empty()
+    );
+  }
+
+  /**
+   * Construct an error.
+   *
+   * @param section The section
+   * @param level   The level
+   *
+   * @return An error
+   */
+
+  public CLNValidationError errorCubeMipLevelGaps(
+    final CLNSectionReadableImageCubeType section,
+    final int level)
+  {
+    return new CLNValidationError(
+      this.source,
+      section.fileSectionDescription().fileOffsetData(),
+      STATUS_ERROR,
+      Optional.of(UUID.fromString("121da0f4-d967-463d-93a3-89fc953cb427")),
+      this.strings.format(
+        "errorCubeMipLevelGaps",
+        Integer.toUnsignedString(level)
+      ),
+      Optional.empty()
+    );
+  }
+
+  /**
+   * Construct an error.
+   *
+   * @param section The section
+   * @param level   The level
+   * @param face The cube face
+   *
+   * @return An error
+   */
+
+  public CLNValidationError errorCubeMipFaceMissing(
+    final CLNSectionReadableImageCubeType section,
+    final int level,
+    final CLNCubeFace face)
+  {
+    return new CLNValidationError(
+      this.source,
+      section.fileSectionDescription().fileOffsetData(),
+      STATUS_ERROR,
+      Optional.of(UUID.fromString("121da0f4-d967-463d-93a3-89fc953cb427")),
+      this.strings.format(
+        "errorCubeMipFaceMissing",
+        Integer.toUnsignedString(level),
+        face
+      ),
+      Optional.empty()
+    );
+  }
+
+  /**
+   * Construct an error.
+   *
+   * @param section     The section
+   * @param description The description
+   *
+   * @return An error
+   */
+
+  public CLNValidationError warnCubeUncompressedSizeZero(
+    final CLNSectionReadableImageCubeType section,
+    final CLNImageCubeDescription description)
+  {
+    return new CLNValidationError(
+      this.source,
+      section.fileSectionDescription().fileOffsetData(),
+      STATUS_WARNING,
+      Optional.of(UUID.fromString("d252db29-990c-4838-acb3-f28b0d1386f6")),
+      this.strings.format(
+        "warnCubeUncompressedSizeZero",
+        Integer.toUnsignedString(description.mipMapLevel()),
+        description.face()
+      ),
+      Optional.empty()
+    );
+  }
+
+  /**
+   * Construct an error.
+   *
+   * @param section     The section
+   * @param description The description
+   *
+   * @return An error
+   */
+
+  public CLNValidationError warnCubeCompressedSizeZero(
+    final CLNSectionReadableImageCubeType section,
+    final CLNImageCubeDescription description)
+  {
+    return new CLNValidationError(
+      this.source,
+      section.fileSectionDescription().fileOffsetData(),
+      STATUS_WARNING,
+      Optional.of(UUID.fromString("db9e90ac-c9a4-40f5-b905-7126df0a9823")),
+      this.strings.format(
+        "warnCubeCompressedSizeZero",
+        Integer.toUnsignedString(description.mipMapLevel()),
+        description.face()
+      ),
+      Optional.empty()
+    );
+  }
+
+  /**
+   * Construct an error.
+   *
+   * @param section     The section
+   *
+   * @return An error
+   */
+
+  public CLNValidationError warnCubeImageOffsetZero(
+    final CLNSectionReadableImageCubeType section)
+  {
+    return new CLNValidationError(
+      this.source,
+      section.fileSectionDescription().fileOffsetData(),
+      STATUS_WARNING,
+      Optional.empty(),
+      this.strings.format("warnCubeImageOffsetZero"),
+      Optional.empty()
+    );
+  }
+
+  /**
+   * Construct an error.
+   *
+   * @param section     The section
+   * @param description The description
+   *
+   * @return An error
+   */
+
+  public CLNValidationError warnCubeUncompressedDataSizeMismatch(
+    final CLNSectionReadableImageCubeType section,
+    final CLNImageCubeDescription description)
+  {
+    return new CLNValidationError(
+      this.source,
+      section.fileSectionDescription().fileOffsetData(),
+      STATUS_WARNING,
+      Optional.of(UUID.fromString("579b15a3-09bb-4b14-87ab-0441ecc88b31")),
+      this.strings.format(
+        "warnCubeUncompressedDataSizeMismatch",
+        Long.toUnsignedString(description.dataSizeCompressed()),
+        Long.toUnsignedString(description.dataSizeUncompressed()),
+        Integer.toUnsignedString(description.mipMapLevel()),
+        description.face()
+      ),
+      Optional.empty()
+    );
+  }
+
+  /**
+   * Construct an error.
+   *
+   * @param section     The section
+   * @param mipMap The description
+   * @param sizeReceived The received size
+   *
+   * @return An error
+   */
+
+  public CLNValidationError errorCubeCompressedDataSizeMismatch(
+    final CLNSectionReadableImageCubeType section,
+    final CLNImageCubeDescription mipMap,
+    final long sizeReceived)
+  {
+    final var baseOffset =
+      section.fileSectionDescription().fileOffsetData();
+    final var offset =
+      baseOffset + mipMap.dataOffsetWithinSection();
+
+    return new CLNValidationError(
+      this.source,
+      offset,
+      STATUS_ERROR,
+      Optional.of(UUID.fromString("e676eaef-f25a-44e8-9360-bcfaf35ce1e6")),
+      this.strings.format(
+        "errorCubeCompressedSizeMismatch",
+        Integer.toUnsignedString(mipMap.mipMapLevel()),
+        mipMap.face(),
+        Long.toUnsignedString(mipMap.dataSizeUncompressed()),
+        Long.toUnsignedString(sizeReceived)
+      ),
+      Optional.empty()
+    );
+  }
+
+  /**
+   * Construct an error.
+   *
+   * @param section       The section
+   * @param mipMap        The mipMap
+   * @param crc32Received The CRC32
+   *
+   * @return An error
+   */
+
+  public CLNValidationError errorCubeUncompressedDataCRC32Mismatch(
+    final CLNSectionReadableType section,
+    final CLNImageCubeDescription mipMap,
+    final long crc32Received)
+  {
+    final var baseOffset =
+      section.fileSectionDescription().fileOffsetData();
+    final var offset =
+      baseOffset + mipMap.dataOffsetWithinSection();
+
+    return new CLNValidationError(
+      this.source,
+      offset,
+      STATUS_ERROR,
+      Optional.of(UUID.fromString("09645697-fbde-43fe-9f34-48c851adb2ff")),
+      this.strings.format(
+        "errorCubeUncompressedCRC32Mismatch",
+        Integer.toUnsignedString(mipMap.mipMapLevel()),
+        mipMap.face(),
+        Integer.toUnsignedString(mipMap.crc32Uncompressed(), 16),
+        Long.toUnsignedString(crc32Received, 16)
+      ),
       Optional.empty()
     );
   }
