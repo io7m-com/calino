@@ -34,6 +34,7 @@ import java.util.Objects;
 import static com.io7m.calino.api.CLNIdentifiers.sectionEndIdentifier;
 import static com.io7m.calino.api.CLNIdentifiers.sectionImage2DIdentifier;
 import static com.io7m.calino.api.CLNIdentifiers.sectionImageArrayIdentifier;
+import static com.io7m.calino.api.CLNIdentifiers.sectionImageCubeIdentifier;
 import static com.io7m.calino.api.CLNIdentifiers.sectionImageInfoIdentifier;
 import static com.io7m.calino.api.CLNIdentifiers.sectionMetadataIdentifier;
 
@@ -159,6 +160,16 @@ public final class CLN1FileWritable implements CLNFileWritableType
         this::onSectionClosed
       );
     }
+    if (identifier == sectionImageCubeIdentifier()) {
+      return new CLN1SectionWritableImageCube(
+        this.writers,
+        this.writer,
+        this.request,
+        identifier,
+        this::onSectionClosed
+      );
+    }
+
 
     return new CLN1SectionWritableOther(
       this.writer,

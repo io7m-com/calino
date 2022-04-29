@@ -23,6 +23,7 @@ import java.util.List;
 import static com.io7m.calino.api.CLNIdentifiers.sectionEndIdentifier;
 import static com.io7m.calino.api.CLNIdentifiers.sectionImage2DIdentifier;
 import static com.io7m.calino.api.CLNIdentifiers.sectionImageArrayIdentifier;
+import static com.io7m.calino.api.CLNIdentifiers.sectionImageCubeIdentifier;
 import static com.io7m.calino.api.CLNIdentifiers.sectionImageInfoIdentifier;
 import static com.io7m.calino.api.CLNIdentifiers.sectionMetadataIdentifier;
 
@@ -133,5 +134,20 @@ public interface CLNFileWritableType extends Closeable
   {
     return (CLNSectionWritableImageArrayType)
       this.createSection(sectionImageArrayIdentifier());
+  }
+
+  /**
+   * Create a new image cube section.
+   *
+   * @return A new section
+   *
+   * @throws IOException On errors
+   */
+
+  default CLNSectionWritableImageCubeType createSectionImageCube()
+    throws IOException
+  {
+    return (CLNSectionWritableImageCubeType)
+      this.createSection(sectionImageCubeIdentifier());
   }
 }

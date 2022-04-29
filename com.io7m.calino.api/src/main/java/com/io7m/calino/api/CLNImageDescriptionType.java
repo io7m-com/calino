@@ -22,7 +22,8 @@ package com.io7m.calino.api;
 
 public sealed interface CLNImageDescriptionType
   permits CLNImage2DDescription,
-  CLNImageArrayDescription
+  CLNImageArrayDescription,
+  CLNImageCubeDescription
 {
   /**
    * @return The mipmap level

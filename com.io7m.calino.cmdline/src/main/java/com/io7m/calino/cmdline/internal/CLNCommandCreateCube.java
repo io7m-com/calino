@@ -20,9 +20,11 @@ import com.beust.jcommander.Parameter;
 import com.beust.jcommander.Parameters;
 import com.io7m.calino.api.CLNByteOrder;
 import com.io7m.calino.api.CLNChannelsLayoutDescriptionType;
+import com.io7m.calino.api.CLNCubeFace;
 import com.io7m.calino.api.CLNFileWritableType;
-import com.io7m.calino.api.CLNImage2DMipMapDeclaration;
-import com.io7m.calino.api.CLNImage2DMipMapDeclarations;
+import com.io7m.calino.api.CLNImageCubeFaceDeclaration;
+import com.io7m.calino.api.CLNImageCubeMipMapDeclaration;
+import com.io7m.calino.api.CLNImageCubeMipMapDeclarations;
 import com.io7m.calino.api.CLNImageInfo;
 import com.io7m.calino.api.CLNSuperCompressionMethodType;
 import com.io7m.calino.api.CLNVersion;
@@ -46,15 +48,25 @@ import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.EnumMap;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Properties;
+import java.util.Set;
 import java.util.zip.CRC32;
 
+import static com.io7m.calino.api.CLNCubeFace.X_NEGATIVE;
+import static com.io7m.calino.api.CLNCubeFace.X_POSITIVE;
+import static com.io7m.calino.api.CLNCubeFace.Y_NEGATIVE;
+import static com.io7m.calino.api.CLNCubeFace.Y_POSITIVE;
+import static com.io7m.calino.api.CLNCubeFace.Z_NEGATIVE;
+import static com.io7m.calino.api.CLNCubeFace.Z_POSITIVE;
+import static com.io7m.calino.api.CLNCubeFace.facesInOrder;
 import static com.io7m.calino.api.CLNSuperCompressionMethodStandard.UNCOMPRESSED;
 import static com.io7m.claypot.core.CLPCommandType.Status.FAILURE;
 import static com.io7m.claypot.core.CLPCommandType.Status.SUCCESS;
@@ -64,20 +76,50 @@ import static java.nio.file.StandardOpenOption.TRUNCATE_EXISTING;
 import static java.nio.file.StandardOpenOption.WRITE;
 
 /**
- * The 'create-2d' command.
+ * The 'create-cube' command.
  */
 
-@Parameters(commandDescription = "Create a 2D texture from an existing image.")
-public final class CLNCommandCreate2D extends CLNAbstractCommand
+@Parameters(commandDescription = "Create a cube texture from existing images.")
+public final class CLNCommandCreateCube extends CLNAbstractCommand
 {
   private static final Logger LOG =
-    LoggerFactory.getLogger(CLNCommandCreate2D.class);
+    LoggerFactory.getLogger(CLNCommandCreateCube.class);
 
   @Parameter(
     required = true,
-    description = "The source image file",
-    names = "--source")
-  private Path source;
+    description = "The source image file for the positive X face",
+    names = "--source-x-positive")
+  private Path source_x_positive;
+
+  @Parameter(
+    required = true,
+    description = "The source image file for the negative X face",
+    names = "--source-x-negative")
+  private Path source_x_negative;
+
+  @Parameter(
+    required = true,
+    description = "The source image file for the positive Y face",
+    names = "--source-y-positive")
+  private Path source_y_positive;
+
+  @Parameter(
+    required = true,
+    description = "The source image file for the negative Y face",
+    names = "--source-y-negative")
+  private Path source_y_negative;
+
+  @Parameter(
+    required = true,
+    description = "The source image file for the positive Z face",
+    names = "--source-z-positive")
+  private Path source_z_positive;
+
+  @Parameter(
+    required = true,
+    description = "The source image file for the negative Z face",
+    names = "--source-z-negative")
+  private Path source_z_negative;
 
   @Parameter(
     required = true,
@@ -132,12 +174,12 @@ public final class CLNCommandCreate2D extends CLNAbstractCommand
   private Path metadataFile;
 
   /**
-   * The 'create-2d' command.
+   * The 'create-cube' command.
    *
    * @param inContext The context
    */
 
-  public CLNCommandCreate2D(
+  public CLNCommandCreateCube(
     final CLPCommandContextType inContext)
   {
     super(Locale.getDefault(), inContext);
@@ -146,7 +188,7 @@ public final class CLNCommandCreate2D extends CLNAbstractCommand
   @Override
   public String extendedHelp()
   {
-    return this.calinoStrings().format("cmd.create2d.helpExt");
+    return this.calinoStrings().format("cmd.createCube.helpExt");
   }
 
   @Override
@@ -165,28 +207,51 @@ public final class CLNCommandCreate2D extends CLNAbstractCommand
       return FAILURE;
     }
 
-    final var writerFactory = writerOpt.get();
-    final var processors = new CLNImageProcessorsAWT();
-    final var compressors = new CLNCompressors();
+    final var writerFactory =
+      writerOpt.get();
+    final var processors =
+      new CLNImageProcessorsAWT();
+    final var compressors =
+      new CLNCompressors();
+    final var chains =
+      new EnumMap<CLNCubeFace, CLNImageMipMapChainType>(CLNCubeFace.class);
 
     try (var resources = CloseableCollection.create()) {
       final var layoutConversion =
         Optional.ofNullable(this.convertLayoutTo)
           .map(CLNImageLayoutConversion::new);
 
-      final var processorRequest =
-        new CLNImageProcessorRequest(
-          this.source,
-          this.premultiplyAlpha,
-          this.byteOrder,
-          layoutConversion,
-          Optional.ofNullable(this.mipMapGenerate)
-        );
+      final var imageInfos = new HashSet<CLNImageInfo>();
+      for (final var face : facesInOrder()) {
+        final var source =
+          switch (face) {
+            case X_POSITIVE -> this.source_x_positive;
+            case X_NEGATIVE -> this.source_x_negative;
+            case Y_POSITIVE -> this.source_y_positive;
+            case Y_NEGATIVE -> this.source_y_negative;
+            case Z_POSITIVE -> this.source_z_positive;
+            case Z_NEGATIVE -> this.source_z_negative;
+          };
 
-      final var processor =
-        processors.createProcessor(processorRequest);
-      final var chain =
-        processor.process();
+        final var processorRequest =
+          new CLNImageProcessorRequest(
+            source,
+            this.premultiplyAlpha,
+            this.byteOrder,
+            layoutConversion,
+            Optional.ofNullable(this.mipMapGenerate)
+          );
+
+        final var processor =
+          processors.createProcessor(processorRequest);
+        final var chain =
+          processor.process();
+
+        imageInfos.add(chain.imageInfo());
+        chains.put(face, chain);
+      }
+
+      checkImageInfos(imageInfos);
 
       final var channel =
         resources.add(
@@ -200,13 +265,23 @@ public final class CLNCommandCreate2D extends CLNAbstractCommand
       final var writable =
         resources.add(writer.execute());
 
-      this.writeImageInfo(chain, writable);
+      this.writeImageInfo(chains.get(X_POSITIVE), writable);
       this.writeMetadata(writable);
-      this.writeImage2D(compressors, chain, writable);
+      this.writeImageCube(compressors, chains, writable);
       this.writeEnd(writable);
     }
 
     return SUCCESS;
+  }
+
+  private static void checkImageInfos(
+    final Set<CLNImageInfo> imageInfos)
+  {
+    if (imageInfos.size() > 1) {
+      LOG.error("the format and size of all source images must be the same");
+      throw new IllegalArgumentException(
+        "the format and size of all source images must be the same");
+    }
   }
 
   private void writeMetadata(
@@ -235,71 +310,106 @@ public final class CLNCommandCreate2D extends CLNAbstractCommand
     }
   }
 
-  private void writeImage2D(
+  private void writeImageCube(
     final CLNCompressors compressors,
-    final CLNImageMipMapChainType chain,
+    final EnumMap<CLNCubeFace, CLNImageMipMapChainType> chains,
     final CLNFileWritableType writable)
     throws IOException
   {
-    try (var section = writable.createSectionImage2D()) {
-      final var chainSize =
-        chain.mipMapLevelCount();
-      final var dataForMipMap =
-        new HashMap<CLNImage2DMipMapDeclaration, byte[]>(chainSize);
+    final var firstChain = chains.get(X_POSITIVE);
+    final var chainSize = firstChain.mipMapLevelCount();
+
+    try (var section = writable.createSectionImageCube()) {
 
       /*
        * Create declarations for each level.
        */
 
+      final var declarationsForLevel =
+        new HashMap<Integer, CLNImageCubeMipMapDeclaration>(chainSize);
+      final var dataForLevel =
+        new HashMap<Integer, EnumMap<CLNCubeFace, byte[]>>(chainSize);
+
       for (var level = chainSize - 1; level >= 0; --level) {
-        final var data = chain.mipMapUncompressedBytes(level);
+        final var declarationsForFace =
+          new EnumMap<CLNCubeFace, CLNImageCubeFaceDeclaration>(
+            CLNCubeFace.class);
 
-        /*
-         * If the data is uncompressed, then add the data to the list
-         * directly.
-         */
+        for (final var face : facesInOrder()) {
+          final var chain = chains.get(face);
+          final var data = chain.mipMapUncompressedBytes(level);
 
-        if (Objects.equals(this.superCompression, UNCOMPRESSED)) {
+          /*
+           * If the data is uncompressed, then add the data to the list
+           * directly.
+           */
+
+          if (Objects.equals(this.superCompression, UNCOMPRESSED)) {
+            final var crc32 = new CRC32();
+            crc32.update(data);
+
+            final var declaration =
+              new CLNImageCubeFaceDeclaration(
+                toUnsignedLong(data.length),
+                toUnsignedLong(data.length),
+                (int) (crc32.getValue() & 0xffff_ffffL)
+              );
+
+            declarationsForFace.put(face, declaration);
+
+            var dataForFace = dataForLevel.get(level);
+            if (dataForFace == null) {
+              dataForFace = new EnumMap<>(CLNCubeFace.class);
+            }
+            dataForFace.put(face, data);
+            dataForLevel.put(level, dataForFace);
+            continue;
+          }
+
+          /*
+           * Otherwise, compress the data and add the compressed data to
+           * the list.
+           */
+
+          final var compressor =
+            compressors.createCompressor(
+              new CLNCompressorRequest(this.superCompression)
+            );
+
+          final var compressedData =
+            compressor.execute(data);
+
           final var crc32 = new CRC32();
           crc32.update(data);
 
           final var declaration =
-            new CLNImage2DMipMapDeclaration(
-              level,
-              toUnsignedLong(data.length),
+            new CLNImageCubeFaceDeclaration(
+              toUnsignedLong(compressedData.length),
               toUnsignedLong(data.length),
               (int) (crc32.getValue() & 0xffff_ffffL)
             );
 
-          dataForMipMap.put(declaration, data);
-          continue;
+          declarationsForFace.put(face, declaration);
+          var dataForFace = dataForLevel.get(level);
+          if (dataForFace == null) {
+            dataForFace = new EnumMap<>(CLNCubeFace.class);
+          }
+          dataForFace.put(face, compressedData);
+          dataForLevel.put(level, dataForFace);
         }
 
-        /*
-         * Otherwise, compress the data and add the compressed data to
-         * the list.
-         */
-
-        final var compressor =
-          compressors.createCompressor(
-            new CLNCompressorRequest(this.superCompression)
+        final var declaration =
+          new CLNImageCubeMipMapDeclaration(
+            level,
+            declarationsForFace.get(X_POSITIVE),
+            declarationsForFace.get(X_NEGATIVE),
+            declarationsForFace.get(Y_POSITIVE),
+            declarationsForFace.get(Y_NEGATIVE),
+            declarationsForFace.get(Z_POSITIVE),
+            declarationsForFace.get(Z_NEGATIVE)
           );
 
-        final var compressedData =
-          compressor.execute(data);
-
-        final var crc32 = new CRC32();
-        crc32.update(data);
-
-        final var declaration =
-          new CLNImage2DMipMapDeclaration(
-          level,
-          toUnsignedLong(compressedData.length),
-          toUnsignedLong(data.length),
-          (int) (crc32.getValue() & 0xffff_ffffL)
-        );
-
-        dataForMipMap.put(declaration, compressedData);
+        declarationsForLevel.put(level, declaration);
       }
 
       /*
@@ -309,31 +419,31 @@ public final class CLNCommandCreate2D extends CLNAbstractCommand
        */
 
       final var declarations =
-        new CLNImage2DMipMapDeclarations(
-          dataForMipMap.keySet()
+        new CLNImageCubeMipMapDeclarations(
+          declarationsForLevel.values()
             .stream()
             .sorted()
             .toList(),
-          chain.imageInfo()
+          firstChain.imageInfo()
             .texelBlockAlignment()
         );
 
-      final var writableMipMaps =
+      final var writableCube =
         section.createMipMaps(declarations);
 
-      for (final var declaration : dataForMipMap.keySet()) {
-        final var data = dataForMipMap.get(declaration);
-        try (var mipChannel =
-               writableMipMaps.writeMipMap(declaration.mipMapLevel())) {
-
-          final var r = mipChannel.write(ByteBuffer.wrap(data));
-          if (r != data.length) {
-            throw new IOException(
-              String.format(
-                "Expected to write %d bytes but wrote %d",
-                Integer.valueOf(data.length),
-                Integer.valueOf(r))
-            );
+      for (var level = chainSize - 1; level >= 0; --level) {
+        for (final var face : facesInOrder()) {
+          try (var mipChannel = writableCube.writeMipMap(level, face)) {
+            final var data = dataForLevel.get(level).get(face);
+            final var r = mipChannel.write(ByteBuffer.wrap(data));
+            if (r != data.length) {
+              throw new IOException(
+                String.format(
+                  "Expected to write %d bytes but wrote %d",
+                  Integer.valueOf(data.length),
+                  Integer.valueOf(r))
+              );
+            }
           }
         }
       }
@@ -376,6 +486,6 @@ public final class CLNCommandCreate2D extends CLNAbstractCommand
   @Override
   public String name()
   {
-    return "create-2d";
+    return "create-cube";
   }
 }

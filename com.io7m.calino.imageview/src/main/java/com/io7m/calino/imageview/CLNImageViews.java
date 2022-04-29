@@ -20,6 +20,7 @@ import com.io7m.calino.api.CLNChannelsLayoutDescriptionStandard;
 import com.io7m.calino.api.CLNChannelsTypeDescriptionStandard;
 import com.io7m.calino.api.CLNImage2DDescription;
 import com.io7m.calino.api.CLNImageArrayDescription;
+import com.io7m.calino.api.CLNImageCubeDescription;
 import com.io7m.calino.api.CLNImageDescriptionType;
 import com.io7m.calino.api.CLNImageInfo;
 import com.io7m.calino.imageproc.api.CLNImageView2DType;
@@ -100,6 +101,37 @@ public final class CLNImageViews implements CLNImageViewFactoryType
         imageInfo,
         data,
         imageArrayDescription.mipMapLevel(),
+        standard
+      );
+    }
+
+    throw new UnsupportedOperationException(
+      new StringBuilder(64)
+        .append("Channel layouts of type ")
+        .append(layout.descriptor())
+        .append(" are not supported")
+        .toString()
+    );
+  }
+
+  @Override
+  public CLNImageView2DType createImageViewCube(
+    final CLNImageInfo imageInfo,
+    final CLNImageCubeDescription imageCubeDescription,
+    final byte[] data)
+  {
+    Objects.requireNonNull(imageInfo, "imageInfo");
+    Objects.requireNonNull(imageCubeDescription, "imageArrayDescription");
+    Objects.requireNonNull(data, "data");
+
+    checkDataSize(imageCubeDescription, data);
+
+    final var layout = imageInfo.channelsLayout();
+    if (layout instanceof CLNChannelsLayoutDescriptionStandard standard) {
+      return createImageView2DStandard(
+        imageInfo,
+        data,
+        imageCubeDescription.mipMapLevel(),
         standard
       );
     }

@@ -43,12 +43,11 @@ public final class CLN1ValidatorsTest
 {
   private static final Logger LOG =
     LoggerFactory.getLogger(CLN1ValidatorsTest.class);
-
+  private final CLN1Validators validators = new CLN1Validators();
   private Path directory;
   private Path directoryOutput;
   private CLNParsers parsers;
   private FileChannel channel;
-  private final CLN1Validators validators = new CLN1Validators();
 
   private CLNValidatorType validatorFor(
     final CLNFileReadableType file,

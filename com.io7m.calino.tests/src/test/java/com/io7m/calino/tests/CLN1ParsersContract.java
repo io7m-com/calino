@@ -22,6 +22,7 @@ import com.io7m.calino.api.CLNIdentifiers;
 import com.io7m.calino.api.CLNImage2DDescription;
 import com.io7m.calino.api.CLNSectionReadableEndType;
 import com.io7m.calino.api.CLNSectionReadableImage2DType;
+import com.io7m.calino.api.CLNSectionReadableImageCubeType;
 import com.io7m.calino.api.CLNSectionReadableImageInfoType;
 import com.io7m.calino.api.CLNSectionReadableMetadataType;
 import com.io7m.calino.api.CLNSuperCompressionMethodStandard;
@@ -581,6 +582,57 @@ public abstract class CLN1ParsersContract
           0
         ));
       });
+    }
+  }
+
+  @Test
+  public void testBasicImageCube()
+    throws IOException
+  {
+    final var parser =
+      this.parserFor("basic-cube.ctf");
+    final var file =
+      this.resources.add(parser.execute());
+
+    assertEquals(new CLNVersion(1, 0), file.version());
+
+    final var sections = file.sections();
+    showSections(sections);
+    assertEquals(3, sections.size());
+
+    try (var section =
+           (CLNSectionReadableImageCubeType) file.openSection(sections.get(1))) {
+      final var mipmaps = section.mipMapDescriptions();
+      LOG.debug("mipmaps: {}", mipmaps);
+      assertEquals(48, mipmaps.size());
+      final var map0 = mipmaps.get(0);
+      final var crc32Declared = map0.crc32Uncompressed();
+      assertEquals(0x8332c492, crc32Declared);
+      assertEquals(1408L, map0.dataOffsetWithinSection());
+      assertEquals(16L, map0.dataSizeCompressed());
+      assertEquals(16L, map0.dataSizeUncompressed());
+      assertEquals(7, map0.mipMapLevel());
+
+      try (var channel = section.mipMapDataWithoutSupercompression(map0)) {
+        final var buffer = new byte[(int) map0.dataSizeUncompressed()];
+        final var byteBuffer = ByteBuffer.wrap(buffer);
+        final var read = channel.read(byteBuffer);
+        assertEquals(16, read);
+
+        final var crc32 = new CRC32();
+        crc32.reset();
+        crc32.update(buffer);
+        final int crc32Received = (int) crc32.getValue();
+
+        LOG.debug(
+          "crc32 declared: 0x{}",
+          Integer.toUnsignedString(crc32Declared, 16));
+        LOG.debug(
+          "crc32 received: 0x{}",
+          Integer.toUnsignedString(crc32Received, 16));
+
+        assertEquals(crc32Declared, crc32Received);
+      }
     }
   }
 

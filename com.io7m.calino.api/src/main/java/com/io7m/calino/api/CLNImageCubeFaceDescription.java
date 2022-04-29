@@ -17,17 +17,20 @@
 package com.io7m.calino.api;
 
 /**
- * The type of "standard" readable sections.
+ * A description of a cube map face.
+ *
+ * @param dataOffsetWithinSection The offset of the data from the start of the
+ *                                section data
+ * @param dataSizeCompressed      The size of the supercompressed data
+ * @param dataSizeUncompressed    The size of the uncompressed data
+ * @param crc32Uncompressed       The CRC32 of the uncompressed data
  */
 
-public sealed interface CLNSectionReadableStandardType
-  extends CLNSectionReadableType
-  permits CLNSectionReadableEndType,
-  CLNSectionReadableImage2DType,
-  CLNSectionReadableImageArrayType,
-  CLNSectionReadableImageCubeType,
-  CLNSectionReadableImageInfoType,
-  CLNSectionReadableMetadataType
+public record CLNImageCubeFaceDescription(
+  long dataOffsetWithinSection,
+  long dataSizeCompressed,
+  long dataSizeUncompressed,
+  int crc32Uncompressed)
 {
 
 }

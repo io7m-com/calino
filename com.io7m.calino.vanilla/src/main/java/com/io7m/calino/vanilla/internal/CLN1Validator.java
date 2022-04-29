@@ -24,6 +24,7 @@ import com.io7m.calino.api.CLNImageInfo;
 import com.io7m.calino.api.CLNSectionReadableEndType;
 import com.io7m.calino.api.CLNSectionReadableImage2DType;
 import com.io7m.calino.api.CLNSectionReadableImageArrayType;
+import com.io7m.calino.api.CLNSectionReadableImageCubeType;
 import com.io7m.calino.api.CLNSectionReadableImageInfoType;
 import com.io7m.calino.api.CLNSectionReadableMetadataType;
 import com.io7m.calino.api.CLNSuperCompressionMethodType;
@@ -111,6 +112,9 @@ public final class CLN1Validator implements CLNValidatorType
       .ifPresent(image2D -> this.checkImage2D(imageInfo, image2D));
     this.file.openImageArray()
       .ifPresent(imageArray -> this.checkImageArray(imageInfo, imageArray));
+    this.file.openImageCube()
+      .ifPresent(imageCube -> this.checkImageCube(imageInfo, imageCube));
+
     this.file.openMetadata()
       .ifPresent(this::checkMetadata);
     this.file.openEnd()
@@ -145,6 +149,21 @@ public final class CLN1Validator implements CLNValidatorType
   {
     if (section.fileOffset() % 16L != 0L) {
       this.publishError(this.errorFactory.warnSectionUnaligned(section));
+    }
+  }
+
+  private void checkImageCube(
+    final ImageInfoParsed imageInfo,
+    final CLNSectionReadableImageCubeType imageCube)
+  {
+    this.processedImageData = true;
+
+    final var sizeZ = imageInfo.imageInfo.sizeZ();
+    if (sizeZ != 1) {
+      final var infoSection = imageInfo.section;
+      this.publishError(this.errorFactory.errorCubeExpectedSizeZ1(
+        infoSection,
+        sizeZ));
     }
   }
 

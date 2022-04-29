@@ -36,6 +36,8 @@ public final class CLNIdentifiers
     0x434C_4E5F_4932_4421L;
   private static final long SECTION_IMAGE_ARRAY_IDENTIFIER =
     0x434C_4E5F_4152_5221L;
+  private static final long SECTION_IMAGE_CUBE_IDENTIFIER =
+    0x434C_4E5F_4355_4245L;
 
   private CLNIdentifiers()
   {
@@ -97,6 +99,15 @@ public final class CLNIdentifiers
   }
 
   /**
+   * @return The identifier used to identify <tt>image cube</tt> sections
+   */
+
+  public static long sectionImageCubeIdentifier()
+  {
+    return SECTION_IMAGE_CUBE_IDENTIFIER;
+  }
+
+  /**
    * Determine a humanly-readable name of an identifier.
    *
    * @param identifier The identifier
@@ -121,6 +132,9 @@ public final class CLNIdentifiers
     }
     if (identifier == SECTION_IMAGE_ARRAY_IDENTIFIER) {
       return Optional.of("IMAGE_ARRAY");
+    }
+    if (identifier == SECTION_IMAGE_CUBE_IDENTIFIER) {
+      return Optional.of("IMAGE_CUBE");
     }
     return Optional.empty();
   }

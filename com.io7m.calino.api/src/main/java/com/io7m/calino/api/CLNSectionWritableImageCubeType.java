@@ -16,18 +16,26 @@
 
 package com.io7m.calino.api;
 
+import java.io.IOException;
+
 /**
- * The type of "standard" readable sections.
+ * A writable cube image section.
  */
 
-public sealed interface CLNSectionReadableStandardType
-  extends CLNSectionReadableType
-  permits CLNSectionReadableEndType,
-  CLNSectionReadableImage2DType,
-  CLNSectionReadableImageArrayType,
-  CLNSectionReadableImageCubeType,
-  CLNSectionReadableImageInfoType,
-  CLNSectionReadableMetadataType
+public non-sealed interface CLNSectionWritableImageCubeType
+  extends CLNSectionWritableStandardType
 {
+  /**
+   * Create a set of mipmaps in the image.
+   *
+   * @param mipMaps The mipmap descriptions
+   *
+   * @return An interface used to write mipmap data
+   *
+   * @throws IOException On errors
+   */
 
+  CLWritableMipMapsCubeType createMipMaps(
+    CLNImageCubeMipMapDeclarations mipMaps)
+    throws IOException;
 }

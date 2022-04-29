@@ -23,6 +23,7 @@ import java.util.Optional;
 import static com.io7m.calino.api.CLNIdentifiers.sectionEndIdentifier;
 import static com.io7m.calino.api.CLNIdentifiers.sectionImage2DIdentifier;
 import static com.io7m.calino.api.CLNIdentifiers.sectionImageArrayIdentifier;
+import static com.io7m.calino.api.CLNIdentifiers.sectionImageCubeIdentifier;
 import static com.io7m.calino.api.CLNIdentifiers.sectionImageInfoIdentifier;
 import static com.io7m.calino.api.CLNIdentifiers.sectionMetadataIdentifier;
 
@@ -83,6 +84,23 @@ public interface CLNFileReadableType extends Closeable
       if (description.identifier() == sectionImage2DIdentifier()) {
         return Optional.of(
           (CLNSectionReadableImage2DType) this.openSection(section)
+        );
+      }
+    }
+    return Optional.empty();
+  }
+
+  /**
+   * @return The first available image cube section, if one exists
+   */
+
+  default Optional<CLNSectionReadableImageCubeType> openImageCube()
+  {
+    for (final var section : this.sections()) {
+      final var description = section.description();
+      if (description.identifier() == sectionImageCubeIdentifier()) {
+        return Optional.of(
+          (CLNSectionReadableImageCubeType) this.openSection(section)
         );
       }
     }

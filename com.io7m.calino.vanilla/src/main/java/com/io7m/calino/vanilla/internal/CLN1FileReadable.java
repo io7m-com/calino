@@ -34,6 +34,7 @@ import java.util.Objects;
 import static com.io7m.calino.api.CLNIdentifiers.sectionEndIdentifier;
 import static com.io7m.calino.api.CLNIdentifiers.sectionImage2DIdentifier;
 import static com.io7m.calino.api.CLNIdentifiers.sectionImageArrayIdentifier;
+import static com.io7m.calino.api.CLNIdentifiers.sectionImageCubeIdentifier;
 import static com.io7m.calino.api.CLNIdentifiers.sectionImageInfoIdentifier;
 import static com.io7m.calino.api.CLNIdentifiers.sectionMetadataIdentifier;
 
@@ -142,6 +143,16 @@ public final class CLN1FileReadable implements CLNFileReadableType
 
     if (identifier == sectionImageArrayIdentifier()) {
       return new CLN1SectionReadableImageArray(
+        this.decompressors,
+        this.reader,
+        this.request,
+        description,
+        this::findImageInfo
+      );
+    }
+
+    if (identifier == sectionImageCubeIdentifier()) {
+      return new CLN1SectionReadableImageCube(
         this.decompressors,
         this.reader,
         this.request,

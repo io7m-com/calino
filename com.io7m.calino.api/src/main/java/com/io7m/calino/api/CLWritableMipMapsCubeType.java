@@ -16,18 +16,33 @@
 
 package com.io7m.calino.api;
 
+import java.io.IOException;
+import java.nio.channels.WritableByteChannel;
+
 /**
- * The type of "standard" readable sections.
+ * The writable mipmaps for a cube image.
+ *
+ * Users are expected to retrieve the byte channel associated with each mipmap
+ * level using {@link #writeMipMap(int, CLNCubeFace)}, and are expected to write
+ * supercompressed data to the byte channel in accordance with the declared
+ * image info.
  */
 
-public sealed interface CLNSectionReadableStandardType
-  extends CLNSectionReadableType
-  permits CLNSectionReadableEndType,
-  CLNSectionReadableImage2DType,
-  CLNSectionReadableImageArrayType,
-  CLNSectionReadableImageCubeType,
-  CLNSectionReadableImageInfoType,
-  CLNSectionReadableMetadataType
+public interface CLWritableMipMapsCubeType
 {
+  /**
+   * Retrieve the byte channel associated with a mipmap level.
+   *
+   * @param mipMapLevel The mipmap level
+   * @param face        The cube face
+   *
+   * @return A byte channel that must receive supercompressed image data
+   *
+   * @throws IOException On errors
+   */
 
+  WritableByteChannel writeMipMap(
+    int mipMapLevel,
+    CLNCubeFace face)
+    throws IOException;
 }

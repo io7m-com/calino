@@ -827,4 +827,29 @@ public final class CLN1ValidationErrors
       Optional.empty()
     );
   }
+
+  /**
+   * Construct an error.
+   *
+   * @param section The section
+   * @param sizeZ   The Z size
+   *
+   * @return An error
+   */
+
+  public CLNValidationError errorCubeExpectedSizeZ1(
+    final CLNSectionReadableImageInfoType section,
+    final int sizeZ)
+  {
+    return new CLNValidationError(
+      this.source,
+      section.fileSectionDescription().fileOffsetData(),
+      STATUS_ERROR,
+      Optional.of(UUID.fromString("21c2587a-17e5-45fb-b17f-968814d2ba17")),
+      this.strings.format(
+        "errorCubeExpectedSizeZ1",
+        Integer.toUnsignedString(sizeZ)),
+      Optional.empty()
+    );
+  }
 }

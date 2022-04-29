@@ -16,17 +16,10 @@
 
 package com.io7m.calino.tests;
 
-import com.io7m.calino.api.CLNByteOrder;
-import com.io7m.calino.api.CLNChannelsLayoutDescriptionStandard;
-import com.io7m.calino.api.CLNChannelsLayoutDescriptionType;
-import com.io7m.calino.api.CLNSuperCompressionMethodStandard;
-import com.io7m.calino.api.CLNSuperCompressionMethodType;
 import com.io7m.calino.cmdline.CLNMain;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestFactory;
 
 import javax.imageio.ImageIO;
 import java.io.ByteArrayOutputStream;
@@ -34,17 +27,9 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.time.Duration;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
-import java.util.stream.Stream;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static java.nio.file.StandardOpenOption.CREATE;
-import static java.nio.file.StandardOpenOption.WRITE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTimeout;
 
 public final class CLNCommandLineTest
 {
@@ -269,6 +254,16 @@ public final class CLNCommandLineTest
   }
 
   @Test
+  public void testHelpCreateCube()
+  {
+    final var r = CLNMain.mainExitless(new String[]{
+      "help",
+      "create-cube"
+    });
+    assertEquals(0, r);
+  }
+
+  @Test
   public void testHelpCreateArray()
   {
     final var r = CLNMain.mainExitless(new String[]{
@@ -355,7 +350,7 @@ public final class CLNCommandLineTest
   }
 
   @Test
-  public void testShowSummaryBasic()
+  public void testShowSummaryBasic2D()
     throws IOException
   {
     final var file =
@@ -368,7 +363,114 @@ public final class CLNCommandLineTest
     final var r = CLNMain.mainExitless(new String[]{
       "show-summary",
       "--file",
-      file.toAbsolutePath().toString()
+      file.toAbsolutePath().toString(),
+      "--show-mipmaps",
+      "true"
+    });
+    assertEquals(0, r);
+  }
+
+  @Test
+  public void testShowSummaryBasic2DCompressed()
+    throws IOException
+  {
+    final var file =
+      CLNTestDirectories.resourceOf(
+        CLN1ParsersContract.class,
+        this.directory,
+        "basic-lz4.ctf"
+      );
+
+    final var r = CLNMain.mainExitless(new String[]{
+      "show-summary",
+      "--file",
+      file.toAbsolutePath().toString(),
+      "--show-mipmaps",
+      "true"
+    });
+    assertEquals(0, r);
+  }
+
+  @Test
+  public void testShowSummaryBasicArray()
+    throws IOException
+  {
+    final var file =
+      CLNTestDirectories.resourceOf(
+        CLN1ParsersContract.class,
+        this.directory,
+        "basic-array.ctf"
+      );
+
+    final var r = CLNMain.mainExitless(new String[]{
+      "show-summary",
+      "--file",
+      file.toAbsolutePath().toString(),
+      "--show-mipmaps",
+      "true"
+    });
+    assertEquals(0, r);
+  }
+
+  @Test
+  public void testShowSummaryBasicArrayLZ4()
+    throws IOException
+  {
+    final var file =
+      CLNTestDirectories.resourceOf(
+        CLN1ParsersContract.class,
+        this.directory,
+        "basic-array-lz4.ctf"
+      );
+
+    final var r = CLNMain.mainExitless(new String[]{
+      "show-summary",
+      "--file",
+      file.toAbsolutePath().toString(),
+      "--show-mipmaps",
+      "true"
+    });
+    assertEquals(0, r);
+  }
+
+  @Test
+  public void testShowSummaryBasicCube()
+    throws IOException
+  {
+    final var file =
+      CLNTestDirectories.resourceOf(
+        CLN1ParsersContract.class,
+        this.directory,
+        "basic-cube.ctf"
+      );
+
+    final var r = CLNMain.mainExitless(new String[]{
+      "show-summary",
+      "--file",
+      file.toAbsolutePath().toString(),
+      "--show-mipmaps",
+      "true"
+    });
+    assertEquals(0, r);
+  }
+
+  @Test
+  public void testShowSummaryBasicCubeLZ4()
+    throws IOException
+  {
+    final var file =
+      CLNTestDirectories.resourceOf(
+        CLN1ParsersContract.class,
+        this.directory,
+        "basic-cube-lz4.ctf"
+      );
+
+    final var r = CLNMain.mainExitless(new String[]{
+      "show-summary",
+      "--file",
+      file.toAbsolutePath().toString(),
+      "--show-mipmaps",
+      "true"
     });
     assertEquals(0, r);
   }
@@ -414,6 +516,408 @@ public final class CLNCommandLineTest
     });
     assertEquals(0, r);
     assertEquals(3072L, Files.size(this.directoryOutput.resolve("m000.raw")));
+  }
+
+  @Test
+  public void testExtractImageDataCube()
+    throws IOException
+  {
+    final var file =
+      CLNTestDirectories.resourceOf(
+        CLN1ParsersContract.class,
+        this.directory,
+        "basic-cube.ctf"
+      );
+
+    final var r = CLNMain.mainExitless(new String[]{
+      "extract-image-data-cube",
+      "--file",
+      file.toAbsolutePath().toString(),
+      "--output-directory",
+      this.directoryOutput.toString(),
+      "--decompress",
+      "true"
+    });
+    assertEquals(0, r);
+    assertEquals(
+      262144L,
+      Files.size(this.directoryOutput.resolve("m000fxn.raw")));
+    assertEquals(
+      262144L,
+      Files.size(this.directoryOutput.resolve("m000fxp.raw")));
+    assertEquals(
+      262144L,
+      Files.size(this.directoryOutput.resolve("m000fyn.raw")));
+    assertEquals(
+      262144L,
+      Files.size(this.directoryOutput.resolve("m000fyp.raw")));
+    assertEquals(
+      262144L,
+      Files.size(this.directoryOutput.resolve("m000fzn.raw")));
+    assertEquals(
+      262144L,
+      Files.size(this.directoryOutput.resolve("m000fzp.raw")));
+
+    assertEquals(
+      65536L,
+      Files.size(this.directoryOutput.resolve("m001fxn.raw")));
+    assertEquals(
+      65536L,
+      Files.size(this.directoryOutput.resolve("m001fxp.raw")));
+    assertEquals(
+      65536L,
+      Files.size(this.directoryOutput.resolve("m001fyn.raw")));
+    assertEquals(
+      65536L,
+      Files.size(this.directoryOutput.resolve("m001fyp.raw")));
+    assertEquals(
+      65536L,
+      Files.size(this.directoryOutput.resolve("m001fzn.raw")));
+    assertEquals(
+      65536L,
+      Files.size(this.directoryOutput.resolve("m001fzp.raw")));
+
+    assertEquals(
+      16384L,
+      Files.size(this.directoryOutput.resolve("m002fxn.raw")));
+    assertEquals(
+      16384L,
+      Files.size(this.directoryOutput.resolve("m002fxp.raw")));
+    assertEquals(
+      16384L,
+      Files.size(this.directoryOutput.resolve("m002fyn.raw")));
+    assertEquals(
+      16384L,
+      Files.size(this.directoryOutput.resolve("m002fyp.raw")));
+    assertEquals(
+      16384L,
+      Files.size(this.directoryOutput.resolve("m002fzn.raw")));
+    assertEquals(
+      16384L,
+      Files.size(this.directoryOutput.resolve("m002fzp.raw")));
+
+    assertEquals(
+      4096L,
+      Files.size(this.directoryOutput.resolve("m003fxn.raw")));
+    assertEquals(
+      4096L,
+      Files.size(this.directoryOutput.resolve("m003fxp.raw")));
+    assertEquals(
+      4096L,
+      Files.size(this.directoryOutput.resolve("m003fyn.raw")));
+    assertEquals(
+      4096L,
+      Files.size(this.directoryOutput.resolve("m003fyp.raw")));
+    assertEquals(
+      4096L,
+      Files.size(this.directoryOutput.resolve("m003fzn.raw")));
+    assertEquals(
+      4096L,
+      Files.size(this.directoryOutput.resolve("m003fzp.raw")));
+
+    assertEquals(
+      1024L,
+      Files.size(this.directoryOutput.resolve("m004fxn.raw")));
+    assertEquals(
+      1024L,
+      Files.size(this.directoryOutput.resolve("m004fxp.raw")));
+    assertEquals(
+      1024L,
+      Files.size(this.directoryOutput.resolve("m004fyn.raw")));
+    assertEquals(
+      1024L,
+      Files.size(this.directoryOutput.resolve("m004fyp.raw")));
+    assertEquals(
+      1024L,
+      Files.size(this.directoryOutput.resolve("m004fzn.raw")));
+    assertEquals(
+      1024L,
+      Files.size(this.directoryOutput.resolve("m004fzp.raw")));
+
+    assertEquals(256L, Files.size(this.directoryOutput.resolve("m005fxn.raw")));
+    assertEquals(256L, Files.size(this.directoryOutput.resolve("m005fxp.raw")));
+    assertEquals(256L, Files.size(this.directoryOutput.resolve("m005fyn.raw")));
+    assertEquals(256L, Files.size(this.directoryOutput.resolve("m005fyp.raw")));
+    assertEquals(256L, Files.size(this.directoryOutput.resolve("m005fzn.raw")));
+    assertEquals(256L, Files.size(this.directoryOutput.resolve("m005fzp.raw")));
+
+    assertEquals(64L, Files.size(this.directoryOutput.resolve("m006fxn.raw")));
+    assertEquals(64L, Files.size(this.directoryOutput.resolve("m006fxp.raw")));
+    assertEquals(64L, Files.size(this.directoryOutput.resolve("m006fyn.raw")));
+    assertEquals(64L, Files.size(this.directoryOutput.resolve("m006fyp.raw")));
+    assertEquals(64L, Files.size(this.directoryOutput.resolve("m006fzn.raw")));
+    assertEquals(64L, Files.size(this.directoryOutput.resolve("m006fzp.raw")));
+
+    assertEquals(16L, Files.size(this.directoryOutput.resolve("m007fxn.raw")));
+    assertEquals(16L, Files.size(this.directoryOutput.resolve("m007fxp.raw")));
+    assertEquals(16L, Files.size(this.directoryOutput.resolve("m007fyn.raw")));
+    assertEquals(16L, Files.size(this.directoryOutput.resolve("m007fyp.raw")));
+    assertEquals(16L, Files.size(this.directoryOutput.resolve("m007fzn.raw")));
+    assertEquals(16L, Files.size(this.directoryOutput.resolve("m007fzp.raw")));
+  }
+
+  @Test
+  public void testExtractImageDataCubeCompressed()
+    throws IOException
+  {
+    final var file =
+      CLNTestDirectories.resourceOf(
+        CLN1ParsersContract.class,
+        this.directory,
+        "basic-cube-lz4.ctf"
+      );
+
+    final var r = CLNMain.mainExitless(new String[]{
+      "extract-image-data-cube",
+      "--file",
+      file.toAbsolutePath().toString(),
+      "--output-directory",
+      this.directoryOutput.toString(),
+      "--decompress",
+      "false"
+    });
+    assertEquals(0, r);
+    assertEquals(
+      144965L,
+      Files.size(this.directoryOutput.resolve("m000fxn.raw")));
+    assertEquals(
+      147937L,
+      Files.size(this.directoryOutput.resolve("m000fxp.raw")));
+    assertEquals(
+      128917L,
+      Files.size(this.directoryOutput.resolve("m000fyn.raw")));
+    assertEquals(
+      168620L,
+      Files.size(this.directoryOutput.resolve("m000fyp.raw")));
+    assertEquals(
+      148215L,
+      Files.size(this.directoryOutput.resolve("m000fzn.raw")));
+    assertEquals(
+      152582L,
+      Files.size(this.directoryOutput.resolve("m000fzp.raw")));
+
+    assertEquals(
+      36101L,
+      Files.size(this.directoryOutput.resolve("m001fxn.raw")));
+    assertEquals(
+      36225L,
+      Files.size(this.directoryOutput.resolve("m001fxp.raw")));
+    assertEquals(
+      24844L,
+      Files.size(this.directoryOutput.resolve("m001fyn.raw")));
+    assertEquals(
+      45078L,
+      Files.size(this.directoryOutput.resolve("m001fyp.raw")));
+    assertEquals(
+      36354L,
+      Files.size(this.directoryOutput.resolve("m001fzn.raw")));
+    assertEquals(
+      38190L,
+      Files.size(this.directoryOutput.resolve("m001fzp.raw")));
+
+    assertEquals(
+      9600L,
+      Files.size(this.directoryOutput.resolve("m002fxn.raw")));
+    assertEquals(
+      9745L,
+      Files.size(this.directoryOutput.resolve("m002fxp.raw")));
+    assertEquals(
+      5338L,
+      Files.size(this.directoryOutput.resolve("m002fyn.raw")));
+    assertEquals(
+      12423L,
+      Files.size(this.directoryOutput.resolve("m002fyp.raw")));
+    assertEquals(
+      9651L,
+      Files.size(this.directoryOutput.resolve("m002fzn.raw")));
+    assertEquals(
+      10283L,
+      Files.size(this.directoryOutput.resolve("m002fzp.raw")));
+
+    assertEquals(
+      2916L,
+      Files.size(this.directoryOutput.resolve("m003fxn.raw")));
+    assertEquals(
+      2974L,
+      Files.size(this.directoryOutput.resolve("m003fxp.raw")));
+    assertEquals(
+      1839L,
+      Files.size(this.directoryOutput.resolve("m003fyn.raw")));
+    assertEquals(
+      3503L,
+      Files.size(this.directoryOutput.resolve("m003fyp.raw")));
+    assertEquals(
+      3012L,
+      Files.size(this.directoryOutput.resolve("m003fzn.raw")));
+    assertEquals(
+      3029L,
+      Files.size(this.directoryOutput.resolve("m003fzp.raw")));
+
+    assertEquals(895L, Files.size(this.directoryOutput.resolve("m004fxn.raw")));
+    assertEquals(901L, Files.size(this.directoryOutput.resolve("m004fxp.raw")));
+    assertEquals(543L, Files.size(this.directoryOutput.resolve("m004fyn.raw")));
+    assertEquals(993L, Files.size(this.directoryOutput.resolve("m004fyp.raw")));
+    assertEquals(881L, Files.size(this.directoryOutput.resolve("m004fzn.raw")));
+    assertEquals(892L, Files.size(this.directoryOutput.resolve("m004fzp.raw")));
+
+    assertEquals(271L, Files.size(this.directoryOutput.resolve("m005fxn.raw")));
+    assertEquals(271L, Files.size(this.directoryOutput.resolve("m005fxp.raw")));
+    assertEquals(194L, Files.size(this.directoryOutput.resolve("m005fyn.raw")));
+    assertEquals(271L, Files.size(this.directoryOutput.resolve("m005fyp.raw")));
+    assertEquals(262L, Files.size(this.directoryOutput.resolve("m005fzn.raw")));
+    assertEquals(259L, Files.size(this.directoryOutput.resolve("m005fzp.raw")));
+
+    assertEquals(79L, Files.size(this.directoryOutput.resolve("m006fxn.raw")));
+    assertEquals(79L, Files.size(this.directoryOutput.resolve("m006fxp.raw")));
+    assertEquals(79L, Files.size(this.directoryOutput.resolve("m006fyn.raw")));
+    assertEquals(79L, Files.size(this.directoryOutput.resolve("m006fyp.raw")));
+    assertEquals(79L, Files.size(this.directoryOutput.resolve("m006fzn.raw")));
+    assertEquals(79L, Files.size(this.directoryOutput.resolve("m006fzp.raw")));
+
+    assertEquals(31L, Files.size(this.directoryOutput.resolve("m007fxn.raw")));
+    assertEquals(31L, Files.size(this.directoryOutput.resolve("m007fxp.raw")));
+    assertEquals(31L, Files.size(this.directoryOutput.resolve("m007fyn.raw")));
+    assertEquals(31L, Files.size(this.directoryOutput.resolve("m007fyp.raw")));
+    assertEquals(31L, Files.size(this.directoryOutput.resolve("m007fzn.raw")));
+    assertEquals(31L, Files.size(this.directoryOutput.resolve("m007fzp.raw")));
+  }
+
+  @Test
+  public void testExtractImageDataCubeCompressedDecompress()
+    throws IOException
+  {
+    final var file =
+      CLNTestDirectories.resourceOf(
+        CLN1ParsersContract.class,
+        this.directory,
+        "basic-cube-lz4.ctf"
+      );
+
+    final var r = CLNMain.mainExitless(new String[]{
+      "extract-image-data-cube",
+      "--file",
+      file.toAbsolutePath().toString(),
+      "--output-directory",
+      this.directoryOutput.toString(),
+      "--decompress",
+      "true"
+    });
+    assertEquals(0, r);
+    assertEquals(
+      262144L,
+      Files.size(this.directoryOutput.resolve("m000fxn.raw")));
+    assertEquals(
+      262144L,
+      Files.size(this.directoryOutput.resolve("m000fxp.raw")));
+    assertEquals(
+      262144L,
+      Files.size(this.directoryOutput.resolve("m000fyn.raw")));
+    assertEquals(
+      262144L,
+      Files.size(this.directoryOutput.resolve("m000fyp.raw")));
+    assertEquals(
+      262144L,
+      Files.size(this.directoryOutput.resolve("m000fzn.raw")));
+    assertEquals(
+      262144L,
+      Files.size(this.directoryOutput.resolve("m000fzp.raw")));
+
+    assertEquals(
+      65536L,
+      Files.size(this.directoryOutput.resolve("m001fxn.raw")));
+    assertEquals(
+      65536L,
+      Files.size(this.directoryOutput.resolve("m001fxp.raw")));
+    assertEquals(
+      65536L,
+      Files.size(this.directoryOutput.resolve("m001fyn.raw")));
+    assertEquals(
+      65536L,
+      Files.size(this.directoryOutput.resolve("m001fyp.raw")));
+    assertEquals(
+      65536L,
+      Files.size(this.directoryOutput.resolve("m001fzn.raw")));
+    assertEquals(
+      65536L,
+      Files.size(this.directoryOutput.resolve("m001fzp.raw")));
+
+    assertEquals(
+      16384L,
+      Files.size(this.directoryOutput.resolve("m002fxn.raw")));
+    assertEquals(
+      16384L,
+      Files.size(this.directoryOutput.resolve("m002fxp.raw")));
+    assertEquals(
+      16384L,
+      Files.size(this.directoryOutput.resolve("m002fyn.raw")));
+    assertEquals(
+      16384L,
+      Files.size(this.directoryOutput.resolve("m002fyp.raw")));
+    assertEquals(
+      16384L,
+      Files.size(this.directoryOutput.resolve("m002fzn.raw")));
+    assertEquals(
+      16384L,
+      Files.size(this.directoryOutput.resolve("m002fzp.raw")));
+
+    assertEquals(
+      4096L,
+      Files.size(this.directoryOutput.resolve("m003fxn.raw")));
+    assertEquals(
+      4096L,
+      Files.size(this.directoryOutput.resolve("m003fxp.raw")));
+    assertEquals(
+      4096L,
+      Files.size(this.directoryOutput.resolve("m003fyn.raw")));
+    assertEquals(
+      4096L,
+      Files.size(this.directoryOutput.resolve("m003fyp.raw")));
+    assertEquals(
+      4096L,
+      Files.size(this.directoryOutput.resolve("m003fzn.raw")));
+    assertEquals(
+      4096L,
+      Files.size(this.directoryOutput.resolve("m003fzp.raw")));
+
+    assertEquals(
+      1024L,
+      Files.size(this.directoryOutput.resolve("m004fxn.raw")));
+    assertEquals(
+      1024L,
+      Files.size(this.directoryOutput.resolve("m004fxp.raw")));
+    assertEquals(
+      1024L,
+      Files.size(this.directoryOutput.resolve("m004fyn.raw")));
+    assertEquals(
+      1024L,
+      Files.size(this.directoryOutput.resolve("m004fyp.raw")));
+    assertEquals(
+      1024L,
+      Files.size(this.directoryOutput.resolve("m004fzn.raw")));
+    assertEquals(
+      1024L,
+      Files.size(this.directoryOutput.resolve("m004fzp.raw")));
+
+    assertEquals(256L, Files.size(this.directoryOutput.resolve("m005fxn.raw")));
+    assertEquals(256L, Files.size(this.directoryOutput.resolve("m005fxp.raw")));
+    assertEquals(256L, Files.size(this.directoryOutput.resolve("m005fyn.raw")));
+    assertEquals(256L, Files.size(this.directoryOutput.resolve("m005fyp.raw")));
+    assertEquals(256L, Files.size(this.directoryOutput.resolve("m005fzn.raw")));
+    assertEquals(256L, Files.size(this.directoryOutput.resolve("m005fzp.raw")));
+
+    assertEquals(64L, Files.size(this.directoryOutput.resolve("m006fxn.raw")));
+    assertEquals(64L, Files.size(this.directoryOutput.resolve("m006fxp.raw")));
+    assertEquals(64L, Files.size(this.directoryOutput.resolve("m006fyn.raw")));
+    assertEquals(64L, Files.size(this.directoryOutput.resolve("m006fyp.raw")));
+    assertEquals(64L, Files.size(this.directoryOutput.resolve("m006fzn.raw")));
+    assertEquals(64L, Files.size(this.directoryOutput.resolve("m006fzp.raw")));
+
+    assertEquals(16L, Files.size(this.directoryOutput.resolve("m007fxn.raw")));
+    assertEquals(16L, Files.size(this.directoryOutput.resolve("m007fxp.raw")));
+    assertEquals(16L, Files.size(this.directoryOutput.resolve("m007fyn.raw")));
+    assertEquals(16L, Files.size(this.directoryOutput.resolve("m007fyp.raw")));
+    assertEquals(16L, Files.size(this.directoryOutput.resolve("m007fzn.raw")));
+    assertEquals(16L, Files.size(this.directoryOutput.resolve("m007fzp.raw")));
   }
 
   @Test
@@ -1069,260 +1573,6 @@ public final class CLNCommandLineTest
     assertEquals(0, r);
   }
 
-  private Stream<ImageFormatTestCase> imageFormatTestCases()
-    throws IOException
-  {
-    final var files =
-      List.of(
-        "produce8.png",
-        "produce16.png",
-        "produceFade8.png",
-        "produceFade16.png",
-        "produceGrey8.png",
-        "produceGrey16.png"
-      );
-
-    final var cases = new ArrayList<ImageFormatTestCase>(256);
-    for (final var name : files) {
-      final var path =
-        CLNTestDirectories.resourceOf(
-          CLN1ParsersContract.class,
-          this.directory,
-          name
-        );
-
-      for (final var order : CLNByteOrder.values()) {
-        for (final var compression : CLNSuperCompressionMethodStandard.values()) {
-          for (final var layout : CLNChannelsLayoutDescriptionStandard.values()) {
-            cases.add(
-              new ImageFormatTestCase(name, path, order, compression, layout)
-            );
-          }
-        }
-      }
-    }
-
-    return cases.stream();
-  }
-
-  private DynamicTest createCreationTestCase2D(
-    final ImageFormatTestCase testCase)
-  {
-    final var testName =
-      new StringBuilder(128)
-        .append("testCreateExhaustion2D_")
-        .append(testCase.name)
-        .append("|")
-        .append(testCase.layout.descriptor())
-        .append("|")
-        .append(testCase.superCompression.descriptor())
-        .append("|")
-        .append(testCase.byteOrder.name())
-        .toString();
-
-    return DynamicTest.dynamicTest(
-      testName,
-      () -> {
-        final var properties = new Properties();
-        properties.put("test", testName);
-
-        final var propsFile =
-          this.directory.resolve("test.properties");
-        try (var writer =
-               Files.newBufferedWriter(propsFile, CREATE, WRITE)) {
-          properties.store(writer, "");
-        }
-
-        assertTimeout(Duration.ofSeconds(10L), () -> {
-          final var r = CLNMain.mainExitless(new String[]{
-            "create-2d",
-            "--verbose",
-            "trace",
-            "--metadata",
-            propsFile.toAbsolutePath().toString(),
-            "--source",
-            testCase.file.toAbsolutePath().toString(),
-            "--output",
-            this.directory.resolve("output.ctf").toString(),
-            "--convert-layout-to",
-            testCase.layout.descriptor(),
-            "--byte-order",
-            testCase.byteOrder.name(),
-            "--super-compression",
-            testCase.superCompression.descriptor()
-          });
-          assertEquals(0, r);
-        });
-
-        assertTimeout(Duration.ofSeconds(10L), () -> {
-          final var r = CLNMain.mainExitless(new String[]{
-            "check",
-            "--verbose",
-            "trace",
-            "--warnings-as-errors",
-            "true",
-            "--file",
-            this.directory.resolve("output.ctf").toString(),
-          });
-          assertEquals(0, r);
-        });
-
-        assertTimeout(Duration.ofSeconds(10L), () -> {
-          final var r = CLNMain.mainExitless(new String[]{
-            "extract-image-data-2d",
-            "--verbose",
-            "trace",
-            "--file",
-            this.directory.resolve("output.ctf").toString(),
-            "--output-directory",
-            this.directoryOutput.toString(),
-            "--decompress",
-            "true",
-            "--output-format",
-            "PNG"
-          });
-          assertEquals(0, r);
-        });
-
-        assertTimeout(Duration.ofSeconds(10L), () -> {
-          final var r = CLNMain.mainExitless(new String[]{
-            "extract-image-data-2d",
-            "--verbose",
-            "trace",
-            "--file",
-            this.directory.resolve("output.ctf").toString(),
-            "--output-directory",
-            this.directoryOutput.toString(),
-            "--decompress",
-            "true",
-            "--output-format",
-            "RAW"
-          });
-          assertEquals(0, r);
-        });
-      }
-    );
-  }
-
-  private DynamicTest createCreationTestCaseArray(
-    final ImageFormatTestCase testCase)
-  {
-    final var testName =
-      new StringBuilder(128)
-        .append("testCreateExhaustionArray_")
-        .append(testCase.name)
-        .append("|")
-        .append(testCase.layout.descriptor())
-        .append("|")
-        .append(testCase.superCompression.descriptor())
-        .append("|")
-        .append(testCase.byteOrder.name())
-        .toString();
-
-    return DynamicTest.dynamicTest(
-      testName,
-      () -> {
-        final var properties = new Properties();
-        properties.put("test", testName);
-
-        final var propsFile =
-          this.directory.resolve("test.properties");
-        try (var writer =
-               Files.newBufferedWriter(propsFile, CREATE, WRITE)) {
-          properties.store(writer, "");
-        }
-
-        assertTimeout(Duration.ofSeconds(10L), () -> {
-          final var r = CLNMain.mainExitless(new String[]{
-            "create-array",
-            "--verbose",
-            "trace",
-            "--metadata",
-            propsFile.toAbsolutePath().toString(),
-            "--source-layer",
-            testCase.file.toAbsolutePath().toString(),
-            "--source-layer",
-            testCase.file.toAbsolutePath().toString(),
-            "--source-layer",
-            testCase.file.toAbsolutePath().toString(),
-            "--output",
-            this.directory.resolve("output.ctf").toString(),
-            "--convert-layout-to",
-            testCase.layout.descriptor(),
-            "--byte-order",
-            testCase.byteOrder.name(),
-            "--super-compression",
-            testCase.superCompression.descriptor()
-          });
-          assertEquals(0, r);
-        });
-
-        assertTimeout(Duration.ofSeconds(10L), () -> {
-          final var r = CLNMain.mainExitless(new String[]{
-            "check",
-            "--verbose",
-            "trace",
-            "--warnings-as-errors",
-            "true",
-            "--file",
-            this.directory.resolve("output.ctf").toString(),
-          });
-          assertEquals(0, r);
-        });
-
-        assertTimeout(Duration.ofSeconds(10L), () -> {
-          final var r = CLNMain.mainExitless(new String[]{
-            "extract-image-data-array",
-            "--verbose",
-            "trace",
-            "--file",
-            this.directory.resolve("output.ctf").toString(),
-            "--output-directory",
-            this.directoryOutput.toString(),
-            "--decompress",
-            "true",
-            "--output-format",
-            "PNG"
-          });
-          assertEquals(0, r);
-        });
-
-        assertTimeout(Duration.ofSeconds(10L), () -> {
-          final var r = CLNMain.mainExitless(new String[]{
-            "extract-image-data-array",
-            "--verbose",
-            "trace",
-            "--file",
-            this.directory.resolve("output.ctf").toString(),
-            "--output-directory",
-            this.directoryOutput.toString(),
-            "--decompress",
-            "true",
-            "--output-format",
-            "RAW"
-          });
-          assertEquals(0, r);
-        });
-      }
-    );
-  }
-
-  @TestFactory
-  public Stream<DynamicTest> testCreateAllFormatCases2D()
-    throws IOException
-  {
-    return this.imageFormatTestCases()
-      .map(this::createCreationTestCase2D);
-  }
-
-  @TestFactory
-  public Stream<DynamicTest> testCreateAllFormatCasesArray()
-    throws IOException
-  {
-    return this.imageFormatTestCases()
-      .map(this::createCreationTestCaseArray);
-  }
-
   @Test
   public void testCheckWarningFails()
     throws IOException
@@ -1548,15 +1798,5 @@ public final class CLNCommandLineTest
       file.toAbsolutePath().toString()
     });
     assertEquals(1, r);
-  }
-
-  private record ImageFormatTestCase(
-    String name,
-    Path file,
-    CLNByteOrder byteOrder,
-    CLNSuperCompressionMethodType superCompression,
-    CLNChannelsLayoutDescriptionType layout)
-  {
-
   }
 }

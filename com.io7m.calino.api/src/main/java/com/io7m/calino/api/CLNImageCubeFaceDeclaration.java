@@ -17,17 +17,17 @@
 package com.io7m.calino.api;
 
 /**
- * The type of "standard" readable sections.
+ * The declaration of a single cube face.
+ *
+ * @param sizeCompressed   The size of the supercompressed data in octets
+ * @param sizeUncompressed The size of the uncompressed data in octets
+ * @param crc32            The CRC32 checksum of the uncompressed data
  */
 
-public sealed interface CLNSectionReadableStandardType
-  extends CLNSectionReadableType
-  permits CLNSectionReadableEndType,
-  CLNSectionReadableImage2DType,
-  CLNSectionReadableImageArrayType,
-  CLNSectionReadableImageCubeType,
-  CLNSectionReadableImageInfoType,
-  CLNSectionReadableMetadataType
+public record CLNImageCubeFaceDeclaration(
+  long sizeCompressed,
+  long sizeUncompressed,
+  int crc32)
 {
 
 }
