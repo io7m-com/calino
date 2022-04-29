@@ -52,9 +52,6 @@
   <FormalItem title="Calino/Flag.v" id="7ecaa9cf-3f8c-5b0f-8480-e38cf5fe0257">
     <Verbatim><xi:include href="Calino/Flag.v" parse="text"/></Verbatim>
   </FormalItem>
-  <FormalItem title="Calino/Image.v" id="84d3f698-2b44-5a17-ab7e-0a8518a5d347">
-    <Verbatim><xi:include href="Calino/Image.v" parse="text"/></Verbatim>
-  </FormalItem>
   <FormalItem title="Calino/ImageInfo.v" id="383a0e87-2eb8-56d6-b7f7-95f83078753b">
     <Verbatim><xi:include href="Calino/ImageInfo.v" parse="text"/></Verbatim>
   </FormalItem>
@@ -75,6 +72,9 @@
   </FormalItem>
   <FormalItem title="Calino/SuperCompression.v" id="178c5cfc-a84a-5e00-bf65-8815e2fa8e31">
     <Verbatim><xi:include href="Calino/SuperCompression.v" parse="text"/></Verbatim>
+  </FormalItem>
+  <FormalItem title="Calino/Texture.v" id="117d2c5f-f998-5de0-b1c1-b0a56d4daa17">
+    <Verbatim><xi:include href="Calino/Texture.v" parse="text"/></Verbatim>
   </FormalItem>
 
 </Section>

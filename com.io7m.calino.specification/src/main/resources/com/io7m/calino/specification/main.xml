@@ -18,6 +18,7 @@
     <MetaProperty name="com.io7m.xstructural.web.branding.footer">brand-footer.xml</MetaProperty>
   </Metadata>
 
+  <xi:include href="overview.xml"/>
   <xi:include href="notation.xml" />
   <xi:include href="model.xml"/>
   <xi:include href="binary.xml"/>

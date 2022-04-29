@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Section title="Overview"
+         id="64e6eff7-50e5-40d3-bf0b-616710c02581"
+         xmlns="urn:com.io7m.structural:8:0">
+
+  <Subsection title="Overview">
+    <Paragraph>
+      This specification defines version <Term type="constant">1.0</Term> of the
+      <Term type="package">calino</Term>
+      file format. The
+      <Term type="package">calino</Term>
+      format is a carefully designed file format intended for the storage and delivery of texture data for realtime 3D
+      rendering applications.
+    </Paragraph>
+    <Paragraph>
+      This specification is divided into an abstract
+      <Link target="73066219-7f6d-4809-b87c-897be98b4a6b">model</Link>
+      and a separate <Link target="494888da-c85e-42df-8c2b-b789e84586e4">binary encoding</Link>. The purpose of the
+      model is to describe the semantics of <Term type="package">calino</Term> files; the actual
+      <Term type="term">meaning</Term>
+      of the data within, and to describe properties and invariants that must be true for all valid
+      <Term type="package">calino</Term>
+      files. The purpose of the binary encoding is to describe how the model is transformed to a sequence of
+      bytes/octets; it describes the low-level on-disk format of <Term type="package">calino</Term> files.
+      This layered approach is intended to allow for specifying the format with a level of precision that will
+      allow data in the <Term type="package">calino</Term> format to remain readable for decades into the future, and in
+      a manner that ensures that the format is not dependent on any present-day rendering APIs.
+    </Paragraph>
+    <Paragraph>
+      Developers wishing to write their own code to read and write <Term type="package">calino</Term> files might find
+      it easiest to view the
+      <Link target="494888da-c85e-42df-8c2b-b789e84586e4">binary encoding</Link>
+      section first. The <Term type="package">calino</Term> format is designed to be straightforward to parse, requiring
+      only a few minimal primitives to express the entirety of the format, and requires no references to external
+      specifications (unlike many other image/texture file formats). Once a developer is able to read data from an
+      existing <Term type="package">calino</Term> file, they should consult the
+      <Link target="73066219-7f6d-4809-b87c-897be98b4a6b">model</Link>
+      to understand what the data they're receiving actually <Term type="term">means</Term>. The
+      model chapters are arranged in dependency order starting with the most fundamental concepts, and ending
+      with the top level definitions of the various texture types.
+    </Paragraph>
+  </Subsection>
+
+</Section>

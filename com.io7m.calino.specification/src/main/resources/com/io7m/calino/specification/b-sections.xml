@@ -24,7 +24,7 @@
   <Paragraph id="2803ef9e-a1de-4d28-a0ab-a03eec53582e">
     Following an <Link target="bc0e7016-7dab-4edb-a4c9-2b1492da0225">image information</Link> section,
     <Term type="package">calino</Term> texture files must contain exactly one of any of the various
-    image data sections.
+    texture data sections.
   </Paragraph>
 
   <Paragraph id="a24164fd-3bdb-41fc-b04f-f7ebd4d65c4a">
@@ -52,15 +52,15 @@
       </Row>
       <Row>
         <Cell><Link target="8321ef71-e529-4764-abf1-e678e42c03af">0x434C4E5F49324421</Link></Cell>
-        <Cell>Image data for 2D images.</Cell>
+        <Cell>Image data for 2D textures.</Cell>
       </Row>
       <Row>
         <Cell><Link target="a91529c1-d7c4-4e6e-abcb-bfeb3d536aba">0x434C4E5F41525221</Link></Cell>
-        <Cell>Image data for array images.</Cell>
+        <Cell>Image data for array textures.</Cell>
       </Row>
       <Row>
         <Cell><Link target="df607ad1-a586-4a3f-b8bc-f322142056f9">0x434C4E5F43554245</Link></Cell>
-        <Cell>Image data for cube images.</Cell>
+        <Cell>Image data for cube textures.</Cell>
       </Row>
       <Row>
         <Cell><Link target="16fddeaf-9d7f-437b-8662-01e6975f6249">0x434C4E5F4D455441</Link></Cell>

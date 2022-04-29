@@ -6,7 +6,7 @@
          xmlns:xi="http://www.w3.org/2001/XInclude">
 
   <Paragraph>
-    An image may have one or more boolean <Term type="term">flags</Term> describing metadata that does not fit into any
+    A texture may have one or more boolean <Term type="term">flags</Term> describing metadata that does not fit into any
     of the other categories of metadata included in <Term type="package">calino</Term> texture files. A given flag
     may appear at most once in any given texture file.
   </Paragraph>
@@ -25,12 +25,12 @@
   </FormalItem>
 
   <Paragraph>
-    A value of <Term type="constant">FlagAlphaPremultiplied</Term> indicates that the color channels of the image have
-    been multiplied by the value in the alpha channel of the image.
+    A value of <Term type="constant">FlagAlphaPremultiplied</Term> indicates that the color channels of the image
+    data have been multiplied by the value in the alpha channel of the image.
   </Paragraph>
 
   <Paragraph>
-    A value of <Term type="constant">FlagCustom</Term> indicates that the image has flags not known to this
+    A value of <Term type="constant">FlagCustom</Term> indicates that the texture has flags not known to this
     specification.
   </Paragraph>
 

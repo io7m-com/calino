@@ -74,7 +74,7 @@
 73 ! Record imageSize3D
 74 ! Definition mipMapSize
 75 ! Inductive mipMapImageSize : Set
-76 ! Inductive image : Set
+76 ! Inductive texture : Set
 77 ! Inductive binaryExp : Set
 78 ! Fixpoint binarySize (b : binaryExp)
 79 ! Definition asMultipleOf (size q : nat)
@@ -143,8 +143,8 @@
 142 ! Definition arrayMipMapLevels
 143 ! Definition arrayMipMapsHaveSameLayers
 144 ! Definition Layout_A1_R5_G5_B5 : channelLayoutDescription
-145 ! Inductive image2d : Set
-146 ! Inductive imageArray : Set
+145 ! Inductive texture2d : Set
+146 ! Inductive textureArray : Set
 147 ! Inductive cubeMapFace : Set
 148 ! Inductive cubeMipMap : Set
 149 ! Inductive cubeMipMapListIsSorted : list cubeMipMap
@@ -152,7 +152,7 @@
 151 ! Inductive cubeOffsetsSorted : list cubeMipMap
 152 ! Fixpoint cubeMipMapImageDataSizeTotalAux (m : list cubeMipMap)
 153 ! Definition cubeMipMapImageDataSizeTotal (m : cubeMipMapList)
-154 ! Inductive imageCube : Set
+154 ! Inductive textureCube : Set
 155 ! Definition binaryExpCubeMipMapFace (m : cubeMapFace)
 156 ! Definition binaryExpCubeMipMap (m : cubeMipMap)
 157 ! Definition binaryExpCubeMipMaps (m : cubeMipMapList)

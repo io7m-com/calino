@@ -1,7 +1,7 @@
 Require Import Coq.Strings.String.
 Require Import Coq.Unicode.Utf8_core.
 
-Require Import Calino.Descriptor.  
+Require Import Calino.Descriptor.
 
 Inductive compressionMethod : Set :=
   | CompressionUncompressed
@@ -17,10 +17,10 @@ Inductive compressionMethod : Set :=
   | CompressionEAC
   | CompressionASTC : nat → nat → compressionMethod
   | CompressionCustom :
-    ∀ (d : descriptor) 
-      (blockSizeX : nat) 
-      (blockSizeY : nat) 
-      (identifier : nat) 
+    ∀ (d : descriptor)
+      (blockSizeX : nat)
+      (blockSizeY : nat)
+      (identifier : nat)
       (align : nat), 0 < align → compressionMethod.
 
 Definition compressionMethodDescriptor (c : compressionMethod) :=

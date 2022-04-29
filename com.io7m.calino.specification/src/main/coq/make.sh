@@ -20,7 +20,7 @@ coqc -Q Calino Calino Calino/ImageInfo.v
 coqc -Q Calino Calino Calino/CubeMipMap.v
 coqc -Q Calino Calino Calino/MipMap.v
 coqc -Q Calino Calino Calino/ArrayMipMap.v
-coqc -Q Calino Calino Calino/Image.v
+coqc -Q Calino Calino Calino/Texture.v
 coqc -Q Calino Calino Calino/Binary.v
 
 mkdir -p html

@@ -3,7 +3,7 @@
 <Section title="Overview"
          xmlns="urn:com.io7m.structural:8:0">
   <Paragraph>
-    The <Term type="package">calino</Term> texture file format is optimized for the storage of images used for
+    The <Term type="package">calino</Term> texture file format is optimized for the storage of textures used for
     real-time 3D rendering. The format provides the following features:
   </Paragraph>
   <FormalItem title="Features">
@@ -17,7 +17,7 @@
       </Item>
       <Item>
         <LinkExternal target="https://en.wikipedia.org/wiki/Mipmap">Mipmaps</LinkExternal> are natively supported
-        and are not treated differently to images that do not have mipmaps; an image without mipmaps is considered to
+        and are not treated differently to textures that do not have mipmaps; an texture without mipmaps is considered to
         comprise of a single mip level <Term type="constant">0</Term>. Mipmaps are exposed in a manner that
         facilitates efficient <Term type="term">texture streaming</Term>.
       </Item>

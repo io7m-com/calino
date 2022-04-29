@@ -5,32 +5,33 @@ Require Import Calino.ArrayMipMap.
 Require Import Calino.ImageInfo.
 Require Import Calino.MipMap.
 
-Inductive image2d : Set := Image2D {
+Inductive texture2d : Set := Texture2D {
   i2dInfo    : imageInfo;
   i2dMipMaps : mipMapList;
   i2dSize    : 1 = imageSizeZ i2dInfo
 }.
 
-Inductive imageArray : Set := ImageArray {
+Inductive textureArray : Set := TextureArray {
   iaInfo    : imageInfo;
   iaMipMaps : arrayMipMapList;
   iaSize    : 1 <= imageSizeZ iaInfo
 }.
 
-Inductive imageCube : Set := ImageCube {
+Inductive textureCube : Set := TextureCube {
   icubeInfo    : imageInfo;
   icubeMipMaps : cubeMipMapList;
   icubeSize    : 1 = imageSizeZ icubeInfo
 }.
 
-Inductive image : Set :=
-  | IImage2D    : image2d → image
-  | IImageArray : imageArray → image
-  | IImageCube  : imageCube → image.
+Inductive texture : Set :=
+  | TTexture2D    : texture2d → texture
+  | TTextureArray : textureArray → texture
+  | TTextureCube  : textureCube → texture.
 
-Definition imageInfoOf (i : image) : imageInfo :=
+Definition imageInfoOf (i : texture) : imageInfo :=
   match i with
-  | IImage2D (Image2D i _ _)       => i
-  | IImageArray (ImageArray i _ _) => i
-  | IImageCube (ImageCube i _ _)   => i
+  | TTexture2D (Texture2D i _ _)       => i
+  | TTextureArray (TextureArray i _ _) => i
+  | TTextureCube (TextureCube i _ _)   => i
   end.
+

@@ -1,49 +1,49 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Section title="2D Images"
+<Section title="Array Textures"
          xmlns:xi="http://www.w3.org/2001/XInclude"
-         id="8321ef71-e529-4764-abf1-e678e42c03af"
+         id="a91529c1-d7c4-4e6e-abcb-bfeb3d536aba"
          xmlns="urn:com.io7m.structural:8:0">
 
   <Subsection title="Description">
     <Paragraph>
-      <Link target="71f3233f-43eb-4ea1-96d4-bc1192553239">2D image</Link>
+      <Link target="4947de09-7eb6-4439-90e1-1b94adcf8d0a">Array texture</Link>
       values are translated to binary expressions as follows:
     </Paragraph>
 
-    <FormalItem title="MipMap Encoding">
+    <FormalItem title="Array MipMap Encoding">
       <Verbatim>
-        <xi:include href="107.txt"
+        <xi:include href="139.txt"
                     parse="text"/>
       </Verbatim>
     </FormalItem>
-    <FormalItem title="MipMaps Encoding">
+    <FormalItem title="Array MipMaps Encoding">
       <Verbatim>
-        <xi:include href="106.txt"
+        <xi:include href="138.txt"
                     parse="text"/>
       </Verbatim>
     </FormalItem>
-    <FormalItem title="Image 2D Encoding">
+    <FormalItem title="Array Image Encoding">
       <Verbatim>
-        <xi:include href="105.txt"
+        <xi:include href="137.txt"
                     parse="text"/>
       </Verbatim>
     </FormalItem>
 
     <Paragraph>
-      Informally, an array of <Link target="b8d20538-e4ac-4674-aa43-d5ab93c07149">mipmap</Link> descriptions are
+      Informally, an array of <Link target="f4b4fff9-a443-4430-a37b-ed939e606bef">array mipmap</Link> descriptions are
       serialized, followed by any required padding to reach the offset value declared by the first mipmap, followed by
       the image data for each mipmap in the order specified by the mipmap descriptions.
     </Paragraph>
 
     <Paragraph>
-      2D images must be encoded into a
+      Array textures must be encoded into a
       <Link target="eb66b381-4c70-4246-95e9-d3a61e19ac4c">section</Link>
-      with identifier <Term type="constant">0x434C4E5F49324421</Term> as follows:
+      with identifier <Term type="constant">0x434C4E5F41525221</Term> as follows:
     </Paragraph>
-    <FormalItem title="Image 2D Section">
+    <FormalItem title="Array Image Section">
       <Verbatim>
-        <xi:include href="108.txt"
+        <xi:include href="140.txt"
                     parse="text"/>
       </Verbatim>
     </FormalItem>
@@ -51,7 +51,7 @@
 
   <Subsection title="Cardinality">
     <Paragraph>
-      A 2D image section can appear in a <Term type="package">calino</Term> texture file at most once.
+      An array texture section can appear in a <Term type="package">calino</Term> texture file at most once.
     </Paragraph>
   </Subsection>
 
