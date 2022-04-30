@@ -63,7 +63,7 @@ Definition arrayMipMapLevels (m : list arrayMipMap) : list nat :=
   nodup Nat.eq_dec (map (λ k, arrayMipMapLevel (arrayMipMapIndex k)) m).
 
 Definition arrayMipMapsHaveSameLayers : (list arrayMipMap) → nat → nat → Prop :=
-  λ m level0 level1, 
+  λ m level0 level1,
     In level0 (arrayMipMapLevels m) →
       In level1 (arrayMipMapLevels m) →
         arrayMipMapLayerCountForLevel level0 m = arrayMipMapLayerCountForLevel level1 m.
@@ -128,7 +128,7 @@ Proof.
 Qed.
 
 Definition arrayMipMapSize
-  (level      : nat) 
+  (level      : nat)
   (imageSize  : imageSize3D)
   (levelRange : 0 < level)
 : option arrayMipMapImageSize :=
@@ -161,7 +161,7 @@ Example exampleArrayMipMapsIndices := [
   (ArrayMipMapIndex 0 2)
 ].
 
-Example exampleArrayMipMaps := 
+Example exampleArrayMipMaps :=
   map (λ i, ArrayMipMap i 0 0 0 0) exampleArrayMipMapsIndices.
 
 Example exampleArrayMipMapIndicesSorted : arrayMipMapIndicesSorted exampleArrayMipMapsIndices.

@@ -54,23 +54,23 @@ Fixpoint octetsBigEndianAux
   (octets : list octet)
 : list octet :=
   match bits with
-  | (b7 :: b6 :: b5 :: b4 :: b3 :: b2 :: b1 :: b0 :: rest) => 
+  | (b7 :: b6 :: b5 :: b4 :: b3 :: b2 :: b1 :: b0 :: rest) =>
     octets ++ [OctExact b7 b6 b5 b4 b3 b2 b1 b0] ++ octetsBigEndianAux rest []
-  | (b7 :: b6 :: b5 :: b4 :: b3 :: b2 :: b1 :: rest) => 
+  | (b7 :: b6 :: b5 :: b4 :: b3 :: b2 :: b1 :: rest) =>
     octets ++ [OctRemain b7 b6 b5 b4 b3 b2 b1 B0] ++ octetsBigEndianAux rest []
-  | (b7 :: b6 :: b5 :: b4 :: b3 :: b2 :: rest) => 
+  | (b7 :: b6 :: b5 :: b4 :: b3 :: b2 :: rest) =>
     octets ++ [OctRemain b7 b6 b5 b4 b3 b2 B0 B0] ++ octetsBigEndianAux rest []
-  | (b7 :: b6 :: b5 :: b4 :: b3 :: rest) => 
+  | (b7 :: b6 :: b5 :: b4 :: b3 :: rest) =>
     octets ++ [OctRemain b7 b6 b5 b4 b3 B0 B0 B0] ++ octetsBigEndianAux rest []
-  | (b7 :: b6 :: b5 :: b4 :: rest) => 
+  | (b7 :: b6 :: b5 :: b4 :: rest) =>
     octets ++ [OctRemain b7 b6 b5 b4 B0 B0 B0 B0] ++ octetsBigEndianAux rest []
-  | (b7 :: b6 :: b5 :: rest) => 
+  | (b7 :: b6 :: b5 :: rest) =>
     octets ++ [OctRemain b7 b6 b5 B0 B0 B0 B0 B0] ++ octetsBigEndianAux rest []
-  | (b7 :: b6 :: rest) => 
+  | (b7 :: b6 :: rest) =>
     octets ++ [OctRemain b7 b6 B0 B0 B0 B0 B0 B0] ++ octetsBigEndianAux rest []
-  | (b7 :: rest) => 
+  | (b7 :: rest) =>
     octets ++ [OctRemain b7 B0 B0 B0 B0 B0 B0 B0] ++ octetsBigEndianAux rest []
-  | [] => 
+  | [] =>
     octets
   end.
 
@@ -138,7 +138,7 @@ Lemma list_mod8_0 : ∀ (A : Type) (xs : list A) (n7 n6 n5 n4 n3 n2 n1 n0 : A),
 Proof.
   intros A xs n7 n6 n5 n4 n3 n2 n1 n0 Hlen8.
   unfold divisible8 in *.
-  assert (n7 :: n6 :: n5 :: n4 :: n3 :: n2 :: n1 :: n0 :: xs 
+  assert (n7 :: n6 :: n5 :: n4 :: n3 :: n2 :: n1 :: n0 :: xs
        = (n7 :: n6 :: n5 :: n4 :: n3 :: n2 :: n1 :: n0 :: []) ++ xs) as HlistEq
           by reflexivity.
   rewrite HlistEq.
@@ -156,7 +156,7 @@ Lemma list_mod8_1 : ∀ (A : Type) (xs : list A) (n7 n6 n5 n4 n3 n2 n1 n0 : A),
 Proof.
   intros A xs n7 n6 n5 n4 n3 n2 n1 n0 Hlen8.
   unfold divisible8 in *.
-  assert (n7 :: n6 :: n5 :: n4 :: n3 :: n2 :: n1 :: n0 :: xs 
+  assert (n7 :: n6 :: n5 :: n4 :: n3 :: n2 :: n1 :: n0 :: xs
        = (n7 :: n6 :: n5 :: n4 :: n3 :: n2 :: n1 :: n0 :: []) ++ xs) as HlistEq
           by reflexivity.
   rewrite HlistEq in Hlen8.
@@ -173,7 +173,7 @@ Theorem list_mod8 : ∀ (A : Type) (xs : list A) (n7 n6 n5 n4 n3 n2 n1 n0 : A),
   divisible8 (length xs) ↔ divisible8 (length (n7 :: n6 :: n5 :: n4 :: n3 :: n2 :: n1 :: n0 :: xs)).
 Proof.
   intros A xs n7 n6 n5 n4 n3 n2 n1 n0.
-  constructor. 
+  constructor.
   - apply list_mod8_0.
   - apply list_mod8_1.
 Qed.
@@ -319,8 +319,8 @@ Proof.
     simpl.
     exists ox.
     constructor.
-    right. 
-    exact HoxIn. 
+    right.
+    exact HoxIn.
     exact HoxRem.
 Qed.
 

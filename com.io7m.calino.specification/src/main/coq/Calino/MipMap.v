@@ -88,8 +88,8 @@ Proof.
   rewrite lt_neq; trivial.
 Qed.
 
-Definition mipMapSize 
-  (level      : nat) 
+Definition mipMapSize
+  (level      : nat)
   (imageSize  : imageSize3D)
   (levelRange : 0 < level)
 : option mipMapImageSize :=

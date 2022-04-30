@@ -34,21 +34,21 @@ Definition coordinateAxisTDescribe (c : coordinateAxisT) : descriptor :=
   end.
 
 #[export]
-Instance coordinateAxisRDescribable : describable coordinateAxisR := { 
+Instance coordinateAxisRDescribable : describable coordinateAxisR := {
   descriptorOf c := coordinateAxisRDescribe c
 }.
 
 #[export]
-Instance coordinateAxisSDescribable : describable coordinateAxisS := { 
+Instance coordinateAxisSDescribable : describable coordinateAxisS := {
   descriptorOf c := coordinateAxisSDescribe c
 }.
 
 #[export]
-Instance coordinateAxisTDescribable : describable coordinateAxisT := { 
+Instance coordinateAxisTDescribable : describable coordinateAxisT := {
   descriptorOf c := coordinateAxisTDescribe c
 }.
 
-Inductive coordinateSystem : Set := 
+Inductive coordinateSystem : Set :=
   CoordinateSystem : coordinateAxisR → coordinateAxisS → coordinateAxisT → coordinateSystem.
 
 Definition coordinateSystemDescribe (c : coordinateSystem) : descriptor :=

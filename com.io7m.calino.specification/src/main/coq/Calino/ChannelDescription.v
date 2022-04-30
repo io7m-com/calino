@@ -170,8 +170,8 @@ Proof.
     unfold channelLayoutDescriptionBits.
     induction (uChannels u) as [|d ds IHu]. {
       reflexivity.
-    } { 
-      rewrite channelLayoutDescriptionBitsAdd.  
+    } {
+      rewrite channelLayoutDescriptionBitsAdd.
       assert (divisible8 (channelDescriptionsBitsTotal ds)) as Hdsdiv8. {
         assert (Forall channelDescriptionBitsDivisible8 ds) as Hfac
           by (apply (Forall_inv_tail (a := d) (l := ds) Hf8)).
@@ -183,7 +183,7 @@ Proof.
     }
   } {
     simpl.
-    assert (channelDescriptionsBitsTotal (pChannels p) = channelLayoutPackingBits (pPacking p)) 
+    assert (channelDescriptionsBitsTotal (pChannels p) = channelLayoutPackingBits (pPacking p))
       as Hbeq by (apply pInvariants).
     rewrite Hbeq.
     apply channelLayoutPackingBitsDiv8.
@@ -197,7 +197,7 @@ Proof.
   assert (divisible8 (channelLayoutDescriptionBits c)) as Hdiv8
     by (apply (channelLayoutDescriptionBitsDivisible8 c)).
   unfold divisible8 in Hdiv8.
-  
+
   destruct c as [u|p].
   - simpl.
     destruct (uChannels u) as [|ch0 chs] eqn:Hcheq.

@@ -89,8 +89,8 @@ Definition R5_G6_B5_NonEmpty := nil_cons (x := R5) (l := [G6; B5]).
 Definition R8_G8_B8_A8_Channels : list channelDescription := [R8; G8; B8; A8].
 Definition R8_G8_B8_A8_NonEmpty := nil_cons (x := R8) (l := [G8; B8; A8]).
 Definition R8_G8_B8_A8_FDiv8 : Forall channelDescriptionBitsDivisible8 R8_G8_B8_A8_Channels :=
-  Forall_cons R8 R8_Div8 
- (Forall_cons G8 G8_Div8 
+  Forall_cons R8 R8_Div8
+ (Forall_cons G8 G8_Div8
  (Forall_cons B8 B8_Div8
  (Forall_cons A8 A8_Div8
  (Forall_nil _)))).
@@ -98,16 +98,16 @@ Definition R8_G8_B8_A8_FDiv8 : Forall channelDescriptionBitsDivisible8 R8_G8_B8_
 Definition R8_G8_B8_Channels : list channelDescription := [R8; G8; B8].
 Definition R8_G8_B8_NonEmpty := nil_cons (x := R8) (l := [G8;B8]).
 Definition R8_G8_B8_FDiv8 : Forall channelDescriptionBitsDivisible8 R8_G8_B8_Channels :=
-  Forall_cons R8 R8_Div8 
- (Forall_cons G8 G8_Div8 
- (Forall_cons B8 B8_Div8 
+  Forall_cons R8 R8_Div8
+ (Forall_cons G8 G8_Div8
+ (Forall_cons B8 B8_Div8
  (Forall_nil _))).
 
 Definition R8_G8_Channels : list channelDescription := [R8; G8].
 Definition R8_G8_NonEmpty := nil_cons (x := R8) (l := [G8]).
 Definition R8_G8_FDiv8 : Forall channelDescriptionBitsDivisible8 R8_G8_Channels :=
-  Forall_cons R8 R8_Div8 
- (Forall_cons G8 G8_Div8 
+  Forall_cons R8 R8_Div8
+ (Forall_cons G8 G8_Div8
  (Forall_nil _)).
 
 Definition R8_Channels : list channelDescription := [R8].
@@ -120,8 +120,8 @@ Definition R8_FDiv8 : Forall channelDescriptionBitsDivisible8 R8_Channels :=
 Definition R16_G16_B16_A16_Channels : list channelDescription := [R16; G16; B16; A16].
 Definition R16_G16_B16_A16_NonEmpty := nil_cons (x := R16) (l := [G16; B16; A16]).
 Definition R16_G16_B16_A16_FDiv8 : Forall channelDescriptionBitsDivisible8 R16_G16_B16_A16_Channels :=
-  Forall_cons R16 R16_Div8 
- (Forall_cons G16 G16_Div8 
+  Forall_cons R16 R16_Div8
+ (Forall_cons G16 G16_Div8
  (Forall_cons B16 B16_Div8
  (Forall_cons A16 A16_Div8
  (Forall_nil _)))).
@@ -129,16 +129,16 @@ Definition R16_G16_B16_A16_FDiv8 : Forall channelDescriptionBitsDivisible8 R16_G
 Definition R16_G16_B16_Channels : list channelDescription := [R16; G16; B16].
 Definition R16_G16_B16_NonEmpty := nil_cons (x := R16) (l := [G16;B16]).
 Definition R16_G16_B16_FDiv8 : Forall channelDescriptionBitsDivisible8 R16_G16_B16_Channels :=
-  Forall_cons R16 R16_Div8 
- (Forall_cons G16 G16_Div8 
- (Forall_cons B16 B16_Div8 
+  Forall_cons R16 R16_Div8
+ (Forall_cons G16 G16_Div8
+ (Forall_cons B16 B16_Div8
  (Forall_nil _))).
 
 Definition R16_G16_Channels : list channelDescription := [R16; G16].
 Definition R16_G16_NonEmpty := nil_cons (x := R16) (l := [G16]).
 Definition R16_G16_FDiv8 : Forall channelDescriptionBitsDivisible8 R16_G16_Channels :=
-  Forall_cons R16 R16_Div8 
- (Forall_cons G16 G16_Div8 
+  Forall_cons R16 R16_Div8
+ (Forall_cons G16 G16_Div8
  (Forall_nil _)).
 
 Definition R16_Channels : list channelDescription := [R16].
@@ -151,8 +151,8 @@ Definition R16_FDiv8 : Forall channelDescriptionBitsDivisible8 R16_Channels :=
 Definition R32_G32_B32_A32_Channels : list channelDescription := [R32; G32; B32; A32].
 Definition R32_G32_B32_A32_NonEmpty := nil_cons (x := R32) (l := [G32; B32; A32]).
 Definition R32_G32_B32_A32_FDiv8 : Forall channelDescriptionBitsDivisible8 R32_G32_B32_A32_Channels :=
-  Forall_cons R32 R32_Div8 
- (Forall_cons G32 G32_Div8 
+  Forall_cons R32 R32_Div8
+ (Forall_cons G32 G32_Div8
  (Forall_cons B32 B32_Div8
  (Forall_cons A32 A32_Div8
  (Forall_nil _)))).
@@ -160,16 +160,16 @@ Definition R32_G32_B32_A32_FDiv8 : Forall channelDescriptionBitsDivisible8 R32_G
 Definition R32_G32_B32_Channels : list channelDescription := [R32; G32; B32].
 Definition R32_G32_B32_NonEmpty := nil_cons (x := R32) (l := [G32;B32]).
 Definition R32_G32_B32_FDiv8 : Forall channelDescriptionBitsDivisible8 R32_G32_B32_Channels :=
-  Forall_cons R32 R32_Div8 
- (Forall_cons G32 G32_Div8 
- (Forall_cons B32 B32_Div8 
+  Forall_cons R32 R32_Div8
+ (Forall_cons G32 G32_Div8
+ (Forall_cons B32 B32_Div8
  (Forall_nil _))).
 
 Definition R32_G32_Channels : list channelDescription := [R32; G32].
 Definition R32_G32_NonEmpty := nil_cons (x := R32) (l := [G32]).
 Definition R32_G32_FDiv8 : Forall channelDescriptionBitsDivisible8 R32_G32_Channels :=
-  Forall_cons R32 R32_Div8 
- (Forall_cons G32 G32_Div8 
+  Forall_cons R32 R32_Div8
+ (Forall_cons G32 G32_Div8
  (Forall_nil _)).
 
 Definition R32_Channels : list channelDescription := [R32].
@@ -182,8 +182,8 @@ Definition R32_FDiv8 : Forall channelDescriptionBitsDivisible8 R32_Channels :=
 Definition R64_G64_B64_A64_Channels : list channelDescription := [R64; G64; B64; A64].
 Definition R64_G64_B64_A64_NonEmpty := nil_cons (x := R64) (l := [G64; B64; A64]).
 Definition R64_G64_B64_A64_FDiv8 : Forall channelDescriptionBitsDivisible8 R64_G64_B64_A64_Channels :=
-  Forall_cons R64 R64_Div8 
- (Forall_cons G64 G64_Div8 
+  Forall_cons R64 R64_Div8
+ (Forall_cons G64 G64_Div8
  (Forall_cons B64 B64_Div8
  (Forall_cons A64 A64_Div8
  (Forall_nil _)))).
@@ -191,16 +191,16 @@ Definition R64_G64_B64_A64_FDiv8 : Forall channelDescriptionBitsDivisible8 R64_G
 Definition R64_G64_B64_Channels : list channelDescription := [R64; G64; B64].
 Definition R64_G64_B64_NonEmpty := nil_cons (x := R64) (l := [G64;B64]).
 Definition R64_G64_B64_FDiv8 : Forall channelDescriptionBitsDivisible8 R64_G64_B64_Channels :=
-  Forall_cons R64 R64_Div8 
- (Forall_cons G64 G64_Div8 
- (Forall_cons B64 B64_Div8 
+  Forall_cons R64 R64_Div8
+ (Forall_cons G64 G64_Div8
+ (Forall_cons B64 B64_Div8
  (Forall_nil _))).
 
 Definition R64_G64_Channels : list channelDescription := [R64; G64].
 Definition R64_G64_NonEmpty := nil_cons (x := R64) (l := [G64]).
 Definition R64_G64_FDiv8 : Forall channelDescriptionBitsDivisible8 R64_G64_Channels :=
-  Forall_cons R64 R64_Div8 
- (Forall_cons G64 G64_Div8 
+  Forall_cons R64 R64_Div8
+ (Forall_cons G64 G64_Div8
  (Forall_nil _)).
 
 Definition R64_Channels : list channelDescription := [R64].
