@@ -34,12 +34,23 @@
     <Link target="494888da-c85e-42df-8c2b-b789e84586e4">binary encoding</Link>
     section first. The <Term type="package">calino</Term> format is designed to be straightforward to parse, requiring
     only a few minimal primitives to express the entirety of the format, and requires no references to external
-    specifications (unlike many other image/texture file formats). Once a developer is able to read data from an
+    specifications (unlike many other image/texture file formats) <LinkFootnote
+    target="eea4b3e0-3eaa-4f00-8b5c-a3007d9b7061"/>. Once a developer is able to read data from an
     existing <Term type="package">calino</Term> file, they should consult the
     <Link target="73066219-7f6d-4809-b87c-897be98b4a6b">model</Link>
     to understand what the data they're receiving actually <Term type="term">means</Term>. The
     model chapters are arranged in dependency order starting with the most fundamental concepts, and ending
     with the top level definitions of the various texture types.
   </Paragraph>
+
+  <Footnote id="eea4b3e0-3eaa-4f00-8b5c-a3007d9b7061">
+    It would be more accurate to say that the <Term type="package">calino</Term> specification does not depend
+    on any other specifications <Term type="term">that are at the same level of abstraction</Term>. For example,
+    the <Term type="package">calino</Term> specification makes references to
+    <LinkExternal target="https://www.unicode.org">Unicode</LinkExternal>,
+    <LinkExternal target="https://en.wikipedia.org/wiki/IEEE_754">IEEE-754</LinkExternal>, and so on. It does not,
+    however, require understanding any other existing texture formats, or depend on any definitions given in
+    the specifications for any rendering APIs.
+  </Footnote>
 
 </Section>
