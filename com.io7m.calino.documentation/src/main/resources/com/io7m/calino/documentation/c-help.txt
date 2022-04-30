@@ -1,0 +1,17 @@
+calino: INFO: Usage: help [options] command
+
+  Options:
+    --verbose
+      Set the minimum logging verbosity level.
+      Default: info
+      Possible Values: [trace, debug, info, warn, error]
+
+  The "help" command, executed without arguments, shows the names of all
+  commands including the names and types of all of their parameters.
+
+  The "help" command can also be passed the name of a command. Commands
+  may include extended help messages such as the one you are reading
+  right now.
+
+  Example: calino help help
+

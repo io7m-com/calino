@@ -23,6 +23,7 @@
   <modules>
     <module>com.io7m.calino.api</module>
     <module>com.io7m.calino.cmdline</module>
+    <module>com.io7m.calino.documentation</module>
     <module>com.io7m.calino.imageproc.api</module>
     <module>com.io7m.calino.imageproc.awt</module>
     <module>com.io7m.calino.imageview</module>
@@ -32,9 +33,9 @@
     <module>com.io7m.calino.supercompression.lz4</module>
     <module>com.io7m.calino.supercompression.spi</module>
     <module>com.io7m.calino.tests</module>
+    <module>com.io7m.calino.validation.api</module>
     <module>com.io7m.calino.vanilla</module>
     <module>com.io7m.calino.writer.api</module>
-    <module>com.io7m.calino.validation.api</module>
   </modules>
 
   <properties>
@@ -203,6 +204,11 @@
         <groupId>com.beust</groupId>
         <artifactId>jcommander</artifactId>
         <version>1.82</version>
+      </dependency>
+      <dependency>
+        <groupId>com.io7m.primogenitor</groupId>
+        <artifactId>com.io7m.primogenitor.support</artifactId>
+        <version>7.1.0</version>
       </dependency>
     </dependencies>
   </dependencyManagement>

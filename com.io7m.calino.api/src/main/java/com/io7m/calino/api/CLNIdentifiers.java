@@ -45,7 +45,7 @@ public final class CLNIdentifiers
   }
 
   /**
-   * @return The identifier used to identify <tt>calino</tt> files
+   * @return The identifier used to identify {@code calino} files
    */
 
   public static long fileIdentifier()
@@ -54,7 +54,7 @@ public final class CLNIdentifiers
   }
 
   /**
-   * @return The identifier used to identify <tt>end</tt> sections
+   * @return The identifier used to identify {@code end} sections
    */
 
   public static long sectionEndIdentifier()
@@ -63,7 +63,7 @@ public final class CLNIdentifiers
   }
 
   /**
-   * @return The identifier used to identify <tt>image info</tt> sections
+   * @return The identifier used to identify {@code image info} sections
    */
 
   public static long sectionImageInfoIdentifier()
@@ -72,7 +72,7 @@ public final class CLNIdentifiers
   }
 
   /**
-   * @return The identifier used to identify <tt>image 2D</tt> sections
+   * @return The identifier used to identify {@code image 2D} sections
    */
 
   public static long sectionImage2DIdentifier()
@@ -81,7 +81,7 @@ public final class CLNIdentifiers
   }
 
   /**
-   * @return The identifier used to identify <tt>metadata</tt> sections
+   * @return The identifier used to identify {@code metadata} sections
    */
 
   public static long sectionMetadataIdentifier()
@@ -90,7 +90,7 @@ public final class CLNIdentifiers
   }
 
   /**
-   * @return The identifier used to identify <tt>image array</tt> sections
+   * @return The identifier used to identify {@code image array} sections
    */
 
   public static long sectionImageArrayIdentifier()
@@ -99,7 +99,7 @@ public final class CLNIdentifiers
   }
 
   /**
-   * @return The identifier used to identify <tt>image cube</tt> sections
+   * @return The identifier used to identify {@code image cube} sections
    */
 
   public static long sectionImageCubeIdentifier()

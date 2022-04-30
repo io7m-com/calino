@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Section xmlns="urn:com.io7m.structural:8:0"
+         id="5005626a-6963-445b-b583-966295367fb8"
+         title="API">
+
+  <Paragraph>
+    Documentation for the <Term type="package">calino</Term> APIs are provided in the
+    form of <LinkExternal target="https://www.io7m.com/software/calino/documentation/apidocs">JavaDoc</LinkExternal>.
+  </Paragraph>
+
+</Section>

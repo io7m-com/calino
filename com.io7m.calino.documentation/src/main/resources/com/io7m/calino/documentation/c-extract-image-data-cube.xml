@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Section xmlns="urn:com.io7m.structural:8:0"
+         xmlns:xi="http://www.w3.org/2001/XInclude"
+         title="extract-image-data-cube">
+
+  <Subsection title="Name">
+    <Paragraph>
+      <Term type="command">extract-image-data-cube</Term> - Extract image data from cube textures.
+    </Paragraph>
+  </Subsection>
+
+  <Subsection title="Description">
+    <Paragraph>
+      The <Term type="command">extract-image-data-cube</Term> command extracts image data from cube texture files.
+    </Paragraph>
+    <FormalItem title="Parameters">
+      <xi:include href="CLNCommandExtractImageDataCube.xml"/>
+    </FormalItem>
+
+    <Paragraph>
+      The command extracts all mipmaps available in the source texture to the output directory specified
+      with <Term type="parameter"> --output-directory</Term>. If source texture's mipmaps are compressed
+      with <LinkExternal
+      target="https://www.io7m.com/software/calino/specification/index.xhtml#id_8f83a47a-986e-4dba-bfd7-720641cee3a9">supercompression</LinkExternal>
+      (such as <LinkExternal target="https://lz4.github.io/lz4/">LZ4</LinkExternal>), then the mipmaps
+      can be optionally decompressed with <Term type="parameter">--decompress</Term>.
+    </Paragraph>
+
+    <Paragraph>
+      The output format can be specified with <Term type="parameter">--output-format</Term> which may be
+      one of <Term type="expression">[RAW, PNG]</Term>. If the output format is
+      <Term type="expression">RAW</Term>, then the raw bytes that make up image data will be written to
+      the output files directly with no header or other information. If <Term type="parameter">--decompress</Term>
+      is <Term type="term">not</Term> specified, then the raw bytes will be those of the compressed data.
+      If the output format is <Term type="expression">PNG</Term>, then the image data will be written to
+      the output files in <LinkExternal target="https://en.wikipedia.org/wiki/Portable_Network_Graphics">PNG</LinkExternal>
+      format. Note that this will necessarily and automatically decompress the image data, and may also downsample
+      the image data because PNG does not support as wide a range of image data layouts as
+      <Term type="package">calino</Term> texture files.
+    </Paragraph>
+
+    <Paragraph>
+      For a given output directory <Term type="expression">D</Term>, the command will write each of
+      the mipmap levels of the input image to files in <Term type="expression">D</Term>. The name
+      of each output file will be <Term type="expression">"m"</Term>, followed by a zero-padded
+      level number, followed by <Term type="expression">"f"</Term>, followed by a <Term type="term">face name</Term>,
+      followed by an appropriate file suffix such as
+      <Term type="expression">".png"</Term> or <Term type="expression">".raw"</Term>.
+    </Paragraph>
+
+    <Paragraph>
+      A <Term type="term">face name</Term> is one of the following:
+    </Paragraph>
+
+    <FormalItem title="Face Names">
+      <ListUnordered>
+        <Item><Term type="expression">xp</Term> for the positive X face.</Item>
+        <Item><Term type="expression">xn</Term> for the negative X face.</Item>
+        <Item><Term type="expression">yp</Term> for the positive Y face.</Item>
+        <Item><Term type="expression">yn</Term> for the negative Y face.</Item>
+        <Item><Term type="expression">zp</Term> for the positive Z face.</Item>
+        <Item><Term type="expression">zn</Term> for the negative Z face.</Item>
+      </ListUnordered>
+    </FormalItem>
+  </Subsection>
+
+  <Subsection title="Examples">
+    <FormalItem title="Example" type="example">
+      <Verbatim>
+        <xi:include parse="text"
+                    href="c-extract-image-data-cube-example.txt"/>
+      </Verbatim>
+    </FormalItem>
+  </Subsection>
+
+</Section>

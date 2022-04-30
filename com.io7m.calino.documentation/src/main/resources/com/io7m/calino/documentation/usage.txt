@@ -1,0 +1,37 @@
+calino: INFO: Usage: calino [options] [command] [command options]
+
+  Options:
+    --verbose
+      Set the minimum logging verbosity level.
+      Default: info
+      Possible Values: [trace, debug, info, warn, error]
+
+  Use the "help" command to examine specific commands:
+
+    $ calino help help.
+
+  Command-line arguments can be placed one per line into a file, and the file
+  can be referenced using the @ symbol:
+
+    $ echo help > file.txt
+    $ echo help >> file.txt
+    $ calino @file.txt
+
+  Commands:
+    check                        Check a texture file.
+    create-2d                    Create a 2D texture from an existing image.
+    create-array                 Create an array texture from an existing image.
+    create-cube                  Create a cube texture from existing images.
+    extract-image-data-2d        Extract 2D image data from a file
+    extract-image-data-array     Extract array image data from a file
+    extract-image-data-cube      Extract cube image data from a file
+    help                         Show detailed help messages for commands.
+    show-image-info              Display texture file image info.
+    show-metadata                Display texture file metadata.
+    show-sections                List sections in a texture file
+    show-summary                 Display information about texture files.
+    show-version                 Display texture file version.
+    version                      Display the application version.
+
+  Documentation:
+    https://www.io7m.com/software/calino/documentation/index.xhtml

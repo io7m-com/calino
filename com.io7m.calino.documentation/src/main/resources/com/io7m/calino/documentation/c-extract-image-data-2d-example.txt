@@ -1,0 +1,12 @@
+$ calino extract-image-data-2d \
+--file example-ctf \
+--output-directory /tmp/out \
+--output-format PNG
+calino: INFO: writing level 7 to /tmp/out/m007.png
+calino: INFO: writing level 6 to /tmp/out/m006.png
+calino: INFO: writing level 5 to /tmp/out/m005.png
+calino: INFO: writing level 4 to /tmp/out/m004.png
+calino: INFO: writing level 3 to /tmp/out/m003.png
+calino: INFO: writing level 2 to /tmp/out/m002.png
+calino: INFO: writing level 1 to /tmp/out/m001.png
+calino: INFO: writing level 0 to /tmp/out/m000.png

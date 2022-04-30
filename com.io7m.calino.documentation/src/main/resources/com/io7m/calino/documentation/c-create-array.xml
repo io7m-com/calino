@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Section xmlns="urn:com.io7m.structural:8:0"
+         xmlns:xi="http://www.w3.org/2001/XInclude"
+         title="create-array">
+
+  <Subsection title="Name">
+    <Paragraph>
+      <Term type="command">create-array</Term> - Create array textures
+    </Paragraph>
+  </Subsection>
+
+  <Subsection title="Description">
+    <Paragraph>
+      The <Term type="command">create-array</Term> command creates array texture files.
+    </Paragraph>
+    <FormalItem title="Parameters">
+      <xi:include href="CLNCommandCreateArray.xml"/>
+    </FormalItem>
+
+    <Paragraph>
+      The command takes a series of image files specified with repeated instances of
+      <Term type="parameter">--source-layer</Term>, and writes a texture file to
+      <Term type="parameter">--output</Term>. The layers of the resulting array image will match the
+      order in which <Term type="parameter">--source-layer</Term> parameters were specified, with
+      the first instance of <Term type="parameter">--source-layer</Term> defining layer
+      <Term type="constant">0</Term>, and the <Term type="expression">nth</Term> instance of
+      <Term type="parameter">--source-layer</Term> defining layer <Term type="expression">n-1</Term>.
+    </Paragraph>
+    <Paragraph>
+      If the <Term type="parameter">--mipmap-generate</Term> parameter is specified with a value of one of
+      the named filters <Term type="expression">[BICUBIC, BILINEAR, NEAREST]</Term> then a series of mipmaps will be
+      generated in the texture file with each scaled-down mip level being processed with the given filter.
+    </Paragraph>
+    <Paragraph>
+      If the <Term type="parameter">--byte-order</Term> parameter is specified with a value of one of the
+      named endianness values <Term type="expression">[BIG_ENDIAN, LITTLE_ENDIAN]</Term>. The endianness value
+      determines how image data will be stored and is primarily useful for applications that wish to memory-map
+      texture files for direct uploading to GPUs.
+    </Paragraph>
+    <Paragraph>
+      The <Term type="parameter">--convert-layout-to</Term> parameter specifies that the image data provided by
+      the input file should be converted to the given
+      <LinkExternal
+        target="https://www.io7m.com/software/calino/specification/index.xhtml#id_499041fb-7c35-4fa6-be6b-895962e6e717">channel layout</LinkExternal>.
+    </Paragraph>
+    <Paragraph>
+      The <Term type="parameter">--metadata</Term> parameter specifies a file containing key/value metadata in
+      <LinkExternal
+        target="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Properties.html">Java properties
+      </LinkExternal>
+      format. The metadata keys and values will be inserted into the generated texture file.
+    </Paragraph>
+    <Paragraph>
+      If the <Term type="parameter">--premultiply-alpha</Term> parameter is specified, then the data in the
+      input file will be alpha-premultiplied when written to the output texture file.
+    </Paragraph>
+    <Paragraph>
+      If the <Term type="parameter">--super-compression</Term> parameter is specified, then the image data in
+      the output file will be compressed using the given compression method. Currently, the only supported
+      supercompression method is <Term type="constant">LZ4</Term>.
+    </Paragraph>
+  </Subsection>
+
+  <Subsection title="Examples">
+    <FormalItem title="Example" type="example">
+      <Verbatim>
+        <xi:include parse="text"
+                    href="c-create-array-example.txt"/>
+      </Verbatim>
+    </FormalItem>
+  </Subsection>
+
+</Section>

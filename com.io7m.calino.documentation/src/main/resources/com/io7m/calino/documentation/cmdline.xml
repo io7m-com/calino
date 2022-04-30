@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Section xmlns="urn:com.io7m.structural:8:0"
+         xmlns:xi="http://www.w3.org/2001/XInclude"
+         title="Command-Line Interface">
+
+  <Section title="Overview">
+    <Paragraph>
+      The <Term type="package">calino</Term> package provides a command-line interface for performing tasks such as
+      creating textures, validating textures, and extracting texture data to various file formats. The base
+      <Term type="command">calino</Term> command is broken into a number of subcommands which are documented
+      over the following sections.
+    </Paragraph>
+    <FormalItem title="Command-Line Overview">
+      <Verbatim><xi:include parse="text" href="usage.txt"/></Verbatim>
+    </FormalItem>
+    <Paragraph>
+      All of the command-line functionality is implemented using the standard
+      <Link target="5005626a-6963-445b-b583-966295367fb8">calino APIs</Link>. Applications wishing to do
+      more advanced image processing should use those APIs directly.
+    </Paragraph>
+  </Section>
+
+  <xi:include href="c-check.xml"/>
+  <xi:include href="c-create-2d.xml"/>
+  <xi:include href="c-create-array.xml"/>
+  <xi:include href="c-create-cube.xml"/>
+  <xi:include href="c-extract-image-data-2d.xml"/>
+  <xi:include href="c-extract-image-data-array.xml"/>
+  <xi:include href="c-extract-image-data-cube.xml"/>
+  <xi:include href="c-show-image-info.xml"/>
+  <xi:include href="c-show-metadata.xml"/>
+  <xi:include href="c-show-sections.xml"/>
+  <xi:include href="c-show-summary.xml"/>
+  <xi:include href="c-show-version.xml"/>
+  <xi:include href="c-version.xml"/>
+
+</Section>

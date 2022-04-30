@@ -5,7 +5,7 @@
          xmlns="urn:com.io7m.structural:8:0"
          xmlns:xi="http://www.w3.org/2001/XInclude">
 
-  <Paragraph>
+  <Paragraph id="ae85d70d-f1db-4288-8b92-b48580133c33">
     <Term type="package">calino</Term>
     texture files are structured as a sequence of explicitly sized
     <Term type="term">sections</Term>. A section consists of a 64-bit identifier <Term type="expression">i</Term>, a

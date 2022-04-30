@@ -1,0 +1,10 @@
+$ calino show-metadata --file cube-meta.ctf
+DC.Creator: [Mark Raynsford]
+DC.Date: [2022-04-30T12:05:20+00:00]
+DC.Description: [A cube texture.]
+DC.Identifier: [9c2923a7-abe7-4ff4-8037-334a093db6da]
+DC.Rights: [Public Domain]
+DC.Title: [Deguelia Utilis]
+
+$ calino show-metadata --file no-meta.ctf
+calino: ERROR: no metadata section is present

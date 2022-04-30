@@ -1,0 +1,28 @@
+$ calino extract-image-data-cube
+--file example-ctf \
+--output-directory /tmp/out \
+--output-format PNG
+calino: INFO: writing level 3 to /tmp/out/m003fxp.png
+calino: INFO: writing level 3 to /tmp/out/m003fxn.png
+calino: INFO: writing level 3 to /tmp/out/m003fyp.png
+calino: INFO: writing level 3 to /tmp/out/m003fyn.png
+calino: INFO: writing level 3 to /tmp/out/m003fzp.png
+calino: INFO: writing level 3 to /tmp/out/m003fzn.png
+calino: INFO: writing level 2 to /tmp/out/m002fxp.png
+calino: INFO: writing level 2 to /tmp/out/m002fxn.png
+calino: INFO: writing level 2 to /tmp/out/m002fyp.png
+calino: INFO: writing level 2 to /tmp/out/m002fyn.png
+calino: INFO: writing level 2 to /tmp/out/m002fzp.png
+calino: INFO: writing level 2 to /tmp/out/m002fzn.png
+calino: INFO: writing level 1 to /tmp/out/m001fxp.png
+calino: INFO: writing level 1 to /tmp/out/m001fxn.png
+calino: INFO: writing level 1 to /tmp/out/m001fyp.png
+calino: INFO: writing level 1 to /tmp/out/m001fyn.png
+calino: INFO: writing level 1 to /tmp/out/m001fzp.png
+calino: INFO: writing level 1 to /tmp/out/m001fzn.png
+calino: INFO: writing level 0 to /tmp/out/m000fxp.png
+calino: INFO: writing level 0 to /tmp/out/m000fxn.png
+calino: INFO: writing level 0 to /tmp/out/m000fyp.png
+calino: INFO: writing level 0 to /tmp/out/m000fyn.png
+calino: INFO: writing level 0 to /tmp/out/m000fzp.png
+calino: INFO: writing level 0 to /tmp/out/m000fzn.png

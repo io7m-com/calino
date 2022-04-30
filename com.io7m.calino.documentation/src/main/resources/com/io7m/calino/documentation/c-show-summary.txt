@@ -1,0 +1,15 @@
+calino: INFO: Usage: show-summary [options]
+
+  Options:
+  * --file
+      The texture file
+    --show-mipmaps
+      Show all mipmaps
+      Default: false
+    --verbose
+      Set the minimum logging verbosity level.
+      Default: info
+      Possible Values: [trace, debug, info, warn, error]
+
+  The "show-summary" command shows a summary of a given texture file.
+

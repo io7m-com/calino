@@ -1,0 +1,12 @@
+$ calino create-cube \
+--mipmap-generate BILINEAR \
+--output output.ctf \
+--super-compression LZ4 \
+--metadata input.properties \
+--convert-layout-to "p16|R5:G6:B5" \
+--source-x-negative x-n-input.png \
+--source-x-positive x-p-input.png \
+--source-y-negative y-n-input.png \
+--source-y-positive y-p-input.png \
+--source-z-negative z-n-input.png \
+--source-z-positive z-p-input.png

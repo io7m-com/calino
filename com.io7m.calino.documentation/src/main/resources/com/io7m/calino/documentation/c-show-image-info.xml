@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Section xmlns="urn:com.io7m.structural:8:0"
+         xmlns:xi="http://www.w3.org/2001/XInclude"
+         title="show-image-info">
+
+  <Subsection title="Name">
+    <Paragraph>
+      <Term type="command">show-image-info</Term> - Show image information in texture files.
+    </Paragraph>
+  </Subsection>
+
+  <Subsection title="Description">
+    <Paragraph>
+      The <Term type="command">show-image-info</Term> command displays the image information section in texture files.
+    </Paragraph>
+    <FormalItem title="Parameters">
+      <xi:include href="CLNCommandShowImageInfo.xml"/>
+    </FormalItem>
+    <Paragraph>
+      The command displays the contents of the
+      <LinkExternal
+        target="https://www.io7m.com/software/calino/specification/index.xhtml#id_bc0e7016-7dab-4edb-a4c9-2b1492da0225">image info</LinkExternal>
+      section directly, and does not validate that the texture file actually contains image data of
+      the declared type.
+    </Paragraph>
+  </Subsection>
+
+  <Subsection title="Examples">
+    <FormalItem title="Example" type="example">
+      <Verbatim>
+        <xi:include parse="text"
+                    href="c-show-image-info-example.txt"/>
+      </Verbatim>
+    </FormalItem>
+  </Subsection>
+
+</Section>

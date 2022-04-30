@@ -1,0 +1,46 @@
+calino: INFO: Usage: extract-image-data-array [options]
+
+  Options:
+    --decompress
+      Whether to decompress data during extraction (ignored if the output is 
+      PNG). 
+      Default: true
+  * --file
+      The texture file
+  * --output-directory
+      The output directory
+    --output-format
+      The output format
+      Default: RAW
+      Possible Values: [RAW, PNG]
+    --verbose
+      Set the minimum logging verbosity level.
+      Default: info
+      Possible Values: [trace, debug, info, warn, error]
+
+  The "extract-image-data-array" command copies image data out of
+  an array texture file.
+
+  For a given output directory D, the command will write each of
+  the mipmap levels of the input image to files in D. The name
+  of each output file will be m, followed by a zero-padded
+  level number, followed by v, followed by a zero-padded
+  layer number, followed by an appropriate file suffix such as
+  .png or .raw.
+
+  For example:
+
+  $ calino extract-image-data-array --output-directory /tmp/out ...
+  calino: INFO: writing level 3 to /tmp/out/m003v000.png
+  calino: INFO: writing level 3 to /tmp/out/m003v001.png
+  calino: INFO: writing level 3 to /tmp/out/m003v002.png
+  calino: INFO: writing level 2 to /tmp/out/m002v000.png
+  calino: INFO: writing level 2 to /tmp/out/m002v001.png
+  calino: INFO: writing level 2 to /tmp/out/m002v002.png
+  calino: INFO: writing level 1 to /tmp/out/m001v000.png
+  calino: INFO: writing level 1 to /tmp/out/m001v001.png
+  calino: INFO: writing level 1 to /tmp/out/m001v002.png
+  calino: INFO: writing level 0 to /tmp/out/m000v000.png
+  calino: INFO: writing level 0 to /tmp/out/m000v001.png
+  calino: INFO: writing level 0 to /tmp/out/m000v002.png
+

@@ -42,5 +42,8 @@ module com.io7m.calino.cmdline
   opens com.io7m.calino.cmdline.internal
     to jcommander, com.io7m.jxtrand.vanilla;
 
+  exports com.io7m.calino.cmdline.internal
+    to com.io7m.calino.documentation;
+
   exports com.io7m.calino.cmdline;
 }

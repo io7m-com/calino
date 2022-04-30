@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Table xmlns="urn:com.io7m.structural:8:0" type="genericTable">
+   <Columns>
+      <Column>Parameter</Column>
+      <Column>Type</Column>
+      <Column>Required</Column>
+      <Column>Description</Column>
+   </Columns>
+   <Row>
+      <Cell>
+         <Term type="parameter">--source</Term>
+      </Cell>
+      <Cell>
+         <Term type="constant">Path</Term>
+      </Cell>
+      <Cell>true</Cell>
+      <Cell>The source image file</Cell>
+   </Row>
+   <Row>
+      <Cell>
+         <Term type="parameter">--output</Term>
+      </Cell>
+      <Cell>
+         <Term type="constant">Path</Term>
+      </Cell>
+      <Cell>true</Cell>
+      <Cell>The output texture file</Cell>
+   </Row>
+   <Row>
+      <Cell>
+         <Term type="parameter">--mipmap-generate</Term>
+      </Cell>
+      <Cell>
+         <Term type="constant">CLNImageMipMapFilter</Term>
+      </Cell>
+      <Cell>false</Cell>
+      <Cell>The mipmap filter</Cell>
+   </Row>
+   <Row>
+      <Cell>
+         <Term type="parameter">--premultiply-alpha</Term>
+      </Cell>
+      <Cell>
+         <Term type="constant">boolean</Term>
+      </Cell>
+      <Cell>false</Cell>
+      <Cell>Premultiply alpha</Cell>
+   </Row>
+   <Row>
+      <Cell>
+         <Term type="parameter">--byte-order</Term>
+      </Cell>
+      <Cell>
+         <Term type="constant">CLNByteOrder</Term>
+      </Cell>
+      <Cell>false</Cell>
+      <Cell>The byte order used for image data</Cell>
+   </Row>
+   <Row>
+      <Cell>
+         <Term type="parameter">--format-version</Term>
+      </Cell>
+      <Cell>
+         <Term type="constant">CLNVersion</Term>
+      </Cell>
+      <Cell>false</Cell>
+      <Cell>The requested file format version</Cell>
+   </Row>
+   <Row>
+      <Cell>
+         <Term type="parameter">--convert-layout-to</Term>
+      </Cell>
+      <Cell>
+         <Term type="constant">CLNChannelsLayoutDescriptionType</Term>
+      </Cell>
+      <Cell>false</Cell>
+      <Cell>The requested layout to which to convert</Cell>
+   </Row>
+   <Row>
+      <Cell>
+         <Term type="parameter">--super-compression</Term>
+      </Cell>
+      <Cell>
+         <Term type="constant">CLNSuperCompressionMethodType</Term>
+      </Cell>
+      <Cell>false</Cell>
+      <Cell>The super compression method.</Cell>
+   </Row>
+   <Row>
+      <Cell>
+         <Term type="parameter">--metadata</Term>
+      </Cell>
+      <Cell>
+         <Term type="constant">Path</Term>
+      </Cell>
+      <Cell>false</Cell>
+      <Cell>A Java properties file containing metadata for the texture file.</Cell>
+   </Row>
+   <Row>
+      <Cell>
+         <Term type="parameter">--verbose</Term>
+      </Cell>
+      <Cell>
+         <Term type="constant">CLPLogLevel</Term>
+      </Cell>
+      <Cell>false</Cell>
+      <Cell>Set the minimum logging verbosity level.</Cell>
+   </Row>
+</Table>

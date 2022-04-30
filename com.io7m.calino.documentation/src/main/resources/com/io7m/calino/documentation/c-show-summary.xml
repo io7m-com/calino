@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Section xmlns="urn:com.io7m.structural:8:0"
+         xmlns:xi="http://www.w3.org/2001/XInclude"
+         title="show-summary">
+
+  <Subsection title="Name">
+    <Paragraph>
+      <Term type="command">show-summary</Term> - Summarize texture files.
+    </Paragraph>
+  </Subsection>
+
+  <Subsection title="Description">
+    <Paragraph>
+      The <Term type="command">show-summary</Term> command displays a summary of a texture file.
+    </Paragraph>
+    <FormalItem title="Parameters">
+      <xi:include href="CLNCommandShowImageInfo.xml"/>
+    </FormalItem>
+    <Paragraph>
+      The command effectively summarizes the data given in the
+      <LinkExternal
+        target="https://www.io7m.com/software/calino/specification/index.xhtml#id_bc0e7016-7dab-4edb-a4c9-2b1492da0225">image info</LinkExternal>
+      section, in addition to optionally listing all of the types, sizes, and offsets of mipmaps
+      in the actual image data if requested with the <Term type="parameter">--show-mipmaps</Term>
+      parameter.
+    </Paragraph>
+  </Subsection>
+
+  <Subsection title="Examples">
+    <FormalItem title="Example" type="example">
+      <Verbatim>
+        <xi:include parse="text"
+                    href="c-show-summary-example.txt"/>
+      </Verbatim>
+    </FormalItem>
+  </Subsection>
+
+</Section>

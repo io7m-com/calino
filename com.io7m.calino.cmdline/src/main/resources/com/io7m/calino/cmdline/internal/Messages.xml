@@ -35,7 +35,6 @@ calino: INFO: writing level 3 to /tmp/out/m003.png
 calino: INFO: writing level 2 to /tmp/out/m002.png
 calino: INFO: writing level 1 to /tmp/out/m001.png
 calino: INFO: writing level 0 to /tmp/out/m000.png
-
 ]]></entry>
 
   <entry key="cmd.extract-image-data-array.helpExt"><![CDATA[

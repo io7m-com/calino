@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Document xmlns="urn:com.io7m.structural:8:0"
+          xmlns:dc="http://purl.org/dc/elements/1.1/"
+          xmlns:xi="http://www.w3.org/2001/XInclude"
+          tableOfContentsDepth="1">
+
+  <Metadata>
+    <dc:creator>Mark Raynsford</dc:creator>
+    <dc:date>2022-04-30T09:40:19+00:00</dc:date>
+    <dc:description>Documentation for Calino tools and APIs.</dc:description>
+    <dc:identifier>5a095a15-61f0-4eea-954f-05932ec3e4b5</dc:identifier>
+    <dc:language>en</dc:language>
+    <dc:rights>Public Domain</dc:rights>
+    <dc:title>Calino User Manual</dc:title>
+
+    <MetaProperty name="com.io7m.xstructural.web.branding.header">brand-header.xml</MetaProperty>
+    <MetaProperty name="com.io7m.xstructural.web.branding.footer">brand-footer.xml</MetaProperty>
+  </Metadata>
+
+  <xi:include href="cmdline.xml"/>
+  <xi:include href="api.xml"/>
+
+</Document>

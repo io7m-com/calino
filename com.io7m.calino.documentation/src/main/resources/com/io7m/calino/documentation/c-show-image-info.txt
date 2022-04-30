@@ -1,0 +1,12 @@
+calino: INFO: Usage: show-image-info [options]
+
+  Options:
+  * --file
+      The texture file
+    --verbose
+      Set the minimum logging verbosity level.
+      Default: info
+      Possible Values: [trace, debug, info, warn, error]
+
+  The "show-image-info" command displays the image info in a given texture file.
+
