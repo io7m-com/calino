@@ -33,6 +33,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestFactory;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
 
@@ -47,106 +48,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public final class CLNImageViewsTest
 {
-  @TestFactory
-  public Stream<DynamicTest> testUnsupportedTypeCases()
-  {
-    final var standardUnsupported =
-      Stream.of(CLNChannelsTypeDescriptionStandard.values())
-        .filter(s -> s != FIXED_POINT_NORMALIZED_UNSIGNED);
-
-    final var customUnsupported =
-      Stream.of(new CLNChannelsTypeDescriptionCustom("WEIRD"));
-
-    return Stream.concat(standardUnsupported, customUnsupported)
-      .map(CLNImageViewsTest::unsupportedTypeCase);
-  }
-
-  @Test
-  public void testUnsupportedChannelLayout()
-  {
-    final var imageViews = new CLNImageViews();
-
-    final var imageInfo =
-      new CLNImageInfo(
-        32,
-        32,
-        1,
-        new CLNChannelsLayoutDescriptionCustom(List.of(
-          new CLNChannelDescription(CLNChannelSemantic.STENCIL, 128)
-        )),
-        FIXED_POINT_NORMALIZED_UNSIGNED,
-        CLNCompressionMethodStandard.UNCOMPRESSED,
-        CLNSuperCompressionMethodStandard.UNCOMPRESSED,
-        new CLNCoordinateSystem(
-          AXIS_R_INCREASING_TOWARD,
-          AXIS_S_INCREASING_RIGHT,
-          AXIS_T_INCREASING_DOWN),
-        COLOR_SPACE_SRGB,
-        Set.of(),
-        LITTLE_ENDIAN
-      );
-
-    final var imageDescription =
-      new CLNImage2DDescription(
-        0,
-        0L,
-        3L,
-        3L,
-        0
-      );
-
-    assertThrows(UnsupportedOperationException.class, () -> {
-      imageViews.createImageView2D(
-        imageInfo,
-        imageDescription,
-        new byte[3]
-      );
-    });
-  }
-
-  @Test
-  public void testIncorrectDataLength()
-  {
-    final var imageViews = new CLNImageViews();
-
-    final var imageInfo =
-      new CLNImageInfo(
-        32,
-        32,
-        1,
-        new CLNChannelsLayoutDescriptionCustom(List.of(
-          new CLNChannelDescription(CLNChannelSemantic.STENCIL, 128)
-        )),
-        FIXED_POINT_NORMALIZED_UNSIGNED,
-        CLNCompressionMethodStandard.UNCOMPRESSED,
-        CLNSuperCompressionMethodStandard.UNCOMPRESSED,
-        new CLNCoordinateSystem(
-          AXIS_R_INCREASING_TOWARD,
-          AXIS_S_INCREASING_RIGHT,
-          AXIS_T_INCREASING_DOWN),
-        COLOR_SPACE_SRGB,
-        Set.of(),
-        LITTLE_ENDIAN
-      );
-
-    final var imageDescription =
-      new CLNImage2DDescription(
-        0,
-        0L,
-        1024L,
-        1024L,
-        0
-      );
-
-    assertThrows(IllegalArgumentException.class, () -> {
-      imageViews.createImageView2D(
-        imageInfo,
-        imageDescription,
-        new byte[3]
-      );
-    });
-  }
-
   private static DynamicTest unsupportedTypeCase(
     final CLNChannelsTypeDescriptionType s)
   {
@@ -191,5 +92,105 @@ public final class CLNImageViewsTest
         });
       }
     );
+  }
+
+  @TestFactory
+  public Stream<DynamicTest> testUnsupportedTypeCases()
+  {
+    final var standardUnsupported =
+      Stream.of(CLNChannelsTypeDescriptionStandard.values())
+        .filter(s -> s != FIXED_POINT_NORMALIZED_UNSIGNED);
+
+    final var customUnsupported =
+      Stream.of(new CLNChannelsTypeDescriptionCustom("WEIRD"));
+
+    return Stream.concat(standardUnsupported, customUnsupported)
+      .map(CLNImageViewsTest::unsupportedTypeCase);
+  }
+
+  @Test
+  public void testUnsupportedChannelLayout()
+  {
+    final var imageViews = new CLNImageViews();
+
+    final var imageInfo =
+      new CLNImageInfo(
+        32,
+        32,
+        1,
+        new CLNChannelsLayoutDescriptionCustom(List.of(
+          new CLNChannelDescription(CLNChannelSemantic.STENCIL, 128)
+        ), Optional.empty()),
+        FIXED_POINT_NORMALIZED_UNSIGNED,
+        CLNCompressionMethodStandard.UNCOMPRESSED,
+        CLNSuperCompressionMethodStandard.UNCOMPRESSED,
+        new CLNCoordinateSystem(
+          AXIS_R_INCREASING_TOWARD,
+          AXIS_S_INCREASING_RIGHT,
+          AXIS_T_INCREASING_DOWN),
+        COLOR_SPACE_SRGB,
+        Set.of(),
+        LITTLE_ENDIAN
+      );
+
+    final var imageDescription =
+      new CLNImage2DDescription(
+        0,
+        0L,
+        3L,
+        3L,
+        0
+      );
+
+    assertThrows(UnsupportedOperationException.class, () -> {
+      imageViews.createImageView2D(
+        imageInfo,
+        imageDescription,
+        new byte[3]
+      );
+    });
+  }
+
+  @Test
+  public void testIncorrectDataLength()
+  {
+    final var imageViews = new CLNImageViews();
+
+    final var imageInfo =
+      new CLNImageInfo(
+        32,
+        32,
+        1,
+        new CLNChannelsLayoutDescriptionCustom(List.of(
+          new CLNChannelDescription(CLNChannelSemantic.STENCIL, 128)
+        ), Optional.empty()),
+        FIXED_POINT_NORMALIZED_UNSIGNED,
+        CLNCompressionMethodStandard.UNCOMPRESSED,
+        CLNSuperCompressionMethodStandard.UNCOMPRESSED,
+        new CLNCoordinateSystem(
+          AXIS_R_INCREASING_TOWARD,
+          AXIS_S_INCREASING_RIGHT,
+          AXIS_T_INCREASING_DOWN),
+        COLOR_SPACE_SRGB,
+        Set.of(),
+        LITTLE_ENDIAN
+      );
+
+    final var imageDescription =
+      new CLNImage2DDescription(
+        0,
+        0L,
+        1024L,
+        1024L,
+        0
+      );
+
+    assertThrows(IllegalArgumentException.class, () -> {
+      imageViews.createImageView2D(
+        imageInfo,
+        imageDescription,
+        new byte[3]
+      );
+    });
   }
 }

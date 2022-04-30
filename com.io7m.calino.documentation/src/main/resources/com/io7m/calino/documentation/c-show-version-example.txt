@@ -1,0 +1,2 @@
+$ calino show-version --file cube-meta.ctf
+version: 1.0

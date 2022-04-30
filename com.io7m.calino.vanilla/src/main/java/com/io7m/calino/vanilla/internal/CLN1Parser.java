@@ -24,17 +24,33 @@ import com.io7m.calino.api.CLNVersion;
 import com.io7m.calino.parser.api.CLNParseRequest;
 import com.io7m.calino.parser.api.CLNParserType;
 import com.io7m.jbssio.api.BSSReaderRandomAccessType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+/**
+ * The main parser implementation.
+ */
+
 public final class CLN1Parser implements CLNParserType
 {
+  private static final Logger LOG =
+    LoggerFactory.getLogger(CLN1Parser.class);
+
   private final CLNParseRequest request;
   private final BSSReaderRandomAccessType reader;
   private final AtomicBoolean closed;
+
+  /**
+   * The main parser implementation.
+   *
+   * @param inRequest The read request
+   * @param inReader  A reader
+   */
 
   public CLN1Parser(
     final CLNParseRequest inRequest,
@@ -72,14 +88,21 @@ public final class CLN1Parser implements CLNParserType
       new ArrayList<CLNFileSectionDescription>();
 
     while (true) {
+      final var remainingOpt = this.reader.bytesRemaining();
+      if (remainingOpt.isPresent()) {
+        if (remainingOpt.getAsLong() == 0L) {
+          LOG.warn(
+            "encountered EOF before encountering an 'end' section; file is likely truncated/damaged");
+          break;
+        }
+      }
+
       final var fileOffset =
         this.reader.offsetCurrentAbsolute();
       final var sectionId =
         this.reader.readU64BE("sectionId");
       final var sectionSize =
         this.reader.readU64BE("sectionSize");
-
-      this.checkSectionIsAligned(fileOffset, sectionId);
 
       fileSections.add(
         new CLNFileSectionDescription(
@@ -89,20 +112,7 @@ public final class CLN1Parser implements CLNParserType
 
       this.reader.skip(sectionSize);
       if (sectionId == CLNIdentifiers.sectionEndIdentifier()) {
-        this.checkSectionEndZeroSize(fileOffset, sectionSize);
         break;
-      }
-    }
-
-    final var remaining = this.reader.bytesRemaining();
-    if (remaining.isPresent()) {
-      if (remaining.getAsLong() != 0L) {
-        this.request.validationReceiver().accept(
-          CLNValidation.sectionEndTrailing(
-            this.request.source(),
-            this.reader.offsetCurrentAbsolute(),
-            remaining.getAsLong())
-        );
       }
     }
 
@@ -112,32 +122,9 @@ public final class CLN1Parser implements CLNParserType
       this.reader,
       this.request,
       new CLNVersion((int) major, (int) minor),
-      fileSections
+      fileSections,
+      this.reader.bytesRemaining().orElse(0L)
     );
-  }
-
-  private void checkSectionIsAligned(
-    final long fileOffset,
-    final long sectionId)
-  {
-    if (fileOffset % 16L != 0L) {
-      this.request.validationReceiver().accept(
-        CLNValidation.sectionUnaligned(
-          this.request.source(), fileOffset, sectionId)
-      );
-    }
-  }
-
-  private void checkSectionEndZeroSize(
-    final long fileOffset,
-    final long sectionSize)
-  {
-    if (sectionSize != 0L) {
-      this.request.validationReceiver().accept(
-        CLNValidation.sectionEndNonzeroSize(
-          this.request.source(), fileOffset, sectionSize)
-      );
-    }
   }
 
   private String errorUnsupportedMajorVersion(

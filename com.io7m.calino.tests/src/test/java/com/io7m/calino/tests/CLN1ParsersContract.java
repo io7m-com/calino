@@ -17,21 +17,18 @@
 package com.io7m.calino.tests;
 
 import com.io7m.calino.api.CLNCompressionMethodStandard;
-import com.io7m.calino.api.CLNCoordinateAxisR;
-import com.io7m.calino.api.CLNCoordinateAxisS;
-import com.io7m.calino.api.CLNCoordinateAxisT;
 import com.io7m.calino.api.CLNFileSectionDescription;
 import com.io7m.calino.api.CLNIdentifiers;
 import com.io7m.calino.api.CLNImage2DDescription;
 import com.io7m.calino.api.CLNSectionReadableEndType;
 import com.io7m.calino.api.CLNSectionReadableImage2DType;
+import com.io7m.calino.api.CLNSectionReadableImageCubeType;
 import com.io7m.calino.api.CLNSectionReadableImageInfoType;
 import com.io7m.calino.api.CLNSectionReadableMetadataType;
 import com.io7m.calino.api.CLNSuperCompressionMethodStandard;
 import com.io7m.calino.api.CLNVersion;
 import com.io7m.calino.parser.api.CLNParseRequestBuilderType;
 import com.io7m.calino.parser.api.CLNParserType;
-import com.io7m.calino.parser.api.CLNParserValidationEvent;
 import com.io7m.calino.vanilla.CLN1Parsers;
 import com.io7m.jmulticlose.core.CloseableCollectionType;
 import com.io7m.jmulticlose.core.ClosingResourceFailedException;
@@ -42,7 +39,6 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.zip.CRC32;
@@ -50,9 +46,9 @@ import java.util.zip.CRC32;
 import static com.io7m.calino.api.CLNChannelsLayoutDescriptionStandard.R8_G8_B8;
 import static com.io7m.calino.api.CLNChannelsTypeDescriptionStandard.FIXED_POINT_NORMALIZED_UNSIGNED;
 import static com.io7m.calino.api.CLNColorSpaceStandard.COLOR_SPACE_SRGB;
-import static com.io7m.calino.api.CLNCoordinateAxisR.*;
-import static com.io7m.calino.api.CLNCoordinateAxisS.*;
-import static com.io7m.calino.api.CLNCoordinateAxisT.*;
+import static com.io7m.calino.api.CLNCoordinateAxisR.AXIS_R_INCREASING_TOWARD;
+import static com.io7m.calino.api.CLNCoordinateAxisS.AXIS_S_INCREASING_RIGHT;
+import static com.io7m.calino.api.CLNCoordinateAxisT.AXIS_T_INCREASING_DOWN;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -65,7 +61,6 @@ public abstract class CLN1ParsersContract
   protected Path directory;
   protected CLN1Parsers parsers;
   protected CloseableCollectionType<ClosingResourceFailedException> resources;
-  protected ArrayList<CLNParserValidationEvent> events;
 
   private static void showSections(
     final List<CLNFileSectionDescription> sections)
@@ -90,7 +85,9 @@ public abstract class CLN1ParsersContract
       this.parserFor("broken-truncated.ctf");
 
     final var ex =
-    assertThrows(IOException.class, () -> this.resources.add(parser.execute()));
+      assertThrows(
+        IOException.class,
+        () -> this.resources.add(parser.execute()));
     assertTrue(ex.getMessage().contains("Out of bounds."));
   }
 
@@ -102,7 +99,9 @@ public abstract class CLN1ParsersContract
       this.parserFor("broken-bad-identifier.ctf");
 
     final var ex =
-      assertThrows(IOException.class, () -> this.resources.add(parser.execute()));
+      assertThrows(
+        IOException.class,
+        () -> this.resources.add(parser.execute()));
     assertTrue(ex.getMessage().contains("Unrecognized file identifier."));
   }
 
@@ -114,7 +113,9 @@ public abstract class CLN1ParsersContract
       this.parserFor("broken-unsupported-version.ctf");
 
     final var ex =
-      assertThrows(IOException.class, () -> this.resources.add(parser.execute()));
+      assertThrows(
+        IOException.class,
+        () -> this.resources.add(parser.execute()));
     assertTrue(ex.getMessage().contains("Unrecognized major version."));
   }
 
@@ -182,8 +183,6 @@ public abstract class CLN1ParsersContract
         }
       }
     }
-
-    assertEquals(0, this.events.size());
   }
 
   @Test
@@ -221,8 +220,6 @@ public abstract class CLN1ParsersContract
       assertEquals(AXIS_T_INCREASING_DOWN, info.coordinateSystem().axisT());
       assertEquals(COLOR_SPACE_SRGB, info.colorSpace());
     }
-
-    assertEquals(0, this.events.size());
   }
 
   @Test
@@ -254,8 +251,6 @@ public abstract class CLN1ParsersContract
         assertThrows(IOException.class, section::info);
       assertTrue(ex.getMessage().contains("Limit exceeded."));
     }
-
-    assertEquals(0, this.events.size());
   }
 
   @Test
@@ -288,8 +283,6 @@ public abstract class CLN1ParsersContract
       LOG.debug("ex: ", ex);
       assertTrue(ex.getMessage().contains("Limit exceeded."));
     }
-
-    assertEquals(0, this.events.size());
   }
 
   @Test
@@ -322,8 +315,6 @@ public abstract class CLN1ParsersContract
       LOG.debug("ex: ", ex);
       assertTrue(ex.getMessage().contains("Limit exceeded."));
     }
-
-    assertEquals(0, this.events.size());
   }
 
   @Test
@@ -356,8 +347,6 @@ public abstract class CLN1ParsersContract
       LOG.debug("ex: ", ex);
       assertTrue(ex.getMessage().contains("Limit exceeded."));
     }
-
-    assertEquals(0, this.events.size());
   }
 
   @Test
@@ -381,11 +370,9 @@ public abstract class CLN1ParsersContract
       final var metadata = section.metadata();
       LOG.debug("metadata: {}", metadata);
       assertEquals(2, metadata.size());
-      assertEquals("VAL0", metadata.get("K0"));
-      assertEquals("VAL1", metadata.get("KEY1"));
+      assertEquals(List.of("VAL0"), metadata.get("K0"));
+      assertEquals(List.of("VAL1"), metadata.get("KEY1"));
     }
-
-    assertEquals(0, this.events.size());
   }
 
   @Test
@@ -398,7 +385,7 @@ public abstract class CLN1ParsersContract
       });
     final var file =
       this.resources.add(parser.execute());
-    
+
     assertEquals(new CLNVersion(1, 0), file.version());
 
     final var sections = file.sections();
@@ -412,8 +399,6 @@ public abstract class CLN1ParsersContract
         assertThrows(IOException.class, section::metadata);
       assertTrue(ex.getMessage().contains("Limit exceeded."));
     }
-
-    assertEquals(0, this.events.size());
   }
 
   @Test
@@ -455,16 +440,16 @@ public abstract class CLN1ParsersContract
         crc32.update(buffer);
         final int crc32Received = (int) crc32.getValue();
 
-        LOG.debug("crc32 declared: 0x{}",
-                  Integer.toUnsignedString(crc32Declared, 16));
-        LOG.debug("crc32 received: 0x{}",
-                  Integer.toUnsignedString(crc32Received, 16));
+        LOG.debug(
+          "crc32 declared: 0x{}",
+          Integer.toUnsignedString(crc32Declared, 16));
+        LOG.debug(
+          "crc32 received: 0x{}",
+          Integer.toUnsignedString(crc32Received, 16));
 
         assertEquals(crc32Declared, crc32Received);
       }
     }
-
-    assertEquals(0, this.events.size());
   }
 
   @Test
@@ -510,16 +495,56 @@ public abstract class CLN1ParsersContract
         crc32.update(buffer);
         final int crc32Received = (int) crc32.getValue();
 
-        LOG.debug("crc32 declared: 0x{}",
-                  Integer.toUnsignedString(crc32Declared, 16));
-        LOG.debug("crc32 received: 0x{}",
-                  Integer.toUnsignedString(crc32Received, 16));
+        LOG.debug(
+          "crc32 declared: 0x{}",
+          Integer.toUnsignedString(crc32Declared, 16));
+        LOG.debug(
+          "crc32 received: 0x{}",
+          Integer.toUnsignedString(crc32Received, 16));
 
         assertEquals(crc32Declared, crc32Received);
       }
     }
+  }
 
-    assertEquals(0, this.events.size());
+  @Test
+  public void testBasicImage2DLZ4Dump0()
+    throws IOException
+  {
+    final var parser =
+      this.parserFor("basic-lz4.ctf");
+    final var file =
+      this.resources.add(parser.execute());
+
+    assertEquals(new CLNVersion(1, 0), file.version());
+
+    final var sections = file.sections();
+    showSections(sections);
+    assertEquals(4, sections.size());
+
+    try (var section =
+           (CLNSectionReadableImage2DType) file.openSection(sections.get(2))) {
+      final var mipmaps = section.mipMapDescriptions();
+      final var map0 = mipmaps.get(0);
+
+      try (var channel = section.mipMapDataRaw(map0)) {
+        final var buffer = new byte[(int) map0.dataSizeCompressed()];
+        final var byteBuffer = ByteBuffer.wrap(buffer);
+        channel.read(byteBuffer);
+
+        final var text = new StringBuilder(128);
+        for (int index = 0; index < buffer.length; ++index) {
+          text.append(String.format("%02x", Byte.valueOf(buffer[index])));
+          if ((index + 1) % 16 == 0) {
+            text.append('\n');
+          } else if ((index + 1) % 4 == 0) {
+            text.append(' ');
+          }
+        }
+
+        System.out.println(text);
+      }
+    }
   }
 
   @Test
@@ -558,16 +583,14 @@ public abstract class CLN1ParsersContract
         ));
       });
     }
-
-    assertEquals(0, this.events.size());
   }
 
   @Test
-  public void testWarnUnaligned()
+  public void testBasicImageCube()
     throws IOException
   {
     final var parser =
-      this.parserFor("warn-unaligned.ctf");
+      this.parserFor("basic-cube.ctf");
     final var file =
       this.resources.add(parser.execute());
 
@@ -577,55 +600,48 @@ public abstract class CLN1ParsersContract
     showSections(sections);
     assertEquals(3, sections.size());
 
-    assertEquals(2, this.events.size());
-    assertTrue(this.events.remove(0).message().contains("not aligned"));
-    assertTrue(this.events.remove(0).message().contains("not aligned"));
-  }
+    try (var section =
+           (CLNSectionReadableImageCubeType) file.openSection(sections.get(1))) {
+      final var mipmaps = section.mipMapDescriptions();
+      LOG.debug("mipmaps: {}", mipmaps);
+      assertEquals(48, mipmaps.size());
+      final var map0 = mipmaps.get(0);
+      final var crc32Declared = map0.crc32Uncompressed();
+      assertEquals(0x8332c492, crc32Declared);
+      assertEquals(1408L, map0.dataOffsetWithinSection());
+      assertEquals(16L, map0.dataSizeCompressed());
+      assertEquals(16L, map0.dataSizeUncompressed());
+      assertEquals(7, map0.mipMapLevel());
 
+      try (var channel = section.mipMapDataWithoutSupercompression(map0)) {
+        final var buffer = new byte[(int) map0.dataSizeUncompressed()];
+        final var byteBuffer = ByteBuffer.wrap(buffer);
+        final var read = channel.read(byteBuffer);
+        assertEquals(16, read);
 
-  @Test
-  public void testWarnTrailing()
-    throws IOException
-  {
-    final var parser =
-      this.parserFor("warn-trailing.ctf");
-    final var file =
-      this.resources.add(parser.execute());
+        final var crc32 = new CRC32();
+        crc32.reset();
+        crc32.update(buffer);
+        final int crc32Received = (int) crc32.getValue();
 
-    assertEquals(new CLNVersion(1, 0), file.version());
+        LOG.debug(
+          "crc32 declared: 0x{}",
+          Integer.toUnsignedString(crc32Declared, 16));
+        LOG.debug(
+          "crc32 received: 0x{}",
+          Integer.toUnsignedString(crc32Received, 16));
 
-    final var sections = file.sections();
-    showSections(sections);
-    assertEquals(1, sections.size());
-
-    assertEquals(1, this.events.size());
-    assertTrue(this.events.remove(0).message().contains("trailing data"));
-  }
-
-  @Test
-  public void testWarnEndNonzero()
-    throws IOException
-  {
-    final var parser =
-      this.parserFor("warn-end-nonzero.ctf");
-    final var file =
-      this.resources.add(parser.execute());
-
-    assertEquals(new CLNVersion(1, 0), file.version());
-
-    final var sections = file.sections();
-    showSections(sections);
-    assertEquals(1, sections.size());
-
-    assertEquals(1, this.events.size());
-    assertTrue(this.events.remove(0).message().contains("non-zero size"));
+        assertEquals(crc32Declared, crc32Received);
+      }
+    }
   }
 
   protected final CLNParserType parserFor(
     final String name)
     throws IOException
   {
-    return this.parserFor(name, builder -> {});
+    return this.parserFor(name, builder -> {
+    });
   }
 
   protected abstract CLNParserType parserFor(

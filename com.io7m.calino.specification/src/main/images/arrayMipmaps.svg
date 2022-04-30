@@ -1,0 +1,498 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="400"
+   height="528"
+   viewBox="0 0 105.83333 139.70001"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04, custom)"
+   sodipodi:docname="arrayMipmaps.svg"
+   inkscape:export-filename="/home/rm/git/com.github/io7m/calino/com.io7m.calino.specification/src/main/resources/com/io7m/calino/specification/arrayMipmaps.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="px"
+     showgrid="true"
+     units="px"
+     width="600px"
+     inkscape:zoom="1"
+     inkscape:cx="220.5"
+     inkscape:cy="324"
+     inkscape:window-width="1514"
+     inkscape:window-height="970"
+     inkscape:window-x="1950"
+     inkscape:window-y="19"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="layer1"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0">
+    <inkscape:grid
+       type="xygrid"
+       id="grid878"
+       spacingx="2.1166667"
+       spacingy="2.1166667"
+       empspacing="8"
+       originx="0"
+       originy="0" />
+  </sodipodi:namedview>
+  <defs
+     id="defs2">
+    <marker
+       style="overflow:visible"
+       id="Arrow2Mstart"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="Arrow2Mstart"
+       inkscape:isstock="true">
+      <path
+         transform="scale(0.6)"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:0.625;stroke-linejoin:round"
+         id="path11931" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="Arrow2Mend"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="Arrow2Mend"
+       inkscape:isstock="true">
+      <path
+         transform="scale(-0.6)"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:0.625;stroke-linejoin:round"
+         id="path11934" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="Arrow2Lend"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="Arrow2Lend"
+       inkscape:isstock="true">
+      <path
+         transform="matrix(-1.1,0,0,-1.1,-1.1,0)"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:0.625;stroke-linejoin:round"
+         id="path11928" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="Arrow1Lend"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="Arrow1Lend"
+       inkscape:isstock="true">
+      <path
+         transform="matrix(-0.8,0,0,-0.8,-10,0)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         id="path11910" />
+    </marker>
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="fill:#ffffff;stroke:#000000;stroke-width:0.264583;stroke-linecap:square;stroke-miterlimit:4;stroke-dasharray:none"
+       id="rect12993"
+       width="105.70104"
+       height="139.5677"
+       x="0.1322915"
+       y="0.1322915" />
+    <g
+       id="g16723">
+      <rect
+         style="fill:#ffffff;stroke:#000000;stroke-width:0.264583;stroke-linecap:square;stroke-miterlimit:4;stroke-dasharray:none"
+         id="rect902"
+         width="65.352081"
+         height="6.0854173"
+         x="23.415625"
+         y="6.4822917" />
+      <text
+         xml:space="preserve"
+         style="font-size:3.175px;line-height:1.25;font-family:'IBM Plex Mono';-inkscape-font-specification:'IBM Plex Mono';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+         x="26.840372"
+         y="10.414001"
+         id="text2365"><tspan
+           sodipodi:role="line"
+           id="tspan2363"
+           style="font-size:3.175px;stroke-width:0.264583"
+           x="26.840372"
+           y="10.414001">Array mipmap description (2, 0)</tspan></text>
+    </g>
+    <rect
+       style="fill:#80e5ff;stroke:#000000;stroke-width:0.264583;stroke-linecap:square;stroke-miterlimit:4;stroke-dasharray:none"
+       id="rect11296"
+       width="3.9687505"
+       height="3.9687505"
+       x="23.415625"
+       y="91.148956" />
+    <g
+       id="g16731"
+       transform="translate(0,8.4666667)">
+      <rect
+         style="fill:#ffffff;stroke:#000000;stroke-width:0.264583;stroke-linecap:square;stroke-miterlimit:4;stroke-dasharray:none"
+         id="rect16725"
+         width="65.352081"
+         height="6.0854173"
+         x="23.415625"
+         y="6.4822917" />
+      <text
+         xml:space="preserve"
+         style="font-size:3.175px;line-height:1.25;font-family:'IBM Plex Mono';-inkscape-font-specification:'IBM Plex Mono';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+         x="26.840372"
+         y="10.414001"
+         id="text16729"><tspan
+           sodipodi:role="line"
+           id="tspan16727"
+           style="font-size:3.175px;stroke-width:0.264583"
+           x="26.840372"
+           y="10.414001">Array mipmap description (2, 1)</tspan></text>
+    </g>
+    <g
+       id="g16739"
+       transform="translate(0,16.933333)">
+      <rect
+         style="fill:#ffffff;stroke:#000000;stroke-width:0.264583;stroke-linecap:square;stroke-miterlimit:4;stroke-dasharray:none"
+         id="rect16733"
+         width="65.352081"
+         height="6.0854173"
+         x="23.415625"
+         y="6.4822917" />
+      <text
+         xml:space="preserve"
+         style="font-size:3.175px;line-height:1.25;font-family:'IBM Plex Mono';-inkscape-font-specification:'IBM Plex Mono';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+         x="26.840372"
+         y="10.414001"
+         id="text16737"><tspan
+           sodipodi:role="line"
+           id="tspan16735"
+           style="font-size:3.175px;stroke-width:0.264583"
+           x="26.840372"
+           y="10.414001">Array mipmap description (2, 2)</tspan></text>
+    </g>
+    <g
+       id="g16747"
+       transform="translate(0,25.4)">
+      <rect
+         style="fill:#ffffff;stroke:#000000;stroke-width:0.264583;stroke-linecap:square;stroke-miterlimit:4;stroke-dasharray:none"
+         id="rect16741"
+         width="65.352081"
+         height="6.0854173"
+         x="23.415625"
+         y="6.4822917" />
+      <text
+         xml:space="preserve"
+         style="font-size:3.175px;line-height:1.25;font-family:'IBM Plex Mono';-inkscape-font-specification:'IBM Plex Mono';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+         x="26.840372"
+         y="10.414001"
+         id="text16745"><tspan
+           sodipodi:role="line"
+           id="tspan16743"
+           style="font-size:3.175px;stroke-width:0.264583"
+           x="26.840372"
+           y="10.414001">Array mipmap description (1, 0)</tspan></text>
+    </g>
+    <g
+       id="g16755"
+       transform="translate(0,33.866667)">
+      <rect
+         style="fill:#ffffff;stroke:#000000;stroke-width:0.264583;stroke-linecap:square;stroke-miterlimit:4;stroke-dasharray:none"
+         id="rect16749"
+         width="65.352081"
+         height="6.0854173"
+         x="23.415625"
+         y="6.4822917" />
+      <text
+         xml:space="preserve"
+         style="font-size:3.175px;line-height:1.25;font-family:'IBM Plex Mono';-inkscape-font-specification:'IBM Plex Mono';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+         x="26.840372"
+         y="10.414001"
+         id="text16753"><tspan
+           sodipodi:role="line"
+           id="tspan16751"
+           style="font-size:3.175px;stroke-width:0.264583"
+           x="26.840372"
+           y="10.414001">Array mipmap description (1, 1)</tspan></text>
+    </g>
+    <g
+       id="g16763"
+       transform="translate(0,42.333334)">
+      <rect
+         style="fill:#ffffff;stroke:#000000;stroke-width:0.264583;stroke-linecap:square;stroke-miterlimit:4;stroke-dasharray:none"
+         id="rect16757"
+         width="65.352081"
+         height="6.0854173"
+         x="23.415625"
+         y="6.4822917" />
+      <text
+         xml:space="preserve"
+         style="font-size:3.175px;line-height:1.25;font-family:'IBM Plex Mono';-inkscape-font-specification:'IBM Plex Mono';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+         x="26.840372"
+         y="10.414001"
+         id="text16761"><tspan
+           sodipodi:role="line"
+           id="tspan16759"
+           style="font-size:3.175px;stroke-width:0.264583"
+           x="26.840372"
+           y="10.414001">Array mipmap description (1, 2)</tspan></text>
+    </g>
+    <g
+       id="g16771"
+       transform="translate(0,50.800001)">
+      <rect
+         style="fill:#ffffff;stroke:#000000;stroke-width:0.264583;stroke-linecap:square;stroke-miterlimit:4;stroke-dasharray:none"
+         id="rect16765"
+         width="65.352081"
+         height="6.0854173"
+         x="23.415625"
+         y="6.4822917" />
+      <text
+         xml:space="preserve"
+         style="font-size:3.175px;line-height:1.25;font-family:'IBM Plex Mono';-inkscape-font-specification:'IBM Plex Mono';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+         x="26.840372"
+         y="10.414001"
+         id="text16769"><tspan
+           sodipodi:role="line"
+           id="tspan16767"
+           style="font-size:3.175px;stroke-width:0.264583"
+           x="26.840372"
+           y="10.414001">Array mipmap description (0, 0)</tspan></text>
+    </g>
+    <g
+       id="g16779"
+       transform="translate(0,59.266667)">
+      <rect
+         style="fill:#ffffff;stroke:#000000;stroke-width:0.264583;stroke-linecap:square;stroke-miterlimit:4;stroke-dasharray:none"
+         id="rect16773"
+         width="65.352081"
+         height="6.0854173"
+         x="23.415625"
+         y="6.4822917" />
+      <text
+         xml:space="preserve"
+         style="font-size:3.175px;line-height:1.25;font-family:'IBM Plex Mono';-inkscape-font-specification:'IBM Plex Mono';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+         x="26.840372"
+         y="10.414001"
+         id="text16777"><tspan
+           sodipodi:role="line"
+           id="tspan16775"
+           style="font-size:3.175px;stroke-width:0.264583"
+           x="26.840372"
+           y="10.414001">Array mipmap description (0, 1)</tspan></text>
+    </g>
+    <g
+       id="g16787"
+       transform="translate(0,67.733334)">
+      <rect
+         style="fill:#ffffff;stroke:#000000;stroke-width:0.264583;stroke-linecap:square;stroke-miterlimit:4;stroke-dasharray:none"
+         id="rect16781"
+         width="65.352081"
+         height="6.0854173"
+         x="23.415625"
+         y="6.4822917" />
+      <text
+         xml:space="preserve"
+         style="font-size:3.175px;line-height:1.25;font-family:'IBM Plex Mono';-inkscape-font-specification:'IBM Plex Mono';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+         x="26.840372"
+         y="10.414001"
+         id="text16785"><tspan
+           sodipodi:role="line"
+           id="tspan16783"
+           style="font-size:3.175px;stroke-width:0.264583"
+           x="26.840372"
+           y="10.414001">Array mipmap description (0, 2)</tspan></text>
+    </g>
+    <rect
+       style="fill:#ffaaaa;stroke:#000000;stroke-width:0.264583;stroke-linecap:square;stroke-miterlimit:4;stroke-dasharray:none"
+       id="rect49102"
+       width="3.9687505"
+       height="3.9687505"
+       x="29.765625"
+       y="91.148956" />
+    <rect
+       style="fill:#87deaa;stroke:#000000;stroke-width:0.264583;stroke-linecap:square;stroke-miterlimit:4;stroke-dasharray:none"
+       id="rect49218"
+       width="3.9687505"
+       height="3.9687505"
+       x="36.115623"
+       y="91.148956" />
+    <rect
+       style="fill:#80e5ff;stroke:#000000;stroke-width:0.264583;stroke-linecap:square;stroke-miterlimit:4;stroke-dasharray:none"
+       id="rect49814"
+       width="8.2020836"
+       height="8.2020836"
+       x="23.415625"
+       y="99.615623" />
+    <rect
+       style="fill:#ffaaaa;stroke:#000000;stroke-width:0.264583;stroke-linecap:square;stroke-miterlimit:4;stroke-dasharray:none"
+       id="rect49816"
+       width="8.2020836"
+       height="8.2020836"
+       x="33.998959"
+       y="99.615623" />
+    <rect
+       style="fill:#87deaa;stroke:#000000;stroke-width:0.264583;stroke-linecap:square;stroke-miterlimit:4;stroke-dasharray:none"
+       id="rect49818"
+       width="8.2020836"
+       height="8.2020836"
+       x="44.582291"
+       y="99.615623" />
+    <rect
+       style="fill:#80e5ff;stroke:#000000;stroke-width:0.264584;stroke-linecap:square;stroke-miterlimit:4;stroke-dasharray:none"
+       id="rect49820"
+       width="16.668751"
+       height="16.668751"
+       x="23.415627"
+       y="112.31563" />
+    <rect
+       style="fill:#ffaaaa;stroke:#000000;stroke-width:0.264584;stroke-linecap:square;stroke-miterlimit:4;stroke-dasharray:none"
+       id="rect49822"
+       width="16.668751"
+       height="16.668751"
+       x="42.465626"
+       y="112.31563" />
+    <rect
+       style="fill:#87deaa;stroke:#000000;stroke-width:0.264584;stroke-linecap:square;stroke-miterlimit:4;stroke-dasharray:none"
+       id="rect49824"
+       width="16.668751"
+       height="16.668751"
+       x="61.515625"
+       y="112.31563" />
+    <path
+       style="fill:none;stroke:#0088aa;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Mend)"
+       d="m 23.283334,8.4666669 h -6.35 V 93.133336 h 6.35"
+       id="path50211" />
+    <path
+       style="fill:none;stroke:#0088aa;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Mend)"
+       d="m 23.283334,33.866668 h -8.466667 v 69.850002 h 8.466667"
+       id="path50213" />
+    <path
+       style="fill:none;stroke:#0088aa;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Mend)"
+       d="M 23.283334,59.266668 H 12.7 V 120.65 h 10.583334"
+       id="path50215" />
+    <path
+       style="fill:none;stroke:#d40000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Mend)"
+       d="M 23.283334,16.933334 H 19.05 v 71.966668 h 12.700001 v 2.116667"
+       id="path50498" />
+    <path
+       style="fill:none;stroke:#d40000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-start:url(#Arrow2Mstart)"
+       d="M 38.100001,99.483336 V 97.366669 H 8.4666669 V 42.333334 H 23.283334"
+       id="path50500" />
+    <path
+       style="fill:none;stroke:#d40000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Mend)"
+       d="M 23.283334,67.733335 H 6.3500002 V 110.06667 H 50.800001 v 2.11667"
+       id="path50502" />
+    <path
+       style="fill:none;stroke:#008000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Mend)"
+       d="m 88.900002,25.400001 h 8.466667 V 88.900002 H 38.100001 v 2.116667"
+       id="path50726" />
+    <path
+       style="fill:none;stroke:#008000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Mend)"
+       d="m 88.900002,50.800001 h 6.35 V 95.250002 H 48.683335 v 4.233334"
+       id="path50728" />
+    <path
+       style="fill:none;stroke:#008000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Mend)"
+       d="m 88.900002,76.200002 h 2.116667 V 105.83334 H 69.850002 v 6.35"
+       id="path50730" />
+    <path
+       style="fill:none;stroke:#808080;stroke-width:0.264583;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:0.264583, 0.529166;stroke-dashoffset:0;stroke-opacity:1"
+       d="M 0,86.783336 H 105.83334"
+       id="path51404" />
+    <path
+       style="fill:none;stroke:#808080;stroke-width:0.264583;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:0.264583, 0.529166;stroke-dashoffset:0;stroke-opacity:1"
+       d="M 0,97.366668 H 105.83334"
+       id="path51504" />
+    <path
+       style="fill:none;stroke:#808080;stroke-width:0.264583;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:0.264583, 0.529166;stroke-dashoffset:0;stroke-opacity:1"
+       d="M 0,110.06667 H 105.83334"
+       id="path51506" />
+    <text
+       xml:space="preserve"
+       style="font-size:3.175px;line-height:1.25;font-family:'IBM Plex Mono';-inkscape-font-specification:'IBM Plex Mono';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       x="44.937172"
+       y="93.104095"
+       id="text54130"><tspan
+         sodipodi:role="line"
+         id="tspan54128"
+         style="font-size:3.175px;stroke-width:0.264583"
+         x="44.937172"
+         y="93.104095">Level 2</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:3.175px;line-height:1.25;font-family:'IBM Plex Mono';-inkscape-font-specification:'IBM Plex Mono';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       x="55.221363"
+       y="102.5718"
+       id="text56224"><tspan
+         sodipodi:role="line"
+         id="tspan56222"
+         style="font-size:3.175px;stroke-width:0.264583"
+         x="55.221363"
+         y="102.5718">Level 1</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:3.175px;line-height:1.25;font-family:'IBM Plex Mono';-inkscape-font-specification:'IBM Plex Mono';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       x="80.704025"
+       y="114.71622"
+       id="text57064"><tspan
+         sodipodi:role="line"
+         id="tspan57062"
+         style="font-size:3.175px;stroke-width:0.264583"
+         x="80.704025"
+         y="114.71622">Level 0</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:3.175px;line-height:1.25;font-family:'IBM Plex Mono';-inkscape-font-specification:'IBM Plex Mono';letter-spacing:0px;word-spacing:0px;fill:#0088aa;stroke-width:0.264583"
+       x="25.770037"
+       y="132.91666"
+       id="text69750"><tspan
+         sodipodi:role="line"
+         id="tspan69748"
+         style="font-size:3.175px;fill:#0088aa;stroke-width:0.264583"
+         x="25.770037"
+         y="132.91666">Layer 0</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:3.175px;line-height:1.25;font-family:'IBM Plex Mono';-inkscape-font-specification:'IBM Plex Mono';letter-spacing:0px;word-spacing:0px;fill:#aa0000;stroke-width:0.264583"
+       x="44.744041"
+       y="132.94609"
+       id="text70678"><tspan
+         sodipodi:role="line"
+         id="tspan70676"
+         style="font-size:3.175px;fill:#aa0000;stroke-width:0.264583"
+         x="44.744041"
+         y="132.94609">Layer 1</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:3.175px;line-height:1.25;font-family:'IBM Plex Mono';-inkscape-font-specification:'IBM Plex Mono';letter-spacing:0px;word-spacing:0px;fill:#217821;stroke-width:0.264583"
+       x="64.283386"
+       y="132.56648"
+       id="text71606"><tspan
+         sodipodi:role="line"
+         id="tspan71604"
+         style="font-size:3.175px;fill:#217821;stroke-width:0.264583"
+         x="64.283386"
+         y="132.56648">Layer 2</tspan></text>
+  </g>
+</svg>

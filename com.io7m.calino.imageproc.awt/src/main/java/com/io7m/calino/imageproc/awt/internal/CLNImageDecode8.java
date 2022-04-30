@@ -21,11 +21,22 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.Objects;
 
+/**
+ * An 8-bit decoder.
+ */
+
 public final class CLNImageDecode8 implements CLNImageDecodeType
 {
   private final ByteOrder byteOrder;
   private final int targetComponents;
   private final int pixelSizeBytes;
+
+  /**
+   * An 8-bit decoder.
+   *
+   * @param inByteOrder        The byte order
+   * @param inTargetComponents The component count
+   */
 
   public CLNImageDecode8(
     final ByteOrder inByteOrder,

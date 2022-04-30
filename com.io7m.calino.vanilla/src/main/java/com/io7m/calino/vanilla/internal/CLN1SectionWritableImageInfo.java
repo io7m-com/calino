@@ -41,11 +41,25 @@ import java.util.Set;
 import static java.lang.Integer.toUnsignedLong;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+/**
+ * A writable image info section.
+ */
+
 public final class CLN1SectionWritableImageInfo
   extends CLN1SectionWritableAbstract
   implements CLNSectionWritableImageInfoType
 {
   private final BSSWriterProviderType writers;
+
+  /**
+   * A writable image info section.
+   *
+   * @param inWriters    A writer provider
+   * @param inOnClose    A function executed on closing
+   * @param inRequest    A write request
+   * @param inIdentifier An identifier
+   * @param inWriter     A writer
+   */
 
   public CLN1SectionWritableImageInfo(
     final BSSWriterProviderType inWriters,
@@ -58,50 +72,15 @@ public final class CLN1SectionWritableImageInfo
     this.writers = Objects.requireNonNull(inWriters, "inWriters");
   }
 
-  @Override
-  public void setImageInfo(
-    final CLNImageInfo info)
-    throws IOException
-  {
-    Objects.requireNonNull(info, "info");
-
-    try (var channel = this.sectionDataChannel()) {
-      final var targetURI = this.request().target();
-      try (var writer =
-             this.writers.createWriterFromChannel(
-               targetURI, channel, "imageInfo")) {
-
-        writer.writeU32BE(info.sizeX());
-        writer.writeU32BE(info.sizeY());
-        writer.writeU32BE(info.sizeZ());
-
-        this.writeChannelsLayout(writer, info.channelsLayout());
-        this.writeChannelsType(writer, info.channelsType());
-        this.writeCompression(writer, info.compressionMethod());
-        this.writeSupercompression(writer, info.superCompressionMethod());
-        writeCoordinateSystem(writer, info.coordinateSystem());
-        writeColorSpace(writer, info.colorSpace());
-        writeFlags(writer, info.flags());
-        writeByteOrder(writer, info.dataByteOrder());
-
-        writer.align(16);
-      }
-    }
-  }
-
   private static void writeByteOrder(
     final BSSWriterRandomAccessType writer,
     final CLNByteOrder dataByteOrder)
     throws IOException
   {
-    switch (dataByteOrder) {
-      case BIG_ENDIAN -> {
-        writer.writeU32BE("byteOrder", 0L);
-      }
-      case LITTLE_ENDIAN -> {
-        writer.writeU32BE("byteOrder", 1L);
-      }
-    }
+    final var bytes = dataByteOrder.descriptor().getBytes(UTF_8);
+    writer.writeU32BE(toUnsignedLong(bytes.length));
+    writer.writeBytes(bytes);
+    writer.align(4);
   }
 
   private static void writeFlags(
@@ -141,6 +120,37 @@ public final class CLN1SectionWritableImageInfo
     writer.writeU32BE(toUnsignedLong(bytes.length));
     writer.writeBytes(bytes);
     writer.align(4);
+  }
+
+  @Override
+  public void setImageInfo(
+    final CLNImageInfo info)
+    throws IOException
+  {
+    Objects.requireNonNull(info, "info");
+
+    try (var channel = this.sectionDataChannel()) {
+      final var targetURI = this.request().target();
+      try (var writer =
+             this.writers.createWriterFromChannel(
+               targetURI, channel, "imageInfo")) {
+
+        writer.writeU32BE(info.sizeX());
+        writer.writeU32BE(info.sizeY());
+        writer.writeU32BE(info.sizeZ());
+
+        this.writeChannelsLayout(writer, info.channelsLayout());
+        this.writeChannelsType(writer, info.channelsType());
+        this.writeCompression(writer, info.compressionMethod());
+        this.writeSupercompression(writer, info.superCompressionMethod());
+        writeCoordinateSystem(writer, info.coordinateSystem());
+        writeColorSpace(writer, info.colorSpace());
+        writeFlags(writer, info.flags());
+        writeByteOrder(writer, info.dataByteOrder());
+
+        writer.align(16);
+      }
+    }
   }
 
   private void writeSupercompression(

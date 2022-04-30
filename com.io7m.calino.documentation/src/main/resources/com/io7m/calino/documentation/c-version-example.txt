@@ -1,0 +1,2 @@
+$ calino version
+com.io7m.calino 1.0.0

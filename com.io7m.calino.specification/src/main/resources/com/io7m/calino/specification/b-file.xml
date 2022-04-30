@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Section title="File Header"
+         xmlns="urn:com.io7m.structural:8:0"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <Paragraph>
+    All <Term type="package">calino</Term> texture files begin with the following fixed length header:
+  </Paragraph>
+
+  <FormalItem title="File Header">
+    <Verbatim>
+      <xi:include href="85.txt"
+                  parse="text"/>
+    </Verbatim>
+  </FormalItem>
+
+  <Paragraph>
+    The <Term type="expression">id</Term> field must always be set to the 64-bit unsigned big-endian value
+    <Term type="constant">0x89434C4E0D0A1A0A</Term>.
+  </Paragraph>
+
+  <Paragraph>
+    The <Term type="expression">versionMajor</Term> field must be set to
+    <Term type="constant">1</Term>
+    for files targeting this version of the specification.
+  </Paragraph>
+
+  <Paragraph>
+    The <Term type="expression">versionMinor</Term> field must be set to
+    <Term type="constant">0</Term>
+    for files targeting this version of the specification.
+  </Paragraph>
+
+</Section>

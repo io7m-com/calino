@@ -28,9 +28,11 @@ module com.io7m.calino.cmdline
   requires com.io7m.calino.imageview;
   requires com.io7m.calino.parser.api;
   requires com.io7m.calino.supercompression.api;
+  requires com.io7m.calino.validation.api;
   requires com.io7m.calino.writer.api;
 
   requires com.io7m.claypot.core;
+  requires com.io7m.jaffirm.core;
   requires com.io7m.jmulticlose.core;
   requires com.io7m.jxtrand.vanilla;
   requires java.desktop;
@@ -39,6 +41,9 @@ module com.io7m.calino.cmdline
 
   opens com.io7m.calino.cmdline.internal
     to jcommander, com.io7m.jxtrand.vanilla;
+
+  exports com.io7m.calino.cmdline.internal
+    to com.io7m.calino.documentation;
 
   exports com.io7m.calino.cmdline;
 }

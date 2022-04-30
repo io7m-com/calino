@@ -18,25 +18,49 @@ package com.io7m.calino.api;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * A custom channel layout description.
  *
  * @param channels The channels
+ * @param packing  The packing specification
  */
 
 public record CLNChannelsLayoutDescriptionCustom(
-  List<CLNChannelDescription> channels
+  List<CLNChannelDescription> channels,
+  Optional<CLNChannelLayoutPacking> packing
 ) implements CLNChannelsLayoutDescriptionType
 {
   /**
    * A custom channel layout description.
    *
    * @param channels The channels
+   * @param packing  The packing specification
    */
 
   public CLNChannelsLayoutDescriptionCustom
   {
     Objects.requireNonNull(channels, "channels");
+
+    final var bitsChan =
+      CLNChannelsLayoutDescriptions.totalBits(channels);
+
+    if (packing.isPresent()) {
+      final var p = packing.get();
+      final var bitsPack = p.bitCount();
+      if (bitsChan != bitsPack) {
+        throw new IllegalArgumentException(
+          "Total channel bits must equal packed value " + bitsPack);
+      }
+    } else {
+      for (final var channel : channels) {
+        if (channel.bits() % 8 != 0) {
+          throw new IllegalArgumentException(
+            "For non-packed layouts, channel sizes must be evenly divisible by 8"
+          );
+        }
+      }
+    }
   }
 }

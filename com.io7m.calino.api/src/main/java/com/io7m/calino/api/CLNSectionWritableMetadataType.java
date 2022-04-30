@@ -17,6 +17,7 @@
 package com.io7m.calino.api;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -34,6 +35,6 @@ public non-sealed interface CLNSectionWritableMetadataType
    * @throws IOException On errors
    */
 
-  void setMetadata(Map<String, String> metadata)
+  void setMetadata(Map<String, List<String>> metadata)
     throws IOException;
 }

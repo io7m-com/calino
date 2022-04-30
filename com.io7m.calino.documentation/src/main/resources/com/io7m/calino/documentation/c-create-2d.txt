@@ -1,0 +1,34 @@
+calino: INFO: Usage: create-2d [options]
+
+  Options:
+    --byte-order
+      The byte order used for image data
+      Default: LITTLE_ENDIAN
+      Possible Values: [BIG_ENDIAN, LITTLE_ENDIAN]
+    --convert-layout-to
+      The requested layout to which to convert
+    --format-version
+      The requested file format version
+      Default: 1.0
+    --metadata
+      A Java properties file containing metadata for the texture file.
+    --mipmap-generate
+      The mipmap filter
+      Possible Values: [BICUBIC, BILINEAR, NEAREST]
+  * --output
+      The output texture file
+    --premultiply-alpha
+      Premultiply alpha
+      Default: false
+  * --source
+      The source image file
+    --super-compression
+      The super compression method.
+      Default: UNCOMPRESSED
+    --verbose
+      Set the minimum logging verbosity level.
+      Default: info
+      Possible Values: [trace, debug, info, warn, error]
+
+  The "create-2d" command creates 2D textures from existing images.
+

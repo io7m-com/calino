@@ -19,16 +19,14 @@ package com.io7m.calino.cmdline.internal;
 import com.beust.jcommander.Parameter;
 import com.io7m.calino.api.CLNFileReadableType;
 import com.io7m.calino.parser.api.CLNParseRequest;
-import com.io7m.calino.parser.api.CLNParserValidationEvent;
 import com.io7m.calino.parser.api.CLNParsers;
 import com.io7m.calino.supercompression.api.CLNDecompressors;
 import com.io7m.claypot.core.CLPCommandContextType;
 import com.io7m.claypot.core.CLPCommandType;
 import com.io7m.jmulticlose.core.CloseableCollection;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.net.URI;
 import java.nio.channels.FileChannel;
 import java.nio.file.Path;
 import java.util.Locale;
@@ -42,12 +40,6 @@ import static java.nio.file.StandardOpenOption.READ;
 public abstract class CLNAbstractReadFileCommand
   extends CLNAbstractCommand
 {
-  private static final Logger LOG =
-    LoggerFactory.getLogger(CLNAbstractReadFileCommand.class);
-
-  private int validationErrors;
-  private int validationWarnings;
-
   @Parameter(
     required = true,
     description = "The texture file",
@@ -76,7 +68,6 @@ public abstract class CLNAbstractReadFileCommand
         resources.add(FileChannel.open(this.file, READ));
       final var request =
         CLNParseRequest.builder(compressors, channel, this.file.toUri())
-          .setValidationReceiver(this::onValidationEvent)
           .build();
       final var parser =
         resources.add(parsers.createParser(request));
@@ -87,46 +78,9 @@ public abstract class CLNAbstractReadFileCommand
     }
   }
 
-  private void onValidationEvent(
-    final CLNParserValidationEvent event)
+  protected final URI source()
   {
-    if (event.isError()) {
-      LOG.error(
-        "validation: {}: @ 0x{}: {}",
-        this.file.getFileName(),
-        Long.toUnsignedString(event.offset(), 16),
-        event.message()
-      );
-      this.incrementValidationErrors();
-    } else {
-      LOG.warn(
-        "validation: {}: @ 0x{}: {}",
-        this.file.getFileName(),
-        Long.toUnsignedString(event.offset(), 16),
-        event.message()
-      );
-      this.incrementValidationWarnings();
-    }
-  }
-
-  protected final int incrementValidationWarnings()
-  {
-    return ++this.validationWarnings;
-  }
-
-  protected final int incrementValidationErrors()
-  {
-    return ++this.validationErrors;
-  }
-
-  protected final int validationErrors()
-  {
-    return this.validationErrors;
-  }
-
-  protected final int validationWarnings()
-  {
-    return this.validationWarnings;
+    return this.file.toUri();
   }
 
   protected abstract Status executeWithReadFile(CLNFileReadableType fileParsed)

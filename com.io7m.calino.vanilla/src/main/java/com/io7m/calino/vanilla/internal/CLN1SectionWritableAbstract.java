@@ -19,14 +19,26 @@ package com.io7m.calino.vanilla.internal;
 import com.io7m.calino.api.CLNSectionWritableType;
 import com.io7m.calino.writer.api.CLNWriteRequest;
 import com.io7m.jbssio.api.BSSWriterRandomAccessType;
+import com.io7m.wendover.core.CloseShieldSeekableByteChannel;
+import com.io7m.wendover.core.SubrangeSeekableByteChannel;
+import com.io7m.wendover.core.UpperRangeTrackingSeekableByteChannel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.channels.SeekableByteChannel;
 import java.util.Objects;
 
+/**
+ * A writable section.
+ */
+
 public abstract class CLN1SectionWritableAbstract
   implements CLNSectionWritableType
 {
+  private static final Logger LOG =
+    LoggerFactory.getLogger(CLN1SectionWritableAbstract.class);
+
   private final BSSWriterRandomAccessType writer;
   private final CLNWriteRequest request;
   private final long identifier;
@@ -34,6 +46,15 @@ public abstract class CLN1SectionWritableAbstract
   private final long offsetStartData;
   private final long offsetStart;
   private long wrote;
+
+  /**
+   * A writable section.
+   *
+   * @param inOnClose    A function executed on closing
+   * @param inRequest    A write request
+   * @param inIdentifier An identifier
+   * @param inWriter     A writer
+   */
 
   public CLN1SectionWritableAbstract(
     final BSSWriterRandomAccessType inWriter,
@@ -54,6 +75,12 @@ public abstract class CLN1SectionWritableAbstract
       this.writer.offsetCurrentAbsolute();
     this.offsetStartData =
       this.offsetStart + 16L;
+  }
+
+  @Override
+  public final long identifier()
+  {
+    return this.identifier;
   }
 
   protected final long offsetStartData()
@@ -81,12 +108,18 @@ public abstract class CLN1SectionWritableAbstract
       this.request().channel();
 
     channel.position(this.offsetStartData);
-    return new CLNSubrangeWritableByteChannel(
-      channel,
+
+    final var closeShield =
+      new CloseShieldSeekableByteChannel(channel);
+    final var upperTracker =
+      new UpperRangeTrackingSeekableByteChannel(closeShield);
+
+    return new SubrangeSeekableByteChannel(
+      upperTracker,
       startOffset,
       Long.MAX_VALUE - startOffset,
-      (byteChannel) -> {
-        this.wrote = byteChannel.wroteAtMost();
+      context -> {
+        this.wrote = upperTracker.uppermostWritten() - startOffset;
       }
     );
   }

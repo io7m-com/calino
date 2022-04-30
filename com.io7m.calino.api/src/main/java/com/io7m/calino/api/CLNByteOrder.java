@@ -17,21 +17,33 @@
 package com.io7m.calino.api;
 
 /**
- * The endianness/byte order for the components of image data that are
- * larger than a single byte.
+ * The endianness/byte order for the components of image data that are larger
+ * than a single byte.
  */
 
-public enum CLNByteOrder
+public enum CLNByteOrder implements CLNDescribableType
 {
   /**
    * The most significant byte appears first.
    */
 
-  BIG_ENDIAN,
+  BIG_ENDIAN {
+    @Override
+    public String descriptor()
+    {
+      return "BIG_ENDIAN";
+    }
+  },
 
   /**
    * The most significant byte appears last.
    */
 
-  LITTLE_ENDIAN
+  LITTLE_ENDIAN {
+    @Override
+    public String descriptor()
+    {
+      return "LITTLE_ENDIAN";
+    }
+  }
 }

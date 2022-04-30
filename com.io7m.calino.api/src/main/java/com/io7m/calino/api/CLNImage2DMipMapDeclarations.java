@@ -54,11 +54,17 @@ public record CLNImage2DMipMapDeclarations(
     final var mipLevelSet = new HashSet<Integer>(mipMaps.size());
     var mipHighest = 0;
     for (final var mipMap : mipMaps) {
-      mipLevelSet.add(mipMap.mipMapLevel());
-      mipHighest = Math.max(mipHighest, mipMap.mipMapLevel());
+      final var level = mipMap.mipMapLevel();
+      if (mipLevelSet.contains(level)) {
+        throw new IllegalArgumentException(
+          String.format("Duplicate mip level %d specified", level)
+        );
+      }
+      mipLevelSet.add(level);
+      mipHighest = Math.max(mipHighest, level);
     }
 
-    for (int mipLevel = 0; mipLevel < mipHighest; ++mipLevel) {
+    for (int mipLevel = 0; mipLevel <= mipHighest; ++mipLevel) {
       if (!mipLevelSet.contains(mipLevel)) {
         throw new IllegalArgumentException(
           String.format(
@@ -67,6 +73,16 @@ public record CLNImage2DMipMapDeclarations(
             mipHighest)
         );
       }
+    }
+
+    final var sorted =
+      mipMaps.stream()
+        .sorted()
+        .toList();
+
+    if (!Objects.equals(sorted, mipMaps)) {
+      throw new IllegalArgumentException(
+        "2D image mipmaps must be provided in sorted order!");
     }
   }
 }

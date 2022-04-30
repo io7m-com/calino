@@ -23,20 +23,39 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.Objects;
 
+/**
+ * An unsigned fixed-point 8-bit view.
+ */
+
 public final class CLNImageView2DFixedU8 implements CLNImageView2DType
 {
   private final ByteBuffer pixelData;
   private final int componentCount;
   private final CLNImageInfo imageInfo;
   private final int lineWidth;
+  private final int sizeX;
+  private final int sizeY;
+
+  /**
+   * An unsigned fixed-point 8-bit view.
+   *
+   * @param inComponentCount The component count
+   * @param mipLevel         The mip level
+   * @param inData           The image data
+   * @param inImageInfo      The image info
+   */
 
   public CLNImageView2DFixedU8(
     final CLNImageInfo inImageInfo,
+    final int mipLevel,
     final byte[] inData,
     final int inComponentCount)
   {
     this.imageInfo =
       Objects.requireNonNull(inImageInfo, "inImageInfo");
+
+    this.sizeX = inImageInfo.sizeX() >>> mipLevel;
+    this.sizeY = inImageInfo.sizeY() >>> mipLevel;
 
     this.pixelData = ByteBuffer.wrap(inData);
     this.componentCount = inComponentCount;
@@ -46,7 +65,19 @@ public final class CLNImageView2DFixedU8 implements CLNImageView2DType
         case BIG_ENDIAN -> ByteOrder.BIG_ENDIAN;
       });
 
-    this.lineWidth = this.imageInfo.sizeX() * inComponentCount;
+    this.lineWidth = this.sizeX * inComponentCount;
+  }
+
+  @Override
+  public int sizeX()
+  {
+    return this.sizeX;
+  }
+
+  @Override
+  public int sizeY()
+  {
+    return this.sizeY;
   }
 
   @Override

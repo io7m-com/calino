@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Section title="Divisibility By 8"
+         id="90ccdf09-f680-44c2-848f-a352a480abbb"
+         xmlns="urn:com.io7m.structural:8:0"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <Paragraph>
+    This specification makes frequent use of values that must be evenly divisible by 8. Formally, a number
+    <Term type="term">n</Term> is evenly divisible by 8 if <Term type="expression">n mod 8 = 0</Term>.
+  </Paragraph>
+  <FormalItem title="Divisible8">
+    <Verbatim>
+      <xi:include href="0.txt"
+                  parse="text"/>
+    </Verbatim>
+  </FormalItem>
+  <Paragraph>
+    The property of being divisible by 8 is preserved over addition. That is, if two numbers
+    <Term type="term">n</Term> and <Term type="term">m</Term> are divisible by 8, then
+    <Term type="expression">n + m</Term> is divisible by 8.
+  </Paragraph>
+  <FormalItem title="Divisible8 Addition">
+    <Verbatim>
+      <xi:include href="1.txt"
+                  parse="text"/>
+    </Verbatim>
+  </FormalItem>
+</Section>

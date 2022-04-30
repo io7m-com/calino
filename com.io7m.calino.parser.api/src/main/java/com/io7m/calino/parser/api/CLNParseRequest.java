@@ -21,7 +21,6 @@ import com.io7m.calino.supercompression.api.CLNDecompressorFactoryType;
 import java.net.URI;
 import java.nio.channels.SeekableByteChannel;
 import java.util.Objects;
-import java.util.function.Consumer;
 
 /**
  * A parse request.
@@ -29,7 +28,6 @@ import java.util.function.Consumer;
  * @param decompressors         The decompressor factory
  * @param channel               The file channel
  * @param source                The data source
- * @param validationReceiver    A function that will receive validation events
  * @param descriptorLengthLimit The maximum descriptor length
  * @param keyValueDatumLimit    The maximum value of a metadata key or value
  */
@@ -38,7 +36,6 @@ public final record CLNParseRequest(
   CLNDecompressorFactoryType decompressors,
   SeekableByteChannel channel,
   URI source,
-  Consumer<CLNParserValidationEvent> validationReceiver,
   long descriptorLengthLimit,
   long keyValueDatumLimit)
 {
@@ -48,8 +45,6 @@ public final record CLNParseRequest(
    * @param decompressors         The decompressor factory
    * @param channel               The file channel
    * @param source                The data source
-   * @param validationReceiver    A function that will receive validation
-   *                              events
    * @param descriptorLengthLimit The maximum descriptor length
    * @param keyValueDatumLimit    The maximum value of a metadata key or value
    */
@@ -58,7 +53,6 @@ public final record CLNParseRequest(
   {
     Objects.requireNonNull(decompressors, "decompressors");
     Objects.requireNonNull(channel, "channel");
-    Objects.requireNonNull(validationReceiver, "validationReceiver");
     Objects.requireNonNull(source, "source");
   }
 
@@ -83,12 +77,11 @@ public final record CLNParseRequest(
   private static final class Builder
     implements CLNParseRequestBuilderType
   {
-    private CLNDecompressorFactoryType decompressors;
+    private final CLNDecompressorFactoryType decompressors;
     private SeekableByteChannel channel;
     private URI source;
     private long keyValueDatumLimit = 1_000_000L;
     private long descriptorLengthLimit = 256L;
-    private Consumer<CLNParserValidationEvent> validationReceiver;
 
     private Builder(
       final CLNDecompressorFactoryType inDecompressors,
@@ -101,9 +94,6 @@ public final record CLNParseRequest(
         Objects.requireNonNull(inChannel, "channel");
       this.source =
         Objects.requireNonNull(inSource, "source");
-      this.validationReceiver = (event) -> {
-
-      };
     }
 
     @Override
@@ -163,27 +153,12 @@ public final record CLNParseRequest(
     }
 
     @Override
-    public CLNParseRequestBuilderType setValidationReceiver(
-      final Consumer<CLNParserValidationEvent> receiver)
-    {
-      this.validationReceiver = Objects.requireNonNull(receiver, "receiver");
-      return this;
-    }
-
-    @Override
-    public Consumer<CLNParserValidationEvent> validationReceiver()
-    {
-      return this.validationReceiver;
-    }
-
-    @Override
     public CLNParseRequest build()
     {
       return new CLNParseRequest(
         this.decompressors,
         this.channel,
         this.source,
-        this.validationReceiver,
         this.descriptorLengthLimit,
         this.keyValueDatumLimit
       );

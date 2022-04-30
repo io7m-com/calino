@@ -26,6 +26,18 @@ package com.io7m.calino.imageproc.api;
 public interface CLNImageView2DType
 {
   /**
+   * @return The size of the view on the X axis
+   */
+
+  int sizeX();
+
+  /**
+   * @return The size of the view on the Y axis
+   */
+
+  int sizeY();
+
+  /**
    * Sample a pixel at the given location.
    *
    * @param x     The x location

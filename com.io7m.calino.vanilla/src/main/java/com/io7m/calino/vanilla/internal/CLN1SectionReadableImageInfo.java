@@ -18,6 +18,7 @@ package com.io7m.calino.vanilla.internal;
 
 import com.io7m.calino.api.CLNByteOrder;
 import com.io7m.calino.api.CLNChannelsLayoutDescriptionType;
+import com.io7m.calino.api.CLNChannelsLayoutDescriptions;
 import com.io7m.calino.api.CLNChannelsTypeDescriptionCustom;
 import com.io7m.calino.api.CLNChannelsTypeDescriptionStandard;
 import com.io7m.calino.api.CLNChannelsTypeDescriptionType;
@@ -47,10 +48,22 @@ import java.util.Set;
 import static java.lang.Long.toUnsignedString;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+/**
+ * A readable image info section.
+ */
+
 public final class CLN1SectionReadableImageInfo
   extends CLN1SectionReadableAbstract implements CLNSectionReadableImageInfoType
 {
-  public CLN1SectionReadableImageInfo(
+  /**
+   * A readable image info section.
+   *
+   * @param inDescription The description
+   * @param inReader      The reader
+   * @param inRequest     The request
+   */
+
+  CLN1SectionReadableImageInfo(
     final BSSReaderRandomAccessType inReader,
     final CLNParseRequest inRequest,
     final CLNFileSectionDescription inDescription)
@@ -102,6 +115,62 @@ public final class CLN1SectionReadableImageInfo
     // CHECKSTYLE:ON
   }
 
+  private static CLNImageFlagType readFlag(
+    final String text)
+  {
+    for (final var standard : CLNImageFlagStandard.values()) {
+      if (Objects.equals(standard.descriptor(), text)) {
+        return standard;
+      }
+    }
+    return new CLNImageFlagCustom(text);
+  }
+
+  private CLNByteOrder readByteOrder(
+    final BSSReaderRandomAccessType parent)
+    throws IOException
+  {
+    var consumed = 0L;
+
+    try (var reader =
+           parent.createSubReaderAt("byteOrder", 0L)) {
+
+      final var length =
+        reader.readU32BE("descriptorLength");
+
+      this.checkDescriptorLengthLimit(
+        length, this.request().descriptorLengthLimit());
+
+      final var bytes = new byte[(int) length];
+      reader.readBytes(bytes);
+      reader.align(4);
+      consumed = reader.offsetCurrentRelative();
+      parent.skip(consumed);
+      final var text = makeString(bytes);
+
+      return switch (text) {
+        case "BIG_ENDIAN" -> CLNByteOrder.BIG_ENDIAN;
+        case "LITTLE_ENDIAN" -> CLNByteOrder.LITTLE_ENDIAN;
+
+        default -> {
+          final var lineSeparator = System.lineSeparator();
+          final var error = new StringBuilder(64);
+          error.append("Unparseable byte order.");
+          error.append(lineSeparator);
+          error.append("  Offset: 0x");
+          error.append(toUnsignedString(reader.offsetCurrentAbsolute(), 16));
+          error.append(lineSeparator);
+          error.append("  Problem: Expected BIG_ENDIAN | LITTLE_ENDIAN");
+          error.append(lineSeparator);
+          error.append("  Received: ");
+          error.append(text);
+          error.append(lineSeparator);
+          throw new IOException(error.toString());
+        }
+      };
+    }
+  }
+
   @Override
   public CLNImageInfo info()
     throws IOException
@@ -142,7 +211,7 @@ public final class CLN1SectionReadableImageInfo
       final var flags =
         this.readImageFlags(subReader);
       final var byteOrder =
-        readByteOrder(subReader);
+        this.readByteOrder(subReader);
 
       return new CLNImageInfo(
         (int) (sizeX & 0xffff_ffffL),
@@ -158,33 +227,6 @@ public final class CLN1SectionReadableImageInfo
         byteOrder
       );
     }
-  }
-
-  private static CLNByteOrder readByteOrder(
-    final BSSReaderRandomAccessType reader)
-    throws IOException
-  {
-    final var byteOrder = reader.readU32BE("byteOrder");
-    if (byteOrder == 0L) {
-      return CLNByteOrder.BIG_ENDIAN;
-    }
-    if (byteOrder == 1L) {
-      return CLNByteOrder.LITTLE_ENDIAN;
-    }
-
-    final var lineSeparator = System.lineSeparator();
-    final var error = new StringBuilder(64);
-    error.append("Unparseable byte order.");
-    error.append(lineSeparator);
-    error.append("  Offset: 0x");
-    error.append(toUnsignedString(reader.offsetCurrentAbsolute(), 16));
-    error.append(lineSeparator);
-    error.append("  Problem: Expected a value in the range [0, 1]");
-    error.append(lineSeparator);
-    error.append("  Received: 0x");
-    error.append(toUnsignedString(byteOrder, 16));
-    error.append(lineSeparator);
-    throw new IOException(error.toString());
   }
 
   private Set<CLNImageFlagType> readImageFlags(
@@ -219,17 +261,6 @@ public final class CLN1SectionReadableImageInfo
       parent.skip(consumed);
       return flags;
     }
-  }
-
-  private static CLNImageFlagType readFlag(
-    final String text)
-  {
-    for (final var standard : CLNImageFlagStandard.values()) {
-      if (Objects.equals(standard.descriptor(), text)) {
-        return standard;
-      }
-    }
-    return new CLNImageFlagCustom(text);
   }
 
   private CLNColorSpaceType readColorSpace(
@@ -431,7 +462,8 @@ public final class CLN1SectionReadableImageInfo
       parent.skip(consumed);
 
       try {
-        return CLNChannelsLayoutDescriptionType.parseLayoutDescriptor(makeString(bytes));
+        return CLNChannelsLayoutDescriptions.parseLayoutDescriptor(makeString(
+          bytes));
       } catch (final ParseException e) {
         final var lineSeparator = System.lineSeparator();
         final var error = new StringBuilder(64);

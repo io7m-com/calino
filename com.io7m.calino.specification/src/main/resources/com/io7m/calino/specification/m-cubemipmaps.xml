@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Section title="Cube Mipmaps"
+         xmlns:xi="http://www.w3.org/2001/XInclude"
+         id="e8125add-3c83-47a1-9997-1f15867068dd"
+         xmlns="urn:com.io7m.structural:8:0">
+
+  <Paragraph id="16af16ba-f0ba-4ed4-adc5-941fb92528ad">
+    A cube texture consists of a non-empty sequence of <Term type="term">cube mipmaps</Term>. Cube mipmaps are
+    very similar to <Link target="b8d20538-e4ac-4674-aa43-d5ab93c07149">mipmaps</Link> with the primary difference that
+    each cube mipmap
+    <Term type="term">level</Term>
+    stores a sequence of <Term type="constant">6</Term> images of the same size representing the faces of the cube.
+  </Paragraph>
+
+  <FormalItem title="Cube Mipmaps Arrangement"
+              id="953889b0-6519-4a27-9889-74fdf39577a2">
+    <Image source="cubeMipmaps.png"
+           width="400"
+           height="320">
+      Cube Mipmaps Arrangement
+    </Image>
+  </FormalItem>
+
+  <Paragraph id="09645697-fbde-43fe-9f34-48c851adb2ff">
+    Cube textures define an axis-aligned cube, with each of the six images in any given mipmap level defining
+    each of the six axis-aligned cube faces. For example, when we refer to the <Term type="term">positive X</Term>
+    face of the cube, we are referring to the face of the cube that points towards positive infinity on the X
+    axis. Each cube map face stores an <Term type="term">offset</Term> indicating the start of the actual image data
+    for the face relative to the first octet of the first mipmap declaration. A face also stores the
+    <Link target="8f83a47a-986e-4dba-bfd7-720641cee3a9">compressed size</Link> and uncompressed size of the
+    image data, along with a
+    <LinkExternal target="https://en.wikipedia.org/wiki/Cyclic_redundancy_check">CRC32</LinkExternal> checksum
+    of the <Term type="term">uncompressed</Term> data. A CRC32 value of <Term type="constant">0</Term> indicates
+    that no checksum is available. For uncompressed data, the compressed and uncompressed sizes must equal the
+    size of the uncompressed data.
+  </Paragraph>
+
+  <FormalItem title="CubeMap Face">
+    <Verbatim><xi:include href="147.txt" parse="text"/></Verbatim>
+  </FormalItem>
+
+  <Paragraph id="121da0f4-d967-463d-93a3-89fc953cb427">
+    A single cube mipmap level stores the sequence of six cube faces in the following order:
+    <Term type="term">x-positive</Term>, <Term type="term">x-negative</Term>,
+    <Term type="term">y-positive</Term>, <Term type="term">y-negative</Term>,
+    <Term type="term">z-positive</Term>, <Term type="term">z-negative</Term>.
+    Cube mipmap sequences are stored such that the data for the mipmap with the highest level is encountered
+    <Term type="term">first</Term>, whilst the data for the mipmap with level <Term type="constant">0</Term>
+    is encountered <Term type="term">last</Term>. This facilitates a common implementation pattern where
+    textures are progressively streamed onto the GPU starting with the highest mipmap levels first. The
+    proposition <Term type="term">cubeMipMapListIsSorted</Term> declares the conditions that indicate that
+    a sequence of cube mipmap levels is correctly ordered.
+  </Paragraph>
+
+  <FormalItem title="CubeMap Level">
+    <Verbatim><xi:include href="148.txt" parse="text"/></Verbatim>
+  </FormalItem>
+  <FormalItem title="CubeMap Ordering">
+    <Verbatim><xi:include href="149.txt" parse="text"/></Verbatim>
+  </FormalItem>
+
+  <Paragraph id="579b15a3-09bb-4b14-87ab-0441ecc88b31">
+    The <Term type="term">extent</Term> of a cube face is defined as the offset of the face
+    plus the compressed size of the face. The <Term type="term">extent</Term> of a cube mipmap level
+    is the extent of the last face in the sequence (the <Term type="term">z-negative</Term>
+    face). This <Term type="term">extent</Term> is effectively the smallest region
+    that can contain all six faces of a level. The proposition <Term type="expression">cubeOffsetsSorted</Term>
+    declares that, for a given cube mipmap <Term type="expression">m</Term>, the extents of the
+    faces of <Term type="expression">m</Term> must be ordered correctly, and must be
+    less than the offset of the first face of the next mipmap in the sequence.
+  </Paragraph>
+
+  <FormalItem title="CubeMap Extent">
+    <Verbatim><xi:include href="150.txt" parse="text"/></Verbatim>
+  </FormalItem>
+  <FormalItem title="CubeMap Offset Ordering">
+    <Verbatim><xi:include href="151.txt" parse="text"/></Verbatim>
+  </FormalItem>
+
+  <Paragraph>
+    Given a base image of size <Term type="expression">(sizeX, sizeY)</Term>, the size of the mipmap
+    at level <Term type="expression">n</Term> is given by <Term type="expression">(sizeX / 2ⁿ, sizeY / 2ⁿ)</Term>.
+    Mipmap images are required to be of a size <Term type="expression">&gt;= 2</Term> on the X and Y axes. Note
+    that this restriction does <Term type="emphasis">not</Term> apply to the base image; a base image with a size
+    of 1 on any axis simply cannot have anything but a level 0 mipmap.
+  </Paragraph>
+
+  <Paragraph id="4b087019-184b-44c3-b552-125b1182ac8f">
+    The total size required to hold the image data for all mipmaps is effectively equal to the extent of the
+    largest mipmap rounded up to the required alignment of the image data.
+  </Paragraph>
+
+  <FormalItem title="CubeMap Size (Aux)">
+    <Verbatim><xi:include href="152.txt" parse="text"/></Verbatim>
+  </FormalItem>
+  <FormalItem title="CubeMap Size">
+    <Verbatim><xi:include href="153.txt" parse="text"/></Verbatim>
+  </FormalItem>
+
+  <Paragraph id="d252db29-990c-4838-acb3-f28b0d1386f6">
+    The uncompressed size of a mipmap should be non-zero. This property is implicit in the definitions above;
+    images must be of a non-zero width and height, and there are no channel layouts where the sizes of the channels
+    sum to zero.
+  </Paragraph>
+
+  <Paragraph id="db9e90ac-c9a4-40f5-b905-7126df0a9823">
+    The compressed size of a mipmap should be non-zero. This property is implicit in the definitions above;
+    images must be of a non-zero width and height, and there are no channel layouts where the sizes of the channels
+    sum to zero.
+  </Paragraph>
+
+</Section>
+

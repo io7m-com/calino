@@ -25,6 +25,10 @@ import java.util.Objects;
 
 import static java.lang.Integer.toUnsignedLong;
 
+/**
+ * An unsigned fixed-point 32-bit view.
+ */
+
 public final class CLNImageView2DFixedU32 implements CLNImageView2DType
 {
   private static final int COMPONENT_SIZE = 4;
@@ -33,14 +37,29 @@ public final class CLNImageView2DFixedU32 implements CLNImageView2DType
   private final CLNImageInfo imageInfo;
   private final int lineWidth;
   private final int pixelSize;
+  private final int sizeX;
+  private final int sizeY;
+
+  /**
+   * An unsigned fixed-point 32-bit view.
+   *
+   * @param inComponentCount The component count
+   * @param mipLevel         The mip level
+   * @param inData           The image data
+   * @param inImageInfo      The image info
+   */
 
   public CLNImageView2DFixedU32(
     final CLNImageInfo inImageInfo,
+    final int mipLevel,
     final byte[] inData,
     final int inComponentCount)
   {
     this.imageInfo =
       Objects.requireNonNull(inImageInfo, "inImageInfo");
+
+    this.sizeX = inImageInfo.sizeX() >>> mipLevel;
+    this.sizeY = inImageInfo.sizeY() >>> mipLevel;
 
     this.pixelData = ByteBuffer.wrap(inData);
     this.componentCount = inComponentCount;
@@ -51,7 +70,19 @@ public final class CLNImageView2DFixedU32 implements CLNImageView2DType
       });
 
     this.pixelSize = this.componentCount * COMPONENT_SIZE;
-    this.lineWidth = this.imageInfo.sizeX() * this.pixelSize;
+    this.lineWidth = this.sizeX * this.pixelSize;
+  }
+
+  @Override
+  public int sizeX()
+  {
+    return this.sizeX;
+  }
+
+  @Override
+  public int sizeY()
+  {
+    return this.sizeY;
   }
 
   @Override

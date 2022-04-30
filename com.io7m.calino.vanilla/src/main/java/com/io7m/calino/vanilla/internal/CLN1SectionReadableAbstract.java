@@ -21,10 +21,16 @@ import com.io7m.calino.api.CLNSectionDescription;
 import com.io7m.calino.api.CLNSectionReadableType;
 import com.io7m.calino.parser.api.CLNParseRequest;
 import com.io7m.jbssio.api.BSSReaderRandomAccessType;
+import com.io7m.wendover.core.ReadOnlySeekableByteChannel;
+import com.io7m.wendover.core.SubrangeSeekableByteChannel;
 
 import java.io.IOException;
 import java.nio.channels.SeekableByteChannel;
 import java.util.Objects;
+
+/**
+ * An abstract readable section.
+ */
 
 public abstract class CLN1SectionReadableAbstract
   implements CLNSectionReadableType
@@ -33,7 +39,7 @@ public abstract class CLN1SectionReadableAbstract
   private final CLNParseRequest request;
   private final CLNFileSectionDescription description;
 
-  public CLN1SectionReadableAbstract(
+  protected CLN1SectionReadableAbstract(
     final BSSReaderRandomAccessType inReader,
     final CLNParseRequest inRequest,
     final CLNFileSectionDescription inDescription)
@@ -51,7 +57,8 @@ public abstract class CLN1SectionReadableAbstract
     return this.request;
   }
 
-  protected final CLNFileSectionDescription fileSectionDescription()
+  @Override
+  public final CLNFileSectionDescription fileSectionDescription()
   {
     return this.description;
   }
@@ -71,14 +78,14 @@ public abstract class CLN1SectionReadableAbstract
   public final SeekableByteChannel sectionDataChannel()
     throws IOException
   {
-    final var channel =
-      new CLNSubrangeReadableByteChannel(
-        this.request.channel(),
-        this.description.fileOffsetData(),
-        this.description.description().size(),
-        (section) -> {
+    final var baseReadable =
+      new ReadOnlySeekableByteChannel(this.request.channel());
 
-        }
+    final var channel =
+      new SubrangeSeekableByteChannel(
+        baseReadable,
+        this.description.fileOffsetData(),
+        this.description.description().size()
       );
 
     channel.position(0L);

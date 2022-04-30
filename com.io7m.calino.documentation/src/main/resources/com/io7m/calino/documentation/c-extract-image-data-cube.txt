@@ -1,0 +1,66 @@
+calino: INFO: Usage: extract-image-data-cube [options]
+
+  Options:
+    --decompress
+      Whether to decompress data during extraction (ignored if the output is 
+      PNG). 
+      Default: true
+  * --file
+      The texture file
+  * --output-directory
+      The output directory
+    --output-format
+      The output format
+      Default: RAW
+      Possible Values: [RAW, PNG]
+    --verbose
+      Set the minimum logging verbosity level.
+      Default: info
+      Possible Values: [trace, debug, info, warn, error]
+
+  The "extract-image-data-cube" command copies image data out of
+  a cube texture file.
+
+  For a given output directory D, the command will write each of
+  the mipmap levels of the input image to files in D. The name
+  of each output file will be m, followed by a zero-padded
+  level number, followed by f, followed by a face name,
+  followed by an appropriate file suffix such as .png or .raw.
+
+  A face name is one of:
+
+    xp    For the positive X face
+    xn    For the negative X face
+    yp    For the positive Y face
+    yn    For the negative Y face
+    zp    For the positive Z face
+    zn    For the negative Z face
+
+  For example:
+
+  $ calino extract-image-data-cube --output-directory /tmp/out ...
+  calino: INFO: writing level 3 to /tmp/out/m003fxp.png
+  calino: INFO: writing level 3 to /tmp/out/m003fxn.png
+  calino: INFO: writing level 3 to /tmp/out/m003fyp.png
+  calino: INFO: writing level 3 to /tmp/out/m003fyn.png
+  calino: INFO: writing level 3 to /tmp/out/m003fzp.png
+  calino: INFO: writing level 3 to /tmp/out/m003fzn.png
+  calino: INFO: writing level 2 to /tmp/out/m002fxp.png
+  calino: INFO: writing level 2 to /tmp/out/m002fxn.png
+  calino: INFO: writing level 2 to /tmp/out/m002fyp.png
+  calino: INFO: writing level 2 to /tmp/out/m002fyn.png
+  calino: INFO: writing level 2 to /tmp/out/m002fzp.png
+  calino: INFO: writing level 2 to /tmp/out/m002fzn.png
+  calino: INFO: writing level 1 to /tmp/out/m001fxp.png
+  calino: INFO: writing level 1 to /tmp/out/m001fxn.png
+  calino: INFO: writing level 1 to /tmp/out/m001fyp.png
+  calino: INFO: writing level 1 to /tmp/out/m001fyn.png
+  calino: INFO: writing level 1 to /tmp/out/m001fzp.png
+  calino: INFO: writing level 1 to /tmp/out/m001fzn.png
+  calino: INFO: writing level 0 to /tmp/out/m000fxp.png
+  calino: INFO: writing level 0 to /tmp/out/m000fxn.png
+  calino: INFO: writing level 0 to /tmp/out/m000fyp.png
+  calino: INFO: writing level 0 to /tmp/out/m000fyn.png
+  calino: INFO: writing level 0 to /tmp/out/m000fzp.png
+  calino: INFO: writing level 0 to /tmp/out/m000fzn.png
+

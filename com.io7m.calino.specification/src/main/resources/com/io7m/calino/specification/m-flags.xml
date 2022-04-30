@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Section title="Flags"
+         id="5cc98cd8-610f-4a6e-a76a-7f00ab987843"
+         xmlns="urn:com.io7m.structural:8:0"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <Paragraph>
+    A texture may have one or more boolean <Term type="term">flags</Term> describing metadata that does not fit into any
+    of the other categories of metadata included in <Term type="package">calino</Term> texture files. A given flag
+    may appear at most once in any given texture file.
+  </Paragraph>
+
+  <FormalItem title="Flag">
+    <Verbatim>
+      <xi:include href="65.txt"
+                  parse="text"/>
+    </Verbatim>
+  </FormalItem>
+  <FormalItem title="Flags">
+    <Verbatim>
+      <xi:include href="68.txt"
+                  parse="text"/>
+    </Verbatim>
+  </FormalItem>
+
+  <Paragraph>
+    A value of <Term type="constant">FlagAlphaPremultiplied</Term> indicates that the color channels of the image
+    data have been multiplied by the value in the alpha channel of the image.
+  </Paragraph>
+
+  <Paragraph>
+    A value of <Term type="constant">FlagCustom</Term> indicates that the texture has flags not known to this
+    specification.
+  </Paragraph>
+
+  <Paragraph>
+    Flags must use the following <Link target="3d52e6ab-ded8-4b58-b1cc-576ced1fb578">descriptors</Link>:
+  </Paragraph>
+
+  <FormalItem title="Flag Description">
+    <Verbatim>
+      <xi:include href="66.txt"
+                  parse="text"/>
+    </Verbatim>
+  </FormalItem>
+
+  <FormalItem title="Flag Describable">
+    <Verbatim>
+      <xi:include href="67.txt"
+                  parse="text"/>
+    </Verbatim>
+  </FormalItem>
+
+</Section>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Section title="Descriptors"
+         xmlns="urn:com.io7m.structural:8:0"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <Paragraph>
+    A <Term type="term">descriptor</Term> is a UTF-8 encoded string of an arbitrary length that describes an object
+    in a <Term type="package">calino</Term> texture file.
+  </Paragraph>
+  <FormalItem title="Descriptor">
+    <Verbatim>
+      <xi:include href="2.txt"
+                  parse="text"/>
+    </Verbatim>
+  </FormalItem>
+  <Paragraph id="3d52e6ab-ded8-4b58-b1cc-576ced1fb578">
+    An object is <Term type="type">describable</Term> iff it has an associated <Term type="term">descriptor</Term>.
+  </Paragraph>
+  <FormalItem title="Describable">
+    <Verbatim>
+      <xi:include href="3.txt"
+                  parse="text"/>
+    </Verbatim>
+  </FormalItem>
+  <Paragraph>
+    This specification defines the descriptors that must be returned for various objects in the specification
+    by giving function definitions that map values to descriptor strings.
+  </Paragraph>
+</Section>

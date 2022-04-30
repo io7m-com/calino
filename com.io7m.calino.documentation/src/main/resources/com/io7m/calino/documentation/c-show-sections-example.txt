@@ -1,0 +1,5 @@
+$ calino show-sections --file cube-meta.ctf
+0 IMAGE_INFO (434c4e49494e464f) @10 size b0
+1 METADATA (434c4e5f4d455441) @d0 size 100
+2 IMAGE_CUBE (434c4e5f43554245) @1e0 size 2005d0
+3 END (434c4e5f454e4421) @2007c0 size 0

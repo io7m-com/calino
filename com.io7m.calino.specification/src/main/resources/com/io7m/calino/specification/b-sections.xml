@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Section title="Sections"
+         id="eb66b381-4c70-4246-95e9-d3a61e19ac4c"
+         xmlns="urn:com.io7m.structural:8:0"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <Paragraph id="ae85d70d-f1db-4288-8b92-b48580133c33">
+    <Term type="package">calino</Term>
+    texture files are structured as a sequence of explicitly sized
+    <Term type="term">sections</Term>. A section consists of a 64-bit identifier <Term type="expression">i</Term>, a
+    64-bit size value <Term type="expression">s</Term>, followed by
+    <Term type="expression">s</Term>
+    octets of data, followed by zero or more octets of padding such that the next section will begin on a 16
+    octet boundary. Consumers that do not recognize the identifier of a given section can simply skip the
+    section by seeking forwards by <Term type="expression">s</Term> octets to find the next section.
+  </Paragraph>
+
+  <Paragraph id="2d4988b3-86e5-4bbe-8fbe-526b5b2b16d5">
+    The first section in a <Term type="package">calino</Term> texture should be an
+    <Link target="bc0e7016-7dab-4edb-a4c9-2b1492da0225">image information</Link> section.
+  </Paragraph>
+
+  <Paragraph id="2803ef9e-a1de-4d28-a0ab-a03eec53582e">
+    Following an <Link target="bc0e7016-7dab-4edb-a4c9-2b1492da0225">image information</Link> section,
+    <Term type="package">calino</Term> texture files must contain exactly one of any of the various
+    texture data sections.
+  </Paragraph>
+
+  <Paragraph id="a24164fd-3bdb-41fc-b04f-f7ebd4d65c4a">
+    <Term type="package">calino</Term> texture files must end with exactly one
+    <Link target="40d09b06-b6de-4052-92fe-2829942518c9">End</Link> section.
+  </Paragraph>
+
+  <Paragraph id="2ccedb5d-d5ec-40ba-a965-04bba40ce4ec">
+    Sections should start at offsets that are evenly divisible by 16.
+  </Paragraph>
+
+  <Paragraph>
+    The following standard sections are defined by this version of the specification:
+  </Paragraph>
+
+  <FormalItem title="Standard Sections" type="genericTable">
+    <Table>
+      <Columns>
+        <Column>Identifier</Column>
+        <Column>Description</Column>
+      </Columns>
+      <Row>
+        <Cell><Link target="bc0e7016-7dab-4edb-a4c9-2b1492da0225">0x434C4E49494E464F</Link></Cell>
+        <Cell>Image information.</Cell>
+      </Row>
+      <Row>
+        <Cell><Link target="8321ef71-e529-4764-abf1-e678e42c03af">0x434C4E5F49324421</Link></Cell>
+        <Cell>Image data for 2D textures.</Cell>
+      </Row>
+      <Row>
+        <Cell><Link target="a91529c1-d7c4-4e6e-abcb-bfeb3d536aba">0x434C4E5F41525221</Link></Cell>
+        <Cell>Image data for array textures.</Cell>
+      </Row>
+      <Row>
+        <Cell><Link target="df607ad1-a586-4a3f-b8bc-f322142056f9">0x434C4E5F43554245</Link></Cell>
+        <Cell>Image data for cube textures.</Cell>
+      </Row>
+      <Row>
+        <Cell><Link target="16fddeaf-9d7f-437b-8662-01e6975f6249">0x434C4E5F4D455441</Link></Cell>
+        <Cell>Key/value metadata.</Cell>
+      </Row>
+      <Row>
+        <Cell><Link target="40d09b06-b6de-4052-92fe-2829942518c9">0x434C4E5F454E4421</Link></Cell>
+        <Cell>File terminator.</Cell>
+      </Row>
+    </Table>
+  </FormalItem>
+</Section>

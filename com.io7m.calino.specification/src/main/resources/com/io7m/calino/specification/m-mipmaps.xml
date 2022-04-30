@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Section title="Mipmaps"
+         id="b8d20538-e4ac-4674-aa43-d5ab93c07149"
+         xmlns="urn:com.io7m.structural:8:0"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <Paragraph id="7d6373a7-e330-4cec-8528-b054a1c683ef">
+    A 2D texture consists of a non-empty sequence of <Term type="term">mipmaps</Term>. A sequence of
+    mipmaps is a sequence of progressively scaled-down copies of a <Term type="term">base image</Term>.
+    Each mipmap <Term type="term">level</Term> is numbered with the base image being at level
+    <Term type="constant">0</Term> and the number of each subsequent level is the successor of the
+    number of the previous level. The mipmap image at each level is half the width and height
+    of the previous level.
+  </Paragraph>
+
+  <FormalItem title="Mipmaps Arrangement" id="95083e5f-b497-4e29-a59d-d1d142d0fc4e">
+    <Image source="mipmaps.png" width="400" height="321">Mipmaps Arrangement</Image>
+  </FormalItem>
+
+  <Paragraph id="e676eaef-f25a-44e8-9360-bcfaf35ce1e6">
+    A mipmap stores an <Term type="term">offset</Term> indicating the start of the actual image data for the mipmap
+    relative to the first octet of the first mipmap declaration. A mipmap also stores the
+    <Link target="8f83a47a-986e-4dba-bfd7-720641cee3a9">compressed size</Link> and uncompressed size of the
+    image data, along with a
+    <LinkExternal target="https://en.wikipedia.org/wiki/Cyclic_redundancy_check">CRC32</LinkExternal> checksum
+    of the <Term type="term">uncompressed</Term> data. A CRC32 value of <Term type="constant">0</Term> indicates
+    that no checksum is available. For uncompressed data, the compressed and uncompressed sizes must equal the
+    size of the uncompressed data.
+  </Paragraph>
+
+  <FormalItem title="MipMap">
+    <Verbatim><xi:include href="70.txt" parse="text" /></Verbatim>
+  </FormalItem>
+
+  <Paragraph id="f868cdeb-21ce-4b89-9c2d-b1383b07cbd7">
+    Mipmap sequences are stored such that the data for the mipmap with the highest level is encountered
+    <Term type="term">first</Term>, whilst the data for the mipmap with level <Term type="constant">0</Term>
+    is encountered <Term type="term">last</Term>. This facilitates a common implementation pattern where
+    textures are progressively streamed onto the GPU starting with the highest mipmap levels first. The
+    proposition <Term type="expression">mipMapOffsetsSorted</Term> declares that, for a given mipmap
+    <Term type="expression">m</Term>, the offset of <Term type="expression">m</Term> plus the compressed size of
+    <Term type="expression">m</Term>, must be less than the offset of the next mipmap in the sequence.
+  </Paragraph>
+
+  <FormalItem title="MipMap Sequence Sorting">
+    <Verbatim><xi:include href="71.txt" parse="text" /></Verbatim>
+  </FormalItem>
+  <FormalItem title="MipMap Offsets Sorting">
+    <Verbatim><xi:include href="102.txt" parse="text" /></Verbatim>
+  </FormalItem>
+  <FormalItem title="MipMap Sequence">
+    <Verbatim><xi:include href="72.txt" parse="text" /></Verbatim>
+  </FormalItem>
+
+  <Paragraph>
+    Given a base image of size <Term type="expression">(sizeX, sizeY)</Term>, the size of the mipmap
+    at level <Term type="expression">n</Term> is given by <Term type="expression">(sizeX / 2ⁿ, sizeY / 2ⁿ)</Term>.
+    Mipmap images are required to be of a size <Term type="expression">&gt;= 2</Term> on the X and Y axes. Note
+    that this restriction does <Term type="emphasis">not</Term> apply to the base image; a base image with a size
+    of 1 on any axis simply cannot have anything but a level 0 mipmap.
+  </Paragraph>
+
+  <FormalItem title="MipMap Size">
+    <Verbatim><xi:include href="75.txt" parse="text" /></Verbatim>
+  </FormalItem>
+  <FormalItem title="MipMap Size Calculation">
+    <Verbatim><xi:include href="74.txt" parse="text" /></Verbatim>
+  </FormalItem>
+
+  <Paragraph id="8522affa-6919-4bc2-9aaa-fbfde3e73570">
+    The total size required to hold the image data for all mipmaps is effectively equal to the offset of the
+    largest mipmap, plus the compressed size of the mipmap, rounded up to the required alignment of the image data.
+  </Paragraph>
+
+  <FormalItem title="MipMap Data Size (Aux)">
+    <Verbatim><xi:include href="103.txt" parse="text" /></Verbatim>
+  </FormalItem>
+  <FormalItem title="MipMap Data Size">
+    <Verbatim><xi:include href="104.txt" parse="text" /></Verbatim>
+  </FormalItem>
+
+  <Paragraph id="41c816ac-d7ee-4041-a764-9a36a983080c">
+    The uncompressed size of a mipmap should be non-zero. This property is implicit in the definitions above;
+    images must be of a non-zero width and height, and there are no channel layouts where the sizes of the channels
+    sum to zero.
+  </Paragraph>
+
+  <Paragraph id="2c3420bb-1273-4f1e-9212-9f259d60d6f1">
+    The compressed size of a mipmap should be non-zero. This property is implicit in the definitions above;
+    images must be of a non-zero width and height, and there are no channel layouts where the sizes of the channels
+    sum to zero.
+  </Paragraph>
+
+</Section>

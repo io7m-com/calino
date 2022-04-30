@@ -94,6 +94,30 @@ public enum CLNChannelSemantic implements CLNDescribableType
     {
       return "S";
     }
+  },
+
+  /**
+   * The channel represents unused values.
+   */
+
+  UNUSED {
+    @Override
+    public String descriptor()
+    {
+      return "X";
+    }
+  },
+
+  /**
+   * The channel represents exponent values.
+   */
+
+  EXPONENT {
+    @Override
+    public String descriptor()
+    {
+      return "E";
+    }
   };
 
   /**
@@ -117,6 +141,8 @@ public enum CLNChannelSemantic implements CLNDescribableType
       case "A" -> ALPHA;
       case "D" -> DEPTH;
       case "S" -> STENCIL;
+      case "E" -> EXPONENT;
+      case "X" -> UNUSED;
       default -> throw new ParseException(
         "Unrecognized channel semantic: " + descriptor, 0);
     };

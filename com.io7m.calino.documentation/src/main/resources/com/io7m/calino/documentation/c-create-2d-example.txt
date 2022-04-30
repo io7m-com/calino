@@ -1,0 +1,8 @@
+$ calino create-2d \
+--mipmap-generate BILINEAR \
+--output output.ctf \
+--super-compression LZ4 \
+--premultiply-alpha true \
+--metadata input.properties \
+--convert-layout-to "p16|R4:G4:B4:A4" \
+--source input.png

@@ -17,30 +17,44 @@
 package com.io7m.calino.vanilla.internal;
 
 import com.io7m.calino.api.CLNImage2DDescription;
-import com.io7m.calino.api.CLNImage2DMipMapDeclaration;
 import com.io7m.calino.api.CLNImage2DMipMapDeclarations;
 import com.io7m.calino.api.CLNSectionWritableImage2DType;
 import com.io7m.calino.api.CLNSectionWritableType;
-import com.io7m.calino.api.CLWritableMipMapsType;
+import com.io7m.calino.api.CLWritableMipMaps2DType;
 import com.io7m.calino.writer.api.CLNWriteRequest;
 import com.io7m.jbssio.api.BSSWriterProviderType;
 import com.io7m.jbssio.api.BSSWriterRandomAccessType;
+import com.io7m.wendover.core.CloseShieldSeekableByteChannel;
+import com.io7m.wendover.core.SubrangeSeekableByteChannel;
 
 import java.io.IOException;
 import java.nio.channels.SeekableByteChannel;
 import java.nio.channels.WritableByteChannel;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
 import static java.lang.Integer.toUnsignedLong;
+
+/**
+ * A writable 2D image section.
+ */
 
 public final class CLN1SectionWritableImage2D
   extends CLN1SectionWritableAbstract
   implements CLNSectionWritableImage2DType
 {
   private final BSSWriterProviderType writers;
+
+  /**
+   * A writable 2D image section.
+   *
+   * @param inWriters    A writer provider
+   * @param inOnClose    A function executed on closing
+   * @param inRequest    A write request
+   * @param inIdentifier An identifier
+   * @param inWriter     A writer
+   */
 
   public CLN1SectionWritableImage2D(
     final BSSWriterProviderType inWriters,
@@ -54,24 +68,16 @@ public final class CLN1SectionWritableImage2D
   }
 
   @Override
-  public CLWritableMipMapsType createMipMaps(
+  public CLWritableMipMaps2DType createMipMaps(
     final CLNImage2DMipMapDeclarations mipMapCreate)
     throws IOException
   {
     Objects.requireNonNull(mipMapCreate, "mipMaps");
 
-    final var mipMapsOriginal =
-      mipMapCreate.mipMaps();
     final var mipMaps =
-      new ArrayList<>(mipMapsOriginal);
+      mipMapCreate.mipMaps();
     final var descriptions =
-      new ArrayList<CLNImage2DDescription>(mipMapsOriginal.size());
-    final var mipMapComparator =
-      (Comparator<CLNImage2DMipMapDeclaration>) (o1, o2) -> {
-        return Integer.compareUnsigned(o1.mipMapLevel(), o2.mipMapLevel());
-      };
-
-    mipMaps.sort(mipMapComparator.reversed());
+      new ArrayList<CLNImage2DDescription>(mipMaps.size());
 
     try (var channel = this.sectionDataChannel()) {
       final var targetURI = this.request().target();
@@ -122,20 +128,20 @@ public final class CLN1SectionWritableImage2D
       }
     }
 
-    return new MipMaps(
+    return new MipMaps2D(
       this.request().channel(),
       this.offsetStartData(),
       descriptions
     );
   }
 
-  private static final class MipMaps implements CLWritableMipMapsType
+  private static final class MipMaps2D implements CLWritableMipMaps2DType
   {
     private final SeekableByteChannel fileChannel;
     private final long fileSectionDataStart;
     private final List<CLNImage2DDescription> descriptions;
 
-    MipMaps(
+    MipMaps2D(
       final SeekableByteChannel inChannel,
       final long inFileSectionDataStart,
       final List<CLNImage2DDescription> inDescriptions)
@@ -159,13 +165,14 @@ public final class CLN1SectionWritableImage2D
             this.fileSectionDataStart + description.dataOffsetWithinSection();
 
           this.fileChannel.position(offset);
-          return new CLNSubrangeWritableByteChannel(
-            this.fileChannel,
-            offset,
-            description.dataSizeCompressed(),
-            context -> {
 
-            }
+          final var closeShieldChannel =
+            new CloseShieldSeekableByteChannel(this.fileChannel);
+
+          return new SubrangeSeekableByteChannel(
+            closeShieldChannel,
+            offset,
+            description.dataSizeCompressed()
           );
         }
       }

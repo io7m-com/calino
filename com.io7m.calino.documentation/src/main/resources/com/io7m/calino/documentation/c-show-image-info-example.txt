@@ -1,0 +1,10 @@
+$ calino show-image-info --file array-mips.ctf
+Size                    : 256×256×6
+Channel Layout          : R8:G8:B8:A8
+Channel Type            : FIXED_POINT_NORMALIZED_UNSIGNED
+Color Space             : SRGB
+Flags                   :
+Coordinate System       : RT:SR:TD
+Compression             : UNCOMPRESSED
+Super Compression       : UNCOMPRESSED
+Texel Block Alignment   : 32 octets

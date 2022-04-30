@@ -1,0 +1,16 @@
+43 4C 4E 5F  4D 45 54 41                ; Identifier 0x434C4E49494E464F
+00 00 00 00  00 00 00 30                ; Section is 48 bytes
+
+00 00 00 02                             ; Size of metadata array is 2
+00 00 00 02                             ; Size of first key is 2
+4B 30 00 00                             ; Key is "K0" plus padding octets
+00 00 00 04                             ; Size of first value is 4
+56 41 4C 30                             ; Value is "VAL0", no padding required
+00 00 00 04                             ; Size of second key is 4
+4B 45 59 31                             ; Key is "KEY1", no padding required
+00 00 00 04                             ; Size of second value is 4
+56 41 4C 31                             ; Value is "VAL1", no padding required
+
+00 00 00 00  00 00 00 00  00 00 00 00   ; 12 padding octets, so the size of the
+                                        ; section is a multiple of 16
+

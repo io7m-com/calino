@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Section xmlns="urn:com.io7m.structural:8:0"
+         xmlns:xi="http://www.w3.org/2001/XInclude"
+         title="show-sections">
+
+  <Subsection title="Name">
+    <Paragraph>
+      <Term type="command">show-sections</Term> - Show sections in texture files.
+    </Paragraph>
+  </Subsection>
+
+  <Subsection title="Description">
+    <Paragraph>
+      The <Term type="command">show-sections</Term> command displays the sections present in texture files.
+    </Paragraph>
+    <FormalItem title="Parameters">
+      <xi:include href="CLNCommandShowImageInfo.xml"/>
+    </FormalItem>
+
+    <Paragraph>
+      The command will print one line per section <Term type="expression">s</Term> in the given texture file.
+    </Paragraph>
+
+    <Paragraph>
+      If <Term type="expression">s</Term> is of a type recognized by the implementation, then the line printed
+      for <Term type="expression">s</Term> will be <Term type="expression">i k (r) @o 'size' n</Term>,
+      where <Term type="expression">i</Term> is the index of the section within the file (starting at <Term
+      type="constant">0</Term>), <Term type="expression">k</Term> is the name of the section,
+      <Term type="expression">r</Term> is the raw 64-bit
+      <LinkExternal
+        target="https://www.io7m.com/software/calino/specification/index.xhtml#id_ae85d70d-f1db-4288-8b92-b48580133c33">section identifier</LinkExternal>,
+      <Term type="expression">o</Term> is the absolute base-16 offset of the start of the section within the file,
+      and <Term type="expression">n</Term> is the base-16 size of the section.
+    </Paragraph>
+
+    <Paragraph>
+      If <Term type="expression">s</Term> is of a type <Term type="term">not</Term> recognized by the implementation,
+      then the line printed
+      for <Term type="expression">s</Term> will be <Term type="expression">i r @o 'size' n</Term>,
+      where <Term type="expression">i</Term> is the index of the section within the file (starting at <Term
+      type="constant">0</Term>),
+      <Term type="expression">r</Term> is the raw 64-bit
+      <LinkExternal
+        target="https://www.io7m.com/software/calino/specification/index.xhtml#id_ae85d70d-f1db-4288-8b92-b48580133c33">section identifier</LinkExternal>,
+      <Term type="expression">o</Term> is the absolute base-16 offset of the start of the section within the file,
+      and <Term type="expression">n</Term> is the base-16 size of the section.
+    </Paragraph>
+  </Subsection>
+
+  <Subsection title="Examples">
+    <FormalItem title="Example" type="example">
+      <Verbatim>
+        <xi:include parse="text"
+                    href="c-show-sections-example.txt"/>
+      </Verbatim>
+    </FormalItem>
+  </Subsection>
+
+</Section>

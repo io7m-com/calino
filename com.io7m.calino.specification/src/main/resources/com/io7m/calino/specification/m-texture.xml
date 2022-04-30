@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Section title="Textures"
+         xmlns:xi="http://www.w3.org/2001/XInclude"
+         id="17b69d69-176f-4db1-bab3-c1666ed58c5c"
+         xmlns="urn:com.io7m.structural:8:0">
+
+  <Subsection title="Textures">
+    <Paragraph>
+      An <Term type="term">texture</Term> is a <Link target="71f3233f-43eb-4ea1-96d4-bc1192553239">2D texture</Link>,
+      an <Link target="60f44a91-49a1-4ee9-9659-45ed94051828">array texture</Link>, or a
+      <Link target="63a0f8cf-4a48-47bc-aa83-b35d631ad243">cube texture</Link>.
+    </Paragraph>
+
+    <FormalItem title="Texture">
+      <Verbatim><xi:include href="76.txt" parse="text"/></Verbatim>
+    </FormalItem>
+  </Subsection>
+
+  <Subsection title="2D Texture"
+              id="71f3233f-43eb-4ea1-96d4-bc1192553239">
+    <Paragraph>
+      A 2D texture aggregates <Link target="4ae63d09-ce2d-46d4-a8eb-f1f9ad382ee8">image information</Link> and
+      a sequence of <Link target="b8d20538-e4ac-4674-aa43-d5ab93c07149">mipmaps</Link> for a single two-dimensional
+      texture.
+    </Paragraph>
+    <Paragraph id="909468f0-a253-4e8f-82ff-6a6909bf1220">
+      2D textures must have <Link target="3dde6403-729d-4eaa-9179-17d9a9fbe7a6">sizeZ</Link> values equal to
+      <Term type="constant">1</Term>.
+    </Paragraph>
+    <FormalItem title="2D Texture">
+      <Verbatim><xi:include href="145.txt" parse="text"/></Verbatim>
+    </FormalItem>
+  </Subsection>
+
+  <Subsection title="Array Texture"
+              id="4947de09-7eb6-4439-90e1-1b94adcf8d0a">
+    <Paragraph>
+      An array texture aggregates <Link target="4ae63d09-ce2d-46d4-a8eb-f1f9ad382ee8">image information</Link> and
+      a sequence of <Link target="f4b4fff9-a443-4430-a37b-ed939e606bef">array mipmaps</Link> for a single
+      two-dimensional array texture.
+    </Paragraph>
+    <Paragraph id="e824acd8-5c93-4874-9e17-2010d189bc86">
+      Array textures must have <Link target="3dde6403-729d-4eaa-9179-17d9a9fbe7a6">sizeZ</Link> values equal to
+      the number of <Link target="cb73941f-ab0c-46cd-a8a2-94ca912eda3a">array layers</Link> in the texture.
+    </Paragraph>
+    <FormalItem title="Array Texture">
+      <Verbatim><xi:include href="146.txt" parse="text"/></Verbatim>
+    </FormalItem>
+  </Subsection>
+
+  <Subsection title="3D Texture"
+              id="60f44a91-49a1-4ee9-9659-45ed94051828">
+    <Paragraph>
+      3D textures are not yet specified.
+    </Paragraph>
+  </Subsection>
+
+  <Subsection title="Cube Texture"
+              id="63a0f8cf-4a48-47bc-aa83-b35d631ad243">
+    <Paragraph>
+      A cube texture aggregates <Link target="4ae63d09-ce2d-46d4-a8eb-f1f9ad382ee8">image information</Link> and
+      a sequence of <Link target="e8125add-3c83-47a1-9997-1f15867068dd">cube mipmaps</Link> for a single cube
+      texture.
+    </Paragraph>
+    <Paragraph id="21c2587a-17e5-45fb-b17f-968814d2ba17">
+      Cube textures must have <Link target="3dde6403-729d-4eaa-9179-17d9a9fbe7a6">sizeZ</Link> values equal to
+      <Term type="constant">1</Term>.
+    </Paragraph>
+    <FormalItem title="Cube Image">
+      <Verbatim><xi:include href="154.txt" parse="text"/></Verbatim>
+    </FormalItem>
+  </Subsection>
+
+</Section>

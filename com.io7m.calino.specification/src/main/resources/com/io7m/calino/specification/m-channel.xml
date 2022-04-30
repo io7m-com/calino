@@ -1,0 +1,561 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Section title="Channels"
+         xmlns="urn:com.io7m.structural:8:0"
+         id="6b4bf0e8-728e-4be4-894c-a0d0fc6e0fc1"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <Subsection title="Overview" id="d830adde-cacf-4274-bc76-e5f5741b05fd">
+    <Paragraph>
+      A <Term type="term">channel</Term> in <Term type="package">calino</Term> corresponds to the traditional definition
+      of a channel in computer graphics: A <Term type="term">channel</Term> consists of a set of intensity values for
+      one of the color components that make up an image. For example, a typical RGB image has a
+      <Term type="term">red</Term> channel, a <Term type="term">green</Term> channel, and a
+      <Term type="term">blue</Term> channel that store the intensity values of each component for each pixel in the
+      image. The following image shows the separate <Term type="term">red</Term>, <Term type="term">green</Term>, and
+      <Term type="term">blue</Term> channels used for the pixels of an RGB image:
+    </Paragraph>
+    <FormalItem title="RGB Example"
+                id="546687b6-a292-414f-9665-e46f67f6050e">
+      <Image source="rgb.jpg"
+             width="640"
+             height="164">
+        A picture of some produce divided into separate color channels.
+      </Image>
+    </FormalItem>
+    <Paragraph>
+      As the <Term type="package">calino</Term> package is intended for use in real-time 3D graphics, it makes the
+      assumption that for an image consisting of channels <Term type="expression">[c₁, cₙ]</Term>, each pixel
+      <Term type="expression">Pᵢ</Term> in the image stores channel values <Term type="expression">[c₁(ᵢ), cₙ
+      (ᵢ)]</Term> sequentially in memory:
+    </Paragraph>
+    <FormalItem title="Channels Example"
+                id="124ee7ba-6b2a-46ef-935e-fb32636bf390">
+      <Image source="channels.png"
+             width="480"
+             height="240">
+        Channel data laid out sequentially in memory.
+      </Image>
+    </FormalItem>
+    <Paragraph>
+      A set of channels may be <Term type="term">packed</Term> or <Term type="term">unpacked</Term>.
+      In an <Term type="term">unpacked</Term> set of channels, each channel is of a size in bits that is a
+      multiple of 8. This means that when the set of channels is stored in memory for each pixel, each channel
+      occupies at least one octet in memory, and no two channels in a given pixel occupy the same octet.
+      For channels that are larger than a single octet, the <Term type="term">byte ordering</Term> of the
+      underlying host computer dictates the exact order of the octets that make up a single channel. Otherwise,
+      the groups of octets that comprise the data for a set of channels are ordered according to the channel
+      declaration order. For example, a common unpacked image format in computer graphics,
+      at the time of writing, is <Term type="constant">R8G8B8</Term>. In the <Term type="constant">R8G8B8</Term> format,
+      each channel occupies 8 bits, and the channels are stored such that <Term type="constant">R</Term> comes first
+      in memory, followed by <Term type="constant">G</Term>, and then <Term type="constant">B</Term>:
+    </Paragraph>
+    <FormalItem title="R8G8B8">
+      <Image source="rgb8_le.png" width="512" height="385">
+        Image showing R8G8B8 stored in memory.
+      </Image>
+    </FormalItem>
+    <Paragraph>
+      Note that, because all of the channels are 8 bits, the mapping from the channels to the underlying host
+      octets does not depend on the byte ordering of the underlying host computer. Another common
+      unpacked image format where the underlying byte ordering of the host computer <Term type="emphasis">does</Term>
+      affect the mapping from channels to octets is the <Term type="constant">R16G16B16</Term> format. In the
+      <Term type="constant">R16G16B16</Term> format, each channel requires 16 bits and so each channel must be
+      mapped to two octets in memory. If the underlying host byte ordering is <Term type="term">little-endian</Term>,
+      then the <Term type="term">most significant bits</Term> of each channel are stored in the
+      <Term type="term">lower</Term> of the two octets used for the channel. If the underlying host byte ordering is
+      <Term type="term">big-endian</Term>, then the <Term type="term">most significant bits</Term> of each channel are
+      stored in the <Term type="term">higher</Term> of the two octets used for the channel. For example, channels
+      in the <Term type="constant">R16G16B16</Term> format are stored as follows on a computer with
+      little-endian byte ordering:
+    </Paragraph>
+    <FormalItem title="R16G16B16 Little Endian">
+      <Image source="rgb16_le.png" width="512" height="385">
+        Image showing R16G16B16 stored in little-endian memory.
+      </Image>
+    </FormalItem>
+    <Paragraph>
+      As shown in the diagram, the 8 most significant bits of the <Term type="constant">R</Term> channel of pixel 0 are
+      stored in octet 1. The 8 least significant bits of the <Term type="constant">R</Term> channel of pixel 0 are
+      stored in octet 0. This pattern continues for each subsequent channel of each subsequent pixel. Note that
+      regardless of the byte ordering, the octets that make up the <Term type="constant">R</Term> channel are stored
+      first, followed by the <Term type="constant">G</Term> channel, and finally the <Term type="constant">B</Term>
+      channel. The same format on a computer with big-endian byte ordering is stored as follows:
+    </Paragraph>
+    <FormalItem title="R16G16B16 Big Endian">
+      <Image source="rgb16_be.png" width="512" height="385">
+        Image showing R16G16B16 stored in big-endian memory.
+      </Image>
+    </FormalItem>
+    <Paragraph>
+      As shown in the diagram, the 8 most significant bits of the <Term type="constant">R</Term> channel of pixel 0 are
+      stored in octet 0. The 8 least significant bits of the <Term type="constant">R</Term> channel of pixel 0 are
+      stored in octet 1. This pattern continues for each subsequent channel of each subsequent pixel. Note that
+      regardless of the byte ordering, the octets that make up the <Term type="constant">R</Term> channel are stored
+      first, followed by the <Term type="constant">G</Term> channel, and finally the <Term type="constant">B</Term>
+      channel.
+    </Paragraph>
+    <Paragraph>
+      In a <Term type="term">packed</Term> set of channels, each channel may be of any size in bits (excluding zero)
+      but the sum of the sizes of all of the channels in the set typically must be a multiple of 8. The
+      <Term type="package">calino</Term> package restricts this definition further by stating that the sum of the
+      sizes of the channels must be in the set <Term type="expression">{8, 16, 32, 64}</Term>. Conceptually, the
+      bits of all channels are packed into a single integer value, and then this integer value is stored in memory
+      according to the host computer byte ordering. For example, a common packed image format in computer graphics,
+      at the time of writing, is <Term type="constant">R5G6B5</Term>. In the <Term type="constant">R5G6B5</Term> format,
+      the bits of all of the channels are packed into a single 16-bit integer <Term type="constant">k</Term>
+      such that the 5 bits of the <Term type="constant">R</Term> channel are packed into the 5 most significant bits
+      of <Term type="constant">k</Term>, followed by the 6 bits of the <Term type="constant">G</Term> channel,
+      followed by the 5 bits of the <Term type="constant">B</Term> channel. The value of <Term type="constant">k</Term>
+      is then stored into memory according to the host computer byte ordering:
+    </Paragraph>
+    <FormalItem title="R5G6B5">
+      <Image source="rgb565.png" width="512" height="385">
+        Image showing R5G6B5 stored in memory.
+      </Image>
+    </FormalItem>
+    <Paragraph>
+      In the above diagram, it's clear that the 5 bits that make up the <Term type="constant">R</Term> channel of
+      pixel 0 are mapped to bits <Term type="expression">[11,15]</Term> in <Term type="constant">k</Term>. The 6
+      bits that make up the <Term type="constant">G</Term> channel are mapped to bits <Term type="expression">[5,
+      14]</Term> in <Term type="constant">k</Term>, and the remaining 5 bits that make up the
+      <Term type="constant">B</Term> channel are mapped to bits <Term type="expression">[0,4]</Term> in
+      <Term type="constant">k</Term>. On a big-endian computer, the two octets that make up
+      <Term type="constant">k</Term> are arranged such that the most significant bits of
+      <Term type="constant">k</Term> end up in octet 0 in memory, whilst the least significant bits of
+      <Term type="constant">k</Term> end up in octet 1 in memory. On a little-endian computer, the two octets
+      that make up <Term type="constant">k</Term> are arranged such that the most significant bits of
+      <Term type="constant">k</Term> end up in octet 1 in memory, whilst the least significant bits of
+      <Term type="constant">k</Term> end up in octet 0 in memory. Note that this means that the
+      <Term type="constant">G</Term> channel ends up divided into two pieces with the
+      <Term type="constant">R</Term> and <Term type="constant">B</Term> channels sandwiched between it.
+      It's also important to note that the ordering of bits does not change between big-endian and little-endian
+      systems. This demonstrates the critical difference between <Term type="term">packed</Term> and
+      <Term type="term">unpacked</Term> formats: In a <Term type="term">packed</Term> format, any given octet
+      may contain bits from more than one channel, whilst in an <Term type="term">unpacked</Term> format, a
+      given octet will contain bits from exactly one channel. At the time of writing, no rendering API appears to
+      have defined any packed image formats that pack channels into an integer value larger than 32 bits.
+    </Paragraph>
+    <Paragraph>
+      The information provided about a set of channels largely attempts to answer two main questions: "How do I get
+      image data to and from storage?" and "How do I interpret the image data once I have it?".
+      <Link target="121539df-2316-4f53-bdaa-dae1b8829974">Channel semantic</Link> and
+      <Link target="e786563b-f469-4977-bb74-f069cc584ec3">channel type</Link> information answers the
+      latter question, whilst <Link target="2e70b32a-1c97-4310-bb14-14f2403e8cd1">channel descriptions</Link>
+      answer the former. The aggregates of these values, <Link target="499041fb-7c35-4fa6-be6b-895962e6e717">channel
+      layouts</Link>, answer a little of both questions.
+    </Paragraph>
+  </Subsection>
+
+  <Subsection title="Channel Semantic" id="121539df-2316-4f53-bdaa-dae1b8829974">
+    <Paragraph>
+      A <Term type="term">channel semantic</Term> specifies how a particular channel should be interpreted within the
+      context of an image. A <Term type="term">channel semantic</Term> may be one of the following values:
+    </Paragraph>
+    <FormalItem title="Channel Semantic Values">
+      <Verbatim><xi:include href="4.txt" parse="text"/></Verbatim>
+    </FormalItem>
+    <Paragraph>
+      <Term type="term">Channel semantic</Term> values must use the following
+      <Link target="3d52e6ab-ded8-4b58-b1cc-576ced1fb578">descriptors</Link>:
+    </Paragraph>
+    <FormalItem title="Channel Semantic Description">
+      <Verbatim><xi:include href="5.txt" parse="text"/></Verbatim>
+    </FormalItem>
+    <FormalItem title="Channel Semantic Describable">
+      <Verbatim><xi:include href="6.txt" parse="text"/></Verbatim>
+    </FormalItem>
+  </Subsection>
+
+  <Subsection title="Channel Description" id="2e70b32a-1c97-4310-bb14-14f2403e8cd1">
+    <Paragraph>
+      A <Term type="term">channel description</Term> combines a
+      <Link target="121539df-2316-4f53-bdaa-dae1b8829974">channel semantic</Link> and a non-zero size value expressed in
+      bits. The size value specifies the number of bits of storage required for a single value in the channel.
+    </Paragraph>
+    <FormalItem title="Channel Description">
+      <Verbatim><xi:include href="7.txt" parse="text"/></Verbatim>
+    </FormalItem>
+    <Paragraph>
+      <Term type="term">Channel descriptions</Term> must use the following
+      <Link target="3d52e6ab-ded8-4b58-b1cc-576ced1fb578">descriptors</Link>:
+    </Paragraph>
+    <FormalItem title="Channel Description">
+      <Verbatim><xi:include href="14.txt" parse="text"/></Verbatim>
+    </FormalItem>
+    <FormalItem title="Channel Describable">
+      <Verbatim><xi:include href="15.txt" parse="text"/></Verbatim>
+    </FormalItem>
+    <Paragraph>
+      The descriptors for a set of channel descriptions must be concatenated together with
+      <Term type="constant">U+003A ':'</Term>:
+    </Paragraph>
+    <FormalItem title="Channel Descriptions">
+      <Verbatim><xi:include href="29.txt" parse="text"/></Verbatim>
+    </FormalItem>
+  </Subsection>
+
+  <Subsection title="Channel Layout" id="499041fb-7c35-4fa6-be6b-895962e6e717">
+    <Subsection title="Description">
+      <Paragraph>
+        A <Term type="term">channel layout</Term> describes how a set of channels are ordered. A channel
+        layout may either be <Term type="term">packed</Term> or <Term type="term">unpacked</Term>.
+      </Paragraph>
+      <FormalItem title="Channel Layout">
+        <Verbatim><xi:include href="8.txt" parse="text"/></Verbatim>
+      </FormalItem>
+      <Paragraph>
+        The total number of bits required by a set of channels is the sum of the sizes of each channel, as given
+        by <Term type="expression">channelDescriptionsBitsTotal</Term>:
+      </Paragraph>
+      <FormalItem title="Channels Required Bits">
+        <Verbatim><xi:include href="13.txt" parse="text"/></Verbatim>
+      </FormalItem>
+      <Paragraph>
+        Both <Term type="term">packed</Term> and <Term type="term">unpacked</Term> layouts must always have
+        a size in bits that is divisible by 8:
+      </Paragraph>
+      <FormalItem title="Channels Required Bits Divisible">
+        <Verbatim><xi:include href="16.txt" parse="text"/></Verbatim>
+      </FormalItem>
+    </Subsection>
+
+    <Subsection title="Unpacked Layouts" id="2bf2545b-c7a7-460d-9e72-044c9cfc92c3">
+      <Paragraph>
+        An <Term type="term">unpacked</Term> layout consists of a non-empty sequence of channels where the
+        size of each channel must be divisible by 8.
+      </Paragraph>
+      <FormalItem title="Unpacked Layout">
+        <Verbatim><xi:include href="9.txt" parse="text"/></Verbatim>
+      </FormalItem>
+    </Subsection>
+
+    <Subsection title="Packed Layouts" id="badebcca-d66c-4d25-8ece-8b6648f5f92b">
+      <Paragraph>
+        A <Term type="term">packed</Term> layout consists of a non-empty sequence of channels and a
+        <Term type="term">layout packing</Term> value.
+      </Paragraph>
+      <FormalItem title="Packed Layout">
+        <Verbatim><xi:include href="10.txt" parse="text"/></Verbatim>
+      </FormalItem>
+      <Paragraph>
+        The <Term type="term">layout packing</Term> value must be one of the following values:
+      </Paragraph>
+      <FormalItem title="Layout Packing">
+        <Verbatim><xi:include href="11.txt" parse="text"/></Verbatim>
+      </FormalItem>
+      <Paragraph>
+        The number of bits associated with a <Term type="term">layout packing</Term> value is given
+        by <Term type="expression">channelLayoutPackingBits</Term>:
+      </Paragraph>
+      <FormalItem title="Layout Packing Bits">
+        <Verbatim><xi:include href="12.txt" parse="text"/></Verbatim>
+      </FormalItem>
+      <Paragraph>
+        The number of bits associated with a <Term type="term">layout packing</Term> value is always
+        divisible by 8:
+      </Paragraph>
+      <FormalItem title="Layout Packing Bits Divisible 8">
+        <Verbatim><xi:include href="17.txt" parse="text"/></Verbatim>
+      </FormalItem>
+      <Paragraph>
+        For a <Term type="term">packed</Term> layout, the number of bits required for the channels
+        must equal the number of bits associated with the given <Term type="term">packed</Term> layout.
+      </Paragraph>
+      <Paragraph>
+        <Term type="term">Layout packing</Term> values are <Link
+        target="3d52e6ab-ded8-4b58-b1cc-576ced1fb578">describable</Link>:
+      </Paragraph>
+      <FormalItem title="Layout Packing Description">
+        <Verbatim><xi:include href="21.txt" parse="text"/></Verbatim>
+      </FormalItem>
+      <FormalItem title="Layout Packing Describable">
+        <Verbatim><xi:include href="22.txt" parse="text"/></Verbatim>
+      </FormalItem>
+    </Subsection>
+
+    <Subsection title="Descriptors" id="3ace6ef9-0226-46e7-bf98-56463f1b3f55">
+      <Paragraph>
+        <Term type="term">Channel layouts</Term> are <Link
+        target="3d52e6ab-ded8-4b58-b1cc-576ced1fb578">describable</Link>:
+      </Paragraph>
+      <FormalItem title="Unpacked Layout Description">
+        <Verbatim><xi:include href="23.txt" parse="text"/></Verbatim>
+      </FormalItem>
+      <FormalItem title="Unpacked Layout Describable">
+        <Verbatim><xi:include href="24.txt" parse="text"/></Verbatim>
+      </FormalItem>
+      <FormalItem title="Packed Layout Description">
+        <Verbatim><xi:include href="25.txt" parse="text"/></Verbatim>
+      </FormalItem>
+      <FormalItem title="Packed Layout Describable">
+        <Verbatim><xi:include href="26.txt" parse="text"/></Verbatim>
+      </FormalItem>
+      <FormalItem title="Layout Description">
+        <Verbatim><xi:include href="27.txt" parse="text"/></Verbatim>
+      </FormalItem>
+      <FormalItem title="Layout Describable">
+        <Verbatim><xi:include href="28.txt" parse="text"/></Verbatim>
+      </FormalItem>
+    </Subsection>
+  </Subsection>
+
+  <Subsection title="Channel Type" id="e786563b-f469-4977-bb74-f069cc584ec3">
+    <Paragraph>
+      A <Term type="term">channel type</Term> defines how the sequence of bits that make up a value
+      in a channel should be interpreted numerically. A <Term type="term">channel type</Term> must
+      be one of the following values:
+    </Paragraph>
+    <FormalItem title="Channel Types">
+      <Verbatim><xi:include href="18.txt" parse="text"/></Verbatim>
+    </FormalItem>
+    <Paragraph>
+      A value of <Term type="constant">CTFixedPointNormalizedUnsigned</Term> indicates the values in a channel should be
+      interpreted as unsigned fixed-point values. Given a floating point value <Term type="expression">f</Term> in
+      the range <Term type="expresion">[0, 1]</Term>, the corresponding <Term type="constant">n</Term>-bit unsigned
+      fixed point value <Term type="expression">h</Term> is given by the relation
+      <Term type="expresion">f = h / (2ⁿ - 1)</Term>.
+    </Paragraph>
+    <Paragraph>
+      A value of <Term type="constant">CTFixedPointNormalizedSigned</Term> indicates that the values in a channel
+      should be interpreted as signed fixed-point values. Given a floating point value
+      <Term type="expression">f</Term> in the range <Term type="expresion">[-1, 1]</Term>, the corresponding
+      <Term type="constant">n</Term>-bit signed fixed point value <Term type="expression">h</Term> is given by the
+      relation <Term type="expresion">f = max (h / (2ⁿ⁻¹ - 1), -1)</Term>.
+    </Paragraph>
+    <Paragraph>
+      A value of <Term type="constant">CTScaledUnsigned</Term> indicates that the values in a channel should be
+      interpreted as unsigned integers, and then converted to similar floating-point values on use. For example,
+      a channel containing the value <Term type="constant">23</Term> would be ideally converted to
+      <Term type="constant">23.0</Term> when sampled.
+    </Paragraph>
+    <Paragraph>
+      A value of <Term type="constant">CTScaledSigned</Term> indicates that the values in a channel should be
+      interpreted as signed integers, and then converted to similar floating-point values on use. For example,
+      a channel containing the value <Term type="constant">-23</Term> would be ideally converted to
+      <Term type="constant">-23.0</Term> when sampled.
+    </Paragraph>
+    <Paragraph>
+      A value of <Term type="constant">CTIntegerUnsigned</Term> indicates that the values in a channel should be
+      interpreted as unsigned integers.
+    </Paragraph>
+    <Paragraph>
+      A value of <Term type="constant">CTIntegerSigned</Term> indicates that the values in a channel should be
+      interpreted as signed integers.
+    </Paragraph>
+    <Paragraph>
+      A value of <Term type="constant">CTFloatIEEE754</Term> indicates that the values in a channel should be
+      interpreted as <LinkExternal target="https://en.wikipedia.org/wiki/IEEE_754">IEEE 754</LinkExternal>
+      binary floating point values of a size appropriate for the channel (such as <Term type="type">binary16</Term>,
+      <Term type="type">binary32</Term>, <Term type="type">binary64</Term>, and etc).
+    </Paragraph>
+    <Paragraph>
+      A value of <Term type="constant">CTCustom</Term> indicates that values in a channel should be interpreted
+      in a manner not defined by this specification. <Term type="constant">CTCustom</Term> values may be used, for
+      example, to specify exotic platform-specific floating point formats for textures that are intended to be
+      used on a limited range of hardware.
+    </Paragraph>
+    <Paragraph>
+      <Term type="term">Channel types</Term> must use the following
+      <Link target="3d52e6ab-ded8-4b58-b1cc-576ced1fb578">descriptors</Link>:
+    </Paragraph>
+    <FormalItem title="Channel Description">
+      <Verbatim><xi:include href="19.txt" parse="text"/></Verbatim>
+    </FormalItem>
+    <FormalItem title="Channel Describable">
+      <Verbatim><xi:include href="20.txt" parse="text"/></Verbatim>
+    </FormalItem>
+  </Subsection>
+
+  <Subsection title="Standard Formats">
+    <Subsection title="Overview">
+      <Paragraph>
+        The <Term type="package">calino</Term> package considers a number of formats to be
+        <Term type="term">standard</Term> at the time of writing due to their widespread use. In most cases,
+        support for the formats is guaranteed to be present on modern GPUs due to their status of being required
+        formats by specifications such as <LinkExternal target="https://www.vulkan.org">Vulkan</LinkExternal>.
+      </Paragraph>
+
+      <Paragraph>
+        Implementations must provide some degree of support for these formats. For example, implementations
+        that provide tools to manipulate images must be able to, at a minimum, manipulate images in all of the
+        standard formats. Packages that provide the ability to read <Term type="package">calino</Term> texture
+        files and upload the contents to a GPU must expect to encounter textures in all of the standard formats.
+      </Paragraph>
+    </Subsection>
+
+    <Subsection title="R4 G4 B4 A4">
+      <Paragraph>
+        An RGBA layout with 4 bits of precision in each channel, packed into a 16-bit integer.
+      </Paragraph>
+      <FormalItem title="R4 G4 B4 A4 Definition">
+        <Verbatim><xi:include href="109.txt" parse="text"/></Verbatim>
+      </FormalItem>
+    </Subsection>
+
+    <Subsection title="A1 R5 G5 B5">
+      <Paragraph>
+        An RGBA layout with 1 bit of precision in the alpha channel, and 5 bits of precision in each of the other
+        channels, packed into a 16-bit integer.
+      </Paragraph>
+      <FormalItem title="A1 R5 G5 B5 Definition">
+        <Verbatim><xi:include href="144.txt" parse="text"/></Verbatim>
+      </FormalItem>
+    </Subsection>
+
+    <Subsection title="R5 G6 B5">
+      <Paragraph>
+        An RGB layout with 5 bits of precision in the red and blue channels, and 6 bits of precision in the green
+        channel, packed into a 16-bit integer.
+      </Paragraph>
+      <FormalItem title="R5 G6 B5 Definition">
+        <Verbatim><xi:include href="110.txt" parse="text"/></Verbatim>
+      </FormalItem>
+    </Subsection>
+
+    <Subsection title="R8 G8 B8 A8">
+      <Paragraph>
+        An unpacked RGBA layout with 8 bits of precision in each channel.
+      </Paragraph>
+      <FormalItem title="R8 G8 B8 A8 Definition">
+        <Verbatim><xi:include href="111.txt" parse="text"/></Verbatim>
+      </FormalItem>
+    </Subsection>
+
+    <Subsection title="R8 G8 B8">
+      <Paragraph>
+        An unpacked RGB layout with 8 bits of precision in each channel.
+      </Paragraph>
+      <FormalItem title="R8 G8 B8 Definition">
+        <Verbatim><xi:include href="112.txt" parse="text"/></Verbatim>
+      </FormalItem>
+    </Subsection>
+
+    <Subsection title="R8 G8">
+      <Paragraph>
+        An unpacked RG layout with 8 bits of precision in each channel.
+      </Paragraph>
+      <FormalItem title="R8 G8 Definition">
+        <Verbatim><xi:include href="113.txt" parse="text"/></Verbatim>
+      </FormalItem>
+    </Subsection>
+
+    <Subsection title="R8">
+      <Paragraph>
+        An unpacked R layout with 8 bits of precision in each channel.
+      </Paragraph>
+      <FormalItem title="R8 Definition">
+        <Verbatim><xi:include href="114.txt" parse="text"/></Verbatim>
+      </FormalItem>
+    </Subsection>
+
+    <Subsection title="R16 G16 B16 A16">
+      <Paragraph>
+        An unpacked RGBA layout with 16 bits of precision in each channel.
+      </Paragraph>
+      <FormalItem title="R16 G16 B16 A16 Definition">
+        <Verbatim><xi:include href="115.txt" parse="text"/></Verbatim>
+      </FormalItem>
+    </Subsection>
+
+    <Subsection title="R16 G16 B16">
+      <Paragraph>
+        An unpacked RGB layout with 16 bits of precision in each channel.
+      </Paragraph>
+      <FormalItem title="R16 G16 B16 Definition">
+        <Verbatim><xi:include href="116.txt" parse="text"/></Verbatim>
+      </FormalItem>
+    </Subsection>
+
+    <Subsection title="R16 G16">
+      <Paragraph>
+        An unpacked RG layout with 16 bits of precision in each channel.
+      </Paragraph>
+      <FormalItem title="R16 G16 Definition">
+        <Verbatim><xi:include href="117.txt" parse="text"/></Verbatim>
+      </FormalItem>
+    </Subsection>
+
+    <Subsection title="R16">
+      <Paragraph>
+        An unpacked R layout with 16 bits of precision in each channel.
+      </Paragraph>
+      <FormalItem title="R16 Definition">
+        <Verbatim><xi:include href="118.txt" parse="text"/></Verbatim>
+      </FormalItem>
+    </Subsection>
+
+    <Subsection title="R32 G32 B32 A32">
+      <Paragraph>
+        An unpacked RGBA layout with 32 bits of precision in each channel.
+      </Paragraph>
+      <FormalItem title="R32 G32 B32 A32 Definition">
+        <Verbatim><xi:include href="119.txt" parse="text"/></Verbatim>
+      </FormalItem>
+    </Subsection>
+
+    <Subsection title="R32 G32 B32">
+      <Paragraph>
+        An unpacked RGB layout with 32 bits of precision in each channel.
+      </Paragraph>
+      <FormalItem title="R32 G32 B32 Definition">
+        <Verbatim><xi:include href="120.txt" parse="text"/></Verbatim>
+      </FormalItem>
+    </Subsection>
+
+    <Subsection title="R32 G32">
+      <Paragraph>
+        An unpacked RG layout with 32 bits of precision in each channel.
+      </Paragraph>
+      <FormalItem title="R32 G32 Definition">
+        <Verbatim><xi:include href="121.txt" parse="text"/></Verbatim>
+      </FormalItem>
+    </Subsection>
+
+    <Subsection title="R32">
+      <Paragraph>
+        An unpacked R layout with 32 bits of precision in each channel.
+      </Paragraph>
+      <FormalItem title="R32 Definition">
+        <Verbatim><xi:include href="122.txt" parse="text"/></Verbatim>
+      </FormalItem>
+    </Subsection>
+
+    <Subsection title="R64 G64 B64 A64">
+      <Paragraph>
+        An unpacked RGBA layout with 64 bits of precision in each channel.
+      </Paragraph>
+      <FormalItem title="R64 G64 B64 A64 Definition">
+        <Verbatim><xi:include href="123.txt" parse="text"/></Verbatim>
+      </FormalItem>
+    </Subsection>
+
+    <Subsection title="R64 G64 B64">
+      <Paragraph>
+        An unpacked RGB layout with 64 bits of precision in each channel.
+      </Paragraph>
+      <FormalItem title="R64 G64 B64 Definition">
+        <Verbatim><xi:include href="124.txt" parse="text"/></Verbatim>
+      </FormalItem>
+    </Subsection>
+
+    <Subsection title="R64 G64">
+      <Paragraph>
+        An unpacked RG layout with 64 bits of precision in each channel.
+      </Paragraph>
+      <FormalItem title="R64 G64 Definition">
+        <Verbatim><xi:include href="125.txt" parse="text"/></Verbatim>
+      </FormalItem>
+    </Subsection>
+
+    <Subsection title="R64">
+      <Paragraph>
+        An unpacked R layout with 64 bits of precision in each channel.
+      </Paragraph>
+      <FormalItem title="R64 Definition">
+        <Verbatim><xi:include href="126.txt" parse="text"/></Verbatim>
+      </FormalItem>
+    </Subsection>
+  </Subsection>
+
+</Section>

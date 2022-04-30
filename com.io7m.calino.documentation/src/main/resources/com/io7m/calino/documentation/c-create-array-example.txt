@@ -1,0 +1,14 @@
+$ calino create-array \
+--mipmap-generate BILINEAR \
+--output output.ctf \
+--super-compression LZ4 \
+--metadata input.properties \
+--convert-layout-to "R8:G8:B8:A8" \
+--source-layer layer0.png \
+--source-layer layer1.png \
+--source-layer layer2.png \
+--source-layer layer3.png \
+--source-layer layer4.png \
+--source-layer layer5.png \
+--source-layer layer6.png \
+--source-layer layer7.png

@@ -23,7 +23,11 @@ import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.util.Locale;
 
-abstract class CLNAbstractCommand extends CLPAbstractCommand
+/**
+ * An abstract calino command.
+ */
+
+public abstract class CLNAbstractCommand extends CLPAbstractCommand
 {
   private final CLNStrings calinoStrings;
 
@@ -38,6 +42,10 @@ abstract class CLNAbstractCommand extends CLPAbstractCommand
       throw new UncheckedIOException(e);
     }
   }
+
+  /**
+   * @return The string resources
+   */
 
   public final CLNStrings calinoStrings()
   {

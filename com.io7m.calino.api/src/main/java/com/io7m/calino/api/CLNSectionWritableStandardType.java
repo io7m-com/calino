@@ -24,6 +24,8 @@ public sealed interface CLNSectionWritableStandardType
   extends CLNSectionWritableType
   permits CLNSectionWritableEndType,
   CLNSectionWritableImage2DType,
+  CLNSectionWritableImageArrayType,
+  CLNSectionWritableImageCubeType,
   CLNSectionWritableImageInfoType,
   CLNSectionWritableMetadataType
 {

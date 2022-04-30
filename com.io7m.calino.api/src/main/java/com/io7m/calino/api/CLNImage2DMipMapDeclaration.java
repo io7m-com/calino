@@ -16,6 +16,8 @@
 
 package com.io7m.calino.api;
 
+import java.util.Comparator;
+
 /**
  * The declaration of a single mipmap.
  *
@@ -30,6 +32,15 @@ public record CLNImage2DMipMapDeclaration(
   long sizeCompressed,
   long sizeUncompressed,
   int crc32)
+  implements Comparable<CLNImage2DMipMapDeclaration>
 {
-
+  @Override
+  public int compareTo(
+    final CLNImage2DMipMapDeclaration other)
+  {
+    return ((Comparator<CLNImage2DMipMapDeclaration>) (o1, o2) -> {
+      return Integer.compareUnsigned(o1.mipMapLevel(), o2.mipMapLevel());
+    }).reversed()
+      .compare(this, other);
+  }
 }

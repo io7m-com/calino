@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Section title="Binary Expressions"
+         xmlns="urn:com.io7m.structural:8:0"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <Subsection title="Overview">
+    <Paragraph>
+      The <Term type="package">calino</Term> texture file format has a strict and easy-to-parse binary encoding, defined
+      in terms of a small <Term type="term">binary expression</Term> language. Terms in this binary expression language,
+      when evaluated, produce streams of octets that are concatenated together to produce the final output file. This
+      section of the specification defines the expression language, whilst subsequent sections describe how the semantic
+      structures given in the <Link target="73066219-7f6d-4809-b87c-897be98b4a6b">model</Link> are mapped to binary
+      expressions.
+    </Paragraph>
+  </Subsection>
+
+  <Subsection title="Expressions">
+    <Paragraph>
+      A <Term type="term">term</Term> in the binary expression language is described by the following inductive type:
+    </Paragraph>
+    <FormalItem title="Binary Expression">
+      <Verbatim>
+        <xi:include href="77.txt"
+                    parse="text"/>
+      </Verbatim>
+    </FormalItem>
+    <Paragraph>
+      An expression <Term type="expression">BiU32 n</Term> represents an unsigned 32-bit integer
+      <Term type="constant">n</Term>.
+    </Paragraph>
+    <Paragraph>
+      An expression <Term type="expression">BiU64 n</Term> represents an unsigned 64-bit integer
+      <Term type="constant">n</Term>.
+    </Paragraph>
+    <Paragraph>
+      An expression <Term type="expression">BiBytes xs</Term> represents an octet array. Octet arrays are prefixed
+      with an unsigned 32-bit integer value denoting their size in octets, not including any padding. Octet arrays are
+      unconditionally padded with unsigned 8-bit values such that the total size of the array including padding is
+      evenly divisible by 4.
+    </Paragraph>
+    <Paragraph>
+      An expression <Term type="expression">BiUTF8 xs</Term> represents a UTF-8 encoded string. Strings are
+      prefixed with an unsigned 32-bit integer value denoting their encoded size in octets, not including any padding.
+      Strings are unconditionally padded with unsigned 8-bit values such that the total size of the string including
+      padding is evenly divisible by 4.
+    </Paragraph>
+    <Paragraph>
+      An expression <Term type="expression">BiArray xs</Term> represents an array of binary expressions
+      <Term type="expression">xs</Term>. Arrays are prefixed with an unsigned 32-bit integer value denoting the number
+      of array elements present.
+    </Paragraph>
+    <Paragraph>
+      An expression <Term type="expression">BiReserve n</Term> represents a block of reserved data of
+      <Term type="expression">n</Term> octets in length. Data is unconditionally padded with unsigned 8-bit values
+      such that the total size of the string including padding is evenly divisible by 4.
+    </Paragraph>
+    <Paragraph>
+      An expression <Term type="expression">BiRecord fs</Term> represents a sequence of named expression values.
+      Intuitively, they can be considered to be fields of a record type. The number of fields is
+      <Term type="emphasis">not</Term> present in the resulting encoded octet stream, and the names of fields
+      are not included either. Consumers are expected to know, from reading this specification, when to expect a
+      record type in a stream.
+    </Paragraph>
+    <Paragraph>
+      All of the possible forms of binary expression have an encoded size that is a multiple of 4. The sizes
+      of each encoded expression form are given by <Term type="expression">binarySize</Term>:
+    </Paragraph>
+    <FormalItem title="Binary Expression Sizes">
+      <Verbatim>
+        <xi:include href="78.txt" parse="text"/>
+      </Verbatim>
+    </FormalItem>
+    <FormalItem title="Binary Expression Sizes (multiple of)" id="1f0b8741-bd88-4925-b880-f5dd6063ccf1">
+      <Verbatim>
+        <xi:include href="79.txt" parse="text"/>
+      </Verbatim>
+    </FormalItem>
+    <FormalItem title="Binary Expression Size Theorem">
+      <Verbatim>
+        <xi:include href="84.txt" parse="text"/>
+      </Verbatim>
+    </FormalItem>
+    <Paragraph>
+      This specification text makes use of a convenient abbreviation function,
+      <Term type="expression">binarySizePadded16</Term>,
+      to concisely denote the size of binary expressions padded to a size that is a multiple of 16, as well
+      as a partial application of <Link target="1f0b8741-bd88-4925-b880-f5dd6063ccf1">asMultipleOf</Link>
+      fixed to a multiple of 4:
+    </Paragraph>
+    <FormalItem title="Binary Expression Size Padded 16">
+      <Verbatim>
+        <xi:include href="90.txt" parse="text"/>
+      </Verbatim>
+    </FormalItem>
+    <FormalItem title="asMultipleOf4">
+      <Verbatim>
+        <xi:include href="96.txt" parse="text"/>
+      </Verbatim>
+    </FormalItem>
+    <Paragraph>
+      Binary expressions are encoded as streams of <Term type="expression">streamE</Term> values:
+    </Paragraph>
+    <FormalItem title="Stream Elements">
+      <Verbatim>
+        <xi:include href="80.txt" parse="text"/>
+      </Verbatim>
+    </FormalItem>
+    <Paragraph>
+      An expression <Term type="expression">Vu64 n</Term> represents an unsigned 64-bit integer in
+      <Link target="af4e0973-1be2-4b0f-beca-1190cf84aea3">big-endian</Link> order.
+    </Paragraph>
+    <Paragraph>
+      An expression <Term type="expression">Vu32 n</Term> represents an unsigned 32-bit integer in
+      <Link target="af4e0973-1be2-4b0f-beca-1190cf84aea3">big-endian</Link> order.
+    </Paragraph>
+    <Paragraph>
+      An expression <Term type="expression">Vu8 n</Term> represents an unsigned 8-bit integer.
+    </Paragraph>
+    <Paragraph>
+      A given binary expression is transformed to a stream of octets using the following encoding
+      rules:
+    </Paragraph>
+    <FormalItem title="Binary Expression Encoding">
+      <Verbatim>
+        <xi:include href="82.txt" parse="text"/>
+      </Verbatim>
+    </FormalItem>
+    <FormalItem title="Binary Expression Encoding (Padding)">
+      <Verbatim>
+        <xi:include href="83.txt" parse="text"/>
+      </Verbatim>
+    </FormalItem>
+    <Paragraph>
+      Informally, a stream <Term type="expression">s</Term> is <Term type="term">well-formed</Term> if exactly one
+      of the following conditions holds:
+    </Paragraph>
+    <FormalItem title="Well-Formed Stream (Informal rules)">
+      <ListUnordered>
+        <Item>
+          <Term type="expression">s</Term> is empty.
+        </Item>
+        <Item>
+          <Term type="expression">s</Term> consists of a single 64-bit integer.
+        </Item>
+        <Item>
+          <Term type="expression">s</Term> consists of a single 32-bit integer.
+        </Item>
+        <Item>
+          <Term type="expression">s</Term> consists of a sequence of <Term type="expression">n</Term> 8-bit integers,
+          where <Term type="expression">n</Term> is evenly divisible by 4.
+        </Item>
+        <Item>
+          <Term type="expression">s</Term> is the concatenation of a well-formed stream
+          <Term type="expression">t</Term> and a well-formed stream <Term type="expression">u</Term>.
+        </Item>
+      </ListUnordered>
+    </FormalItem>
+    <Paragraph>
+      The rules for <Term type="term">well-formedness</Term> correspond to the following proposition:
+    </Paragraph>
+    <FormalItem title="Well-Formed Stream">
+      <Verbatim>
+        <xi:include href="93.txt" parse="text"/>
+      </Verbatim>
+    </FormalItem>
+    <Paragraph>
+      The binary expression encoding rules produce <Term type="term">well-formed</Term> streams.
+      It follows that any <Term type="term">well-formed</Term> stream has a size that is evenly divisible by 4.
+    </Paragraph>
+    <FormalItem title="Binary Expression Encoding Well-Formed">
+      <Verbatim><xi:include href="94.txt" parse="text"/></Verbatim>
+    </FormalItem>
+    <FormalItem title="Binary Expression Encoding Size Divisible">
+      <Verbatim><xi:include href="95.txt" parse="text"/></Verbatim>
+    </FormalItem>
+  </Subsection>
+
+</Section>

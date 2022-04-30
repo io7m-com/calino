@@ -1,0 +1,115 @@
+Require Import Coq.PArith.PArith.
+Require Import Coq.Arith.PeanoNat.
+Require Import Coq.Strings.String.
+Require Import Coq.Strings.Ascii.
+Require Import Coq.Lists.List.
+Require Import Coq.Init.Nat.
+
+Require Import Calino.Divisible8.
+Require Import Calino.StringUtility.
+Require Import Calino.Descriptor.
+Require Import Calino.ChannelDescription.
+Require Import Calino.ChannelSemantic.
+Require Import Calino.ChannelType.
+Require Import Calino.Compression.
+Require Import Calino.SuperCompression.
+Require Import Calino.ColorSpace.
+Require Import Calino.Flag.
+Require Import Calino.ByteOrder.
+Require Import Calino.CoordinateSystem.
+Require Import Calino.ImageInfo.
+Require Import Calino.MipMap.
+Require Import Calino.Image.
+
+Import ListNotations.
+
+Open Scope list_scope.
+Open Scope string_scope.
+Open Scope char_scope.
+Open Scope nat_scope.
+
+(*
+Set Mangle Names.
+*)
+
+Example eightNotZero : 8 <> 0 := not_eq_sym (O_S 7).
+
+Example R8 : channelDescription := channelDescriptionMake CSRed   8 eightNotZero.
+Example G8 : channelDescription := channelDescriptionMake CSGreen 8 eightNotZero.
+Example B8 : channelDescription := channelDescriptionMake CSBlue  8 eightNotZero.
+Example A8 : channelDescription := channelDescriptionMake CSAlpha 8 eightNotZero.
+
+Transparent R8.
+Transparent G8.
+Transparent B8.
+Transparent A8.
+
+Example R8_Div8 : channelDescriptionBitsDivisible8 R8 := eq_refl.
+Example G8_Div8 : channelDescriptionBitsDivisible8 G8 := eq_refl.
+Example B8_Div8 : channelDescriptionBitsDivisible8 B8 := eq_refl.
+Example A8_Div8 : channelDescriptionBitsDivisible8 A8 := eq_refl.
+
+Example R8_G8_B8_Channels : list channelDescription := [R8; G8; B8].
+
+Example R8_G8_B8_NonEmpty := nil_cons (x := R8) (l := [G8;B8]).
+
+Example R8_G8_B8_Div8 : Forall channelDescriptionBitsDivisible8 R8_G8_B8_Channels :=
+  Forall_cons R8 R8_Div8 
+   (Forall_cons G8 G8_Div8 
+     (Forall_cons B8 B8_Div8 
+       (Forall_nil channelDescriptionBitsDivisible8))).
+
+Example R8_G8_B8 : channelLayoutDescription :=
+  ChannelLayoutDescriptionUnpacked 
+    (CLDUMake R8_G8_B8_Channels R8_G8_B8_NonEmpty R8_G8_B8_Div8).
+
+Example SixteenNotZero : 16 <> 0 := not_eq_sym (O_S 15).
+Example OneNotZero : 1 <> 0 := not_eq_sym (O_S 0).
+
+Example ImageInfoR8G8B8 : imageInfo :=
+  ImageInfo 
+  16 
+  16
+  1 
+  (conj SixteenNotZero (conj SixteenNotZero OneNotZero))
+  R8_G8_B8 
+  CTFixedPointNormalizedUnsigned
+  CompressionUncompressed
+  SuperCompressionUncompressed 
+  (CoordinateSystem AxisRIncreasingToward AxisSIncreasingRight AxisTIncreasingDown)
+  CSsRGB
+  [FlagAlphaPremultiplied]
+  ByteOrderLittle.
+
+Example mipEx0 : mipMap := MipMap 0 0 3072 3072 0.
+Example mipEx1 : mipMap := MipMap 1 0 768  768  0.
+Example mipEx2 : mipMap := MipMap 2 0 192  192  0.
+Example mipEx3 : mipMap := MipMap 3 0 48   48   0.
+
+Transparent mipEx0.
+Transparent mipEx1.
+Transparent mipEx2.
+Transparent mipEx3.
+
+Example mipExList : list mipMap := [mipEx3; mipEx2; mipEx1; mipEx0].
+Transparent mipExList.
+
+Example mipExListSorted : mipMapListIsSorted mipExList.
+Proof.
+  assert (mipMapLevel mipEx3 = S (mipMapLevel mipEx2)) as H3s2 by reflexivity.
+  assert (mipMapListIsSorted [mipEx2; mipEx1; mipEx0]) as Hs210.
+    assert (mipMapLevel mipEx2 = S (mipMapLevel mipEx1)) as H2s1 by reflexivity.
+    assert (mipMapListIsSorted [mipEx1; mipEx0]) as Hs10.
+      assert (mipMapLevel mipEx1 = S (mipMapLevel mipEx0)) as H1s0 by reflexivity.
+      assert (mipMapListIsSorted [mipEx0]) as Hs0.
+        apply MipsOne.
+      apply (MipsCons mipEx0 mipEx1 [] H1s0 Hs0).
+    apply (MipsCons mipEx1 mipEx2 [mipEx0] H2s1 Hs10).
+  apply (MipsCons mipEx2 mipEx3 [mipEx1;mipEx0] H3s2 Hs210).
+Qed.
+
+Example mipExListNonEmpty : nil <> mipExList.
+Proof. discriminate. Qed.
+
+Example ImageR8G8B8 : image :=
+  Image2D ImageInfoR8G8B8 (MipMapList mipExList mipExListNonEmpty mipExListSorted).

@@ -67,6 +67,10 @@ import static java.awt.image.AffineTransformOp.TYPE_BICUBIC;
 import static java.awt.image.AffineTransformOp.TYPE_BILINEAR;
 import static java.awt.image.AffineTransformOp.TYPE_NEAREST_NEIGHBOR;
 
+/**
+ * The default image processor.
+ */
+
 public final class CLNImageProcessor implements CLNImageProcessorType
 {
   private static final int[] R5G6B5_SIZES = {5, 6, 5};
@@ -78,6 +82,12 @@ public final class CLNImageProcessor implements CLNImageProcessorType
   private static final int[] R16G16B16_SIZES = {16, 16, 16};
 
   private final CLNImageProcessorRequest request;
+
+  /**
+   * The default image processor.
+   *
+   * @param inRequest The processing request
+   */
 
   public CLNImageProcessor(
     final CLNImageProcessorRequest inRequest)
@@ -96,8 +106,9 @@ public final class CLNImageProcessor implements CLNImageProcessorType
     };
 
     return switch (layout) {
-      case R5_G6_B5 -> new CLNImageDecodeR5G6B5();
-      case R4_G4_B4_A4 -> new CLNImageDecodeR4G4B4A4();
+      case A1_R5_G5_B5 -> new CLNImageDecodeA1R5G5B5(bufferOrder);
+      case R5_G6_B5 -> new CLNImageDecodeR5G6B5(bufferOrder);
+      case R4_G4_B4_A4 -> new CLNImageDecodeR4G4B4A4(bufferOrder);
       case R8 -> new CLNImageDecode8(bufferOrder, 1);
       case R8_G8 -> new CLNImageDecode8(bufferOrder, 2);
       case R8_G8_B8 -> new CLNImageDecode8(bufferOrder, 3);
@@ -253,6 +264,29 @@ public final class CLNImageProcessor implements CLNImageProcessorType
     return new Chain(imageInfo, images);
   }
 
+  private static UnsupportedOperationException errorUnsupported(
+    final CLNChannelsLayoutDescriptionType targetLayout,
+    final String baseMessage)
+  {
+    final var message = new StringBuilder(128);
+    final var lineSeparator = System.lineSeparator();
+    message.append(baseMessage);
+    message.append(lineSeparator);
+    message.append("  Layout: ");
+    message.append(targetLayout.descriptor());
+    message.append(lineSeparator);
+    message.append("  Supported layouts:");
+    message.append(lineSeparator);
+
+    for (final var layout : CLNChannelsLayoutDescriptionStandard.values()) {
+      message.append("    ");
+      message.append(layout.descriptor());
+      message.append(lineSeparator);
+    }
+
+    return new UnsupportedOperationException(message.toString());
+  }
+
   private static int scaling(
     final CLNImageMipMapFilter filter)
   {
@@ -277,6 +311,13 @@ public final class CLNImageProcessor implements CLNImageProcessorType
       this.request.layoutConversion()
         .map(CLNImageLayoutConversion::targetLayout)
         .orElse(channelLayoutGuess(image));
+
+    if (!(finalLayout instanceof CLNChannelsLayoutDescriptionStandard)) {
+      throw errorUnsupported(
+        finalLayout,
+        "No support is available for the target layout."
+      );
+    }
 
     /*
      * If mipmap generation is requested, then generate mipmaps.
@@ -365,7 +406,6 @@ public final class CLNImageProcessor implements CLNImageProcessorType
           createDecoderForLayout(this.imageInfo.dataByteOrder(), standard);
         return decoder.execute(image);
       }
-
       throw new IllegalStateException();
     }
 

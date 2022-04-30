@@ -34,6 +34,10 @@ public final class CLNIdentifiers
     0x434C_4E5F_4D45_5441L;
   private static final long SECTION_IMAGE_2D_IDENTIFIER =
     0x434C_4E5F_4932_4421L;
+  private static final long SECTION_IMAGE_ARRAY_IDENTIFIER =
+    0x434C_4E5F_4152_5221L;
+  private static final long SECTION_IMAGE_CUBE_IDENTIFIER =
+    0x434C_4E5F_4355_4245L;
 
   private CLNIdentifiers()
   {
@@ -41,7 +45,7 @@ public final class CLNIdentifiers
   }
 
   /**
-   * @return The identifier used to identify <tt>calino</tt> files
+   * @return The identifier used to identify {@code calino} files
    */
 
   public static long fileIdentifier()
@@ -50,7 +54,7 @@ public final class CLNIdentifiers
   }
 
   /**
-   * @return The identifier used to identify <tt>end</tt> sections
+   * @return The identifier used to identify {@code end} sections
    */
 
   public static long sectionEndIdentifier()
@@ -59,7 +63,7 @@ public final class CLNIdentifiers
   }
 
   /**
-   * @return The identifier used to identify <tt>image info</tt> sections
+   * @return The identifier used to identify {@code image info} sections
    */
 
   public static long sectionImageInfoIdentifier()
@@ -68,7 +72,7 @@ public final class CLNIdentifiers
   }
 
   /**
-   * @return The identifier used to identify <tt>image 2D</tt> sections
+   * @return The identifier used to identify {@code image 2D} sections
    */
 
   public static long sectionImage2DIdentifier()
@@ -77,12 +81,30 @@ public final class CLNIdentifiers
   }
 
   /**
-   * @return The identifier used to identify <tt>metadata</tt> sections
+   * @return The identifier used to identify {@code metadata} sections
    */
 
   public static long sectionMetadataIdentifier()
   {
     return SECTION_METADATA_IDENTIFIER;
+  }
+
+  /**
+   * @return The identifier used to identify {@code image array} sections
+   */
+
+  public static long sectionImageArrayIdentifier()
+  {
+    return SECTION_IMAGE_ARRAY_IDENTIFIER;
+  }
+
+  /**
+   * @return The identifier used to identify {@code image cube} sections
+   */
+
+  public static long sectionImageCubeIdentifier()
+  {
+    return SECTION_IMAGE_CUBE_IDENTIFIER;
   }
 
   /**
@@ -107,6 +129,12 @@ public final class CLNIdentifiers
     }
     if (identifier == SECTION_END_IDENTIFIER) {
       return Optional.of("END");
+    }
+    if (identifier == SECTION_IMAGE_ARRAY_IDENTIFIER) {
+      return Optional.of("IMAGE_ARRAY");
+    }
+    if (identifier == SECTION_IMAGE_CUBE_IDENTIFIER) {
+      return Optional.of("IMAGE_CUBE");
     }
     return Optional.empty();
   }

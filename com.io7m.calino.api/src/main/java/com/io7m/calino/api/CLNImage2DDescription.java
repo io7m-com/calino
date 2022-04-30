@@ -33,7 +33,13 @@ public record CLNImage2DDescription(
   long dataSizeUncompressed,
   long dataSizeCompressed,
   int crc32Uncompressed)
-  implements CLNImageDescriptionType
+  implements CLNImageDescriptionType, Comparable<CLNImage2DDescription>
 {
 
+  @Override
+  public int compareTo(
+    final CLNImage2DDescription other)
+  {
+    return Integer.compareUnsigned(other.mipMapLevel(), this.mipMapLevel());
+  }
 }

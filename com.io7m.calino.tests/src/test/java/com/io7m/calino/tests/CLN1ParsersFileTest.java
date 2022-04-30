@@ -16,31 +16,24 @@
 
 package com.io7m.calino.tests;
 
-import com.io7m.calino.supercompression.api.CLNDecompressors;
 import com.io7m.calino.parser.api.CLNParseRequest;
 import com.io7m.calino.parser.api.CLNParseRequestBuilderType;
 import com.io7m.calino.parser.api.CLNParserType;
-import com.io7m.calino.parser.api.CLNParserValidationEvent;
+import com.io7m.calino.supercompression.api.CLNDecompressors;
 import com.io7m.calino.vanilla.CLN1Parsers;
 import com.io7m.jmulticlose.core.CloseableCollection;
 import com.io7m.jmulticlose.core.ClosingResourceFailedException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.channels.FileChannel;
-import java.util.ArrayList;
 import java.util.function.Consumer;
 
 import static java.nio.file.StandardOpenOption.READ;
 
 public final class CLN1ParsersFileTest extends CLN1ParsersContract
 {
-  private static final Logger LOG =
-    LoggerFactory.getLogger(CLN1ParsersFileTest.class);
-
   @BeforeEach
   public void setup()
     throws IOException
@@ -48,7 +41,6 @@ public final class CLN1ParsersFileTest extends CLN1ParsersContract
     this.parsers = new CLN1Parsers();
     this.directory = CLNTestDirectories.createTempDirectory();
     this.resources = CloseableCollection.create();
-    this.events = new ArrayList<>();
   }
 
   @AfterEach
@@ -76,8 +68,7 @@ public final class CLN1ParsersFileTest extends CLN1ParsersContract
       FileChannel.open(file, READ);
 
     final var builder =
-      CLNParseRequest.builder(new CLNDecompressors(), channel, file.toUri())
-        .setValidationReceiver(this::onValidationEvent);
+      CLNParseRequest.builder(new CLNDecompressors(), channel, file.toUri());
 
     configurator.accept(builder);
 
@@ -85,12 +76,5 @@ public final class CLN1ParsersFileTest extends CLN1ParsersContract
       this.parsers.createParser(builder.build());
 
     return this.resources.add(parser);
-  }
-
-  private void onValidationEvent(
-    final CLNParserValidationEvent event)
-  {
-    LOG.debug("event: {}", event);
-    this.events.add(event);
   }
 }

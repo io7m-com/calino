@@ -9,7 +9,7 @@
   <parent>
     <groupId>com.io7m.calino</groupId>
     <artifactId>com.io7m.calino</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
   </parent>
   <artifactId>com.io7m.calino.imageproc.awt</artifactId>
 
@@ -21,13 +21,13 @@
   <dependencies>
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>com.io7m.calino.imageproc.api</artifactId>
+      <artifactId>com.io7m.calino.api</artifactId>
       <version>${project.version}</version>
     </dependency>
-
     <dependency>
-      <groupId>com.io7m.jaffirm</groupId>
-      <artifactId>com.io7m.jaffirm.core</artifactId>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>com.io7m.calino.imageproc.api</artifactId>
+      <version>${project.version}</version>
     </dependency>
 
     <dependency>

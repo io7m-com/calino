@@ -18,6 +18,7 @@ package com.io7m.calino.cmdline.internal;
 
 import com.beust.jcommander.IStringConverter;
 import com.io7m.calino.api.CLNChannelsLayoutDescriptionType;
+import com.io7m.calino.api.CLNChannelsLayoutDescriptions;
 
 import java.text.ParseException;
 
@@ -42,7 +43,7 @@ public final class CLNChannelLayoutStringConverter
     final String value)
   {
     try {
-      return CLNChannelsLayoutDescriptionType.parseLayoutDescriptor(value);
+      return CLNChannelsLayoutDescriptions.parseLayoutDescriptor(value);
     } catch (final ParseException e) {
       throw new IllegalArgumentException(e);
     }

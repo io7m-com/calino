@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Section title="Sources"
+         id="404d63ad-55e4-463f-8d42-bdf374d78b86"
+         xmlns="urn:com.io7m.structural:8:0"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <Paragraph>
+    The full sources for the Coq/Gallina model underlying this specification are
+    included here.
+  </Paragraph>
+
+  <FormalItem title="Calino/Alignment.v" id="f798840c-90b5-55c0-99f6-cdba4abcbd30">
+    <Verbatim><xi:include href="Calino/Alignment.v" parse="text"/></Verbatim>
+  </FormalItem>
+  <FormalItem title="Calino/ArrayMipMap.v" id="fbff5670-d628-5a70-91dd-ec6d852569c8">
+    <Verbatim><xi:include href="Calino/ArrayMipMap.v" parse="text"/></Verbatim>
+  </FormalItem>
+  <FormalItem title="Calino/Binary.v" id="e34eccb9-9f08-53ad-9bf5-29a577d25116">
+    <Verbatim><xi:include href="Calino/Binary.v" parse="text"/></Verbatim>
+  </FormalItem>
+  <FormalItem title="Calino/ByteOrder.v" id="b56873fd-4b8d-5e93-ab20-01bc767433dd">
+    <Verbatim><xi:include href="Calino/ByteOrder.v" parse="text"/></Verbatim>
+  </FormalItem>
+  <FormalItem title="Calino/ChannelDescription.v" id="08f3adda-4f51-5e75-a04e-5b6cef807b92">
+    <Verbatim><xi:include href="Calino/ChannelDescription.v" parse="text"/></Verbatim>
+  </FormalItem>
+  <FormalItem title="Calino/ChannelSemantic.v" id="75e10c57-86e4-5bb6-aba2-cad88fa17720">
+    <Verbatim><xi:include href="Calino/ChannelSemantic.v" parse="text"/></Verbatim>
+  </FormalItem>
+  <FormalItem title="Calino/ChannelType.v" id="2a7e41c5-31bc-56b4-94fd-8e39bc728ae7">
+    <Verbatim><xi:include href="Calino/ChannelType.v" parse="text"/></Verbatim>
+  </FormalItem>
+  <FormalItem title="Calino/ColorSpace.v" id="6d9e87b7-a68b-5c60-a455-0a72eaaadf85">
+    <Verbatim><xi:include href="Calino/ColorSpace.v" parse="text"/></Verbatim>
+  </FormalItem>
+  <FormalItem title="Calino/Compression.v" id="30fe9705-6c96-5bbe-b7c6-c1a068353662">
+    <Verbatim><xi:include href="Calino/Compression.v" parse="text"/></Verbatim>
+  </FormalItem>
+  <FormalItem title="Calino/CoordinateSystem.v" id="6a334487-965f-583e-89e0-0da0ec538e5e">
+    <Verbatim><xi:include href="Calino/CoordinateSystem.v" parse="text"/></Verbatim>
+  </FormalItem>
+  <FormalItem title="Calino/CubeMipMap.v" id="527b3cf7-0441-50c8-a50b-b92dbc09580c">
+    <Verbatim><xi:include href="Calino/CubeMipMap.v" parse="text"/></Verbatim>
+  </FormalItem>
+  <FormalItem title="Calino/Descriptor.v" id="b2bfd972-cb6c-5f30-8e06-493f818d4ebd">
+    <Verbatim><xi:include href="Calino/Descriptor.v" parse="text"/></Verbatim>
+  </FormalItem>
+  <FormalItem title="Calino/Divisible8.v" id="d00fa1b0-099a-590f-bfc0-f759c671b6bb">
+    <Verbatim><xi:include href="Calino/Divisible8.v" parse="text"/></Verbatim>
+  </FormalItem>
+  <FormalItem title="Calino/Flag.v" id="7ecaa9cf-3f8c-5b0f-8480-e38cf5fe0257">
+    <Verbatim><xi:include href="Calino/Flag.v" parse="text"/></Verbatim>
+  </FormalItem>
+  <FormalItem title="Calino/ImageInfo.v" id="383a0e87-2eb8-56d6-b7f7-95f83078753b">
+    <Verbatim><xi:include href="Calino/ImageInfo.v" parse="text"/></Verbatim>
+  </FormalItem>
+  <FormalItem title="Calino/ImageSize.v" id="5bf580a7-5e33-5c75-a571-47574e06bd29">
+    <Verbatim><xi:include href="Calino/ImageSize.v" parse="text"/></Verbatim>
+  </FormalItem>
+  <FormalItem title="Calino/Metadata.v" id="bc409c5d-1638-574d-a1bc-ae82a7e4c297">
+    <Verbatim><xi:include href="Calino/Metadata.v" parse="text"/></Verbatim>
+  </FormalItem>
+  <FormalItem title="Calino/MipMap.v" id="d53ca60c-d42d-55dc-8b64-bf455fa425cf">
+    <Verbatim><xi:include href="Calino/MipMap.v" parse="text"/></Verbatim>
+  </FormalItem>
+  <FormalItem title="Calino/StandardFormats.v" id="be0229cf-3715-56c9-a354-36cff710d917">
+    <Verbatim><xi:include href="Calino/StandardFormats.v" parse="text"/></Verbatim>
+  </FormalItem>
+  <FormalItem title="Calino/StringUtility.v" id="2f33fe01-a908-5f47-8299-74f7f27ad031">
+    <Verbatim><xi:include href="Calino/StringUtility.v" parse="text"/></Verbatim>
+  </FormalItem>
+  <FormalItem title="Calino/SuperCompression.v" id="178c5cfc-a84a-5e00-bf65-8815e2fa8e31">
+    <Verbatim><xi:include href="Calino/SuperCompression.v" parse="text"/></Verbatim>
+  </FormalItem>
+  <FormalItem title="Calino/Texture.v" id="117d2c5f-f998-5de0-b1c1-b0a56d4daa17">
+    <Verbatim><xi:include href="Calino/Texture.v" parse="text"/></Verbatim>
+  </FormalItem>
+
+</Section>

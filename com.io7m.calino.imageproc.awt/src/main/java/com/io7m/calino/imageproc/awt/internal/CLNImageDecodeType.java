@@ -18,7 +18,19 @@ package com.io7m.calino.imageproc.awt.internal;
 
 import java.awt.image.BufferedImage;
 
+/**
+ * An image decoder. Extracts the raw bytes of an image.
+ */
+
 public interface CLNImageDecodeType
 {
+  /**
+   * Decode the given image.
+   *
+   * @param image The image
+   *
+   * @return The raw underlying bytes of the image data
+   */
+
   byte[] execute(BufferedImage image);
 }

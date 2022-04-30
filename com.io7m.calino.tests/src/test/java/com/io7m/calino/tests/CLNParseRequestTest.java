@@ -16,8 +16,8 @@
 
 package com.io7m.calino.tests;
 
-import com.io7m.calino.supercompression.api.CLNDecompressors;
 import com.io7m.calino.parser.api.CLNParseRequest;
+import com.io7m.calino.supercompression.api.CLNDecompressors;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

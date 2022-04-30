@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Section title="Coordinate Systems"
+         id="bf9a3817-5e64-426c-ad91-f408fdcc4a60"
+         xmlns="urn:com.io7m.structural:8:0"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <Paragraph>
+    All images implicitly have a <Term type="term">coordinate system</Term> such that the locations of
+    pixels are specified relative to some origin point. For example, OpenGL's <Term type="term">screen space</Term>
+    is a coordinate system with the origin at the <Term type="term">bottom left</Term> such that X coordinates
+    increase <Term type="term">rightwards</Term> and Y coordinates increase <Term type="term">upwards</Term>. In
+    contrast, Java2D's coordinate system has the origin at the <Term type="term">top left</Term> such that X coordinates
+    increase <Term type="term">rightwards</Term> and Y coordinates increase <Term type="term">downwards</Term>.
+    Texture coordinates are typically expressed as a 3-tuple <Term type="expression">(R, S, T)</Term>, where
+    <Term type="expression">S</Term> is analogous to the X axis, <Term type="expression">T</Term> is analogous to
+    the Y axis, and <Term type="expression">R</Term> is analogous to the Z axis. The <Term type="expression">R</Term>
+    coordinate value is only present for 3D textures.
+  </Paragraph>
+
+  <FormalItem title="Texture Coordinates" id="5bb8ba81-5292-436e-aa3f-5f9dd616744d">
+    <Image source="origins.png" width="640" height="480">
+      Texture coordinates and origins.
+    </Image>
+  </FormalItem>
+
+  <Paragraph>
+    The coordinate system of an image must match the coordinate system of the intended rendering system in order
+    for the image to be rendered correctly. For example, taking an image that was intended for Java2D's system and
+    rendering it directly in OpenGL will result in an image displaying upside down.
+  </Paragraph>
+
+  <Paragraph>
+    Textures in the <Term type="package">calino</Term> package include descriptions of their coordinate systems.
+    A <Term type="term">coordinate system</Term> declaration comprises of three values that describe the orientations
+    of the <Term type="expression">R</Term>, <Term type="expression">S</Term>, and <Term type="expression">T</Term>
+    axes.
+  </Paragraph>
+
+  <FormalItem title="Coordinates R">
+    <Verbatim><xi:include href="53.txt" parse="text"/></Verbatim>
+  </FormalItem>
+  <Paragraph>
+    A value of <Term type="constant">AxisRIncreasingToward</Term> indicates that the <Term type="expression">R</Term>
+    axis increases <Term type="term">towards</Term> the viewer.
+  </Paragraph>
+  <Paragraph>
+    A value of <Term type="constant">AxisRIncreasingAway</Term> indicates that the <Term type="expression">R</Term>
+    axis increases <Term type="term">away</Term> from the viewer.
+  </Paragraph>
+
+  <FormalItem title="Coordinates S">
+    <Verbatim><xi:include href="54.txt" parse="text"/></Verbatim>
+  </FormalItem>
+  <Paragraph>
+    A value of <Term type="constant">AxisSIncreasingRight</Term> indicates that the <Term type="expression">S</Term>
+    axis increases <Term type="term">rightwards</Term>.
+  </Paragraph>
+  <Paragraph>
+    A value of <Term type="constant">AxisSIncreasingLeft</Term> indicates that the <Term type="expression">S</Term>
+    axis increases <Term type="term">leftwards</Term>.
+  </Paragraph>
+
+  <FormalItem title="Coordinates T">
+    <Verbatim><xi:include href="55.txt" parse="text"/></Verbatim>
+  </FormalItem>
+  <Paragraph>
+    A value of <Term type="constant">AxisTIncreasingDown</Term> indicates that the <Term type="expression">S</Term>
+    axis increases <Term type="term">downwards</Term>.
+  </Paragraph>
+  <Paragraph>
+    A value of <Term type="constant">AxisTIncreasingUp</Term> indicates that the <Term type="expression">S</Term>
+    axis increases <Term type="term">upwards</Term>.
+  </Paragraph>
+
+  <FormalItem title="Coordinate System Values">
+    <Verbatim><xi:include href="56.txt" parse="text"/></Verbatim>
+  </FormalItem>
+
+  <Paragraph>
+    Coordinate system values must use the following
+    <Link target="3d52e6ab-ded8-4b58-b1cc-576ced1fb578">descriptors</Link>:
+  </Paragraph>
+
+  <FormalItem title="Coordinates R Description">
+    <Verbatim><xi:include href="57.txt" parse="text"/></Verbatim>
+  </FormalItem>
+  <FormalItem title="Coordinates R Describable">
+    <Verbatim><xi:include href="60.txt" parse="text"/></Verbatim>
+  </FormalItem>
+  <FormalItem title="Coordinates S Description">
+    <Verbatim><xi:include href="58.txt" parse="text"/></Verbatim>
+  </FormalItem>
+  <FormalItem title="Coordinates S Describable">
+    <Verbatim><xi:include href="61.txt" parse="text"/></Verbatim>
+  </FormalItem>
+  <FormalItem title="Coordinates T Description">
+    <Verbatim><xi:include href="59.txt" parse="text"/></Verbatim>
+  </FormalItem>
+  <FormalItem title="Coordinates T Describable">
+    <Verbatim><xi:include href="62.txt" parse="text"/></Verbatim>
+  </FormalItem>
+  <FormalItem title="Coordinate System Description">
+    <Verbatim><xi:include href="63.txt" parse="text"/></Verbatim>
+  </FormalItem>
+  <FormalItem title="Coordinate System Describable">
+    <Verbatim><xi:include href="64.txt" parse="text"/></Verbatim>
+  </FormalItem>
+
+</Section>

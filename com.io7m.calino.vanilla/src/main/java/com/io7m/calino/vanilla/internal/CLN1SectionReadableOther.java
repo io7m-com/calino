@@ -20,8 +20,20 @@ import com.io7m.calino.api.CLNFileSectionDescription;
 import com.io7m.calino.parser.api.CLNParseRequest;
 import com.io7m.jbssio.api.BSSReaderRandomAccessType;
 
+/**
+ * A readable section.
+ */
+
 public final class CLN1SectionReadableOther extends CLN1SectionReadableAbstract
 {
+  /**
+   * A readable section.
+   *
+   * @param inDescription The description
+   * @param inReader      The reader
+   * @param inRequest     The request
+   */
+
   public CLN1SectionReadableOther(
     final BSSReaderRandomAccessType inReader,
     final CLNParseRequest inRequest,

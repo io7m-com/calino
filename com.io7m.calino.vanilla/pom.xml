@@ -9,7 +9,7 @@
   <parent>
     <groupId>com.io7m.calino</groupId>
     <artifactId>com.io7m.calino</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
   </parent>
   <artifactId>com.io7m.calino.vanilla</artifactId>
 
@@ -39,18 +39,31 @@
       <artifactId>com.io7m.calino.supercompression.api</artifactId>
       <version>${project.version}</version>
     </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>com.io7m.calino.validation.api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
 
+    <dependency>
+      <groupId>com.io7m.wendover</groupId>
+      <artifactId>com.io7m.wendover.core</artifactId>
+    </dependency>
     <dependency>
       <groupId>com.io7m.jbssio</groupId>
       <artifactId>com.io7m.jbssio.api</artifactId>
     </dependency>
     <dependency>
-      <groupId>commons-io</groupId>
-      <artifactId>commons-io</artifactId>
-    </dependency>
-    <dependency>
       <groupId>com.io7m.jaffirm</groupId>
       <artifactId>com.io7m.jaffirm.core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.io7m.jxtrand</groupId>
+      <artifactId>com.io7m.jxtrand.vanilla</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
     </dependency>
 
     <dependency>

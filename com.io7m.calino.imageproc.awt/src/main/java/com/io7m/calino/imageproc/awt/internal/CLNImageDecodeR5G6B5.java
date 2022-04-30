@@ -19,12 +19,26 @@ package com.io7m.calino.imageproc.awt.internal;
 import java.awt.image.BufferedImage;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.util.Objects;
+
+/**
+ * An RGB565 decoder.
+ */
 
 public final class CLNImageDecodeR5G6B5 implements CLNImageDecodeType
 {
-  public CLNImageDecodeR5G6B5()
-  {
+  private final ByteOrder order;
 
+  /**
+   * An RGB565 decoder.
+   *
+   * @param inOrder The byte order
+   */
+
+  public CLNImageDecodeR5G6B5(
+    final ByteOrder inOrder)
+  {
+    this.order = Objects.requireNonNull(inOrder, "order");
   }
 
   @Override
@@ -35,7 +49,7 @@ public final class CLNImageDecodeR5G6B5 implements CLNImageDecodeType
     final var height = image.getHeight();
     final var data = new byte[(width * 2) * height];
     final var buffer = ByteBuffer.wrap(data);
-    buffer.order(ByteOrder.BIG_ENDIAN);
+    buffer.order(this.order);
 
     for (int y = 0; y < height; ++y) {
       for (int x = 0; x < width; ++x) {

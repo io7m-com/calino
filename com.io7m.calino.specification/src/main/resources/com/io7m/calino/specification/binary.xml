@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Section xmlns="urn:com.io7m.structural:8:0"
+         title="The Calino Binary Encoding"
+         id="494888da-c85e-42df-8c2b-b789e84586e4"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <xi:include href="b-exp.xml"/>
+  <xi:include href="b-file.xml"/>
+  <xi:include href="b-sections.xml"/>
+  <xi:include href="b-s-image-info.xml"/>
+  <xi:include href="b-s-texture-2d.xml"/>
+  <xi:include href="b-s-texture-array.xml"/>
+  <xi:include href="b-s-texture-cube.xml"/>
+  <xi:include href="b-s-metadata.xml"/>
+  <xi:include href="b-s-end.xml"/>
+  <xi:include href="b-s-examples.xml"/>
+
+</Section>

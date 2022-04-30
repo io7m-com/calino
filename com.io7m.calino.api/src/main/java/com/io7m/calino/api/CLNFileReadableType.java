@@ -20,7 +20,10 @@ import java.io.Closeable;
 import java.util.List;
 import java.util.Optional;
 
+import static com.io7m.calino.api.CLNIdentifiers.sectionEndIdentifier;
 import static com.io7m.calino.api.CLNIdentifiers.sectionImage2DIdentifier;
+import static com.io7m.calino.api.CLNIdentifiers.sectionImageArrayIdentifier;
+import static com.io7m.calino.api.CLNIdentifiers.sectionImageCubeIdentifier;
 import static com.io7m.calino.api.CLNIdentifiers.sectionImageInfoIdentifier;
 import static com.io7m.calino.api.CLNIdentifiers.sectionMetadataIdentifier;
 
@@ -88,6 +91,40 @@ public interface CLNFileReadableType extends Closeable
   }
 
   /**
+   * @return The first available image cube section, if one exists
+   */
+
+  default Optional<CLNSectionReadableImageCubeType> openImageCube()
+  {
+    for (final var section : this.sections()) {
+      final var description = section.description();
+      if (description.identifier() == sectionImageCubeIdentifier()) {
+        return Optional.of(
+          (CLNSectionReadableImageCubeType) this.openSection(section)
+        );
+      }
+    }
+    return Optional.empty();
+  }
+
+  /**
+   * @return The first available image array section, if one exists
+   */
+
+  default Optional<CLNSectionReadableImageArrayType> openImageArray()
+  {
+    for (final var section : this.sections()) {
+      final var description = section.description();
+      if (description.identifier() == sectionImageArrayIdentifier()) {
+        return Optional.of(
+          (CLNSectionReadableImageArrayType) this.openSection(section)
+        );
+      }
+    }
+    return Optional.empty();
+  }
+
+  /**
    * @return The first available metadata section, if one exists
    */
 
@@ -103,4 +140,30 @@ public interface CLNFileReadableType extends Closeable
     }
     return Optional.empty();
   }
+
+  /**
+   * @return The first available end section, if one exists
+   */
+
+  default Optional<CLNSectionReadableEndType> openEnd()
+  {
+    for (final var section : this.sections()) {
+      final var description = section.description();
+      if (description.identifier() == sectionEndIdentifier()) {
+        return Optional.of(
+          (CLNSectionReadableEndType) this.openSection(section)
+        );
+      }
+    }
+    return Optional.empty();
+  }
+
+  /**
+   * Obtain the number of trailing octets in the file. This value should always
+   * be zero for valid files.
+   *
+   * @return The number of trailing octets
+   */
+
+  long trailingOctets();
 }

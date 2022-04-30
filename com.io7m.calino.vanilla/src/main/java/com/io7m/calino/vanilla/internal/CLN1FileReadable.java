@@ -22,8 +22,8 @@ import com.io7m.calino.api.CLNImageInfo;
 import com.io7m.calino.api.CLNSectionReadableImageInfoType;
 import com.io7m.calino.api.CLNSectionReadableType;
 import com.io7m.calino.api.CLNVersion;
-import com.io7m.calino.supercompression.api.CLNDecompressorFactoryType;
 import com.io7m.calino.parser.api.CLNParseRequest;
+import com.io7m.calino.supercompression.api.CLNDecompressorFactoryType;
 import com.io7m.jbssio.api.BSSReaderRandomAccessType;
 
 import java.io.IOException;
@@ -33,8 +33,14 @@ import java.util.Objects;
 
 import static com.io7m.calino.api.CLNIdentifiers.sectionEndIdentifier;
 import static com.io7m.calino.api.CLNIdentifiers.sectionImage2DIdentifier;
+import static com.io7m.calino.api.CLNIdentifiers.sectionImageArrayIdentifier;
+import static com.io7m.calino.api.CLNIdentifiers.sectionImageCubeIdentifier;
 import static com.io7m.calino.api.CLNIdentifiers.sectionImageInfoIdentifier;
 import static com.io7m.calino.api.CLNIdentifiers.sectionMetadataIdentifier;
+
+/**
+ * The main readable file implementation.
+ */
 
 public final class CLN1FileReadable implements CLNFileReadableType
 {
@@ -43,13 +49,15 @@ public final class CLN1FileReadable implements CLNFileReadableType
   private final CLNParseRequest request;
   private final CLNVersion version;
   private final List<CLNFileSectionDescription> fileSections;
+  private final long remainingOctets;
 
   CLN1FileReadable(
     final CLNDecompressorFactoryType inDecompressors,
     final BSSReaderRandomAccessType inReader,
     final CLNParseRequest inRequest,
     final CLNVersion inVersion,
-    final ArrayList<CLNFileSectionDescription> inFileSections)
+    final ArrayList<CLNFileSectionDescription> inFileSections,
+    final long inRemainingOctets)
   {
     this.decompressors =
       Objects.requireNonNull(inDecompressors, "inDecompressors");
@@ -62,6 +70,7 @@ public final class CLN1FileReadable implements CLNFileReadableType
     this.fileSections =
       List.copyOf(
         Objects.requireNonNull(inFileSections, "fileSections"));
+    this.remainingOctets = inRemainingOctets;
   }
 
   @Override
@@ -132,7 +141,33 @@ public final class CLN1FileReadable implements CLNFileReadableType
       );
     }
 
+    if (identifier == sectionImageArrayIdentifier()) {
+      return new CLN1SectionReadableImageArray(
+        this.decompressors,
+        this.reader,
+        this.request,
+        description,
+        this::findImageInfo
+      );
+    }
+
+    if (identifier == sectionImageCubeIdentifier()) {
+      return new CLN1SectionReadableImageCube(
+        this.decompressors,
+        this.reader,
+        this.request,
+        description,
+        this::findImageInfo
+      );
+    }
+
     return new CLN1SectionReadableOther(this.reader, this.request, description);
+  }
+
+  @Override
+  public long trailingOctets()
+  {
+    return this.remainingOctets;
   }
 
   private CLNImageInfo findImageInfo()
@@ -141,7 +176,8 @@ public final class CLN1FileReadable implements CLNFileReadableType
     for (final var fileSection : this.fileSections) {
       final var description = fileSection.description();
       if (description.identifier() == sectionImageInfoIdentifier()) {
-        try (var section = (CLNSectionReadableImageInfoType) this.openSection(fileSection)) {
+        try (var section = (CLNSectionReadableImageInfoType) this.openSection(
+          fileSection)) {
           return section.info();
         }
       }

@@ -20,7 +20,10 @@ package com.io7m.calino.api;
  * The type of image descriptions.
  */
 
-public sealed interface CLNImageDescriptionType permits CLNImage2DDescription
+public sealed interface CLNImageDescriptionType
+  permits CLNImage2DDescription,
+  CLNImageArrayDescription,
+  CLNImageCubeDescription
 {
   /**
    * @return The mipmap level

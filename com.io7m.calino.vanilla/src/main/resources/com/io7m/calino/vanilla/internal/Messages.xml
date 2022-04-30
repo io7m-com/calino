@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+
+<properties>
+  <entry key="error2DCompressedSizeMismatch">
+    The mipmap description for level {0} specifies that the mipmap data should be {1} octets uncompressed, but the
+    actual data was {2} octets.
+  </entry>
+  <entry key="error2DExpectedSizeZ1">
+    The Z size of a 2D texture must equal 1, but was {0}.
+  </entry>
+  <entry key="errorCubeExpectedSizeZ1">
+    The Z size of a cube texture must equal 1, but was {0}.
+  </entry>
+  <entry key="error2DMipLevelDuplicate">
+    Duplicate mip level {0} specified.
+  </entry>
+  <entry key="error2DMipLevelGaps">
+    Mip levels must be strictly decreasing with all values present in the range [0 … {0}].
+  </entry>
+  <entry key="errorCubeMipLevelDuplicate">
+    Duplicate mip level {0} specified.
+  </entry>
+  <entry key="errorCubeMipLevelGaps">
+    Mip levels must be strictly decreasing with all values present in the range [0 … {0}].
+  </entry>
+  <entry key="error2DUncompressedCRC32Mismatch">
+    The mipmap description for level {0} specifies a CRC32 value of 0x{1} but the actual data had a CRC32 of 0x{2}.
+  </entry>
+  <entry key="errorArrayCompressedSizeMismatch">
+    The mipmap description for layer {0}, level {1} specifies that the mipmap data should be {2} octets uncompressed,
+    but the actual data was {3} octets.
+  </entry>
+  <entry key="errorCubeCompressedSizeMismatch">
+    The mipmap description for layer {0}, face {1} specifies that the mipmap data should be {2} octets uncompressed,
+    but the actual data was {3} octets.
+  </entry>
+  <entry key="errorArrayMipLevelDuplicate">
+    Duplicate mip level {0} specified.
+  </entry>
+  <entry key="errorArrayMipLevelGaps">
+    Mip levels must be strictly decreasing with all values present in the range [0 … {0}].
+  </entry>
+  <entry key="errorArrayMipLayerGaps">
+    Mip layers (for level {0}) must be strictly increasing with all values present in the range [0 … {1}] (received
+    {2}).
+  </entry>
+  <entry key="errorArrayUncompressedCRC32Mismatch">
+    The mipmap description for layer {0}, level {1} specifies a CRC32 value of 0x{2} but the actual data had a CRC32 of
+    0x{3}.
+  </entry>
+  <entry key="errorCubeUncompressedCRC32Mismatch">
+    The mipmap description for layer {0}, face {1} specifies a CRC32 value of 0x{2} but the actual data had a CRC32 of
+    0x{3}.
+  </entry>
+  <entry key="errorArrayMipNotUnique">
+    Mip layer {0}, layer {1} is not unique.
+  </entry>
+  <entry key="errorArrayLayerCount">
+    The texture file specifies a Z size of {0} but provides {1} layers.
+  </entry>
+  <entry key="errorImageDataPresent">
+    Texture files must contain exactly one of any of the various texture data sections.
+  </entry>
+  <entry key="errorImageInfoNotPresent">
+    The first section in a texture should be an image information section.
+  </entry>
+  <entry key="warnArrayUncompressedDataSizeMismatch">
+    For uncompressed image data, the compressed size {0} must equal the uncompressed size {1} (at layer {2}, level {3}).
+  </entry>
+  <entry key="warn2DUncompressedDataSizeMismatch">
+    For uncompressed image data, the compressed size {0} must equal the uncompressed size {1} (at level {2}).
+  </entry>
+  <entry key="warnCubeUncompressedDataSizeMismatch">
+    For uncompressed image data, the compressed size {0} must equal the uncompressed size {1} (at level {2}).
+  </entry>
+
+  <entry key="warnArrayCompressedSizeZero">
+    The compressed size of image data should be greater than zero (at layer {0}, level {1}).
+  </entry>
+  <entry key="warn2DCompressedSizeZero">
+    The compressed size of image data should be greater than zero (at level {0}).
+  </entry>
+  <entry key="warnCubeCompressedSizeZero">
+    The compressed size of image data should be greater than zero (at level {0}, face {1}).
+  </entry>
+  <entry key="warnArrayUncompressedSizeZero">
+    The uncompressed size of image data should be greater than zero (at layer {0}, level {1}).
+  </entry>
+  <entry key="warn2DUncompressedSizeZero">
+    The uncompressed size of image data should be greater than zero (at level {0}).
+  </entry>
+  <entry key="warnCubeUncompressedSizeZero">
+    The uncompressed size of image data should be greater than zero (at level {0}, face {1}).
+  </entry>
+
+  <entry key="errorArrayNoMipmaps">
+    Array textures must have at least one mipmap.
+  </entry>
+  <entry key="error2DNoMipmaps">
+    2D textures must have at least one mipmap.
+  </entry>
+  <entry key="errorCubeNoMipmaps">
+    Cube textures must have at least one mipmap.
+  </entry>
+
+  <entry key="warnSectionUnaligned">
+    File section 0x{0} is unaligned; it begins at 0x{1} which is not a 16-octet boundary.
+  </entry>
+  <entry key="warnEndSectionNotZeroSize">
+    The 'end' section is of a non-zero size ({0}).
+  </entry>
+  <entry key="errorNoEndSection">
+    Texture files are required to have a zero-size 'end' section.
+  </entry>
+
+  <entry key="warnArrayImageOffsetZero">
+    The data offset of image data within a section should be greater than zero.
+  </entry>
+  <entry key="warn2DImageOffsetZero">
+    The data offset of image data within a section should be greater than zero.
+  </entry>
+  <entry key="warnCubeImageOffsetZero">
+    The data offset of image data within a section should be greater than zero.
+  </entry>
+
+  <entry key="warnTrailingData">
+    {0} octets of trailing data were encountered after the 'end' section.
+  </entry>
+
+  <entry key="errorCubeMipFaceMissing">
+    Cube mipmaps cannot have missing faces (at level {0}, face {1}).
+  </entry>
+
+</properties>

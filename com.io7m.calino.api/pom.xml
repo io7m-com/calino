@@ -9,7 +9,7 @@
   <parent>
     <groupId>com.io7m.calino</groupId>
     <artifactId>com.io7m.calino</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
   </parent>
   <artifactId>com.io7m.calino.api</artifactId>
 
@@ -19,11 +19,6 @@
   <url>https://www.io7m.com/software/calino/</url>
 
   <dependencies>
-    <dependency>
-      <groupId>com.io7m.jaffirm</groupId>
-      <artifactId>com.io7m.jaffirm.core</artifactId>
-    </dependency>
-
     <dependency>
       <groupId>org.osgi</groupId>
       <artifactId>org.osgi.annotation.bundle</artifactId>

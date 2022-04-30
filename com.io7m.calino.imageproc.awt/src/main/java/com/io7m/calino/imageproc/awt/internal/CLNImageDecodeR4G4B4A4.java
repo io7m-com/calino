@@ -19,12 +19,26 @@ package com.io7m.calino.imageproc.awt.internal;
 import java.awt.image.BufferedImage;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.util.Objects;
+
+/**
+ * An RGBA4444 decoder.
+ */
 
 public final class CLNImageDecodeR4G4B4A4 implements CLNImageDecodeType
 {
-  public CLNImageDecodeR4G4B4A4()
-  {
+  private final ByteOrder order;
 
+  /**
+   * An RGBA4444 decoder.
+   *
+   * @param inOrder The byte order
+   */
+
+  public CLNImageDecodeR4G4B4A4(
+    final ByteOrder inOrder)
+  {
+    this.order = Objects.requireNonNull(inOrder, "order");
   }
 
   @Override
@@ -35,7 +49,7 @@ public final class CLNImageDecodeR4G4B4A4 implements CLNImageDecodeType
     final var height = image.getHeight();
     final var data = new byte[(width * 2) * height];
     final var buffer = ByteBuffer.wrap(data);
-    buffer.order(ByteOrder.BIG_ENDIAN);
+    buffer.order(this.order);
 
     for (int y = 0; y < height; ++y) {
       for (int x = 0; x < width; ++x) {

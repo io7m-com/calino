@@ -1,0 +1,17 @@
+$ calino check --file validation-cube-crc-mismatch.ctf
+calino: ERROR: validation-cube-crc-mismatch.ctf: @0x310: The mipmap description for layer 2, face X_NEGATIVE specifies a CRC32 value of 0x5edf2461 but the actual data had a CRC32 of 0x5edf2460.
+calino: ERROR:   See https://www.io7m.com/software/calino/specification/index.xhtml#id_09645697-fbde-43fe-9f34-48c851adb2ff for details.
+$ echo $?
+1
+
+$ calino check --file validation-cube-size-mismatch.ctf
+calino: ERROR: validation-cube-size-mismatch.ctf: @0x2f0: The mipmap description for layer 2, face X_POSITIVE specifies that the mipmap data should be 12 octets uncompressed, but the actual data was 13 octets.
+calino: ERROR:   See https://www.io7m.com/software/calino/specification/index.xhtml#id_e676eaef-f25a-44e8-9360-bcfaf35ce1e6 for details.
+calino: WARN: validation-cube-size-mismatch.ctf: @0xe0: For uncompressed image data, the compressed size 13 must equal the uncompressed size 12 (at level 2).
+calino: WARN:   See https://www.io7m.com/software/calino/specification/index.xhtml#id_579b15a3-09bb-4b14-87ab-0441ecc88b31 for details.
+$ echo $?
+1
+
+$ calino check --file array-mips.ctf
+$ echo $?
+0

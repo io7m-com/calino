@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Section title="Image Information"
+         id="4ae63d09-ce2d-46d4-a8eb-f1f9ad382ee8"
+         xmlns="urn:com.io7m.structural:8:0"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <Paragraph>
+    An <Term type="term">image information</Term> value aggregates all of the image metadata described
+    in this specification.
+  </Paragraph>
+
+  <FormalItem title="Image Information">
+    <Verbatim><xi:include href="69.txt" parse="text"/></Verbatim>
+  </FormalItem>
+
+  <FormalItem title="Image Size">
+    <Verbatim><xi:include href="73.txt" parse="text"/></Verbatim>
+  </FormalItem>
+
+  <Paragraph id="3dde6403-729d-4eaa-9179-17d9a9fbe7a6">
+    The <Term type="expression">sizeX</Term>, <Term type="expression">sizeY</Term>, and
+    <Term type="expression">sizeZ</Term> values declare the size of the image on the
+    <Term type="expression">X</Term>, <Term type="expression">Y</Term>, and <Term type="expression">Z</Term>
+    axes, respectively. All size values must be non-zero, and further restrictions may be placed on the
+    size values by specific <Link target="17b69d69-176f-4db1-bab3-c1666ed58c5c">image</Link> types.
+  </Paragraph>
+
+  <Paragraph id="e92704bb-ce55-4d97-8a9a-7d3b495a5d35">
+    The <Term type="term">texel block alignment</Term> is a value in octets to which image data is expected
+    to be aligned. For <Link target="bd75557c-d8d2-4522-93b3-e29d78d436b7">compressed</Link> images, this
+    is equal to the declared <Link target="a1b65dcf-36d1-4519-a765-06a3bd1e68c2">block alignment</Link>. For
+    uncompressed images, this is equal to the total size of all of the channels in bits, divided by 8.
+  </Paragraph>
+
+  <FormalItem title="Texel Block Alignment">
+    <Verbatim><xi:include href="101.txt" parse="text"/></Verbatim>
+  </FormalItem>
+
+</Section>

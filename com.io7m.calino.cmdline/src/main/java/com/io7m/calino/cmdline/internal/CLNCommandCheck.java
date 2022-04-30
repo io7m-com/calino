@@ -19,24 +19,20 @@ package com.io7m.calino.cmdline.internal;
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.Parameters;
 import com.io7m.calino.api.CLNFileReadableType;
-import com.io7m.calino.api.CLNImage2DDescription;
-import com.io7m.calino.api.CLNImageInfo;
-import com.io7m.calino.api.CLNSectionReadableImage2DType;
-import com.io7m.calino.api.CLNSectionReadableImageInfoType;
-import com.io7m.calino.api.CLNSectionReadableMetadataType;
+import com.io7m.calino.api.CLNVersion;
+import com.io7m.calino.validation.api.CLNValidationError;
+import com.io7m.calino.validation.api.CLNValidationRequest;
+import com.io7m.calino.validation.api.CLNValidators;
 import com.io7m.claypot.core.CLPCommandContextType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.nio.channels.Channels;
-import java.util.List;
-import java.util.Optional;
-import java.util.zip.CRC32;
+import java.util.stream.Collectors;
 
+import static com.io7m.calino.validation.api.CLNValidationStatus.STATUS_ERROR;
+import static com.io7m.calino.validation.api.CLNValidationStatus.STATUS_WARNING;
 import static com.io7m.claypot.core.CLPCommandType.Status.FAILURE;
 import static com.io7m.claypot.core.CLPCommandType.Status.SUCCESS;
-import static java.lang.Integer.toUnsignedLong;
 
 /**
  * The 'check' command.
@@ -54,6 +50,13 @@ public final class CLNCommandCheck extends CLNAbstractReadFileCommand
     required = false,
     names = "--warnings-as-errors")
   private boolean warningsAsErrors;
+
+  @Parameter(
+    required = false,
+    description = "The requested file format version",
+    converter = CLNVersionStringConverter.class,
+    names = "--format-version")
+  private CLNVersion formatVersion = new CLNVersion(1, 0);
 
   /**
    * The 'check' command.
@@ -77,19 +80,64 @@ public final class CLNCommandCheck extends CLNAbstractReadFileCommand
   protected Status executeWithReadFile(
     final CLNFileReadableType fileParsed)
   {
-    fileParsed.openImageInfo()
-      .flatMap(this::checkSectionImageInfo);
-    fileParsed.openImage2D()
-      .ifPresent(this::checkImage2D);
-    fileParsed.openMetadata()
-      .ifPresent(this::checkMetadata);
+    final var validators = new CLNValidators();
 
-    if (this.validationErrors() > 0) {
+    final var validatorFactoryOpt =
+      validators.findValidatorFactoryFor(this.formatVersion);
+
+    if (validatorFactoryOpt.isEmpty()) {
+      LOG.error(
+        "no available validators for format version {}",
+        this.formatVersion);
+      return FAILURE;
+    }
+
+    final var request =
+      new CLNValidationRequest(fileParsed, this.source());
+
+    final var validator =
+      validatorFactoryOpt.get()
+        .createValidator(request);
+
+    final var errors =
+      validator.execute();
+
+    final var allErrors =
+      errors.stream()
+        .filter(e -> e.status() == STATUS_ERROR)
+        .collect(Collectors.toList());
+
+    final var allWarnings =
+      errors.stream()
+        .filter(e -> e.status() == STATUS_WARNING)
+        .collect(Collectors.toList());
+
+    for (final var e : allErrors) {
+      LOG.error(
+        "{}: @0x{}: {}",
+        e.source(),
+        Long.toUnsignedString(e.offset(), 16),
+        e.message()
+      );
+      quoteSpec(e);
+    }
+
+    for (final var e : allWarnings) {
+      LOG.warn(
+        "{}: @0x{}: {}",
+        e.source(),
+        Long.toUnsignedString(e.offset(), 16),
+        e.message()
+      );
+      quoteSpec(e);
+    }
+
+    if (!allErrors.isEmpty()) {
       return FAILURE;
     }
 
     if (this.warningsAsErrors) {
-      if (this.validationWarnings() > 0) {
+      if (!allWarnings.isEmpty()) {
         LOG.info("treating warnings as errors");
         return FAILURE;
       }
@@ -98,134 +146,19 @@ public final class CLNCommandCheck extends CLNAbstractReadFileCommand
     return SUCCESS;
   }
 
-  private void checkMetadata(
-    final CLNSectionReadableMetadataType section)
+  private static void quoteSpec(
+    final CLNValidationError e)
   {
-    try {
-      final var data = section.metadata();
-      LOG.info("read {} metadata entries successfully", data.size());
-    } catch (final IOException e) {
-      LOG.error("error metadata: ", e.getMessage());
-      this.incrementValidationErrors();
-      return;
-    }
-  }
-
-  private void checkImage2D(
-    final CLNSectionReadableImage2DType sectionImage2D)
-  {
-    final List<CLNImage2DDescription> descriptions;
-
-    try {
-      descriptions = sectionImage2D.mipMapDescriptions();
-      LOG.info("opened image 2D mipmap descriptions successfully");
-    } catch (final IOException e) {
-      LOG.error("error opening image 2D: ", e.getMessage());
-      this.incrementValidationErrors();
-      return;
-    }
-
-    for (final var description : descriptions) {
-      try {
-        final var channel =
-          sectionImage2D.mipMapDataRaw(description);
-        final var stream =
-          Channels.newInputStream(channel);
-        final var data =
-          stream.readAllBytes();
-
-        final var received = toUnsignedLong(data.length);
-        final var expected = description.dataSizeCompressed();
-        if (received != expected) {
-          LOG.error(
-            "expected {} octets of compressed data, but received {}",
-            Long.toUnsignedString(expected),
-            Long.toUnsignedString(received)
-          );
-          this.incrementValidationErrors();
-          continue;
+    e.specificationSectionId().ifPresent(id -> {
+      switch (e.status()) {
+        case STATUS_WARNING -> {
+          LOG.warn("  See https://www.io7m.com/software/calino/specification/index.xhtml#id_{} for details.", id);
         }
-
-        LOG.info(
-          "read compressed image 2D mipmap [{}] data successfully",
-          description.mipMapLevel()
-        );
-      } catch (final IOException e) {
-        LOG.error("error reading compressed mipmap data: ", e.getMessage());
-        this.incrementValidationErrors();
-        return;
-      }
-    }
-
-    this.decompressAllMipMaps(sectionImage2D, descriptions);
-  }
-
-  private void decompressAllMipMaps(
-    final CLNSectionReadableImage2DType sectionImage2D,
-    final List<CLNImage2DDescription> descriptions)
-  {
-    for (final var description : descriptions) {
-      try {
-        try (var channel =
-               sectionImage2D.mipMapDataWithoutSupercompression(description)) {
-          final var stream =
-            Channels.newInputStream(channel);
-          final var data =
-            stream.readAllBytes();
-
-          final var received = toUnsignedLong(data.length);
-          final var expected = description.dataSizeUncompressed();
-          if (received != expected) {
-            LOG.error(
-              "expected {} octets of decompressed data, but received {}",
-              Long.toUnsignedString(expected),
-              Long.toUnsignedString(received)
-            );
-            this.incrementValidationErrors();
-            continue;
-          }
-
-          final var crc32 = new CRC32();
-          crc32.update(data);
-          final var crc32Received =
-            crc32.getValue() & 0xffff_ffffL;
-          final var crc32Expected =
-            toUnsignedLong(description.crc32Uncompressed());
-
-          if (crc32Expected != crc32Received) {
-            LOG.error(
-              "CRC32 checksum of mipmap [{}] did not match (expected 0x{} but received 0x{})",
-              description.mipMapLevel(),
-              Long.toUnsignedString(crc32Expected, 16),
-              Long.toUnsignedString(crc32Received, 16)
-            );
-            this.incrementValidationErrors();
-            continue;
-          }
-
-          LOG.info(
-            "decompressed and verified image 2D mipmap [{}]",
-            description.mipMapLevel()
-          );
+        case STATUS_ERROR -> {
+          LOG.error("  See https://www.io7m.com/software/calino/specification/index.xhtml#id_{} for details.", id);
         }
-      } catch (final IOException e) {
-        LOG.error("error decompressing mipmap data: ", e.getMessage());
-        this.incrementValidationErrors();
-        return;
       }
-    }
-  }
-
-  private Optional<CLNImageInfo> checkSectionImageInfo(
-    final CLNSectionReadableImageInfoType sectionImageInfo)
-  {
-    try {
-      return Optional.of(sectionImageInfo.info());
-    } catch (final IOException e) {
-      LOG.error("error opening image info: ", e.getMessage());
-      this.incrementValidationErrors();
-      return Optional.empty();
-    }
+    });
   }
 
   @Override

@@ -18,8 +18,22 @@ package com.io7m.calino.vanilla.internal;
 
 import java.io.IOException;
 
+/**
+ * An I/O operation.
+ *
+ * @param <T> The returned value
+ */
+
 public interface CLNIOOperationType<T>
 {
+  /**
+   * Execute the operation.
+   *
+   * @return A value
+   *
+   * @throws IOException On errors
+   */
+
   T execute()
     throws IOException;
 }

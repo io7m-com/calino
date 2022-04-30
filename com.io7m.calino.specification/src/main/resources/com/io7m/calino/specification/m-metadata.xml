@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Section title="Metadata"
+         id="eb8b3eb5-29b1-411c-a9ae-754d1a4b2940"
+         xmlns="urn:com.io7m.structural:8:0"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <Paragraph>
+    A texture file can have associated free-form metadata. This is often used to, for example, express authorship
+    information and indicate which tools were used to produce a given file. The metadata supported directly by
+    <Term type="package">calino</Term> is in the form of UTF-8 encoded keys and values. Metadata that requires
+    more structure than this can be provided by custom
+    <Link target="eb66b381-4c70-4246-95e9-d3a61e19ac4c">sections</Link> that will be ignored by software that does
+    not know how to interpret them.
+  </Paragraph>
+
+  <FormalItem title="Metadata Value">
+    <Verbatim>
+      <xi:include href="86.txt"
+                  parse="text"/>
+    </Verbatim>
+  </FormalItem>
+  <FormalItem title="Metadata">
+    <Verbatim>
+      <xi:include href="87.txt"
+                  parse="text"/>
+    </Verbatim>
+  </FormalItem>
+
+  <Paragraph>
+    Conceptually, metadata is structured as a function from keys to non-empty lists of values; the values
+    associated with multiple occurrences of a given key are expected to be combined into a list of values for
+    the given key by consumers.
+  </Paragraph>
+
+</Section>

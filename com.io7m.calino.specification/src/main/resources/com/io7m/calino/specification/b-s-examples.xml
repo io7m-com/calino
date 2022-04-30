@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Section title="Examples"
+         xmlns="urn:com.io7m.structural:8:0"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <Paragraph>
+    A metadata section containing the value
+    <Term type="expression">Metadata [MetadataValue "K0" "VAL0"; MetadataValue "KEY1" "VAL1"]</Term>
+    will be encoded as the following sequence of octets:
+  </Paragraph>
+  <FormalItem title="Example Metadata">
+    <Verbatim><xi:include href="s-metadata.txt" parse="text" /></Verbatim>
+  </FormalItem>
+</Section>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Section title="Supercompression"
+         id="8f83a47a-986e-4dba-bfd7-720641cee3a9"
+         xmlns="urn:com.io7m.structural:8:0"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <Subsection title="Description">
+    <Paragraph>
+      A <Term type="term">super compression</Term> declaration indicates that image data is compressed in a manner
+      that requires it to be decompressed before it can be consumed by a GPU for use. This is in contrast to
+      <Link target="bd75557c-d8d2-4522-93b3-e29d78d436b7">compression</Link>, where GPUs are expected to consume
+      compressed data directly.
+    </Paragraph>
+    <FormalItem title="Supercompression Methods">
+      <Verbatim><xi:include href="49.txt" parse="text"/></Verbatim>
+    </FormalItem>
+    <Paragraph>
+      A value of <Term type="constant">SuperCompressionUncompressed</Term> indicates that image data is not compressed.
+    </Paragraph>
+    <Paragraph>
+      A value of <Term type="constant">SuperCompressionLZ4</Term> indicates that image data is compressed
+      using <LinkExternal target="http://lz4.github.io/lz4/">LZ4</LinkExternal> compression.
+    </Paragraph>
+    <Paragraph>
+      A value of <Term type="constant">SuperCompressionCustom</Term> indicates that image data is compressed
+      using a method not known to this specification.
+    </Paragraph>
+    <Paragraph>
+      Compression declarations must use the following
+      <Link target="3d52e6ab-ded8-4b58-b1cc-576ced1fb578">descriptors</Link>:
+    </Paragraph>
+    <FormalItem title="Super Compression Description">
+      <Verbatim><xi:include href="50.txt" parse="text"/></Verbatim>
+    </FormalItem>
+    <FormalItem title="Super Compression Describable">
+      <Verbatim><xi:include href="51.txt" parse="text"/></Verbatim>
+    </FormalItem>
+  </Subsection>
+
+  <Subsection title="Section Identifiers">
+    <Paragraph>
+      Custom super compression methods may require including extra metadata in order to allow the data to be
+      decompressed. Super compression methods may include a <Term type="term">section identifier</Term> value
+      indicating that consumers should look for a section with the given identifier to locate the metadata.
+    </Paragraph>
+    <FormalItem title="Super Compression Section Identifier">
+      <Verbatim><xi:include href="52.txt" parse="text"/></Verbatim>
+    </FormalItem>
+  </Subsection>
+
+</Section>

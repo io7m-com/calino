@@ -20,10 +20,13 @@ import com.io7m.calino.api.CLNFileSectionDescription;
 import com.io7m.calino.api.CLNImage2DDescription;
 import com.io7m.calino.api.CLNImageInfo;
 import com.io7m.calino.api.CLNSectionReadableImage2DType;
+import com.io7m.calino.parser.api.CLNParseRequest;
 import com.io7m.calino.supercompression.api.CLNDecompressorFactoryType;
 import com.io7m.calino.supercompression.api.CLNDecompressorRequest;
-import com.io7m.calino.parser.api.CLNParseRequest;
 import com.io7m.jbssio.api.BSSReaderRandomAccessType;
+import com.io7m.wendover.core.CloseShieldSeekableByteChannel;
+import com.io7m.wendover.core.ReadOnlySeekableByteChannel;
+import com.io7m.wendover.core.SubrangeSeekableByteChannel;
 
 import java.io.IOException;
 import java.nio.channels.ReadableByteChannel;
@@ -34,15 +37,29 @@ import java.util.Objects;
 
 import static com.io7m.calino.api.CLNSuperCompressionMethodStandard.UNCOMPRESSED;
 
+/**
+ * A readable 2D image section.
+ */
+
 public final class CLN1SectionReadableImage2D
   extends CLN1SectionReadableAbstract implements CLNSectionReadableImage2DType
 {
   private final CLNDecompressorFactoryType decompressors;
-  private CLNIOOperationType<CLNImageInfo> imageInfoRetrieval;
+  private final CLNIOOperationType<CLNImageInfo> imageInfoRetrieval;
   private List<CLNImage2DDescription> mipMapDescriptions;
   private CLNImageInfo imageInfo;
 
-  public CLN1SectionReadableImage2D(
+  /**
+   * A readable 2D image section.
+   *
+   * @param inDescription        The description
+   * @param inReader             The reader
+   * @param inRequest            The request
+   * @param inDecompressors      The decompressors
+   * @param inImageInfoRetrieval A function to retrieve image information
+   */
+
+  CLN1SectionReadableImage2D(
     final CLNDecompressorFactoryType inDecompressors,
     final BSSReaderRandomAccessType inReader,
     final CLNParseRequest inRequest,
@@ -92,8 +109,6 @@ public final class CLN1SectionReadableImage2D
       final var mipMapCount =
         (int) (subReader.readU32BE("mipMapCount") & 0xFFFFFFFFL);
 
-      this.checkMipMapCount(subReader, mipMapCount);
-
       for (var index = 0; index < mipMapCount; ++index) {
         final var mipMapLevel =
           (int) (subReader.readU32BE("mipMapLevel") & 0xFFFFFFFFL);
@@ -105,15 +120,6 @@ public final class CLN1SectionReadableImage2D
           subReader.readU64BE("dataSizeCompressed");
         final var crc32 =
           (int) (subReader.readU32BE("crc32") & 0xFFFFFFFFL);
-
-        this.checkDataOffsetWithinSection(
-          subReader, dataOffsetWithinSection);
-        this.checkDataSizeCompressed(
-          subReader, dataSizeCompressed);
-        this.checkDataSizeUncompressed(
-          subReader, dataSizeUncompressed);
-        this.checkDataSizeCompressionMatches(
-          subReader, dataSizeCompressed, dataSizeUncompressed);
 
         this.mipMapDescriptions.add(
           new CLNImage2DDescription(
@@ -129,82 +135,6 @@ public final class CLN1SectionReadableImage2D
 
     this.mipMapDescriptions = List.copyOf(this.mipMapDescriptions);
     return this.mipMapDescriptions;
-  }
-
-  private void checkDataSizeCompressionMatches(
-    final BSSReaderRandomAccessType reader,
-    final long dataSizeCompressed,
-    final long dataSizeUncompressed)
-  {
-    if (this.imageInfo.superCompressionMethod() == UNCOMPRESSED) {
-      if (dataSizeCompressed != dataSizeUncompressed) {
-        final var request = this.request();
-        request.validationReceiver().accept(
-          CLNValidation.imageDataSizeCompressionSizeMismatch(
-            request.source(),
-            reader.offsetCurrentAbsolute(),
-            dataSizeCompressed,
-            dataSizeUncompressed
-          )
-        );
-      }
-    }
-  }
-
-  private void checkDataSizeUncompressed(
-    final BSSReaderRandomAccessType reader,
-    final long dataSizeUncompressed)
-  {
-    if (Long.compareUnsigned(dataSizeUncompressed, 0L) == 0) {
-      final var request = this.request();
-      request.validationReceiver().accept(
-        CLNValidation.imageDataSizeUncompressedZero(
-          request.source(),
-          reader.offsetCurrentAbsolute())
-      );
-    }
-  }
-
-  private void checkDataSizeCompressed(
-    final BSSReaderRandomAccessType reader,
-    final long dataSizeCompressed)
-  {
-    if (Long.compareUnsigned(dataSizeCompressed, 0L) == 0) {
-      final var request = this.request();
-      request.validationReceiver().accept(
-        CLNValidation.imageDataSizeCompressedZero(
-          request.source(),
-          reader.offsetCurrentAbsolute())
-      );
-    }
-  }
-
-  private void checkDataOffsetWithinSection(
-    final BSSReaderRandomAccessType reader,
-    final long dataOffsetWithinSection)
-  {
-    if (Long.compareUnsigned(dataOffsetWithinSection, 0L) == 0) {
-      final var request = this.request();
-      request.validationReceiver().accept(
-        CLNValidation.imageDataOffsetWithinSectionZero(
-          request.source(),
-          reader.offsetCurrentAbsolute())
-      );
-    }
-  }
-
-  private void checkMipMapCount(
-    final BSSReaderRandomAccessType reader,
-    final int mipMapCount)
-  {
-    if (Integer.compareUnsigned(mipMapCount, 0) == 0) {
-      final var request = this.request();
-      request.validationReceiver().accept(
-        CLNValidation.imageDataMipMapCountZero(
-          request.source(),
-          reader.offsetCurrentAbsolute())
-      );
-    }
   }
 
   @Override
@@ -240,15 +170,14 @@ public final class CLN1SectionReadableImage2D
     baseChannel.position(fileSectionImageDataOffset);
 
     final var closeShield =
-      new CLNCloseShieldSeekableByteChannel(baseChannel);
+      new CloseShieldSeekableByteChannel(baseChannel);
+    final var readOnlyChannel =
+      new ReadOnlySeekableByteChannel(closeShield);
     final var boundedChannel =
-      new CLNSubrangeReadableByteChannel(
-        closeShield,
+      new SubrangeSeekableByteChannel(
+        readOnlyChannel,
         fileSectionImageDataOffset,
-        dataSize,
-        context -> {
-
-        }
+        dataSize
       );
 
     return this.decompressors.createDecompressor(
@@ -292,13 +221,16 @@ public final class CLN1SectionReadableImage2D
       this.request().channel();
 
     baseChannel.position(fileSectionImageDataOffset);
-    return new CLNSubrangeReadableByteChannel(
-      baseChannel,
-      fileSectionImageDataOffset,
-      dataSize,
-      (section) -> {
 
-      }
+    final var closeShield =
+      new CloseShieldSeekableByteChannel(baseChannel);
+    final var readOnlyChannel =
+      new ReadOnlySeekableByteChannel(closeShield);
+
+    return new SubrangeSeekableByteChannel(
+      readOnlyChannel,
+      fileSectionImageDataOffset,
+      dataSize
     );
   }
 }

@@ -27,6 +27,12 @@ import java.nio.channels.SeekableByteChannel;
 public interface CLNSectionReadableType extends Closeable
 {
   /**
+   * @return A file section description
+   */
+
+  CLNFileSectionDescription fileSectionDescription();
+
+  /**
    * @return A section description
    */
 

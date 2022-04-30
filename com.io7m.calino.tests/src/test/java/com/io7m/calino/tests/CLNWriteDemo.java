@@ -19,13 +19,9 @@ package com.io7m.calino.tests;
 import com.io7m.calino.api.CLNByteOrder;
 import com.io7m.calino.api.CLNColorSpaceStandard;
 import com.io7m.calino.api.CLNCompressionMethodStandard;
-import com.io7m.calino.api.CLNCoordinateAxisR;
-import com.io7m.calino.api.CLNCoordinateAxisS;
-import com.io7m.calino.api.CLNCoordinateAxisT;
 import com.io7m.calino.api.CLNCoordinateSystem;
 import com.io7m.calino.api.CLNImage2DMipMapDeclaration;
 import com.io7m.calino.api.CLNImage2DMipMapDeclarations;
-import com.io7m.calino.api.CLNImageFlagStandard;
 import com.io7m.calino.api.CLNImageInfo;
 import com.io7m.calino.api.CLNSectionReadableImageInfoType;
 import com.io7m.calino.api.CLNSectionReadableMetadataType;
@@ -49,9 +45,9 @@ import java.util.Set;
 
 import static com.io7m.calino.api.CLNChannelsLayoutDescriptionStandard.R8_G8_B8;
 import static com.io7m.calino.api.CLNChannelsTypeDescriptionStandard.FIXED_POINT_NORMALIZED_UNSIGNED;
-import static com.io7m.calino.api.CLNCoordinateAxisR.*;
-import static com.io7m.calino.api.CLNCoordinateAxisS.*;
-import static com.io7m.calino.api.CLNCoordinateAxisT.*;
+import static com.io7m.calino.api.CLNCoordinateAxisR.AXIS_R_INCREASING_TOWARD;
+import static com.io7m.calino.api.CLNCoordinateAxisS.AXIS_S_INCREASING_RIGHT;
+import static com.io7m.calino.api.CLNCoordinateAxisT.AXIS_T_INCREASING_DOWN;
 import static com.io7m.calino.api.CLNImageFlagStandard.ALPHA_PREMULTIPLIED;
 import static java.nio.file.StandardOpenOption.CREATE;
 import static java.nio.file.StandardOpenOption.READ;
@@ -122,16 +118,16 @@ public final class CLNWriteDemo
       try (var section = writable.createSectionMetadata()) {
         section.setMetadata(
           ofEntries(
-            entry("key0", "value0"),
-            entry("key1", "value1"),
-            entry("key2", "value2"),
-            entry("key3", "value3"),
-            entry("key4", "value4"),
-            entry("key5", "value5"),
-            entry("key6", "value6"),
-            entry("key7", "value7"),
-            entry("key8", "value8"),
-            entry("key9", "value9")
+            entry("key0", List.of("value0")),
+            entry("key1", List.of("value1")),
+            entry("key2", List.of("value2")),
+            entry("key3", List.of("value3")),
+            entry("key4", List.of("value4")),
+            entry("key5", List.of("value5")),
+            entry("key6", List.of("value6")),
+            entry("key7", List.of("value7")),
+            entry("key8", List.of("value8")),
+            entry("key9", List.of("value9"))
           )
         );
       }
