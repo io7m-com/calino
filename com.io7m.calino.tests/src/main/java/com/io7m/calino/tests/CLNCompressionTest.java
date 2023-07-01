@@ -22,7 +22,7 @@ import com.io7m.calino.supercompression.api.CLNCompressorRequest;
 import com.io7m.calino.supercompression.api.CLNCompressors;
 import com.io7m.calino.supercompression.api.CLNDecompressorRequest;
 import com.io7m.calino.supercompression.api.CLNDecompressors;
-import com.io7m.wendover.core.internal.ByteBufferChannel;
+import com.io7m.wendover.core.ByteBufferChannels;
 import org.junit.jupiter.api.Test;
 
 import java.nio.ByteBuffer;
@@ -54,7 +54,7 @@ public final class CLNCompressionTest
         new CLNImage2DDescription(
           0, 0L, 100L, 100L, 0
         ),
-        new ByteBufferChannel(ByteBuffer.allocate(100))
+        ByteBufferChannels.ofByteBuffer(ByteBuffer.allocate(100))
       ));
     });
   }
