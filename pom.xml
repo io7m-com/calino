@@ -18,7 +18,7 @@
   <packaging>pom</packaging>
   <name>com.io7m.calino</name>
   <description>Calino texture format</description>
-  <url>https://www.github.com/io7m/calino</url>
+  <url>https://www.github.com/io7m-com/calino</url>
 
   <modules>
     <module>com.io7m.calino.api</module>
@@ -39,10 +39,16 @@
   </modules>
 
   <properties>
+    <!-- Configuration. -->
+    <io7m.api.previousVersion>0.0.2-SNAPSHOT</io7m.api.previousVersion>
+    <io7m.java.targetJavaVersion>21</io7m.java.targetJavaVersion>
+
+    <!-- io7m dependencies. -->
     <com.io7m.jbssio.version>2.0.0</com.io7m.jbssio.version>
     <com.io7m.xstructural.version>1.8.0</com.io7m.xstructural.version>
     <com.io7m.jxtrand.version>2.0.0</com.io7m.jxtrand.version>
-    <io7m.api.previousVersion>0.0.2-SNAPSHOT</io7m.api.previousVersion>
+
+    <!-- Third-party dependencies. -->
     <junit.version>5.10.2</junit.version>
   </properties>
 
@@ -54,9 +60,9 @@
   </licenses>
 
   <scm>
-    <url>https://www.github.com/io7m/calino</url>
-    <connection>scm:git:https://github.com/io7m/calino</connection>
-    <developerConnection>scm:git:https://github.com/io7m/calino</developerConnection>
+    <url>https://www.github.com/io7m-com/calino</url>
+    <connection>scm:git:https://www.github.com/io7m-com/calino</connection>
+    <developerConnection>scm:git:https://www.github.com/io7m-com/calino</developerConnection>
   </scm>
 
   <developers>
@@ -69,7 +75,7 @@
   </developers>
 
   <issueManagement>
-    <url>https://www.github.com/io7m/calino/issues</url>
+    <url>https://www.github.com/io7m-com/calino/issues</url>
     <system>GitHub Issues</system>
   </issueManagement>
 
