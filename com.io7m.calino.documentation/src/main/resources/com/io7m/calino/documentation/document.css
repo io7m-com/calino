@@ -1,5 +1,5 @@
 /*
- * Copyright © 2022 Mark Raynsford <code@io7m.com> https://www.io7m.com
+ * Copyright © 2024 Mark Raynsford <code@io7m.com> https://www.io7m.com
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -16,18 +16,14 @@
 
 .brandingContainer
 {
-  margin: 1em;
-}
-
-.brandingContainerFooter
-{
-  margin-top: 2em;
+  margin-top:    1em;
+  margin-bottom: 2em;
+  font-size:     80%;
 }
 
 .branding
 {
   font-family: monospace;
-  font-size:   80%;
 }
 
 .command,
@@ -36,16 +32,20 @@
 .expression,
 .file,
 .package,
-.parameter,
-.term
+.parameter
 {
   font-family: monospace;
+}
+
+.term,
+.emphasis
+{
+  font-style: italic;
 }
 
 .genericTable
 {
   border:          1px solid #dddddd;
-  width:           100%;
   border-collapse: collapse;
 }
 .genericTable th
