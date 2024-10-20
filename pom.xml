@@ -49,7 +49,7 @@
     <com.io7m.jxtrand.version>2.1.0</com.io7m.jxtrand.version>
 
     <!-- Third-party dependencies. -->
-    <junit.version>5.11.2</junit.version>
+    <org.junit.version>5.11.1</org.junit.version>
   </properties>
 
   <licenses>
@@ -177,14 +177,11 @@
         <version>1.5.11</version>
       </dependency>
       <dependency>
-        <groupId>org.junit.jupiter</groupId>
-        <artifactId>junit-jupiter-api</artifactId>
-        <version>${junit.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.junit.jupiter</groupId>
-        <artifactId>junit-jupiter-engine</artifactId>
-        <version>${junit.version}</version>
+        <groupId>org.junit</groupId>
+        <artifactId>junit-bom</artifactId>
+        <version>${org.junit.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
       </dependency>
       <dependency>
         <groupId>org.osgi</groupId>
