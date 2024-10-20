@@ -32,7 +32,8 @@
 .expression,
 .file,
 .package,
-.parameter
+.parameter,
+.variable
 {
   font-family: monospace;
 }
