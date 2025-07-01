@@ -49,7 +49,7 @@
     <com.io7m.jxtrand.version>2.1.0</com.io7m.jxtrand.version>
 
     <!-- Third-party dependencies. -->
-    <org.junit.version>5.13.0</org.junit.version>
+    <org.junit.version>5.13.2</org.junit.version>
   </properties>
 
   <licenses>
