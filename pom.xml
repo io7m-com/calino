@@ -153,9 +153,9 @@
         <version>1.28.0</version>
       </dependency>
       <dependency>
-        <groupId>org.lz4</groupId>
+        <groupId>at.yawk.lz4</groupId>
         <artifactId>lz4-java</artifactId>
-        <version>1.8.0</version>
+        <version>1.8.1</version>
       </dependency>
       <dependency>
         <groupId>commons-io</groupId>
