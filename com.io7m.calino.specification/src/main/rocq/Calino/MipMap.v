@@ -124,3 +124,4 @@ Fixpoint mipMapImageDataSizeTotalAux (m : list mipMap) : nat :=
 
 Definition mipMapImageDataSizeTotal (m : mipMapList) : nat :=
   mipMapImageDataSizeTotalAux (mipMaps m).
+

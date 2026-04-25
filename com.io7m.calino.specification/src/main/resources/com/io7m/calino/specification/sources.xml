@@ -6,7 +6,7 @@
          xmlns:xi="http://www.w3.org/2001/XInclude">
 
   <Paragraph>
-    The full sources for the Coq/Gallina model underlying this specification are
+    The full sources for the Rocq model underlying this specification are
     included here.
   </Paragraph>
 

@@ -103,3 +103,4 @@ Proof.
   rewrite Nat.neq_0_lt_0.
   apply imageInfoTexelBlockAlignmentPositive.
 Qed.
+

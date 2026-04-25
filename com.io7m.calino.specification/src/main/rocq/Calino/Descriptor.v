@@ -25,3 +25,4 @@ Definition descriptor := string.
 Class describable (A : Set) := {
   descriptorOf : A -> descriptor
 }.
+
