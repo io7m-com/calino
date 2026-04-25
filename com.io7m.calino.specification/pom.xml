@@ -68,16 +68,16 @@
           </execution>
 
           <execution>
-            <id>copy-specification-coq</id>
+            <id>copy-specification-rocq</id>
             <goals>
               <goal>copy-resources</goal>
             </goals>
             <phase>generate-resources</phase>
             <configuration>
-              <outputDirectory>${project.build.directory}/specification/Calino/</outputDirectory>
+              <outputDirectory>${project.build.directory}/specification</outputDirectory>
               <resources>
                 <resource>
-                  <directory>src/main/coq/Calino/</directory>
+                  <directory>src/main/rocq</directory>
                   <filtering>false</filtering>
                   <includes>
                     <include>**/*.v</include>
@@ -105,7 +105,7 @@
           </execution>
 
           <execution>
-            <id>copy-specification-coq-epub</id>
+            <id>copy-specification-rocq-epub</id>
             <goals>
               <goal>copy-resources</goal>
             </goals>
@@ -114,7 +114,7 @@
               <outputDirectory>${project.build.directory}/epub/</outputDirectory>
               <resources>
                 <resource>
-                  <directory>src/main/coq/Calino/</directory>
+                  <directory>src/main/rocq/Calino/</directory>
                   <filtering>false</filtering>
                   <includes>
                     <include>**/*.v</include>
@@ -158,8 +158,8 @@
             <configuration>
               <mainClass>com.io7m.calino.specification.Excerpts</mainClass>
               <arguments>
-                <argument>${project.basedir}/src/main/coq</argument>
-                <argument>${project.basedir}/src/main/coq/excerpts.txt</argument>
+                <argument>${project.basedir}/src/main/rocq</argument>
+                <argument>${project.basedir}/src/main/rocq/excerpts.txt</argument>
                 <argument>${project.build.directory}/specification/</argument>
               </arguments>
             </configuration>

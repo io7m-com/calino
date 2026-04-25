@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="coqdoc.css" rel="stylesheet" type="text/css" />
+<title>com.io7m.calino.Flag</title>
+</head>
+
+<body>
+
+<div id="page">
+
+<div id="header">
+</div>
+
+<div id="main">
+
+<h1 class="libtitle">Library com.io7m.calino.Flag</h1>
+
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">From</span> <span class="id" title="var">Stdlib</span> <span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">Strings.String</span>.<br/>
+<span class="id" title="keyword">From</span> <span class="id" title="var">Stdlib</span> <span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">Lists.List</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="com.io7m.calino.Descriptor.html#"><span class="id" title="library">com.io7m.calino.Descriptor</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Import</span> <span class="id" title="module">ListNotations</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Inductive</span> <a id="flag" class="idref" href="#flag"><span class="id" title="definition, inductive"><span id="flag_rect" class="id"><span id="flag_ind" class="id"><span id="flag_rec" class="id"><span id="flag_sind" class="id">flag</span></span></span></span></span></a> : <span class="id" title="keyword">Set</span> :=<br/>
+&nbsp;&nbsp;| <a id="FlagAlphaPremultiplied" class="idref" href="#FlagAlphaPremultiplied"><span class="id" title="constructor">FlagAlphaPremultiplied</span></a><br/>
+&nbsp;&nbsp;| <a id="FlagCustom" class="idref" href="#FlagCustom"><span class="id" title="constructor">FlagCustom</span></a> : <a class="idref" href="com.io7m.calino.Descriptor.html#descriptor"><span class="id" title="definition">descriptor</span></a> <a class="idref" href="http://rocq-prover.org/doc/V9.1.1/stdlib//Corelib.Init.Logic.html#::type_scope:x_'-&gt;'_x"><span class="id" title="notation">→</span></a> <a class="idref" href="com.io7m.calino.Flag.html#flag:1"><span class="id" title="inductive">flag</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="flagDescribe" class="idref" href="#flagDescribe"><span class="id" title="definition">flagDescribe</span></a> (<a id="f:3" class="idref" href="#f:3"><span class="id" title="binder">f</span></a> : <a class="idref" href="com.io7m.calino.Flag.html#flag"><span class="id" title="inductive">flag</span></a>) : <a class="idref" href="com.io7m.calino.Descriptor.html#descriptor"><span class="id" title="definition">descriptor</span></a> :=<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">match</span> <a class="idref" href="com.io7m.calino.Flag.html#f:3"><span class="id" title="variable">f</span></a> <span class="id" title="keyword">with</span><br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.Flag.html#FlagAlphaPremultiplied"><span class="id" title="constructor">FlagAlphaPremultiplied</span></a> ⇒ "ALPHA_PREMULTIPLIED"<br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.Flag.html#FlagCustom"><span class="id" title="constructor">FlagCustom</span></a> <span class="id" title="var">d</span>           ⇒ <span class="id" title="var">d</span><br/>
+&nbsp;&nbsp;<span class="id" title="keyword">end</span>.<br/>
+
+<br/>
+#[<span class="id" title="var">export</span>]<br/>
+<span class="id" title="keyword">Instance</span> <a id="flagDescribable" class="idref" href="#flagDescribable"><span class="id" title="instance">flagDescribable</span></a> : <a class="idref" href="com.io7m.calino.Descriptor.html#describable"><span class="id" title="class">describable</span></a> <a class="idref" href="com.io7m.calino.Flag.html#flag"><span class="id" title="inductive">flag</span></a> := {<br/>
+&nbsp;&nbsp;<a class="idref" href="com.io7m.calino.Descriptor.html#descriptorOf"><span class="id" title="method">descriptorOf</span></a> <a id="f:5" class="idref" href="#f:5"><span class="id" title="binder">f</span></a> := <a class="idref" href="com.io7m.calino.Flag.html#flagDescribe"><span class="id" title="definition">flagDescribe</span></a> <a class="idref" href="com.io7m.calino.Flag.html#f:5"><span class="id" title="variable">f</span></a><br/>
+}.<br/>
+
+<br/>
+<span class="id" title="keyword">Inductive</span> <a id="flagSet" class="idref" href="#flagSet"><span class="id" title="definition, record"><span id="flagSet_rect" class="id"><span id="flagSet_ind" class="id"><span id="flagSet_rec" class="id"><span id="flagSet_sind" class="id">flagSet</span></span></span></span></span></a> : <span class="id" title="keyword">Set</span> := {<br/>
+&nbsp;&nbsp;<a id="flags" class="idref" href="#flags"><span class="id" title="projection">flags</span></a>      : <a class="idref" href="http://rocq-prover.org/doc/V9.1.1/stdlib//Corelib.Init.Datatypes.html#list"><span class="id" title="inductive">list</span></a> <a class="idref" href="com.io7m.calino.Flag.html#flag"><span class="id" title="inductive">flag</span></a>;<br/>
+&nbsp;&nbsp;<a id="flagsNoDup" class="idref" href="#flagsNoDup"><span class="id" title="projection">flagsNoDup</span></a> : <span class="id" title="inductive">NoDup</span> <a class="idref" href="com.io7m.calino.Flag.html#flags:7"><span class="id" title="method">flags</span></a>;<br/>
+}.<br/>
+
+<br/>
+</div>
+</div>
+
+<div id="footer">
+<hr/><a href="index.html">Index</a><hr/>This page has been generated by <a href="http://rocq-prover.org/">coqdoc</a>
+</div>
+
+</div>
+
+</body>
+</html>

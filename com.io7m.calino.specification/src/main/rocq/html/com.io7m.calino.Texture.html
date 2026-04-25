@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="coqdoc.css" rel="stylesheet" type="text/css" />
+<title>com.io7m.calino.Texture</title>
+</head>
+
+<body>
+
+<div id="page">
+
+<div id="header">
+</div>
+
+<div id="main">
+
+<h1 class="libtitle">Library com.io7m.calino.Texture</h1>
+
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="com.io7m.calino.CubeMipMap.html#"><span class="id" title="library">com.io7m.calino.CubeMipMap</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="com.io7m.calino.ArrayMipMap.html#"><span class="id" title="library">com.io7m.calino.ArrayMipMap</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="com.io7m.calino.ImageInfo.html#"><span class="id" title="library">com.io7m.calino.ImageInfo</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="com.io7m.calino.MipMap.html#"><span class="id" title="library">com.io7m.calino.MipMap</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Inductive</span> <a id="texture2d" class="idref" href="#texture2d"><span class="id" title="definition, record"><span id="texture2d_rect" class="id"><span id="texture2d_ind" class="id"><span id="texture2d_rec" class="id"><span id="texture2d_sind" class="id">texture2d</span></span></span></span></span></a> : <span class="id" title="keyword">Set</span> := <span class="id" title="var">Texture2D</span> {<br/>
+&nbsp;&nbsp;<a id="i2dInfo" class="idref" href="#i2dInfo"><span class="id" title="projection">i2dInfo</span></a>    : <a class="idref" href="com.io7m.calino.ImageInfo.html#imageInfo"><span class="id" title="record">imageInfo</span></a>;<br/>
+&nbsp;&nbsp;<a id="i2dMipMaps" class="idref" href="#i2dMipMaps"><span class="id" title="projection">i2dMipMaps</span></a> : <a class="idref" href="com.io7m.calino.MipMap.html#mipMapList"><span class="id" title="record">mipMapList</span></a>;<br/>
+&nbsp;&nbsp;<a id="i2dSize" class="idref" href="#i2dSize"><span class="id" title="projection">i2dSize</span></a>    : 1 <a class="idref" href="http://rocq-prover.org/doc/V9.1.1/stdlib//Corelib.Init.Logic.html#6cd0f7b28b6092304087c7049437bb1a"><span class="id" title="notation">=</span></a> <a class="idref" href="com.io7m.calino.ImageInfo.html#imageSizeZ"><span class="id" title="definition">imageSizeZ</span></a> <a class="idref" href="com.io7m.calino.Texture.html#i2dInfo:2"><span class="id" title="method">i2dInfo</span></a><br/>
+}.<br/>
+
+<br/>
+<span class="id" title="keyword">Inductive</span> <a id="textureArray" class="idref" href="#textureArray"><span class="id" title="definition, record"><span id="textureArray_rect" class="id"><span id="textureArray_ind" class="id"><span id="textureArray_rec" class="id"><span id="textureArray_sind" class="id">textureArray</span></span></span></span></span></a> : <span class="id" title="keyword">Set</span> := <span class="id" title="var">TextureArray</span> {<br/>
+&nbsp;&nbsp;<a id="iaInfo" class="idref" href="#iaInfo"><span class="id" title="projection">iaInfo</span></a>    : <a class="idref" href="com.io7m.calino.ImageInfo.html#imageInfo"><span class="id" title="record">imageInfo</span></a>;<br/>
+&nbsp;&nbsp;<a id="iaMipMaps" class="idref" href="#iaMipMaps"><span class="id" title="projection">iaMipMaps</span></a> : <a class="idref" href="com.io7m.calino.ArrayMipMap.html#arrayMipMapList"><span class="id" title="record">arrayMipMapList</span></a>;<br/>
+&nbsp;&nbsp;<a id="iaSize" class="idref" href="#iaSize"><span class="id" title="projection">iaSize</span></a>    : 1 <a class="idref" href="http://rocq-prover.org/doc/V9.1.1/stdlib//Corelib.Init.Peano.html#cb53cf0ee22c036a03b4a9281c68b5a3"><span class="id" title="notation">≤</span></a> <a class="idref" href="com.io7m.calino.ImageInfo.html#imageSizeZ"><span class="id" title="definition">imageSizeZ</span></a> <a class="idref" href="com.io7m.calino.Texture.html#iaInfo:6"><span class="id" title="method">iaInfo</span></a><br/>
+}.<br/>
+
+<br/>
+<span class="id" title="keyword">Inductive</span> <a id="textureCube" class="idref" href="#textureCube"><span class="id" title="definition, record"><span id="textureCube_rect" class="id"><span id="textureCube_ind" class="id"><span id="textureCube_rec" class="id"><span id="textureCube_sind" class="id">textureCube</span></span></span></span></span></a> : <span class="id" title="keyword">Set</span> := <span class="id" title="var">TextureCube</span> {<br/>
+&nbsp;&nbsp;<a id="icubeInfo" class="idref" href="#icubeInfo"><span class="id" title="projection">icubeInfo</span></a>    : <a class="idref" href="com.io7m.calino.ImageInfo.html#imageInfo"><span class="id" title="record">imageInfo</span></a>;<br/>
+&nbsp;&nbsp;<a id="icubeMipMaps" class="idref" href="#icubeMipMaps"><span class="id" title="projection">icubeMipMaps</span></a> : <a class="idref" href="com.io7m.calino.CubeMipMap.html#cubeMipMapList"><span class="id" title="record">cubeMipMapList</span></a>;<br/>
+&nbsp;&nbsp;<a id="icubeSize" class="idref" href="#icubeSize"><span class="id" title="projection">icubeSize</span></a>    : 1 <a class="idref" href="http://rocq-prover.org/doc/V9.1.1/stdlib//Corelib.Init.Logic.html#6cd0f7b28b6092304087c7049437bb1a"><span class="id" title="notation">=</span></a> <a class="idref" href="com.io7m.calino.ImageInfo.html#imageSizeZ"><span class="id" title="definition">imageSizeZ</span></a> <a class="idref" href="com.io7m.calino.Texture.html#icubeInfo:10"><span class="id" title="method">icubeInfo</span></a><br/>
+}.<br/>
+
+<br/>
+<span class="id" title="keyword">Inductive</span> <a id="texture" class="idref" href="#texture"><span class="id" title="definition, inductive"><span id="texture_rect" class="id"><span id="texture_ind" class="id"><span id="texture_rec" class="id"><span id="texture_sind" class="id">texture</span></span></span></span></span></a> : <span class="id" title="keyword">Set</span> :=<br/>
+&nbsp;&nbsp;| <a id="TTexture2D" class="idref" href="#TTexture2D"><span class="id" title="constructor">TTexture2D</span></a>    : <a class="idref" href="com.io7m.calino.Texture.html#texture2d"><span class="id" title="record">texture2d</span></a> <a class="idref" href="http://rocq-prover.org/doc/V9.1.1/stdlib//Corelib.Init.Logic.html#::type_scope:x_'-&gt;'_x"><span class="id" title="notation">→</span></a> <a class="idref" href="com.io7m.calino.Texture.html#texture:13"><span class="id" title="inductive">texture</span></a><br/>
+&nbsp;&nbsp;| <a id="TTextureArray" class="idref" href="#TTextureArray"><span class="id" title="constructor">TTextureArray</span></a> : <a class="idref" href="com.io7m.calino.Texture.html#textureArray"><span class="id" title="record">textureArray</span></a> <a class="idref" href="http://rocq-prover.org/doc/V9.1.1/stdlib//Corelib.Init.Logic.html#::type_scope:x_'-&gt;'_x"><span class="id" title="notation">→</span></a> <a class="idref" href="com.io7m.calino.Texture.html#texture:13"><span class="id" title="inductive">texture</span></a><br/>
+&nbsp;&nbsp;| <a id="TTextureCube" class="idref" href="#TTextureCube"><span class="id" title="constructor">TTextureCube</span></a>  : <a class="idref" href="com.io7m.calino.Texture.html#textureCube"><span class="id" title="record">textureCube</span></a> <a class="idref" href="http://rocq-prover.org/doc/V9.1.1/stdlib//Corelib.Init.Logic.html#::type_scope:x_'-&gt;'_x"><span class="id" title="notation">→</span></a> <a class="idref" href="com.io7m.calino.Texture.html#texture:13"><span class="id" title="inductive">texture</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="imageInfoOf" class="idref" href="#imageInfoOf"><span class="id" title="definition">imageInfoOf</span></a> (<a id="i:15" class="idref" href="#i:15"><span class="id" title="binder">i</span></a> : <a class="idref" href="com.io7m.calino.Texture.html#texture"><span class="id" title="inductive">texture</span></a>) : <a class="idref" href="com.io7m.calino.ImageInfo.html#imageInfo"><span class="id" title="record">imageInfo</span></a> :=<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">match</span> <a class="idref" href="com.io7m.calino.Texture.html#i:15"><span class="id" title="variable">i</span></a> <span class="id" title="keyword">with</span><br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.Texture.html#TTexture2D"><span class="id" title="constructor">TTexture2D</span></a> (<a class="idref" href="com.io7m.calino.Texture.html#Texture2D"><span class="id" title="constructor">Texture2D</span></a> <span class="id" title="var">i</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>)       ⇒ <a class="idref" href="com.io7m.calino.Texture.html#i:15"><span class="id" title="variable">i</span></a><br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.Texture.html#TTextureArray"><span class="id" title="constructor">TTextureArray</span></a> (<a class="idref" href="com.io7m.calino.Texture.html#TextureArray"><span class="id" title="constructor">TextureArray</span></a> <span class="id" title="var">i</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>) ⇒ <a class="idref" href="com.io7m.calino.Texture.html#i:15"><span class="id" title="variable">i</span></a><br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.Texture.html#TTextureCube"><span class="id" title="constructor">TTextureCube</span></a> (<a class="idref" href="com.io7m.calino.Texture.html#TextureCube"><span class="id" title="constructor">TextureCube</span></a> <span class="id" title="var">i</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>)   ⇒ <a class="idref" href="com.io7m.calino.Texture.html#i:15"><span class="id" title="variable">i</span></a><br/>
+&nbsp;&nbsp;<span class="id" title="keyword">end</span>.<br/>
+</div>
+</div>
+
+<div id="footer">
+<hr/><a href="index.html">Index</a><hr/>This page has been generated by <a href="http://rocq-prover.org/">coqdoc</a>
+</div>
+
+</div>
+
+</body>
+</html>

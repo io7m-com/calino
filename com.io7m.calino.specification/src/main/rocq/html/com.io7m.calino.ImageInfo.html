@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="coqdoc.css" rel="stylesheet" type="text/css" />
+<title>com.io7m.calino.ImageInfo</title>
+</head>
+
+<body>
+
+<div id="page">
+
+<div id="header">
+</div>
+
+<div id="main">
+
+<h1 class="libtitle">Library com.io7m.calino.ImageInfo</h1>
+
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">From</span> <span class="id" title="var">Stdlib</span> <span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">PArith.PArith</span>.<br/>
+<span class="id" title="keyword">From</span> <span class="id" title="var">Stdlib</span> <span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">Arith.PeanoNat</span>.<br/>
+<span class="id" title="keyword">From</span> <span class="id" title="var">Stdlib</span> <span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">Program.Basics</span>.<br/>
+<span class="id" title="keyword">From</span> <span class="id" title="var">Stdlib</span> <span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">Strings.String</span>.<br/>
+<span class="id" title="keyword">From</span> <span class="id" title="var">Stdlib</span> <span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">Strings.Ascii</span>.<br/>
+<span class="id" title="keyword">From</span> <span class="id" title="var">Stdlib</span> <span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">Lists.List</span>.<br/>
+<span class="id" title="keyword">From</span> <span class="id" title="var">Stdlib</span> <span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">Init.Nat</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="com.io7m.calino.StringUtility.html#"><span class="id" title="library">com.io7m.calino.StringUtility</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="com.io7m.calino.Descriptor.html#"><span class="id" title="library">com.io7m.calino.Descriptor</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="com.io7m.calino.ChannelDescription.html#"><span class="id" title="library">com.io7m.calino.ChannelDescription</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="com.io7m.calino.ChannelSemantic.html#"><span class="id" title="library">com.io7m.calino.ChannelSemantic</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="com.io7m.calino.ChannelType.html#"><span class="id" title="library">com.io7m.calino.ChannelType</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="com.io7m.calino.Compression.html#"><span class="id" title="library">com.io7m.calino.Compression</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="com.io7m.calino.SuperCompression.html#"><span class="id" title="library">com.io7m.calino.SuperCompression</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="com.io7m.calino.ColorSpace.html#"><span class="id" title="library">com.io7m.calino.ColorSpace</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="com.io7m.calino.Flag.html#"><span class="id" title="library">com.io7m.calino.Flag</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="com.io7m.calino.CoordinateSystem.html#"><span class="id" title="library">com.io7m.calino.CoordinateSystem</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="com.io7m.calino.ImageSize.html#"><span class="id" title="library">com.io7m.calino.ImageSize</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">com.io7m.octetorder.OctetOrder</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Open</span> <span class="id" title="keyword">Scope</span> <span class="id" title="var">program_scope</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Record</span> <a id="imageInfo" class="idref" href="#imageInfo"><span class="id" title="record">imageInfo</span></a> : <span class="id" title="keyword">Set</span> := <span class="id" title="var">ImageInfo</span> {<br/>
+&nbsp;&nbsp;<a id="imageSize" class="idref" href="#imageSize"><span class="id" title="projection">imageSize</span></a>                   : <a class="idref" href="com.io7m.calino.ImageSize.html#imageSize3D"><span class="id" title="record">imageSize3D</span></a>;<br/>
+&nbsp;&nbsp;<a id="imageChannelsLayout" class="idref" href="#imageChannelsLayout"><span class="id" title="projection">imageChannelsLayout</span></a>         : <a class="idref" href="com.io7m.calino.ChannelDescription.html#channelLayoutDescription"><span class="id" title="inductive">channelLayoutDescription</span></a>;<br/>
+&nbsp;&nbsp;<a id="imageChannelsType" class="idref" href="#imageChannelsType"><span class="id" title="projection">imageChannelsType</span></a>           : <a class="idref" href="com.io7m.calino.ChannelType.html#channelType"><span class="id" title="inductive">channelType</span></a>;<br/>
+&nbsp;&nbsp;<a id="imageCompressionMethod" class="idref" href="#imageCompressionMethod"><span class="id" title="projection">imageCompressionMethod</span></a>      : <a class="idref" href="com.io7m.calino.Compression.html#compressionMethod"><span class="id" title="inductive">compressionMethod</span></a>;<br/>
+&nbsp;&nbsp;<a id="imageSuperCompressionMethod" class="idref" href="#imageSuperCompressionMethod"><span class="id" title="projection">imageSuperCompressionMethod</span></a> : <a class="idref" href="com.io7m.calino.SuperCompression.html#superCompressionMethod"><span class="id" title="inductive">superCompressionMethod</span></a>;<br/>
+&nbsp;&nbsp;<a id="imageCoordinateSystem" class="idref" href="#imageCoordinateSystem"><span class="id" title="projection">imageCoordinateSystem</span></a>       : <a class="idref" href="com.io7m.calino.CoordinateSystem.html#coordinateSystem"><span class="id" title="inductive">coordinateSystem</span></a>;<br/>
+&nbsp;&nbsp;<a id="imageColorSpace" class="idref" href="#imageColorSpace"><span class="id" title="projection">imageColorSpace</span></a>             : <a class="idref" href="com.io7m.calino.ColorSpace.html#colorSpace"><span class="id" title="inductive">colorSpace</span></a>;<br/>
+&nbsp;&nbsp;<a id="imageFlags" class="idref" href="#imageFlags"><span class="id" title="projection">imageFlags</span></a>                  : <a class="idref" href="com.io7m.calino.Flag.html#flagSet"><span class="id" title="record">flagSet</span></a>;<br/>
+&nbsp;&nbsp;<a id="imageByteOrder" class="idref" href="#imageByteOrder"><span class="id" title="projection">imageByteOrder</span></a>              : <span class="id" title="inductive">octetOrder</span><br/>
+}.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="imageSizeX" class="idref" href="#imageSizeX"><span class="id" title="definition">imageSizeX</span></a> :=<br/>
+&nbsp;&nbsp;<a class="idref" href="com.io7m.calino.ImageSize.html#sizeX"><span class="id" title="projection">sizeX</span></a> <a class="idref" href="http://rocq-prover.org/doc/V9.1.1/stdlib//Corelib.Program.Basics.html#2e889d5867d2bfffb9f8d04b7b23cbd7"><span class="id" title="notation">∘</span></a> <a class="idref" href="com.io7m.calino.ImageInfo.html#imageSize"><span class="id" title="projection">imageSize</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="imageSizeY" class="idref" href="#imageSizeY"><span class="id" title="definition">imageSizeY</span></a> :=<br/>
+&nbsp;&nbsp;<a class="idref" href="com.io7m.calino.ImageSize.html#sizeY"><span class="id" title="projection">sizeY</span></a> <a class="idref" href="http://rocq-prover.org/doc/V9.1.1/stdlib//Corelib.Program.Basics.html#2e889d5867d2bfffb9f8d04b7b23cbd7"><span class="id" title="notation">∘</span></a> <a class="idref" href="com.io7m.calino.ImageInfo.html#imageSize"><span class="id" title="projection">imageSize</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="imageSizeZ" class="idref" href="#imageSizeZ"><span class="id" title="definition">imageSizeZ</span></a> :=<br/>
+&nbsp;&nbsp;<a class="idref" href="com.io7m.calino.ImageSize.html#sizeZ"><span class="id" title="projection">sizeZ</span></a> <a class="idref" href="http://rocq-prover.org/doc/V9.1.1/stdlib//Corelib.Program.Basics.html#2e889d5867d2bfffb9f8d04b7b23cbd7"><span class="id" title="notation">∘</span></a> <a class="idref" href="com.io7m.calino.ImageInfo.html#imageSize"><span class="id" title="projection">imageSize</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="imageFlagSet" class="idref" href="#imageFlagSet"><span class="id" title="definition">imageFlagSet</span></a> :=<br/>
+&nbsp;&nbsp;<a class="idref" href="com.io7m.calino.Flag.html#flags"><span class="id" title="projection">flags</span></a> <a class="idref" href="http://rocq-prover.org/doc/V9.1.1/stdlib//Corelib.Program.Basics.html#2e889d5867d2bfffb9f8d04b7b23cbd7"><span class="id" title="notation">∘</span></a> <a class="idref" href="com.io7m.calino.ImageInfo.html#imageFlags"><span class="id" title="projection">imageFlags</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="imageInfoTexelBlockAlignment" class="idref" href="#imageInfoTexelBlockAlignment"><span class="id" title="definition">imageInfoTexelBlockAlignment</span></a> (<a id="i:11" class="idref" href="#i:11"><span class="id" title="binder">i</span></a> : <a class="idref" href="com.io7m.calino.ImageInfo.html#imageInfo"><span class="id" title="record">imageInfo</span></a>) :=<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">let</span> <a id="c:12" class="idref" href="#c:12"><span class="id" title="binder">c</span></a> := <a class="idref" href="com.io7m.calino.ImageInfo.html#imageCompressionMethod"><span class="id" title="projection">imageCompressionMethod</span></a> <a class="idref" href="com.io7m.calino.ImageInfo.html#i:11"><span class="id" title="variable">i</span></a> <span class="id" title="tactic">in</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">match</span> <a class="idref" href="com.io7m.calino.ImageInfo.html#c:12"><span class="id" title="variable">c</span></a> <span class="id" title="keyword">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.Compression.html#CompressionUncompressed"><span class="id" title="constructor">CompressionUncompressed</span></a> ⇒ <a class="idref" href="com.io7m.calino.ChannelDescription.html#channelLayoutDescriptionBits"><span class="id" title="definition">channelLayoutDescriptionBits</span></a> (<a class="idref" href="com.io7m.calino.ImageInfo.html#imageChannelsLayout"><span class="id" title="projection">imageChannelsLayout</span></a> <a class="idref" href="com.io7m.calino.ImageInfo.html#i:11"><span class="id" title="variable">i</span></a>) <a class="idref" href="http://rocq-prover.org/doc/V9.1.1/stdlib//Corelib.Init.Nat.html#2e0d8202c5a48097752d760d3a1db6a7"><span class="id" title="notation">/</span></a> 8<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id" title="var">_</span>                       ⇒ <a class="idref" href="com.io7m.calino.Compression.html#compressionBlockAlignment"><span class="id" title="definition">compressionBlockAlignment</span></a> <a class="idref" href="com.io7m.calino.ImageInfo.html#c:12"><span class="id" title="variable">c</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">end</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <a id="imageInfoTexelBlockAlignmentPositive" class="idref" href="#imageInfoTexelBlockAlignmentPositive"><span class="id" title="lemma">imageInfoTexelBlockAlignmentPositive</span></a> : <span class="id" title="keyword">∀</span> <a id="i:14" class="idref" href="#i:14"><span class="id" title="binder">i</span></a>,<br/>
+&nbsp;&nbsp;0 <a class="idref" href="http://rocq-prover.org/doc/V9.1.1/stdlib//Corelib.Init.Peano.html#::nat_scope:x_'&lt;'_x"><span class="id" title="notation">&lt;</span></a> <a class="idref" href="com.io7m.calino.ImageInfo.html#imageInfoTexelBlockAlignment"><span class="id" title="definition">imageInfoTexelBlockAlignment</span></a> <a class="idref" href="com.io7m.calino.ImageInfo.html#i:14"><span class="id" title="variable">i</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">i</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">unfold</span> <a class="idref" href="com.io7m.calino.ImageInfo.html#imageInfoTexelBlockAlignment"><span class="id" title="definition">imageInfoTexelBlockAlignment</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">destruct</span> (<a class="idref" href="com.io7m.calino.ImageInfo.html#imageCompressionMethod"><span class="id" title="projection">imageCompressionMethod</span></a> <span class="id" title="var">i</span>) <span class="id" title="var">eqn</span>:<span class="id" title="var">Hm</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">assert</span> (8 <a class="idref" href="http://rocq-prover.org/doc/V9.1.1/stdlib//Corelib.Init.Peano.html#cb53cf0ee22c036a03b4a9281c68b5a3"><span class="id" title="notation">≤</span></a> <a class="idref" href="com.io7m.calino.ChannelDescription.html#channelLayoutDescriptionBits"><span class="id" title="definition">channelLayoutDescriptionBits</span></a> (<a class="idref" href="com.io7m.calino.ImageInfo.html#imageChannelsLayout"><span class="id" title="projection">imageChannelsLayout</span></a> <span class="id" title="var">i</span>)) <span class="id" title="keyword">as</span> <span class="id" title="var">Hle8</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">by</span> (<span class="id" title="tactic">apply</span> (<a class="idref" href="com.io7m.calino.ChannelDescription.html#channelLayoutDescriptionBitsLe8"><span class="id" title="lemma">channelLayoutDescriptionBitsLe8</span></a>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="definition">Nat.div_le_lower_bound</span> (<a class="idref" href="com.io7m.calino.ChannelDescription.html#channelLayoutDescriptionBits"><span class="id" title="definition">channelLayoutDescriptionBits</span></a> (<a class="idref" href="com.io7m.calino.ImageInfo.html#imageChannelsLayout"><span class="id" title="projection">imageChannelsLayout</span></a> <span class="id" title="var">i</span>)) 8 1).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">discriminate</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <span class="id" title="lemma">Nat.mul_1_r</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> <span class="id" title="var">Hle8</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">repeat</span> (<span class="id" title="tactic">constructor</span>).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">repeat</span> (<span class="id" title="tactic">constructor</span>).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">repeat</span> (<span class="id" title="tactic">constructor</span>).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">repeat</span> (<span class="id" title="tactic">constructor</span>).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">repeat</span> (<span class="id" title="tactic">constructor</span>).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">repeat</span> (<span class="id" title="tactic">constructor</span>).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">repeat</span> (<span class="id" title="tactic">constructor</span>).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">repeat</span> (<span class="id" title="tactic">constructor</span>).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">repeat</span> (<span class="id" title="tactic">constructor</span>).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">repeat</span> (<span class="id" title="tactic">constructor</span>).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">repeat</span> (<span class="id" title="tactic">constructor</span>).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">auto</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <a id="imageInfoTexelBlockAlignmentNonZero" class="idref" href="#imageInfoTexelBlockAlignmentNonZero"><span class="id" title="lemma">imageInfoTexelBlockAlignmentNonZero</span></a> : <span class="id" title="keyword">∀</span> <a id="i:15" class="idref" href="#i:15"><span class="id" title="binder">i</span></a>,<br/>
+&nbsp;&nbsp;0 <a class="idref" href="http://rocq-prover.org/doc/V9.1.1/stdlib//Corelib.Init.Logic.html#::type_scope:x_'&lt;&gt;'_x"><span class="id" title="notation">≠</span></a> <a class="idref" href="com.io7m.calino.ImageInfo.html#imageInfoTexelBlockAlignment"><span class="id" title="definition">imageInfoTexelBlockAlignment</span></a> <a class="idref" href="com.io7m.calino.ImageInfo.html#i:15"><span class="id" title="variable">i</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">i</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">symmetry</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <span class="id" title="lemma">Nat.neq_0_lt_0</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="com.io7m.calino.ImageInfo.html#imageInfoTexelBlockAlignmentPositive"><span class="id" title="lemma">imageInfoTexelBlockAlignmentPositive</span></a>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+</div>
+</div>
+
+<div id="footer">
+<hr/><a href="index.html">Index</a><hr/>This page has been generated by <a href="http://rocq-prover.org/">coqdoc</a>
+</div>
+
+</div>
+
+</body>
+</html>

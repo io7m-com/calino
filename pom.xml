@@ -31,6 +31,7 @@
     <module>com.io7m.calino.parser.api</module>
     <module>com.io7m.calino.specification</module>
     <module>com.io7m.calino.supercompression.api</module>
+    <module>com.io7m.calino.supercompression.deflate</module>
     <module>com.io7m.calino.supercompression.lz4</module>
     <module>com.io7m.calino.supercompression.spi</module>
     <module>com.io7m.calino.tests</module>
@@ -49,7 +50,7 @@
     <!-- io7m dependencies. -->
     <com.io7m.jbssio.version>3.0.0</com.io7m.jbssio.version>
     <com.io7m.jxtrand.version>2.1.0</com.io7m.jxtrand.version>
-    <com.io7m.quarrel.version>1.8.1-SNAPSHOT</com.io7m.quarrel.version>
+    <com.io7m.quarrel.version>1.8.1</com.io7m.quarrel.version>
     <com.io7m.xstructural.version>2.0.1</com.io7m.xstructural.version>
 
     <!-- Third-party dependencies. -->
@@ -150,6 +151,11 @@
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-compress</artifactId>
         <version>1.28.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-lang3</artifactId>
+        <version>3.20.0</version>
       </dependency>
       <dependency>
         <groupId>at.yawk.lz4</groupId>

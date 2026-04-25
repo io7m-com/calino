@@ -60,4 +60,24 @@ public enum CLNSuperCompressionMethodStandard
       return 0L;
     }
   },
+
+  /**
+   * DEFLATE compressed data.
+   *
+   * @see "https://en.wikipedia.org/wiki/Deflate"
+   */
+
+  DEFLATE {
+    @Override
+    public String descriptor()
+    {
+      return "DEFLATE";
+    }
+
+    @Override
+    public long compressionSectionIdentifier()
+    {
+      return 0L;
+    }
+  },
 }

@@ -14,15 +14,4 @@
                   parse="text"/>
     </Verbatim>
   </FormalItem>
-  <Paragraph>
-    The property of being divisible by 8 is preserved over addition. That is, if two numbers
-    <Term type="term">n</Term> and <Term type="term">m</Term> are divisible by 8, then
-    <Term type="expression">n + m</Term> is divisible by 8.
-  </Paragraph>
-  <FormalItem title="Divisible8 Addition">
-    <Verbatim>
-      <xi:include href="1.txt"
-                  parse="text"/>
-    </Verbatim>
-  </FormalItem>
 </Section>
