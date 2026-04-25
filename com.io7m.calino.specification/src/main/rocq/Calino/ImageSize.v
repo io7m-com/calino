@@ -22,3 +22,4 @@ Record imageSize3D : Set := ImageSize3D {
   sizeYnot0 : 0 <> sizeY;
   sizeZnot0 : 0 <> sizeZ;
 }.
+
