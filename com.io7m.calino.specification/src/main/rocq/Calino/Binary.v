@@ -38,6 +38,7 @@ Require Import com.io7m.calino.ColorSpace.
 Require Import com.io7m.calino.Flag.
 Require Import com.io7m.calino.CoordinateSystem.
 Require Import com.io7m.calino.ImageSize.
+Require Import com.io7m.calino.ThreeDMipMap.
 
 Require Import com.io7m.octetorder.OctetOrder.
 
@@ -250,3 +251,42 @@ Definition binaryEndSection : binaryExp := BiRecord [
   ("size", u64 0)
 ].
 
+Definition binaryExp3DMipMap (m : threeDMipMap) : binaryExp := BiRecord [
+  ("threeDMipMapLevel",            u32 (threeDMipMapLevel (threeDMipMapIndex m)));
+  ("threeDMipMapDepth",            u32 (threeDMipMapDepth (threeDMipMapIndex m)));
+  ("threeDMipMapDataOffset",       u64 (threeDMipMapOffset m));
+  ("threeDMipMapSizeUncompressed", u64 (threeDMipMapSizeUncompressed m));
+  ("threeDMipMapSizeCompressed",   u64 (threeDMipMapSizeCompressed m));
+  ("threeDMipMapCRC32",            u32 (threeDMipMapCRC32 m))
+].
+
+Remark binaryExp3DMipMapSize : forall m, binarySize (binaryExp3DMipMap m) = 36.
+Proof. reflexivity. Qed.
+
+Definition binaryExp3DMipMaps (m : threeDMipMapList) : binaryExp :=
+  BiArray (map binaryExp3DMipMap (threeDMipMaps m)).
+
+Definition binaryExpImage3D
+  (i : imageInfo)
+  (m : threeDMipMapList)
+: binaryExp :=
+  let imageDataStart := threeDMipMapOffset (threeDMipMapFirst m) in
+  let encMips        := binaryExp3DMipMaps m in
+  let encMipsSize    := binarySize encMips in
+  let encMipsPad     := imageDataStart - encMipsSize in
+  let imageSize      := threeDMipMapImageDataSizeTotal m in
+  let imageSize16    := asMultipleOf16 imageSize in
+    BiRecord [
+      ("threeDMipMaps", encMips);
+      ("threeDMipPad",  BiReserve encMipsPad);
+      ("threeDMipData", BiReserve imageSize16)
+    ].
+
+Definition binaryExpImage3DSection
+  (i : imageInfo)
+  (m : threeDMipMapList)
+: binaryExp := BiRecord [
+  ("id",   u64 0x434C4E5F41525221);
+  ("size", u64 (binarySizePadded16 (binaryExpImage3D i m)));
+  ("data", binaryExpImage3D i m)
+].

@@ -19,6 +19,7 @@
   <xi:include href="m-mipmaps.xml"/>
   <xi:include href="m-arraymipmaps.xml"/>
   <xi:include href="m-cubemipmaps.xml"/>
+  <xi:include href="m-3dmipmaps.xml"/>
   <xi:include href="m-metadata.xml"/>
   <xi:include href="m-texture.xml"/>
 

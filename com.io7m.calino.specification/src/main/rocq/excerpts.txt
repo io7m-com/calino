@@ -124,6 +124,7 @@
 124 ! Definition Layout_R64_G64_B64 : channelLayoutDescription
 125 ! Definition Layout_R64_G64 : channelLayoutDescription
 126 ! Definition Layout_R64 : channelLayoutDescription
+
 127 ! Inductive arrayMipMapIndexT : Set
 128 ! Inductive arrayMipMapIndicesSorted
 129 ! Inductive arrayMipMapIndexOrd
@@ -134,6 +135,7 @@
 134 ! Definition arrayMipMapImageDataSizeTotal
 135 ! Definition arrayMipMapSize
 136 ! Inductive arrayMipMapImageSize : Set
+
 137 ! Definition binaryExpImageArray
 138 ! Definition binaryExpArrayMipMaps
 139 ! Definition binaryExpArrayMipMap (m : arrayMipMap)
@@ -157,3 +159,14 @@
 157 ! Definition binaryExpCubeMipMaps (m : cubeMipMapList)
 158 ! Definition binaryExpImageCubeMap
 159 ! Definition binaryExpImageCubeSection
+
+327 ! Inductive threeDMipMapIndexT : Set
+328 ! Inductive threeDMipMapIndicesSorted
+329 ! Inductive threeDMipMapIndexOrd
+330 ! Inductive threeDMipMapOffsetsSorted
+331 ! Inductive threeDMipMap : Set
+332 ! Inductive threeDMipMapList :
+333 ! Fixpoint threeDMipMapImageDataSizeTotalAux
+334 ! Definition threeDMipMapImageDataSizeTotal
+335 ! Definition threeDMipMapSize
+336 ! Inductive threeDMipMapImageSize : Set

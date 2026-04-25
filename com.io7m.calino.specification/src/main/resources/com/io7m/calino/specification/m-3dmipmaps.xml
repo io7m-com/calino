@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Section title="3D Mipmaps"
+         xmlns:xi="http://www.w3.org/2001/XInclude"
+         id="30610cdb-a434-4929-80a7-ef6f33e35395"
+         xmlns="urn:com.io7m.structural:8:0">
+
+  <Paragraph id="17aba11a-706d-484f-be63-07baf59689fe">
+    A 3D texture consists of a non-empty sequence of <Term type="term">array mipmaps</Term>. 3D mipmaps are
+    structurally identical to <Link target="f4b4fff9-a443-4430-a37b-ed939e606bef">array mipmaps</Link>. The difference
+    is in interpretation by the application using the mipmaps: A 3D texture is a single volumetric image
+    with width, height, and depth, and sampling is continuous across all three axes. That means filtering (e.g. linear
+    interpolation) can occur between slices in the depth dimension.
+  </Paragraph>
+
+  <FormalItem title="3D Mipmaps Arrangement"
+              id="875b4267-8dc2-4369-8bd7-341935ed7769">
+    <Image source="threeDMipmaps.png"
+           width="400"
+           height="528">
+      3D Mipmaps Arrangement
+    </Image>
+  </FormalItem>
+
+  <Paragraph>
+    An 3D mipmap is uniquely identified with a <Term type="term">depth</Term> and a
+    <Term type="term">layer</Term>.
+  </Paragraph>
+
+  <FormalItem title="3DMipMap Index">
+    <Verbatim>
+      <xi:include href="327.txt"
+                  parse="text"/>
+    </Verbatim>
+  </FormalItem>
+
+  <Paragraph id="a8c7233b-2a98-476d-8fb0-5530a21a7df4">
+    An array mipmap stores an <Term type="term">offset</Term> indicating the start of the actual image data for the
+    mipmap relative to the first octet of the first mipmap declaration. An array mipmap also stores the
+    <Link target="45b1f11e-7fcf-4009-86d8-d81ed5d109a7">compressed size</Link>
+    and uncompressed size of the image data, along with a
+    <LinkExternal target="https://en.wikipedia.org/wiki/Cyclic_redundancy_check">CRC32</LinkExternal>
+    checksum of the <Term type="term">uncompressed</Term> data. A CRC32 value of <Term type="constant">0</Term> indicates
+    that no checksum is available. For uncompressed data, the compressed and uncompressed sizes must equal the size of
+    the uncompressed data.
+  </Paragraph>
+
+  <FormalItem title="3DMipMap">
+    <Verbatim>
+      <xi:include href="331.txt"
+                  parse="text"/>
+    </Verbatim>
+  </FormalItem>
+
+  <Paragraph id="cb73941f-ab0c-46cd-a8a2-94ca912eda3a">
+    The number of layers present in a 3D mipmap must equal the
+    <Term type="term">sizeZ</Term> value defined in the
+    <Link target="3dde6403-729d-4eaa-9179-17d9a9fbe7a6">image info</Link>, and it follows that all mipmaps
+    must contain the same number of depths.
+  </Paragraph>
+
+  <FormalItem title="3DMipMap Depth Count For Level">
+    <Verbatim>
+      <xi:include href="341.txt"
+                  parse="text"/>
+    </Verbatim>
+  </FormalItem>
+  <FormalItem title="3DMipMap Depths">
+    <Verbatim>
+      <xi:include href="342.txt"
+                  parse="text"/>
+    </Verbatim>
+  </FormalItem>
+  <FormalItem title="3DMipMap Levels Count Equality">
+    <Verbatim>
+      <xi:include href="343.txt"
+                  parse="text"/>
+    </Verbatim>
+  </FormalItem>
+
+  <Paragraph id="8729926f-ca1d-4b06-a7bb-295ecd38d12a">
+    3D mipmap sequences are stored such that the data for the mipmap with the highest level is
+    encountered <Term type="term">first</Term>, whilst the data for the mipmap with level
+    <Term type="constant">0</Term>
+    is encountered <Term type="term">last</Term>. Within a given level, images are stored such that the data for depth
+    <Term type="constant">0</Term>
+    is encountered
+    <Term type="term">first</Term>, whilst the data for the highest depth is encountered
+    <Term type="term">last</Term>. The proposition <Term type="expression">arrayMipMapIndexOrd</Term> formally specifies
+    the ordering for level/layer pairs, whilst the <Term type="expression">arrayMipMapIndicesSorted</Term> proposition
+    formally specifies the conditions under which lists of level/layer pairs are considered to be ordered.
+  </Paragraph>
+
+  <FormalItem title="3DMipMap Index Ordering">
+    <Verbatim>
+      <xi:include href="329.txt"
+                  parse="text"/>
+    </Verbatim>
+  </FormalItem>
+  <FormalItem title="3DMipMap Index List Sorted">
+    <Verbatim>
+      <xi:include href="328.txt"
+                  parse="text"/>
+    </Verbatim>
+  </FormalItem>
+  <FormalItem title="3DMipMap Sequence">
+    <Verbatim>
+      <xi:include href="332.txt"
+                  parse="text"/>
+    </Verbatim>
+  </FormalItem>
+
+  <Paragraph id="cf42f33c-e410-42b9-8cb8-ef1d5a7d044f">
+    The proposition <Term type="expression">arrayMipMapOffsetsSorted</Term> declares that, for a given array mipmap
+    <Term type="expression">m</Term>, the offset of <Term type="expression">m</Term> plus the compressed size of
+    <Term type="expression">m</Term>, must be less than the offset of the next mipmap in the sequence.
+  </Paragraph>
+
+  <FormalItem title="3DMipMap Offsets Sorted">
+    <Verbatim>
+      <xi:include href="330.txt"
+                  parse="text"/>
+    </Verbatim>
+  </FormalItem>
+
+  <Paragraph>
+    Given a base image of size <Term type="expression">(sizeX, sizeY, sizeZ)</Term>, the size of the mipmap
+    at level <Term type="expression">n</Term> is given by <Term type="expression">(sizeX / 2ⁿ, sizeY / 2ⁿ)</Term>.
+    Mipmap images are required to be of a size <Term type="expression">&gt;= 2</Term> on all axes. Note
+    that this restriction does <Term type="emphasis">not</Term> apply to the base image; a base image with a size
+    of 1 on any axis simply cannot have anything but a level 0 mipmap.
+  </Paragraph>
+
+  <FormalItem title="3D MipMap Size">
+    <Verbatim><xi:include href="336.txt" parse="text" /></Verbatim>
+  </FormalItem>
+  <FormalItem title="3D MipMap Size Calculation">
+    <Verbatim><xi:include href="335.txt" parse="text" /></Verbatim>
+  </FormalItem>
+
+  <Paragraph id="334e3cde-7bd2-4dee-a9bc-e9db674edab4">
+    The total size required to hold the image data for all mipmaps is effectively equal to the offset of the
+    largest mipmap, plus the compressed size of the mipmap, rounded up to the required alignment of the image data.
+  </Paragraph>
+
+  <FormalItem title="3D MipMap Data Size (Aux)">
+    <Verbatim><xi:include href="333.txt" parse="text" /></Verbatim>
+  </FormalItem>
+  <FormalItem title="3D MipMap Data Size">
+    <Verbatim><xi:include href="334.txt" parse="text" /></Verbatim>
+  </FormalItem>
+
+  <Paragraph id="abafd970-befa-4cf5-b0f3-d5c237237fe3">
+    The uncompressed size of a mipmap should be non-zero. This property is implicit in the definitions above;
+    images must be of a non-zero width and height, and there are no channel layouts where the sizes of the channels
+    sum to zero.
+  </Paragraph>
+
+  <Paragraph id="45b1f11e-7fcf-4009-86d8-d81ed5d109a7">
+    The compressed size of a mipmap should be non-zero. This property is implicit in the definitions above;
+    images must be of a non-zero width and height, and there are no channel layouts where the sizes of the channels
+    sum to zero.
+  </Paragraph>
+
+</Section>
+

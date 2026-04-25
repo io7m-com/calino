@@ -31,6 +31,7 @@ rocq compile ${ROCQ_MAPPINGS} Calino/ImageInfo.v
 rocq compile ${ROCQ_MAPPINGS} Calino/CubeMipMap.v
 rocq compile ${ROCQ_MAPPINGS} Calino/MipMap.v
 rocq compile ${ROCQ_MAPPINGS} Calino/ArrayMipMap.v
+rocq compile ${ROCQ_MAPPINGS} Calino/ThreeDMipMap.v
 rocq compile ${ROCQ_MAPPINGS} Calino/Texture.v
 rocq compile ${ROCQ_MAPPINGS} Calino/Binary.v
 

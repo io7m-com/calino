@@ -37,14 +37,23 @@ Inductive textureCube : Set := TextureCube {
   icubeSize    : 1 = imageSizeZ icubeInfo
 }.
 
+Inductive texture3d : Set := Texture3D {
+  i3dInfo    : imageInfo;
+  i3dMipMaps : arrayMipMapList;
+  i3dSize    : 1 <= imageSizeZ i3dInfo
+}.
+
 Inductive texture : Set :=
   | TTexture2D    : texture2d -> texture
   | TTextureArray : textureArray -> texture
-  | TTextureCube  : textureCube -> texture.
+  | TTextureCube  : textureCube -> texture
+  | TTexture3D    : texture3d -> texture.
 
 Definition imageInfoOf (i : texture) : imageInfo :=
   match i with
   | TTexture2D (Texture2D i _ _)       => i
   | TTextureArray (TextureArray i _ _) => i
   | TTextureCube (TextureCube i _ _)   => i
+  | TTexture3D (Texture3D i _ _)       => i
   end.
+
