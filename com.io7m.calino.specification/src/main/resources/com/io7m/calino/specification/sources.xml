@@ -6,21 +6,18 @@
          xmlns:xi="http://www.w3.org/2001/XInclude">
 
   <Paragraph>
-    The full sources for the Coq/Gallina model underlying this specification are
+    The full sources for the Rocq model underlying this specification are
     included here.
   </Paragraph>
 
-  <FormalItem title="Calino/Alignment.v" id="f798840c-90b5-55c0-99f6-cdba4abcbd30">
-    <Verbatim><xi:include href="Calino/Alignment.v" parse="text"/></Verbatim>
+  <FormalItem title="Calino.v" id="b133905f-f00b-5de7-8e6d-c84beef431b4">
+    <Verbatim><xi:include href="Calino.v" parse="text"/></Verbatim>
   </FormalItem>
   <FormalItem title="Calino/ArrayMipMap.v" id="fbff5670-d628-5a70-91dd-ec6d852569c8">
     <Verbatim><xi:include href="Calino/ArrayMipMap.v" parse="text"/></Verbatim>
   </FormalItem>
   <FormalItem title="Calino/Binary.v" id="e34eccb9-9f08-53ad-9bf5-29a577d25116">
     <Verbatim><xi:include href="Calino/Binary.v" parse="text"/></Verbatim>
-  </FormalItem>
-  <FormalItem title="Calino/ByteOrder.v" id="b56873fd-4b8d-5e93-ab20-01bc767433dd">
-    <Verbatim><xi:include href="Calino/ByteOrder.v" parse="text"/></Verbatim>
   </FormalItem>
   <FormalItem title="Calino/ChannelDescription.v" id="08f3adda-4f51-5e75-a04e-5b6cef807b92">
     <Verbatim><xi:include href="Calino/ChannelDescription.v" parse="text"/></Verbatim>
@@ -45,9 +42,6 @@
   </FormalItem>
   <FormalItem title="Calino/Descriptor.v" id="b2bfd972-cb6c-5f30-8e06-493f818d4ebd">
     <Verbatim><xi:include href="Calino/Descriptor.v" parse="text"/></Verbatim>
-  </FormalItem>
-  <FormalItem title="Calino/Divisible8.v" id="d00fa1b0-099a-590f-bfc0-f759c671b6bb">
-    <Verbatim><xi:include href="Calino/Divisible8.v" parse="text"/></Verbatim>
   </FormalItem>
   <FormalItem title="Calino/Flag.v" id="7ecaa9cf-3f8c-5b0f-8480-e38cf5fe0257">
     <Verbatim><xi:include href="Calino/Flag.v" parse="text"/></Verbatim>
@@ -75,6 +69,27 @@
   </FormalItem>
   <FormalItem title="Calino/Texture.v" id="117d2c5f-f998-5de0-b1c1-b0a56d4daa17">
     <Verbatim><xi:include href="Calino/Texture.v" parse="text"/></Verbatim>
+  </FormalItem>
+  <FormalItem title="rentomos/src/main/rocq/Alignment.v" id="fd8b883a-b453-586e-9ce4-a3b2226618cd">
+    <Verbatim><xi:include href="rentomos/src/main/rocq/Alignment.v" parse="text"/></Verbatim>
+  </FormalItem>
+  <FormalItem title="rentomos/src/main/rocq/Binary.v" id="ca0a2ad5-d4db-559c-a7f1-dafbf26ff2f3">
+    <Verbatim><xi:include href="rentomos/src/main/rocq/Binary.v" parse="text"/></Verbatim>
+  </FormalItem>
+  <FormalItem title="rentomos/src/main/rocq/Divisible.v" id="5071c3b8-62ca-5667-8501-bbdd2adbdccc">
+    <Verbatim><xi:include href="rentomos/src/main/rocq/Divisible.v" parse="text"/></Verbatim>
+  </FormalItem>
+  <FormalItem title="rentomos/src/main/rocq/ExampleFileFormat.v" id="de3fa1dd-8fa7-57a6-9f21-fe8eb964d9fd">
+    <Verbatim><xi:include href="rentomos/src/main/rocq/ExampleFileFormat.v" parse="text"/></Verbatim>
+  </FormalItem>
+  <FormalItem title="rentomos/src/main/rocq/FileFormat.v" id="fb92667b-d0c3-597e-a935-30cc57469b00">
+    <Verbatim><xi:include href="rentomos/src/main/rocq/FileFormat.v" parse="text"/></Verbatim>
+  </FormalItem>
+  <FormalItem title="rentomos/src/main/rocq/Tags.v" id="6a8afd1f-bff7-562e-a1a4-c9c75536594f">
+    <Verbatim><xi:include href="rentomos/src/main/rocq/Tags.v" parse="text"/></Verbatim>
+  </FormalItem>
+  <FormalItem title="roctetorder/src/main/rocq/OctetOrder.v" id="e3abe82a-4144-50db-a47d-f58c5595e381">
+    <Verbatim><xi:include href="roctetorder/src/main/rocq/OctetOrder.v" parse="text"/></Verbatim>
   </FormalItem>
 
 </Section>

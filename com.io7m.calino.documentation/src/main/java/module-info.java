@@ -16,7 +16,6 @@
 
 module com.io7m.calino.documentation
 {
-  requires jcommander;
   requires java.xml;
   requires com.io7m.calino.cmdline;
 }

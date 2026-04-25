@@ -9,7 +9,7 @@
   <parent>
     <groupId>com.io7m.calino</groupId>
     <artifactId>com.io7m.calino</artifactId>
-    <version>0.0.1</version>
+    <version>1.0.0-beta0001</version>
   </parent>
   <artifactId>com.io7m.calino.supercompression.lz4</artifactId>
 
@@ -31,7 +31,7 @@
     </dependency>
 
     <dependency>
-      <groupId>org.lz4</groupId>
+      <groupId>at.yawk.lz4</groupId>
       <artifactId>lz4-java</artifactId>
     </dependency>
     <dependency>

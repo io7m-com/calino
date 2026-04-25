@@ -9,7 +9,7 @@
   <parent>
     <groupId>com.io7m.calino</groupId>
     <artifactId>com.io7m.calino</artifactId>
-    <version>0.0.1</version>
+    <version>1.0.0-beta0001</version>
   </parent>
   <artifactId>com.io7m.calino.tests</artifactId>
 
@@ -20,6 +20,14 @@
 
   <properties>
     <mdep.analyze.skip>true</mdep.analyze.skip>
+    <checkstyle.skip>true</checkstyle.skip>
+
+    <io7m.surefire.extraArguments>
+      --enable-native-access=org.lz4.java
+    </io7m.surefire.extraArguments>
+    <io7m.failsafe.extraArguments>
+      --enable-native-access=org.lz4.java
+    </io7m.failsafe.extraArguments>
   </properties>
 
   <dependencies>
@@ -45,6 +53,11 @@
     </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>
+      <artifactId>com.io7m.calino.supercompression.deflate</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
       <artifactId>com.io7m.calino.cmdline</artifactId>
       <version>${project.version}</version>
     </dependency>
@@ -61,6 +74,10 @@
       <groupId>com.io7m.jmulticlose</groupId>
       <artifactId>com.io7m.jmulticlose.core</artifactId>
     </dependency>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+    </dependency>
 
     <dependency>
       <groupId>ch.qos.logback</groupId>
@@ -70,6 +87,7 @@
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
     </dependency>
+
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-api</artifactId>
@@ -77,6 +95,18 @@
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-engine</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.platform</groupId>
+      <artifactId>junit-platform-commons</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.platform</groupId>
+      <artifactId>junit-platform-engine</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.platform</groupId>
+      <artifactId>junit-platform-launcher</artifactId>
     </dependency>
 
     <dependency>

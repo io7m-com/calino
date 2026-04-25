@@ -16,8 +16,6 @@
 
 package com.io7m.calino.cmdline.internal;
 
-import com.beust.jcommander.Parameter;
-import com.beust.jcommander.Parameters;
 import com.io7m.calino.api.CLNByteOrder;
 import com.io7m.calino.api.CLNChannelsLayoutDescriptionType;
 import com.io7m.calino.api.CLNCubeFace;
@@ -37,9 +35,15 @@ import com.io7m.calino.supercompression.api.CLNCompressorRequest;
 import com.io7m.calino.supercompression.api.CLNCompressors;
 import com.io7m.calino.writer.api.CLNWriteRequest;
 import com.io7m.calino.writer.api.CLNWriters;
-import com.io7m.claypot.core.CLPCommandContextType;
 import com.io7m.jmulticlose.core.CloseableCollection;
 import com.io7m.jmulticlose.core.ClosingResourceFailedException;
+import com.io7m.quarrel.core.QCommandContextType;
+import com.io7m.quarrel.core.QCommandMetadata;
+import com.io7m.quarrel.core.QCommandStatus;
+import com.io7m.quarrel.core.QParameterNamed01;
+import com.io7m.quarrel.core.QParameterNamed1;
+import com.io7m.quarrel.core.QParameterNamedType;
+import com.io7m.quarrel.core.QStringType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -52,7 +56,6 @@ import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -60,6 +63,7 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.zip.CRC32;
 
+import static com.io7m.calino.api.CLNByteOrder.LITTLE_ENDIAN;
 import static com.io7m.calino.api.CLNCubeFace.X_NEGATIVE;
 import static com.io7m.calino.api.CLNCubeFace.X_POSITIVE;
 import static com.io7m.calino.api.CLNCubeFace.Y_NEGATIVE;
@@ -68,8 +72,7 @@ import static com.io7m.calino.api.CLNCubeFace.Z_NEGATIVE;
 import static com.io7m.calino.api.CLNCubeFace.Z_POSITIVE;
 import static com.io7m.calino.api.CLNCubeFace.facesInOrder;
 import static com.io7m.calino.api.CLNSuperCompressionMethodStandard.UNCOMPRESSED;
-import static com.io7m.claypot.core.CLPCommandType.Status.FAILURE;
-import static com.io7m.claypot.core.CLPCommandType.Status.SUCCESS;
+import static java.lang.Boolean.FALSE;
 import static java.lang.Integer.toUnsignedLong;
 import static java.nio.file.StandardOpenOption.CREATE;
 import static java.nio.file.StandardOpenOption.TRUNCATE_EXISTING;
@@ -79,132 +82,221 @@ import static java.nio.file.StandardOpenOption.WRITE;
  * The 'create-cube' command.
  */
 
-@Parameters(commandDescription = "Create a cube texture from existing images.")
 public final class CLNCommandCreateCube extends CLNAbstractCommand
 {
   private static final Logger LOG =
     LoggerFactory.getLogger(CLNCommandCreateCube.class);
 
-  @Parameter(
-    required = true,
-    description = "The source image file for the positive X face",
-    names = "--source-x-positive")
-  private Path source_x_positive;
+  private static final QParameterNamed1<Path> SOURCE_X_POSITIVE =
+    new QParameterNamed1<>(
+      "--source-x-positive",
+      List.of(),
+      new QStringType.QConstant("The source image file for the positive X face."),
+      Optional.empty(),
+      Path.class
+    );
 
-  @Parameter(
-    required = true,
-    description = "The source image file for the negative X face",
-    names = "--source-x-negative")
-  private Path source_x_negative;
+  private static final QParameterNamed1<Path> SOURCE_X_NEGATIVE =
+    new QParameterNamed1<>(
+      "--source-x-negative",
+      List.of(),
+      new QStringType.QConstant("The source image file for the negative X face."),
+      Optional.empty(),
+      Path.class
+    );
 
-  @Parameter(
-    required = true,
-    description = "The source image file for the positive Y face",
-    names = "--source-y-positive")
-  private Path source_y_positive;
+  private static final QParameterNamed1<Path> SOURCE_Y_POSITIVE =
+    new QParameterNamed1<>(
+      "--source-y-positive",
+      List.of(),
+      new QStringType.QConstant("The source image file for the positive Y face."),
+      Optional.empty(),
+      Path.class
+    );
 
-  @Parameter(
-    required = true,
-    description = "The source image file for the negative Y face",
-    names = "--source-y-negative")
-  private Path source_y_negative;
+  private static final QParameterNamed1<Path> SOURCE_Y_NEGATIVE =
+    new QParameterNamed1<>(
+      "--source-y-negative",
+      List.of(),
+      new QStringType.QConstant("The source image file for the negative Y face."),
+      Optional.empty(),
+      Path.class
+    );
 
-  @Parameter(
-    required = true,
-    description = "The source image file for the positive Z face",
-    names = "--source-z-positive")
-  private Path source_z_positive;
+  private static final QParameterNamed1<Path> SOURCE_Z_POSITIVE =
+    new QParameterNamed1<>(
+      "--source-z-positive",
+      List.of(),
+      new QStringType.QConstant("The source image file for the positive Z face."),
+      Optional.empty(),
+      Path.class
+    );
 
-  @Parameter(
-    required = true,
-    description = "The source image file for the negative Z face",
-    names = "--source-z-negative")
-  private Path source_z_negative;
+  private static final QParameterNamed1<Path> SOURCE_Z_NEGATIVE =
+    new QParameterNamed1<>(
+      "--source-z-negative",
+      List.of(),
+      new QStringType.QConstant("The source image file for the negative Z face."),
+      Optional.empty(),
+      Path.class
+    );
 
-  @Parameter(
-    required = true,
-    description = "The output texture file",
-    names = "--output")
-  private Path output;
+  private static final QParameterNamed1<Path> OUTPUT =
+    new QParameterNamed1<>(
+      "--output",
+      List.of(),
+      new QStringType.QConstant("The output texture file."),
+      Optional.empty(),
+      Path.class
+    );
 
-  @Parameter(
-    required = false,
-    description = "The mipmap filter",
-    names = "--mipmap-generate")
-  private CLNImageMipMapFilter mipMapGenerate;
+  private static final QParameterNamed01<CLNImageMipMapFilter> MIP_MAP_GENERATE =
+    new QParameterNamed01<>(
+      "--mipmap-generate",
+      List.of(),
+      new QStringType.QConstant(
+        "The mipmap filter, if mipmaps are to be generated."),
+      Optional.empty(),
+      CLNImageMipMapFilter.class
+    );
 
-  @Parameter(
-    required = false,
-    description = "Premultiply alpha",
-    arity = 1,
-    names = "--premultiply-alpha")
-  private boolean premultiplyAlpha;
+  private static final QParameterNamed1<Boolean> PREMULTIPLY_ALPHA =
+    new QParameterNamed1<>(
+      "--premultiply-alpha",
+      List.of(),
+      new QStringType.QConstant("Premultiply alpha."),
+      Optional.of(FALSE),
+      Boolean.class
+    );
 
-  @Parameter(
-    required = false,
-    description = "The byte order used for image data",
-    names = "--byte-order")
-  private CLNByteOrder byteOrder = CLNByteOrder.LITTLE_ENDIAN;
+  private static final QParameterNamed1<CLNByteOrder> BYTE_ORDER =
+    new QParameterNamed1<>(
+      "--byte-order",
+      List.of(),
+      new QStringType.QConstant("The byte order used for image data."),
+      Optional.of(LITTLE_ENDIAN),
+      CLNByteOrder.class
+    );
 
-  @Parameter(
-    required = false,
-    description = "The requested file format version",
-    converter = CLNVersionStringConverter.class,
-    names = "--format-version")
-  private CLNVersion formatVersion = new CLNVersion(1, 0);
+  private static final QParameterNamed1<CLNVersion> FORMAT_VERSION =
+    new QParameterNamed1<>(
+      "--format-version",
+      List.of(),
+      new QStringType.QConstant("The requested file format version."),
+      Optional.of(new CLNVersion(1, 0)),
+      CLNVersion.class
+    );
 
-  @Parameter(
-    required = false,
-    converter = CLNChannelLayoutStringConverter.class,
-    description = "The requested layout to which to convert",
-    names = "--convert-layout-to")
-  private CLNChannelsLayoutDescriptionType convertLayoutTo;
+  private static final QParameterNamed01<CLNChannelsLayoutDescriptionType> CONVERT_LAYOUT_TO =
+    new QParameterNamed01<>(
+      "--convert-layout-to",
+      List.of(),
+      new QStringType.QConstant("The requested layout to which to convert."),
+      Optional.empty(),
+      CLNChannelsLayoutDescriptionType.class
+    );
 
-  @Parameter(
-    required = false,
-    converter = CLNSuperCompressionMethodConverter.class,
-    description = "The super compression method.",
-    names = "--super-compression")
-  private CLNSuperCompressionMethodType superCompression = UNCOMPRESSED;
+  private static final QParameterNamed1<CLNSuperCompressionMethodType> SUPER_COMPRESSION =
+    new QParameterNamed1<>(
+      "--super-compression",
+      List.of(),
+      new QStringType.QConstant("The super compression method."),
+      Optional.of(UNCOMPRESSED),
+      CLNSuperCompressionMethodType.class
+    );
 
-  @Parameter(
-    required = false,
-    description = "A Java properties file containing metadata for the texture file.",
-    names = "--metadata")
-  private Path metadataFile;
+  private static final QParameterNamed01<Path> METADATA_FILE =
+    new QParameterNamed01<>(
+      "--metadata",
+      List.of(),
+      new QStringType.QConstant(
+        "A Java properties file containing metadata for the texture file."),
+      Optional.empty(),
+      Path.class
+    );
+
+  @Override
+  protected List<QParameterNamedType<?>> onListNamedParametersActual()
+  {
+    return List.of(
+      BYTE_ORDER,
+      CONVERT_LAYOUT_TO,
+      FORMAT_VERSION,
+      METADATA_FILE,
+      MIP_MAP_GENERATE,
+      OUTPUT,
+      PREMULTIPLY_ALPHA,
+      SOURCE_X_NEGATIVE,
+      SOURCE_X_POSITIVE,
+      SOURCE_Y_NEGATIVE,
+      SOURCE_Y_POSITIVE,
+      SOURCE_Z_NEGATIVE,
+      SOURCE_Z_POSITIVE,
+      SUPER_COMPRESSION
+    );
+  }
 
   /**
    * The 'create-cube' command.
-   *
-   * @param inContext The context
    */
 
-  public CLNCommandCreateCube(
-    final CLPCommandContextType inContext)
+  public CLNCommandCreateCube()
   {
-    super(Locale.getDefault(), inContext);
+    super(
+      new QCommandMetadata(
+        "create-cube",
+        new QStringType.QConstant(
+          "Create a cube texture from an existing image."),
+        Optional.of(new QStringType.QLocalize("cmd.createCube.helpExt"))
+      )
+    );
   }
 
   @Override
-  public String extendedHelp()
-  {
-    return this.calinoStrings().format("cmd.createCube.helpExt");
-  }
-
-  @Override
-  protected Status executeActual()
+  public QCommandStatus onExecute(
+    final QCommandContextType context)
     throws IOException, ClosingResourceFailedException
   {
     final var writers = new CLNWriters();
 
+    final var formatVersion =
+      context.parameterValue(FORMAT_VERSION);
+    final var convertLayoutTo =
+      context.parameterValue(CONVERT_LAYOUT_TO);
+    final var premultiplyAlpha =
+      context.parameterValue(PREMULTIPLY_ALPHA);
+    final var byteOrder =
+      context.parameterValue(BYTE_ORDER);
+    final var mipMapGenerate =
+      context.parameterValue(MIP_MAP_GENERATE);
+    final var output =
+      context.parameterValue(OUTPUT);
+    final var metadataFile =
+      context.parameterValue(METADATA_FILE);
+    final var superCompression =
+      context.parameterValue(SUPER_COMPRESSION);
+
+    final var sourceXPositive =
+      context.parameterValue(SOURCE_X_POSITIVE);
+    final var sourceXNegative =
+      context.parameterValue(SOURCE_X_NEGATIVE);
+    final var sourceYPositive =
+      context.parameterValue(SOURCE_Y_POSITIVE);
+    final var sourceYNegative =
+      context.parameterValue(SOURCE_Y_NEGATIVE);
+    final var sourceZPositive =
+      context.parameterValue(SOURCE_Z_POSITIVE);
+    final var sourceZNegative =
+      context.parameterValue(SOURCE_Z_NEGATIVE);
+
     final var writerOpt =
-      writers.findWriterFactoryFor(this.formatVersion);
+      writers.findWriterFactoryFor(formatVersion);
 
     if (writerOpt.isEmpty()) {
       LOG.error(
-        "no available writers for format version {}",
-        this.formatVersion);
-      return FAILURE;
+        "No available writers for format version {}",
+        formatVersion);
+      return QCommandStatus.FAILURE;
     }
 
     final var writerFactory =
@@ -218,28 +310,27 @@ public final class CLNCommandCreateCube extends CLNAbstractCommand
 
     try (var resources = CloseableCollection.create()) {
       final var layoutConversion =
-        Optional.ofNullable(this.convertLayoutTo)
-          .map(CLNImageLayoutConversion::new);
+        convertLayoutTo.map(CLNImageLayoutConversion::new);
 
       final var imageInfos = new HashSet<CLNImageInfo>();
       for (final var face : facesInOrder()) {
         final var source =
           switch (face) {
-            case X_POSITIVE -> this.source_x_positive;
-            case X_NEGATIVE -> this.source_x_negative;
-            case Y_POSITIVE -> this.source_y_positive;
-            case Y_NEGATIVE -> this.source_y_negative;
-            case Z_POSITIVE -> this.source_z_positive;
-            case Z_NEGATIVE -> this.source_z_negative;
+            case X_POSITIVE -> sourceXPositive;
+            case X_NEGATIVE -> sourceXNegative;
+            case Y_POSITIVE -> sourceYPositive;
+            case Y_NEGATIVE -> sourceYNegative;
+            case Z_POSITIVE -> sourceZPositive;
+            case Z_NEGATIVE -> sourceZNegative;
           };
 
         final var processorRequest =
           new CLNImageProcessorRequest(
             source,
-            this.premultiplyAlpha,
-            this.byteOrder,
+            premultiplyAlpha.booleanValue(),
+            byteOrder,
             layoutConversion,
-            Optional.ofNullable(this.mipMapGenerate)
+            mipMapGenerate
           );
 
         final var processor =
@@ -255,23 +346,23 @@ public final class CLNCommandCreateCube extends CLNAbstractCommand
 
       final var channel =
         resources.add(
-          FileChannel.open(this.output, CREATE, WRITE, TRUNCATE_EXISTING)
+          FileChannel.open(output, CREATE, WRITE, TRUNCATE_EXISTING)
         );
 
       final var request =
-        new CLNWriteRequest(channel, this.output.toUri(), this.formatVersion);
+        new CLNWriteRequest(channel, output.toUri(), formatVersion);
       final var writer =
         resources.add(writerFactory.createWriter(request));
       final var writable =
         resources.add(writer.execute());
 
-      this.writeImageInfo(chains.get(X_POSITIVE), writable);
-      this.writeMetadata(writable);
-      this.writeImageCube(compressors, chains, writable);
-      this.writeEnd(writable);
+      writeImageInfo(chains.get(X_POSITIVE), writable, superCompression);
+      writeMetadata(writable, metadataFile);
+      writeImageCube(compressors, chains, writable, superCompression);
+      writeEnd(writable);
     }
 
-    return SUCCESS;
+    return QCommandStatus.SUCCESS;
   }
 
   private static void checkImageInfos(
@@ -284,22 +375,24 @@ public final class CLNCommandCreateCube extends CLNAbstractCommand
     }
   }
 
-  private void writeMetadata(
-    final CLNFileWritableType writable)
+  private static void writeMetadata(
+    final CLNFileWritableType writable,
+    final Optional<Path> metadataFile)
     throws IOException
   {
-    if (this.metadataFile != null) {
-      final var data = this.openMetadataFile();
+    if (metadataFile.isPresent()) {
+      final var data = openMetadataFile(metadataFile.get());
       try (var section = writable.createSectionMetadata()) {
         section.setMetadata(data);
       }
     }
   }
 
-  private Map<String, List<String>> openMetadataFile()
+  private static Map<String, List<String>> openMetadataFile(
+    final Path file)
     throws IOException
   {
-    try (var stream = Files.newInputStream(this.metadataFile)) {
+    try (var stream = Files.newInputStream(file)) {
       final var properties = new Properties();
       properties.load(stream);
       final var data = new HashMap<String, List<String>>(properties.size());
@@ -310,10 +403,11 @@ public final class CLNCommandCreateCube extends CLNAbstractCommand
     }
   }
 
-  private void writeImageCube(
+  private static void writeImageCube(
     final CLNCompressors compressors,
     final EnumMap<CLNCubeFace, CLNImageMipMapChainType> chains,
-    final CLNFileWritableType writable)
+    final CLNFileWritableType writable,
+    final CLNSuperCompressionMethodType superCompression)
     throws IOException
   {
     final var firstChain = chains.get(X_POSITIVE);
@@ -344,7 +438,7 @@ public final class CLNCommandCreateCube extends CLNAbstractCommand
            * directly.
            */
 
-          if (Objects.equals(this.superCompression, UNCOMPRESSED)) {
+          if (Objects.equals(superCompression, UNCOMPRESSED)) {
             final var crc32 = new CRC32();
             crc32.update(data);
 
@@ -373,7 +467,7 @@ public final class CLNCommandCreateCube extends CLNAbstractCommand
 
           final var compressor =
             compressors.createCompressor(
-              new CLNCompressorRequest(this.superCompression)
+              new CLNCompressorRequest(superCompression)
             );
 
           final var compressedData =
@@ -450,7 +544,7 @@ public final class CLNCommandCreateCube extends CLNAbstractCommand
     }
   }
 
-  private void writeEnd(
+  private static void writeEnd(
     final CLNFileWritableType writable)
     throws IOException
   {
@@ -459,9 +553,10 @@ public final class CLNCommandCreateCube extends CLNAbstractCommand
     }
   }
 
-  private void writeImageInfo(
+  private static void writeImageInfo(
     final CLNImageMipMapChainType chain,
-    final CLNFileWritableType writable)
+    final CLNFileWritableType writable,
+    final CLNSuperCompressionMethodType superCompression)
     throws IOException
   {
     try (var section = writable.createSectionImageInfo()) {
@@ -473,7 +568,7 @@ public final class CLNCommandCreateCube extends CLNAbstractCommand
         imageInfo.channelsLayout(),
         imageInfo.channelsType(),
         imageInfo.compressionMethod(),
-        this.superCompression,
+        superCompression,
         imageInfo.coordinateSystem(),
         imageInfo.colorSpace(),
         imageInfo.flags(),
@@ -481,11 +576,5 @@ public final class CLNCommandCreateCube extends CLNAbstractCommand
       );
       section.setImageInfo(withCompression);
     }
-  }
-
-  @Override
-  public String name()
-  {
-    return "create-cube";
   }
 }

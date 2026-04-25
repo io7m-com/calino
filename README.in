@@ -1,0 +1,21 @@
+
+## calino
+
+A strongly-specified file format for textures.
+
+## Features
+
+* Strongly specified file format with full formal specification and proofs
+  of specification properties.
+* Supports the storage and retrieval of 2D, cube, and array textures.
+* Supports LZ4 and DEFLATE compression of image data.
+* Command-line tools and API for image manipulation.
+* An extensive automated test suite with high coverage.
+* Written in pure Java 25.
+* [OSGi-ready](https://www.osgi.org/).
+* [JPMS-ready](https://en.wikipedia.org/wiki/Java_Platform_Module_System).
+* ISC license.
+
+## Usage
+
+See the [documentation and specification](https://www.io7m.com/software/calino/).

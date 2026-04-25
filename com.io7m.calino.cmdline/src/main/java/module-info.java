@@ -23,6 +23,7 @@ module com.io7m.calino.cmdline
   requires static org.osgi.annotation.bundle;
   requires static org.osgi.annotation.versioning;
 
+  requires com.io7m.calino.api;
   requires com.io7m.calino.imageproc.api;
   requires com.io7m.calino.imageproc.awt;
   requires com.io7m.calino.imageview;
@@ -31,16 +32,16 @@ module com.io7m.calino.cmdline
   requires com.io7m.calino.validation.api;
   requires com.io7m.calino.writer.api;
 
-  requires com.io7m.claypot.core;
   requires com.io7m.jaffirm.core;
   requires com.io7m.jmulticlose.core;
   requires com.io7m.jxtrand.vanilla;
+  requires com.io7m.quarrel.core;
+  requires com.io7m.quarrel.ext.logback;
   requires java.desktop;
-  requires jcommander;
   requires org.slf4j;
 
   opens com.io7m.calino.cmdline.internal
-    to jcommander, com.io7m.jxtrand.vanilla;
+    to com.io7m.jxtrand.vanilla;
 
   exports com.io7m.calino.cmdline.internal
     to com.io7m.calino.documentation;

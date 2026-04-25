@@ -16,8 +16,6 @@
 
 package com.io7m.calino.cmdline.internal;
 
-import com.beust.jcommander.Parameter;
-import com.beust.jcommander.Parameters;
 import com.io7m.calino.api.CLNCompressionMethodStandard;
 import com.io7m.calino.api.CLNFileReadableType;
 import com.io7m.calino.api.CLNImage2DDescription;
@@ -26,43 +24,60 @@ import com.io7m.calino.api.CLNImageCubeDescription;
 import com.io7m.calino.api.CLNImageInfo;
 import com.io7m.calino.api.CLNSuperCompressionMethodStandard;
 import com.io7m.calino.api.CLNVersion;
-import com.io7m.claypot.core.CLPCommandContextType;
+import com.io7m.quarrel.core.QCommandContextType;
+import com.io7m.quarrel.core.QCommandMetadata;
+import com.io7m.quarrel.core.QCommandStatus;
+import com.io7m.quarrel.core.QParameterNamed1;
+import com.io7m.quarrel.core.QParameterNamedType;
+import com.io7m.quarrel.core.QStringType.QConstant;
+import com.io7m.quarrel.core.QStringType.QLocalize;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
+
+import static com.io7m.quarrel.core.QCommandStatus.SUCCESS;
 
 /**
  * The 'show-summary' command.
  */
 
-@Parameters(commandDescription = "Display information about texture files.")
-public final class CLNCommandShowSummary extends CLNAbstractReadFileCommand
+public final class CLNCommandShowSummary
+  extends CLNAbstractReadFileCommand
 {
-  @Parameter(
-    required = false,
-    description = "Show all mipmaps",
-    arity = 1,
-    names = "--show-mipmaps")
-  private boolean showAllMipMaps;
+  private static final QParameterNamed1<Boolean> SHOW_ALL_MIPMAPS =
+    new QParameterNamed1<>(
+      "--show-mipmaps",
+      List.of(),
+      new QConstant("Show all mipmaps."),
+      Optional.of(false),
+      Boolean.class
+    );
 
   /**
    * The 'show-summary' command.
-   *
-   * @param inContext The context
    */
 
-  public CLNCommandShowSummary(
-    final CLPCommandContextType inContext)
+  public CLNCommandShowSummary()
   {
-    super(inContext);
+    super(
+      new QCommandMetadata(
+        "show-summary",
+        new QConstant("Display information about texture files."),
+        Optional.of(new QLocalize("cmd.show-summary.helpExt"))
+      )
+    );
   }
 
-  private Status summarizeArray(
+  private static QCommandStatus summarizeArray(
+    final PrintWriter output,
     final CLNVersion version,
     final CLNImageInfo info,
-    final List<CLNImageArrayDescription> mipmaps)
+    final List<CLNImageArrayDescription> mipmaps,
+    final boolean showAllMipMaps)
   {
     final var summary = new StringBuilder(128);
     summarizeInfo(version, info, summary);
@@ -78,11 +93,11 @@ public final class CLNCommandShowSummary extends CLNAbstractReadFileCommand
     summary.append(mipmaps.size());
     summary.append(" images)");
 
-    System.out.println(summary);
+    output.println(summary);
 
-    if (this.showAllMipMaps) {
+    if (showAllMipMaps) {
       for (final var mipMap : mipmaps) {
-        System.out.printf(
+        output.printf(
           "mipMapArray (level %s) (layer %s) (offset %s) (size-compressed %s) (size-uncompressed %s) (crc32 0x%s)%n",
           Integer.toUnsignedString(mipMap.mipMapLevel()),
           Integer.toUnsignedString(mipMap.layer()),
@@ -94,7 +109,7 @@ public final class CLNCommandShowSummary extends CLNAbstractReadFileCommand
       }
     }
 
-    return Status.SUCCESS;
+    return SUCCESS;
   }
 
   private static void summarizeInfo(
@@ -138,10 +153,12 @@ public final class CLNCommandShowSummary extends CLNAbstractReadFileCommand
     }
   }
 
-  private Status summarizeCube(
+  private static QCommandStatus summarizeCube(
+    final PrintWriter output,
     final CLNVersion version,
     final CLNImageInfo info,
-    final List<CLNImageCubeDescription> mipmaps)
+    final List<CLNImageCubeDescription> mipmaps,
+    final boolean showAllMipMaps)
   {
     final var summary = new StringBuilder(128);
     summarizeInfo(version, info, summary);
@@ -157,11 +174,11 @@ public final class CLNCommandShowSummary extends CLNAbstractReadFileCommand
     summary.append(mipmaps.size());
     summary.append(" images)");
 
-    System.out.println(summary);
+    output.println(summary);
 
-    if (this.showAllMipMaps) {
+    if (showAllMipMaps) {
       for (final var mipMap : mipmaps) {
-        System.out.printf(
+        output.printf(
           "mipMapCube (level %s) (face %s) (offset %s) (size-compressed %s) (size-uncompressed %s) (crc32 0x%s)%n",
           Integer.toUnsignedString(mipMap.mipMapLevel()),
           mipMap.face(),
@@ -173,13 +190,15 @@ public final class CLNCommandShowSummary extends CLNAbstractReadFileCommand
       }
     }
 
-    return Status.SUCCESS;
+    return SUCCESS;
   }
 
-  private Status summarize2d(
+  private static QCommandStatus summarize2d(
+    final PrintWriter output,
     final CLNVersion version,
     final CLNImageInfo info,
-    final List<CLNImage2DDescription> mipmaps)
+    final List<CLNImage2DDescription> mipmaps,
+    final boolean showAllMipMaps)
   {
     final var summary = new StringBuilder(128);
     summarizeInfo(version, info, summary);
@@ -188,11 +207,11 @@ public final class CLNCommandShowSummary extends CLNAbstractReadFileCommand
     summary.append(mipmaps.size());
     summary.append(" mipmap levels)");
 
-    System.out.println(summary);
+    output.println(summary);
 
-    if (this.showAllMipMaps) {
+    if (showAllMipMaps) {
       for (final var mipMap : mipmaps) {
-        System.out.printf(
+        output.printf(
           "mipMap2d (level %s) (offset %s) (size-compressed %s) (size-uncompressed %s) (crc32 0x%s)%n",
           Integer.toUnsignedString(mipMap.mipMapLevel()),
           Long.toUnsignedString(mipMap.dataOffsetWithinSection()),
@@ -203,20 +222,23 @@ public final class CLNCommandShowSummary extends CLNAbstractReadFileCommand
       }
     }
 
-    return Status.SUCCESS;
+    return SUCCESS;
   }
 
   @Override
-  public String extendedHelp()
+  protected List<QParameterNamedType<?>> onListNamedParametersWithFile()
   {
-    return this.calinoStrings().format("cmd.show-summary.helpExt");
+    return List.of(SHOW_ALL_MIPMAPS);
   }
 
   @Override
-  protected Status executeWithReadFile(
+  protected QCommandStatus executeWithReadFile(
+    final QCommandContextType context,
     final CLNFileReadableType fileParsed)
     throws IOException
   {
+    final var showAllMipMaps =
+      context.parameterValue(SHOW_ALL_MIPMAPS);
     final var sectionInfoOpt =
       fileParsed.openImageInfo();
 
@@ -231,7 +253,13 @@ public final class CLNCommandShowSummary extends CLNAbstractReadFileCommand
       if (section2dOpt.isPresent()) {
         final var section2d = section2dOpt.get();
         final var mipmaps = section2d.mipMapDescriptions();
-        return this.summarize2d(fileParsed.version(), info, mipmaps);
+        return summarize2d(
+          context.output(),
+          fileParsed.version(),
+          info,
+          mipmaps,
+          showAllMipMaps.booleanValue()
+        );
       }
 
       final var sectionCubeOpt =
@@ -240,7 +268,13 @@ public final class CLNCommandShowSummary extends CLNAbstractReadFileCommand
       if (sectionCubeOpt.isPresent()) {
         final var sectionCube = sectionCubeOpt.get();
         final var mipmaps = sectionCube.mipMapDescriptions();
-        return this.summarizeCube(fileParsed.version(), info, mipmaps);
+        return summarizeCube(
+          context.output(),
+          fileParsed.version(),
+          info,
+          mipmaps,
+          showAllMipMaps.booleanValue()
+        );
       }
 
       final var sectionArrayOpt =
@@ -249,16 +283,16 @@ public final class CLNCommandShowSummary extends CLNAbstractReadFileCommand
       if (sectionArrayOpt.isPresent()) {
         final var sectionArray = sectionArrayOpt.get();
         final var mipmaps = sectionArray.mipMapDescriptions();
-        return this.summarizeArray(fileParsed.version(), info, mipmaps);
+        return summarizeArray(
+          context.output(),
+          fileParsed.version(),
+          info,
+          mipmaps,
+          showAllMipMaps.booleanValue()
+        );
       }
     }
 
-    return Status.SUCCESS;
-  }
-
-  @Override
-  public String name()
-  {
-    return "show-summary";
+    return SUCCESS;
   }
 }

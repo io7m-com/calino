@@ -3,10 +3,10 @@
 <Section xmlns="urn:com.io7m.structural:8:0"
          title="Notational Conventions">
 
-  <Subsection title="Gallina/Coq">
+  <Subsection title="Rocq">
     <Paragraph>
       The formal specification described here is written in the
-      <LinkExternal target="https://coq.github.io/doc/master/refman/">Gallina specification language of the Coq theorem
+      <LinkExternal target="https://rocq-prover.org/doc/master/refman/index.html">specification language of the Rocq theorem
         prover</LinkExternal>. The language is a total, pure-functional, dependently-typed language allowing for
       describing systems in rigorous detail including machine-checked proofs of various chosen properties.
     </Paragraph>

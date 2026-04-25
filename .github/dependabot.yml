@@ -1,0 +1,22 @@
+
+version: 2
+
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    cooldown:
+      default-days: 21
+
+  - package-ecosystem: "maven"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    cooldown:
+      default-days: 21
+
+    target-branch: "develop"
+    ignore:
+      - dependency-name: "*"
+        update-types: [ "version-update:semver-major" ]

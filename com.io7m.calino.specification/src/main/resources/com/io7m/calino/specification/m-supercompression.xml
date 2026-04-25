@@ -23,6 +23,10 @@
       using <LinkExternal target="http://lz4.github.io/lz4/">LZ4</LinkExternal> compression.
     </Paragraph>
     <Paragraph>
+      A value of <Term type="constant">SuperCompressionDEFLATE</Term> indicates that image data is compressed
+      using <LinkExternal target="https://en.wikipedia.org/wiki/Deflate">DEFLATE</LinkExternal> compression.
+    </Paragraph>
+    <Paragraph>
       A value of <Term type="constant">SuperCompressionCustom</Term> indicates that image data is compressed
       using a method not known to this specification.
     </Paragraph>

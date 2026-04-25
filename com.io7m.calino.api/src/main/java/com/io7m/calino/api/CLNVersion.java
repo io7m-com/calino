@@ -35,7 +35,11 @@ public record CLNVersion(
   int minor)
   implements Comparable<CLNVersion>
 {
-  private static final Pattern VALID_VERSION =
+  /**
+   * The pattern that defines a valid version.
+   */
+
+  public static final Pattern VALID_VERSION =
     Pattern.compile("([0-9]+)\\.([0-9]+)");
 
   /**

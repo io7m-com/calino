@@ -1,0 +1,164 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="coqdoc.css" rel="stylesheet" type="text/css" />
+<title>com.io7m.calino.Compression</title>
+</head>
+
+<body>
+
+<div id="page">
+
+<div id="header">
+</div>
+
+<div id="main">
+
+<h1 class="libtitle">Library com.io7m.calino.Compression</h1>
+
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">From</span> <span class="id" title="var">Stdlib</span> <span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">Strings.String</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="com.io7m.calino.Descriptor.html#"><span class="id" title="library">com.io7m.calino.Descriptor</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Inductive</span> <a id="compressionMethod" class="idref" href="#compressionMethod"><span class="id" title="definition, inductive"><span id="compressionMethod_rect" class="id"><span id="compressionMethod_ind" class="id"><span id="compressionMethod_rec" class="id"><span id="compressionMethod_sind" class="id">compressionMethod</span></span></span></span></span></a> : <span class="id" title="keyword">Set</span> :=<br/>
+&nbsp;&nbsp;| <a id="CompressionUncompressed" class="idref" href="#CompressionUncompressed"><span class="id" title="constructor">CompressionUncompressed</span></a><br/>
+&nbsp;&nbsp;| <a id="CompressionBC1" class="idref" href="#CompressionBC1"><span class="id" title="constructor">CompressionBC1</span></a><br/>
+&nbsp;&nbsp;| <a id="CompressionBC2" class="idref" href="#CompressionBC2"><span class="id" title="constructor">CompressionBC2</span></a><br/>
+&nbsp;&nbsp;| <a id="CompressionBC3" class="idref" href="#CompressionBC3"><span class="id" title="constructor">CompressionBC3</span></a><br/>
+&nbsp;&nbsp;| <a id="CompressionBC4" class="idref" href="#CompressionBC4"><span class="id" title="constructor">CompressionBC4</span></a><br/>
+&nbsp;&nbsp;| <a id="CompressionBC5" class="idref" href="#CompressionBC5"><span class="id" title="constructor">CompressionBC5</span></a><br/>
+&nbsp;&nbsp;| <a id="CompressionBC6" class="idref" href="#CompressionBC6"><span class="id" title="constructor">CompressionBC6</span></a><br/>
+&nbsp;&nbsp;| <a id="CompressionBC7" class="idref" href="#CompressionBC7"><span class="id" title="constructor">CompressionBC7</span></a><br/>
+&nbsp;&nbsp;| <a id="CompressionETC1" class="idref" href="#CompressionETC1"><span class="id" title="constructor">CompressionETC1</span></a><br/>
+&nbsp;&nbsp;| <a id="CompressionETC2" class="idref" href="#CompressionETC2"><span class="id" title="constructor">CompressionETC2</span></a><br/>
+&nbsp;&nbsp;| <a id="CompressionEAC" class="idref" href="#CompressionEAC"><span class="id" title="constructor">CompressionEAC</span></a><br/>
+&nbsp;&nbsp;| <a id="CompressionASTC" class="idref" href="#CompressionASTC"><span class="id" title="constructor">CompressionASTC</span></a> : <a class="idref" href="http://rocq-prover.org/doc/V9.1.1/stdlib//Corelib.Init.Datatypes.html#nat"><span class="id" title="inductive">nat</span></a> <a class="idref" href="http://rocq-prover.org/doc/V9.1.1/stdlib//Corelib.Init.Logic.html#::type_scope:x_'-&gt;'_x"><span class="id" title="notation">→</span></a> <a class="idref" href="http://rocq-prover.org/doc/V9.1.1/stdlib//Corelib.Init.Datatypes.html#nat"><span class="id" title="inductive">nat</span></a> <a class="idref" href="http://rocq-prover.org/doc/V9.1.1/stdlib//Corelib.Init.Logic.html#::type_scope:x_'-&gt;'_x"><span class="id" title="notation">→</span></a> <a class="idref" href="com.io7m.calino.Compression.html#compressionMethod:1"><span class="id" title="inductive">compressionMethod</span></a><br/>
+&nbsp;&nbsp;| <a id="CompressionCustom" class="idref" href="#CompressionCustom"><span class="id" title="constructor">CompressionCustom</span></a> :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">∀</span> (<a id="d:3" class="idref" href="#d:3"><span class="id" title="binder">d</span></a> : <a class="idref" href="com.io7m.calino.Descriptor.html#descriptor"><span class="id" title="definition">descriptor</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="blockSizeX:4" class="idref" href="#blockSizeX:4"><span class="id" title="binder">blockSizeX</span></a> : <a class="idref" href="http://rocq-prover.org/doc/V9.1.1/stdlib//Corelib.Init.Datatypes.html#nat"><span class="id" title="inductive">nat</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="blockSizeY:5" class="idref" href="#blockSizeY:5"><span class="id" title="binder">blockSizeY</span></a> : <a class="idref" href="http://rocq-prover.org/doc/V9.1.1/stdlib//Corelib.Init.Datatypes.html#nat"><span class="id" title="inductive">nat</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="identifier:6" class="idref" href="#identifier:6"><span class="id" title="binder">identifier</span></a> : <a class="idref" href="http://rocq-prover.org/doc/V9.1.1/stdlib//Corelib.Init.Datatypes.html#nat"><span class="id" title="inductive">nat</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="align:7" class="idref" href="#align:7"><span class="id" title="binder">align</span></a> : <a class="idref" href="http://rocq-prover.org/doc/V9.1.1/stdlib//Corelib.Init.Datatypes.html#nat"><span class="id" title="inductive">nat</span></a>), 0 <a class="idref" href="http://rocq-prover.org/doc/V9.1.1/stdlib//Corelib.Init.Peano.html#::nat_scope:x_'&lt;'_x"><span class="id" title="notation">&lt;</span></a> <a class="idref" href="com.io7m.calino.Compression.html#align:7"><span class="id" title="variable">align</span></a> <a class="idref" href="http://rocq-prover.org/doc/V9.1.1/stdlib//Corelib.Init.Logic.html#::type_scope:x_'-&gt;'_x"><span class="id" title="notation">→</span></a> <a class="idref" href="com.io7m.calino.Compression.html#compressionMethod:1"><span class="id" title="inductive">compressionMethod</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="compressionMethodDescriptor" class="idref" href="#compressionMethodDescriptor"><span class="id" title="definition">compressionMethodDescriptor</span></a> (<a id="c:8" class="idref" href="#c:8"><span class="id" title="binder">c</span></a> : <a class="idref" href="com.io7m.calino.Compression.html#compressionMethod"><span class="id" title="inductive">compressionMethod</span></a>) :=<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">match</span> <a class="idref" href="com.io7m.calino.Compression.html#c:8"><span class="id" title="variable">c</span></a> <span class="id" title="keyword">with</span><br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.Compression.html#CompressionUncompressed"><span class="id" title="constructor">CompressionUncompressed</span></a>       ⇒ "UNCOMPRESSED"<br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.Compression.html#CompressionBC1"><span class="id" title="constructor">CompressionBC1</span></a>                ⇒ "BC1"<br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.Compression.html#CompressionBC2"><span class="id" title="constructor">CompressionBC2</span></a>                ⇒ "BC2"<br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.Compression.html#CompressionBC3"><span class="id" title="constructor">CompressionBC3</span></a>                ⇒ "BC3"<br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.Compression.html#CompressionBC4"><span class="id" title="constructor">CompressionBC4</span></a>                ⇒ "BC4"<br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.Compression.html#CompressionBC5"><span class="id" title="constructor">CompressionBC5</span></a>                ⇒ "BC5"<br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.Compression.html#CompressionBC6"><span class="id" title="constructor">CompressionBC6</span></a>                ⇒ "BC6"<br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.Compression.html#CompressionBC7"><span class="id" title="constructor">CompressionBC7</span></a>                ⇒ "BC7"<br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.Compression.html#CompressionETC1"><span class="id" title="constructor">CompressionETC1</span></a>               ⇒ "ETC1"<br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.Compression.html#CompressionETC2"><span class="id" title="constructor">CompressionETC2</span></a>               ⇒ "ETC2"<br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.Compression.html#CompressionEAC"><span class="id" title="constructor">CompressionEAC</span></a>                ⇒ "EAC"<br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.Compression.html#CompressionASTC"><span class="id" title="constructor">CompressionASTC</span></a> <span class="id" title="var">_</span> <span class="id" title="var">_</span>           ⇒ "ASTC"<br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.Compression.html#CompressionCustom"><span class="id" title="constructor">CompressionCustom</span></a> <span class="id" title="var">c</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> ⇒ <a class="idref" href="com.io7m.calino.Compression.html#c:8"><span class="id" title="variable">c</span></a><br/>
+&nbsp;&nbsp;<span class="id" title="keyword">end</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="compressionBlockSizeX" class="idref" href="#compressionBlockSizeX"><span class="id" title="definition">compressionBlockSizeX</span></a> (<a id="c:10" class="idref" href="#c:10"><span class="id" title="binder">c</span></a> : <a class="idref" href="com.io7m.calino.Compression.html#compressionMethod"><span class="id" title="inductive">compressionMethod</span></a>) : <a class="idref" href="http://rocq-prover.org/doc/V9.1.1/stdlib//Corelib.Init.Datatypes.html#nat"><span class="id" title="inductive">nat</span></a> :=<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">match</span> <a class="idref" href="com.io7m.calino.Compression.html#c:10"><span class="id" title="variable">c</span></a> <span class="id" title="keyword">with</span><br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.Compression.html#CompressionUncompressed"><span class="id" title="constructor">CompressionUncompressed</span></a>       ⇒ 0<br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.Compression.html#CompressionBC1"><span class="id" title="constructor">CompressionBC1</span></a>                ⇒ 4<br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.Compression.html#CompressionBC2"><span class="id" title="constructor">CompressionBC2</span></a>                ⇒ 4<br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.Compression.html#CompressionBC3"><span class="id" title="constructor">CompressionBC3</span></a>                ⇒ 4<br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.Compression.html#CompressionBC4"><span class="id" title="constructor">CompressionBC4</span></a>                ⇒ 4<br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.Compression.html#CompressionBC5"><span class="id" title="constructor">CompressionBC5</span></a>                ⇒ 4<br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.Compression.html#CompressionBC6"><span class="id" title="constructor">CompressionBC6</span></a>                ⇒ 4<br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.Compression.html#CompressionBC7"><span class="id" title="constructor">CompressionBC7</span></a>                ⇒ 4<br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.Compression.html#CompressionETC1"><span class="id" title="constructor">CompressionETC1</span></a>               ⇒ 4<br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.Compression.html#CompressionETC2"><span class="id" title="constructor">CompressionETC2</span></a>               ⇒ 4<br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.Compression.html#CompressionEAC"><span class="id" title="constructor">CompressionEAC</span></a>                ⇒ 4<br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.Compression.html#CompressionASTC"><span class="id" title="constructor">CompressionASTC</span></a> <span class="id" title="var">x</span> <span class="id" title="var">_</span>           ⇒ <span class="id" title="var">x</span><br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.Compression.html#CompressionCustom"><span class="id" title="constructor">CompressionCustom</span></a> <span class="id" title="var">_</span> <span class="id" title="var">x</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> ⇒ <span class="id" title="var">x</span><br/>
+&nbsp;&nbsp;<span class="id" title="keyword">end</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="compressionBlockSizeY" class="idref" href="#compressionBlockSizeY"><span class="id" title="definition">compressionBlockSizeY</span></a> (<a id="c:12" class="idref" href="#c:12"><span class="id" title="binder">c</span></a> : <a class="idref" href="com.io7m.calino.Compression.html#compressionMethod"><span class="id" title="inductive">compressionMethod</span></a>) : <a class="idref" href="http://rocq-prover.org/doc/V9.1.1/stdlib//Corelib.Init.Datatypes.html#nat"><span class="id" title="inductive">nat</span></a> :=<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">match</span> <a class="idref" href="com.io7m.calino.Compression.html#c:12"><span class="id" title="variable">c</span></a> <span class="id" title="keyword">with</span><br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.Compression.html#CompressionUncompressed"><span class="id" title="constructor">CompressionUncompressed</span></a>       ⇒ 0<br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.Compression.html#CompressionBC1"><span class="id" title="constructor">CompressionBC1</span></a>                ⇒ 4<br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.Compression.html#CompressionBC2"><span class="id" title="constructor">CompressionBC2</span></a>                ⇒ 4<br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.Compression.html#CompressionBC3"><span class="id" title="constructor">CompressionBC3</span></a>                ⇒ 4<br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.Compression.html#CompressionBC4"><span class="id" title="constructor">CompressionBC4</span></a>                ⇒ 4<br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.Compression.html#CompressionBC5"><span class="id" title="constructor">CompressionBC5</span></a>                ⇒ 4<br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.Compression.html#CompressionBC6"><span class="id" title="constructor">CompressionBC6</span></a>                ⇒ 4<br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.Compression.html#CompressionBC7"><span class="id" title="constructor">CompressionBC7</span></a>                ⇒ 4<br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.Compression.html#CompressionETC1"><span class="id" title="constructor">CompressionETC1</span></a>               ⇒ 4<br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.Compression.html#CompressionETC2"><span class="id" title="constructor">CompressionETC2</span></a>               ⇒ 4<br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.Compression.html#CompressionEAC"><span class="id" title="constructor">CompressionEAC</span></a>                ⇒ 4<br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.Compression.html#CompressionASTC"><span class="id" title="constructor">CompressionASTC</span></a> <span class="id" title="var">_</span> <span class="id" title="var">y</span>           ⇒ <span class="id" title="var">y</span><br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.Compression.html#CompressionCustom"><span class="id" title="constructor">CompressionCustom</span></a> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">y</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> ⇒ <span class="id" title="var">y</span><br/>
+&nbsp;&nbsp;<span class="id" title="keyword">end</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="compressionSectionIdentifier" class="idref" href="#compressionSectionIdentifier"><span class="id" title="definition">compressionSectionIdentifier</span></a> (<a id="c:14" class="idref" href="#c:14"><span class="id" title="binder">c</span></a> : <a class="idref" href="com.io7m.calino.Compression.html#compressionMethod"><span class="id" title="inductive">compressionMethod</span></a>) : <a class="idref" href="http://rocq-prover.org/doc/V9.1.1/stdlib//Corelib.Init.Datatypes.html#nat"><span class="id" title="inductive">nat</span></a> :=<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">match</span> <a class="idref" href="com.io7m.calino.Compression.html#c:14"><span class="id" title="variable">c</span></a> <span class="id" title="keyword">with</span><br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.Compression.html#CompressionUncompressed"><span class="id" title="constructor">CompressionUncompressed</span></a>       ⇒ 0<br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.Compression.html#CompressionBC1"><span class="id" title="constructor">CompressionBC1</span></a>                ⇒ 0<br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.Compression.html#CompressionBC2"><span class="id" title="constructor">CompressionBC2</span></a>                ⇒ 0<br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.Compression.html#CompressionBC3"><span class="id" title="constructor">CompressionBC3</span></a>                ⇒ 0<br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.Compression.html#CompressionBC4"><span class="id" title="constructor">CompressionBC4</span></a>                ⇒ 0<br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.Compression.html#CompressionBC5"><span class="id" title="constructor">CompressionBC5</span></a>                ⇒ 0<br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.Compression.html#CompressionBC6"><span class="id" title="constructor">CompressionBC6</span></a>                ⇒ 0<br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.Compression.html#CompressionBC7"><span class="id" title="constructor">CompressionBC7</span></a>                ⇒ 0<br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.Compression.html#CompressionETC1"><span class="id" title="constructor">CompressionETC1</span></a>               ⇒ 0<br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.Compression.html#CompressionETC2"><span class="id" title="constructor">CompressionETC2</span></a>               ⇒ 0<br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.Compression.html#CompressionEAC"><span class="id" title="constructor">CompressionEAC</span></a>                ⇒ 0<br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.Compression.html#CompressionASTC"><span class="id" title="constructor">CompressionASTC</span></a> <span class="id" title="var">_</span> <span class="id" title="var">_</span>           ⇒ 0<br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.Compression.html#CompressionCustom"><span class="id" title="constructor">CompressionCustom</span></a> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">i</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> ⇒ <span class="id" title="var">i</span><br/>
+&nbsp;&nbsp;<span class="id" title="keyword">end</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="compressionBlockAlignment" class="idref" href="#compressionBlockAlignment"><span class="id" title="definition">compressionBlockAlignment</span></a> (<a id="c:16" class="idref" href="#c:16"><span class="id" title="binder">c</span></a> : <a class="idref" href="com.io7m.calino.Compression.html#compressionMethod"><span class="id" title="inductive">compressionMethod</span></a>) : <a class="idref" href="http://rocq-prover.org/doc/V9.1.1/stdlib//Corelib.Init.Datatypes.html#nat"><span class="id" title="inductive">nat</span></a> :=<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">match</span> <a class="idref" href="com.io7m.calino.Compression.html#c:16"><span class="id" title="variable">c</span></a> <span class="id" title="keyword">with</span><br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.Compression.html#CompressionUncompressed"><span class="id" title="constructor">CompressionUncompressed</span></a>       ⇒ 0<br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.Compression.html#CompressionBC1"><span class="id" title="constructor">CompressionBC1</span></a>                ⇒ 8<br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.Compression.html#CompressionBC2"><span class="id" title="constructor">CompressionBC2</span></a>                ⇒ 16<br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.Compression.html#CompressionBC3"><span class="id" title="constructor">CompressionBC3</span></a>                ⇒ 16<br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.Compression.html#CompressionBC4"><span class="id" title="constructor">CompressionBC4</span></a>                ⇒ 8<br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.Compression.html#CompressionBC5"><span class="id" title="constructor">CompressionBC5</span></a>                ⇒ 16<br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.Compression.html#CompressionBC6"><span class="id" title="constructor">CompressionBC6</span></a>                ⇒ 16<br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.Compression.html#CompressionBC7"><span class="id" title="constructor">CompressionBC7</span></a>                ⇒ 16<br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.Compression.html#CompressionETC1"><span class="id" title="constructor">CompressionETC1</span></a>               ⇒ 16<br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.Compression.html#CompressionETC2"><span class="id" title="constructor">CompressionETC2</span></a>               ⇒ 16<br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.Compression.html#CompressionEAC"><span class="id" title="constructor">CompressionEAC</span></a>                ⇒ 16<br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.Compression.html#CompressionASTC"><span class="id" title="constructor">CompressionASTC</span></a> <span class="id" title="var">_</span> <span class="id" title="var">_</span>           ⇒ 16<br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.Compression.html#CompressionCustom"><span class="id" title="constructor">CompressionCustom</span></a> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">a</span> <span class="id" title="var">_</span> ⇒ <span class="id" title="var">a</span><br/>
+&nbsp;&nbsp;<span class="id" title="keyword">end</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="compressionIsNotCompressed" class="idref" href="#compressionIsNotCompressed"><span class="id" title="definition">compressionIsNotCompressed</span></a> (<a id="c:18" class="idref" href="#c:18"><span class="id" title="binder">c</span></a> : <a class="idref" href="com.io7m.calino.Compression.html#compressionMethod"><span class="id" title="inductive">compressionMethod</span></a>) : <span class="id" title="keyword">Prop</span> :=<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">match</span> <a class="idref" href="com.io7m.calino.Compression.html#c:18"><span class="id" title="variable">c</span></a> <span class="id" title="keyword">with</span><br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.Compression.html#CompressionUncompressed"><span class="id" title="constructor">CompressionUncompressed</span></a> ⇒ <a class="idref" href="http://rocq-prover.org/doc/V9.1.1/stdlib//Corelib.Init.Logic.html#True"><span class="id" title="inductive">True</span></a><br/>
+&nbsp;&nbsp;| <span class="id" title="var">_</span>                       ⇒ <a class="idref" href="http://rocq-prover.org/doc/V9.1.1/stdlib//Corelib.Init.Logic.html#False"><span class="id" title="inductive">False</span></a><br/>
+&nbsp;&nbsp;<span class="id" title="keyword">end</span>.<br/>
+
+<br/>
+#[<span class="id" title="var">export</span>]<br/>
+<span class="id" title="keyword">Instance</span> <a id="compressionMethodDescribable" class="idref" href="#compressionMethodDescribable"><span class="id" title="instance">compressionMethodDescribable</span></a> : <a class="idref" href="com.io7m.calino.Descriptor.html#describable"><span class="id" title="class">describable</span></a> <a class="idref" href="com.io7m.calino.Compression.html#compressionMethod"><span class="id" title="inductive">compressionMethod</span></a> := {<br/>
+&nbsp;&nbsp;<a class="idref" href="com.io7m.calino.Descriptor.html#descriptorOf"><span class="id" title="method">descriptorOf</span></a> <a id="c:20" class="idref" href="#c:20"><span class="id" title="binder">c</span></a> := <a class="idref" href="com.io7m.calino.Compression.html#compressionMethodDescriptor"><span class="id" title="definition">compressionMethodDescriptor</span></a> <a class="idref" href="com.io7m.calino.Compression.html#c:20"><span class="id" title="variable">c</span></a><br/>
+}.<br/>
+
+<br/>
+</div>
+</div>
+
+<div id="footer">
+<hr/><a href="index.html">Index</a><hr/>This page has been generated by <a href="http://rocq-prover.org/">coqdoc</a>
+</div>
+
+</div>
+
+</body>
+</html>

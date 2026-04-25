@@ -1,3 +1,6 @@
-[submodule ".jenkins"]
-	path = .jenkins
-	url = https://www.github.com/io7m/jenkinsfiles
+[submodule "com.io7m.calino.specification/src/main/rocq/roctetorder"]
+	path = com.io7m.calino.specification/src/main/rocq/roctetorder
+	url = https://www.github.com/io7m-com/roctetorder
+[submodule "com.io7m.calino.specification/src/main/rocq/rentomos"]
+	path = com.io7m.calino.specification/src/main/rocq/rentomos
+	url = https://www.github.com/io7m-com/rentomos

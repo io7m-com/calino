@@ -23,7 +23,7 @@ package com.io7m.calino.api;
  * @param size       The size of the section data
  */
 
-public final record CLNSectionDescription(
+public record CLNSectionDescription(
   long identifier,
   long size)
 {

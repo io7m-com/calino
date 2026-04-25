@@ -16,8 +16,6 @@
 
 package com.io7m.calino.cmdline.internal;
 
-import com.beust.jcommander.Parameter;
-import com.beust.jcommander.Parameters;
 import com.io7m.calino.api.CLNByteOrder;
 import com.io7m.calino.api.CLNChannelsLayoutDescriptionType;
 import com.io7m.calino.api.CLNFileWritableType;
@@ -35,9 +33,16 @@ import com.io7m.calino.supercompression.api.CLNCompressorRequest;
 import com.io7m.calino.supercompression.api.CLNCompressors;
 import com.io7m.calino.writer.api.CLNWriteRequest;
 import com.io7m.calino.writer.api.CLNWriters;
-import com.io7m.claypot.core.CLPCommandContextType;
 import com.io7m.jmulticlose.core.CloseableCollection;
 import com.io7m.jmulticlose.core.ClosingResourceFailedException;
+import com.io7m.quarrel.core.QCommandContextType;
+import com.io7m.quarrel.core.QCommandMetadata;
+import com.io7m.quarrel.core.QCommandStatus;
+import com.io7m.quarrel.core.QParameterNamed01;
+import com.io7m.quarrel.core.QParameterNamed1;
+import com.io7m.quarrel.core.QParameterNamed1N;
+import com.io7m.quarrel.core.QParameterNamedType;
+import com.io7m.quarrel.core.QStringType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -49,7 +54,6 @@ import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -59,9 +63,9 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.zip.CRC32;
 
+import static com.io7m.calino.api.CLNByteOrder.LITTLE_ENDIAN;
 import static com.io7m.calino.api.CLNSuperCompressionMethodStandard.UNCOMPRESSED;
-import static com.io7m.claypot.core.CLPCommandType.Status.FAILURE;
-import static com.io7m.claypot.core.CLPCommandType.Status.SUCCESS;
+import static java.lang.Boolean.FALSE;
 import static java.lang.Integer.toUnsignedLong;
 import static java.nio.file.StandardOpenOption.CREATE;
 import static java.nio.file.StandardOpenOption.TRUNCATE_EXISTING;
@@ -71,107 +75,166 @@ import static java.nio.file.StandardOpenOption.WRITE;
  * The 'create-array' command.
  */
 
-@Parameters(commandDescription = "Create an array texture from an existing image.")
 public final class CLNCommandCreateArray extends CLNAbstractCommand
 {
   private static final Logger LOG =
     LoggerFactory.getLogger(CLNCommandCreateArray.class);
 
-  @Parameter(
-    required = true,
-    description = "The source image layer files, in layer order starting at 0",
-    names = "--source-layer")
-  private List<Path> layers;
+  private static final QParameterNamed1N<Path> LAYERS =
+    new QParameterNamed1N<>(
+      "--source-layer",
+      List.of(),
+      new QStringType.QConstant(
+        "The source image layer files, in layer order starting at 0."),
+      Optional.empty(),
+      Path.class
+    );
 
-  @Parameter(
-    required = true,
-    description = "The output texture file",
-    names = "--output")
-  private Path output;
+  private static final QParameterNamed1<Path> OUTPUT =
+    new QParameterNamed1<>(
+      "--output",
+      List.of(),
+      new QStringType.QConstant("The output texture file."),
+      Optional.empty(),
+      Path.class
+    );
 
-  @Parameter(
-    required = false,
-    description = "The mipmap filter",
-    names = "--mipmap-generate")
-  private CLNImageMipMapFilter mipMapGenerate;
+  private static final QParameterNamed01<CLNImageMipMapFilter> MIP_MAP_GENERATE =
+    new QParameterNamed01<>(
+      "--mipmap-generate",
+      List.of(),
+      new QStringType.QConstant(
+        "The mipmap filter, if mipmaps are to be generated."),
+      Optional.empty(),
+      CLNImageMipMapFilter.class
+    );
 
-  @Parameter(
-    required = false,
-    description = "Premultiply alpha",
-    arity = 1,
-    names = "--premultiply-alpha")
-  private boolean premultiplyAlpha;
+  private static final QParameterNamed1<Boolean> PREMULTIPLY_ALPHA =
+    new QParameterNamed1<>(
+      "--premultiply-alpha",
+      List.of(),
+      new QStringType.QConstant("Premultiply alpha."),
+      Optional.of(FALSE),
+      Boolean.class
+    );
 
-  @Parameter(
-    required = false,
-    description = "The byte order used for image data",
-    names = "--byte-order")
-  private CLNByteOrder byteOrder = CLNByteOrder.LITTLE_ENDIAN;
+  private static final QParameterNamed1<CLNByteOrder> BYTE_ORDER =
+    new QParameterNamed1<>(
+      "--byte-order",
+      List.of(),
+      new QStringType.QConstant("The byte order used for image data."),
+      Optional.of(LITTLE_ENDIAN),
+      CLNByteOrder.class
+    );
 
-  @Parameter(
-    required = false,
-    description = "The requested file format version",
-    converter = CLNVersionStringConverter.class,
-    names = "--format-version")
-  private CLNVersion formatVersion = new CLNVersion(1, 0);
+  private static final QParameterNamed1<CLNVersion> FORMAT_VERSION =
+    new QParameterNamed1<>(
+      "--format-version",
+      List.of(),
+      new QStringType.QConstant("The requested file format version."),
+      Optional.of(new CLNVersion(1, 0)),
+      CLNVersion.class
+    );
 
-  @Parameter(
-    required = false,
-    converter = CLNChannelLayoutStringConverter.class,
-    description = "The requested layout to which to convert",
-    names = "--convert-layout-to")
-  private CLNChannelsLayoutDescriptionType convertLayoutTo;
+  private static final QParameterNamed01<CLNChannelsLayoutDescriptionType> CONVERT_LAYOUT_TO =
+    new QParameterNamed01<>(
+      "--convert-layout-to",
+      List.of(),
+      new QStringType.QConstant("The requested layout to which to convert."),
+      Optional.empty(),
+      CLNChannelsLayoutDescriptionType.class
+    );
 
-  @Parameter(
-    required = false,
-    converter = CLNSuperCompressionMethodConverter.class,
-    description = "The super compression method.",
-    names = "--super-compression")
-  private CLNSuperCompressionMethodType superCompression = UNCOMPRESSED;
+  private static final QParameterNamed1<CLNSuperCompressionMethodType> SUPER_COMPRESSION =
+    new QParameterNamed1<>(
+      "--super-compression",
+      List.of(),
+      new QStringType.QConstant("The super compression method."),
+      Optional.of(UNCOMPRESSED),
+      CLNSuperCompressionMethodType.class
+    );
 
-  @Parameter(
-    required = false,
-    description = "A Java properties file containing metadata for the texture file.",
-    names = "--metadata")
-  private Path metadataFile;
+  private static final QParameterNamed01<Path> METADATA_FILE =
+    new QParameterNamed01<>(
+      "--metadata",
+      List.of(),
+      new QStringType.QConstant(
+        "A Java properties file containing metadata for the texture file."),
+      Optional.empty(),
+      Path.class
+    );
+
+  @Override
+  protected List<QParameterNamedType<?>> onListNamedParametersActual()
+  {
+    return List.of(
+      BYTE_ORDER,
+      CONVERT_LAYOUT_TO,
+      FORMAT_VERSION,
+      LAYERS,
+      METADATA_FILE,
+      MIP_MAP_GENERATE,
+      OUTPUT,
+      PREMULTIPLY_ALPHA,
+      SUPER_COMPRESSION
+    );
+  }
 
   /**
    * The 'create-array' command.
-   *
-   * @param inContext The context
    */
 
-  public CLNCommandCreateArray(
-    final CLPCommandContextType inContext)
+  public CLNCommandCreateArray()
   {
-    super(Locale.getDefault(), inContext);
+    super(
+      new QCommandMetadata(
+        "create-array",
+        new QStringType.QConstant(
+          "Create an array texture from an existing image."),
+        Optional.of(new QStringType.QLocalize("cmd.create-array.helpExt"))
+      )
+    );
   }
 
   @Override
-  public String extendedHelp()
-  {
-    return this.calinoStrings().format("cmd.create-array.helpExt");
-  }
-
-  @Override
-  protected Status executeActual()
+  public QCommandStatus onExecute(
+    final QCommandContextType context)
     throws IOException, ClosingResourceFailedException
   {
     final var writers = new CLNWriters();
 
+    final var formatVersion =
+      context.parameterValue(FORMAT_VERSION);
+    final var convertLayoutTo =
+      context.parameterValue(CONVERT_LAYOUT_TO);
+    final var premultiplyAlpha =
+      context.parameterValue(PREMULTIPLY_ALPHA);
+    final var byteOrder =
+      context.parameterValue(BYTE_ORDER);
+    final var mipMapGenerate =
+      context.parameterValue(MIP_MAP_GENERATE);
+    final var output =
+      context.parameterValue(OUTPUT);
+    final var metadataFile =
+      context.parameterValue(METADATA_FILE);
+    final var superCompression =
+      context.parameterValue(SUPER_COMPRESSION);
+    final var layers =
+      context.parameterValues(LAYERS);
+
     final var writerOpt =
-      writers.findWriterFactoryFor(this.formatVersion);
+      writers.findWriterFactoryFor(formatVersion);
 
     if (writerOpt.isEmpty()) {
       LOG.error(
-        "no available writers for format version {}",
-        this.formatVersion);
-      return FAILURE;
+        "No available writers for format version {}",
+        formatVersion);
+      return QCommandStatus.FAILURE;
     }
 
-    if (this.layers.isEmpty()) {
-      LOG.error("at least one image source file is required");
-      return FAILURE;
+    if (layers.isEmpty()) {
+      LOG.error("At least one image source file is required");
+      return QCommandStatus.FAILURE;
     }
 
     final var writerFactory = writerOpt.get();
@@ -184,20 +247,19 @@ public final class CLNCommandCreateArray extends CLNAbstractCommand
       final var chainsForLayers =
         new TreeMap<Integer, CLNImageMipMapChainType>();
 
-      for (int layer = 0; layer < this.layers.size(); ++layer) {
-        final var source = this.layers.get(layer);
+      for (int layer = 0; layer < layers.size(); ++layer) {
+        final var source = layers.get(layer);
 
         final var layoutConversion =
-          Optional.ofNullable(this.convertLayoutTo)
-            .map(CLNImageLayoutConversion::new);
+          convertLayoutTo.map(CLNImageLayoutConversion::new);
 
         final var processorRequest =
           new CLNImageProcessorRequest(
             source,
-            this.premultiplyAlpha,
-            this.byteOrder,
+            premultiplyAlpha.booleanValue(),
+            byteOrder,
             layoutConversion,
-            Optional.ofNullable(this.mipMapGenerate)
+            mipMapGenerate
           );
 
         final var processor =
@@ -213,27 +275,28 @@ public final class CLNCommandCreateArray extends CLNAbstractCommand
 
       final var channel =
         resources.add(
-          FileChannel.open(this.output, CREATE, WRITE, TRUNCATE_EXISTING)
+          FileChannel.open(output, CREATE, WRITE, TRUNCATE_EXISTING)
         );
 
       final var request =
-        new CLNWriteRequest(channel, this.output.toUri(), this.formatVersion);
+        new CLNWriteRequest(channel, output.toUri(), formatVersion);
       final var writer =
         resources.add(writerFactory.createWriter(request));
       final var writable =
         resources.add(writer.execute());
 
-      this.writeImageInfo(
+      writeImageInfo(
         chainsForLayers.get(Integer.valueOf(0)),
-        this.layers.size(),
-        writable
+        layers.size(),
+        writable,
+        superCompression
       );
-      this.writeMetadata(writable);
-      this.writeImageArray(compressors, chainsForLayers, writable);
-      this.writeEnd(writable);
+      writeMetadata(writable, metadataFile);
+      writeImageArray(compressors, chainsForLayers, writable, superCompression);
+      writeEnd(writable);
     }
 
-    return SUCCESS;
+    return QCommandStatus.SUCCESS;
   }
 
   private static void checkImageInfos(
@@ -246,22 +309,24 @@ public final class CLNCommandCreateArray extends CLNAbstractCommand
     }
   }
 
-  private void writeMetadata(
-    final CLNFileWritableType writable)
+  private static void writeMetadata(
+    final CLNFileWritableType writable,
+    final Optional<Path> metadataFile)
     throws IOException
   {
-    if (this.metadataFile != null) {
-      final var data = this.openMetadataFile();
+    if (metadataFile.isPresent()) {
+      final var data = openMetadataFile(metadataFile.get());
       try (var section = writable.createSectionMetadata()) {
         section.setMetadata(data);
       }
     }
   }
 
-  private Map<String, List<String>> openMetadataFile()
+  private static Map<String, List<String>> openMetadataFile(
+    final Path file)
     throws IOException
   {
-    try (var stream = Files.newInputStream(this.metadataFile)) {
+    try (var stream = Files.newInputStream(file)) {
       final var properties = new Properties();
       properties.load(stream);
       final var data = new HashMap<String, List<String>>(properties.size());
@@ -272,10 +337,11 @@ public final class CLNCommandCreateArray extends CLNAbstractCommand
     }
   }
 
-  private void writeImageArray(
+  private static void writeImageArray(
     final CLNCompressors compressors,
     final SortedMap<Integer, CLNImageMipMapChainType> chains,
-    final CLNFileWritableType writable)
+    final CLNFileWritableType writable,
+    final CLNSuperCompressionMethodType superCompression)
     throws IOException
   {
     try (var section = writable.createSectionImageArray()) {
@@ -304,7 +370,7 @@ public final class CLNCommandCreateArray extends CLNAbstractCommand
            * directly.
            */
 
-          if (Objects.equals(this.superCompression, UNCOMPRESSED)) {
+          if (Objects.equals(superCompression, UNCOMPRESSED)) {
             final var crc32 = new CRC32();
             crc32.update(data);
 
@@ -328,7 +394,7 @@ public final class CLNCommandCreateArray extends CLNAbstractCommand
 
           final var compressor =
             compressors.createCompressor(
-              new CLNCompressorRequest(this.superCompression)
+              new CLNCompressorRequest(superCompression)
             );
 
           final var compressedData = compressor.execute(data);
@@ -386,7 +452,7 @@ public final class CLNCommandCreateArray extends CLNAbstractCommand
     }
   }
 
-  private void writeEnd(
+  private static void writeEnd(
     final CLNFileWritableType writable)
     throws IOException
   {
@@ -395,10 +461,11 @@ public final class CLNCommandCreateArray extends CLNAbstractCommand
     }
   }
 
-  private void writeImageInfo(
+  private static void writeImageInfo(
     final CLNImageMipMapChainType chain,
     final int layerCount,
-    final CLNFileWritableType writable)
+    final CLNFileWritableType writable,
+    final CLNSuperCompressionMethodType superCompression)
     throws IOException
   {
     try (var section = writable.createSectionImageInfo()) {
@@ -410,7 +477,7 @@ public final class CLNCommandCreateArray extends CLNAbstractCommand
         imageInfo.channelsLayout(),
         imageInfo.channelsType(),
         imageInfo.compressionMethod(),
-        this.superCompression,
+        superCompression,
         imageInfo.coordinateSystem(),
         imageInfo.colorSpace(),
         imageInfo.flags(),
@@ -418,11 +485,5 @@ public final class CLNCommandCreateArray extends CLNAbstractCommand
       );
       section.setImageInfo(withCompression);
     }
-  }
-
-  @Override
-  public String name()
-  {
-    return "create-array";
   }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright © 2021 Mark Raynsford <code@io7m.com> https://www.io7m.com
+ * Copyright © 2026 Mark Raynsford <code@io7m.com> https://www.io7m.com
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -16,18 +16,25 @@
 
 package com.io7m.calino.cmdline.internal;
 
-import com.beust.jcommander.IStringConverter;
+import com.io7m.calino.api.CLNSuperCompressionMethodStandard;
 import com.io7m.calino.api.CLNSuperCompressionMethodType;
+import com.io7m.quarrel.core.QException;
+import com.io7m.quarrel.core.QValueConverterType;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 
 /**
- * A super compression method string converter.
+ * A value converter.
  */
 
 public final class CLNSuperCompressionMethodConverter
-  implements IStringConverter<CLNSuperCompressionMethodType>
+  implements QValueConverterType<CLNSuperCompressionMethodType>
 {
   /**
-   * A super compression method string converter.
+   * A value converter.
    */
 
   public CLNSuperCompressionMethodConverter()
@@ -36,9 +43,45 @@ public final class CLNSuperCompressionMethodConverter
   }
 
   @Override
-  public CLNSuperCompressionMethodType convert(
-    final String value)
+  public CLNSuperCompressionMethodType convertFromString(
+    final String text)
+    throws QException
   {
-    return CLNSuperCompressionMethodType.parse(value, 0L);
+    try {
+      return CLNSuperCompressionMethodType.parse(text, 0L);
+    } catch (final Exception e) {
+      throw new QException(
+        Objects.requireNonNullElse(e.getMessage(), e.getClass().getName()),
+        "error-exception",
+        Map.of("Input", text),
+        Optional.empty(),
+        List.of()
+      );
+    }
+  }
+
+  @Override
+  public String convertToString(
+    final CLNSuperCompressionMethodType value)
+  {
+    return value.descriptor();
+  }
+
+  @Override
+  public CLNSuperCompressionMethodType exampleValue()
+  {
+    return CLNSuperCompressionMethodStandard.LZ4;
+  }
+
+  @Override
+  public String syntax()
+  {
+    return "<descriptor-string>";
+  }
+
+  @Override
+  public Class<CLNSuperCompressionMethodType> convertedClass()
+  {
+    return CLNSuperCompressionMethodType.class;
   }
 }

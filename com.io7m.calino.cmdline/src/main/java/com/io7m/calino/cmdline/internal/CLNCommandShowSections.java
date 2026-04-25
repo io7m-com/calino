@@ -16,54 +16,58 @@
 
 package com.io7m.calino.cmdline.internal;
 
-import com.beust.jcommander.Parameters;
 import com.io7m.calino.api.CLNFileReadableType;
-import com.io7m.claypot.core.CLPCommandContextType;
+import com.io7m.quarrel.core.QCommandContextType;
+import com.io7m.quarrel.core.QCommandMetadata;
+import com.io7m.quarrel.core.QCommandStatus;
+import com.io7m.quarrel.core.QParameterNamedType;
+import com.io7m.quarrel.core.QStringType.QConstant;
+import com.io7m.quarrel.core.QStringType.QLocalize;
+
+import java.util.List;
+import java.util.Optional;
 
 /**
  * The 'show-sections' command.
  */
 
-@Parameters(commandDescription = "List sections in a texture file")
 public final class CLNCommandShowSections extends CLNAbstractReadFileCommand
 {
   /**
    * The 'show-sections' command.
-   *
-   * @param inContext The context
    */
 
-  public CLNCommandShowSections(
-    final CLPCommandContextType inContext)
+  public CLNCommandShowSections()
   {
-    super(inContext);
+    super(
+      new QCommandMetadata(
+        "show-sections",
+        new QConstant("List sections in a texture file."),
+        Optional.of(new QLocalize("cmd.show-sections.helpExt"))
+      )
+    );
   }
 
   @Override
-  public String extendedHelp()
+  protected List<QParameterNamedType<?>> onListNamedParametersWithFile()
   {
-    return this.calinoStrings().format("cmd.show-sections.helpExt");
+    return List.of();
   }
 
   @Override
-  protected Status executeWithReadFile(
+  protected QCommandStatus executeWithReadFile(
+    final QCommandContextType context,
     final CLNFileReadableType fileParsed)
   {
     final var sections = fileParsed.sections();
     for (int index = 0; index < sections.size(); ++index) {
       final var fileSection = sections.get(index);
-      System.out.printf(
+      context.output().printf(
         "%s %s%n",
         Integer.toUnsignedString(index),
         fileSection.show()
       );
     }
-    return Status.SUCCESS;
-  }
-
-  @Override
-  public String name()
-  {
-    return "show-sections";
+    return QCommandStatus.SUCCESS;
   }
 }

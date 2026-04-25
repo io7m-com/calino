@@ -63,9 +63,9 @@
       <Term type="constant">R16G16B16</Term> format, each channel requires 16 bits and so each channel must be
       mapped to two octets in memory. If the underlying host byte ordering is <Term type="term">little-endian</Term>,
       then the <Term type="term">most significant bits</Term> of each channel are stored in the
-      <Term type="term">lower</Term> of the two octets used for the channel. If the underlying host byte ordering is
+      <Term type="term">higher</Term> of the two octets used for the channel. If the underlying host byte ordering is
       <Term type="term">big-endian</Term>, then the <Term type="term">most significant bits</Term> of each channel are
-      stored in the <Term type="term">higher</Term> of the two octets used for the channel. For example, channels
+      stored in the <Term type="term">lower</Term> of the two octets used for the channel. For example, channels
       in the <Term type="constant">R16G16B16</Term> format are stored as follows on a computer with
       little-endian byte ordering:
     </Paragraph>

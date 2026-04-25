@@ -32,7 +32,7 @@ import java.util.Objects;
  * @param keyValueDatumLimit    The maximum value of a metadata key or value
  */
 
-public final record CLNParseRequest(
+public record CLNParseRequest(
   CLNDecompressorFactoryType decompressors,
   SeekableByteChannel channel,
   URI source,

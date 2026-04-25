@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="coqdoc.css" rel="stylesheet" type="text/css" />
+<title>com.io7m.calino.CoordinateSystem</title>
+</head>
+
+<body>
+
+<div id="page">
+
+<div id="header">
+</div>
+
+<div id="main">
+
+<h1 class="libtitle">Library com.io7m.calino.CoordinateSystem</h1>
+
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">From</span> <span class="id" title="var">Stdlib</span> <span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">Strings.String</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="com.io7m.calino.Descriptor.html#"><span class="id" title="library">com.io7m.calino.Descriptor</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Inductive</span> <a id="coordinateAxisR" class="idref" href="#coordinateAxisR"><span class="id" title="definition, inductive"><span id="coordinateAxisR_rect" class="id"><span id="coordinateAxisR_ind" class="id"><span id="coordinateAxisR_rec" class="id"><span id="coordinateAxisR_sind" class="id">coordinateAxisR</span></span></span></span></span></a> : <span class="id" title="keyword">Set</span> :=<br/>
+&nbsp;&nbsp;| <a id="AxisRIncreasingToward" class="idref" href="#AxisRIncreasingToward"><span class="id" title="constructor">AxisRIncreasingToward</span></a><br/>
+&nbsp;&nbsp;| <a id="AxisRIncreasingAway" class="idref" href="#AxisRIncreasingAway"><span class="id" title="constructor">AxisRIncreasingAway</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Inductive</span> <a id="coordinateAxisS" class="idref" href="#coordinateAxisS"><span class="id" title="definition, inductive"><span id="coordinateAxisS_rect" class="id"><span id="coordinateAxisS_ind" class="id"><span id="coordinateAxisS_rec" class="id"><span id="coordinateAxisS_sind" class="id">coordinateAxisS</span></span></span></span></span></a> : <span class="id" title="keyword">Set</span> :=<br/>
+&nbsp;&nbsp;| <a id="AxisSIncreasingRight" class="idref" href="#AxisSIncreasingRight"><span class="id" title="constructor">AxisSIncreasingRight</span></a><br/>
+&nbsp;&nbsp;| <a id="AxisSIncreasingLeft" class="idref" href="#AxisSIncreasingLeft"><span class="id" title="constructor">AxisSIncreasingLeft</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Inductive</span> <a id="coordinateAxisT" class="idref" href="#coordinateAxisT"><span class="id" title="definition, inductive"><span id="coordinateAxisT_rect" class="id"><span id="coordinateAxisT_ind" class="id"><span id="coordinateAxisT_rec" class="id"><span id="coordinateAxisT_sind" class="id">coordinateAxisT</span></span></span></span></span></a> : <span class="id" title="keyword">Set</span> :=<br/>
+&nbsp;&nbsp;| <a id="AxisTIncreasingDown" class="idref" href="#AxisTIncreasingDown"><span class="id" title="constructor">AxisTIncreasingDown</span></a><br/>
+&nbsp;&nbsp;| <a id="AxisTIncreasingUp" class="idref" href="#AxisTIncreasingUp"><span class="id" title="constructor">AxisTIncreasingUp</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="coordinateAxisRDescribe" class="idref" href="#coordinateAxisRDescribe"><span class="id" title="definition">coordinateAxisRDescribe</span></a> (<a id="c:7" class="idref" href="#c:7"><span class="id" title="binder">c</span></a> : <a class="idref" href="com.io7m.calino.CoordinateSystem.html#coordinateAxisR"><span class="id" title="inductive">coordinateAxisR</span></a>) : <a class="idref" href="com.io7m.calino.Descriptor.html#descriptor"><span class="id" title="definition">descriptor</span></a> :=<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">match</span> <a class="idref" href="com.io7m.calino.CoordinateSystem.html#c:7"><span class="id" title="variable">c</span></a> <span class="id" title="keyword">with</span><br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.CoordinateSystem.html#AxisRIncreasingToward"><span class="id" title="constructor">AxisRIncreasingToward</span></a> ⇒ "RT"<br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.CoordinateSystem.html#AxisRIncreasingAway"><span class="id" title="constructor">AxisRIncreasingAway</span></a>   ⇒ "RA"<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">end</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="coordinateAxisSDescribe" class="idref" href="#coordinateAxisSDescribe"><span class="id" title="definition">coordinateAxisSDescribe</span></a> (<a id="c:9" class="idref" href="#c:9"><span class="id" title="binder">c</span></a> : <a class="idref" href="com.io7m.calino.CoordinateSystem.html#coordinateAxisS"><span class="id" title="inductive">coordinateAxisS</span></a>) : <a class="idref" href="com.io7m.calino.Descriptor.html#descriptor"><span class="id" title="definition">descriptor</span></a> :=<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">match</span> <a class="idref" href="com.io7m.calino.CoordinateSystem.html#c:9"><span class="id" title="variable">c</span></a> <span class="id" title="keyword">with</span><br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.CoordinateSystem.html#AxisSIncreasingRight"><span class="id" title="constructor">AxisSIncreasingRight</span></a> ⇒ "SR"<br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.CoordinateSystem.html#AxisSIncreasingLeft"><span class="id" title="constructor">AxisSIncreasingLeft</span></a>  ⇒ "SL"<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">end</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="coordinateAxisTDescribe" class="idref" href="#coordinateAxisTDescribe"><span class="id" title="definition">coordinateAxisTDescribe</span></a> (<a id="c:11" class="idref" href="#c:11"><span class="id" title="binder">c</span></a> : <a class="idref" href="com.io7m.calino.CoordinateSystem.html#coordinateAxisT"><span class="id" title="inductive">coordinateAxisT</span></a>) : <a class="idref" href="com.io7m.calino.Descriptor.html#descriptor"><span class="id" title="definition">descriptor</span></a> :=<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">match</span> <a class="idref" href="com.io7m.calino.CoordinateSystem.html#c:11"><span class="id" title="variable">c</span></a> <span class="id" title="keyword">with</span><br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.CoordinateSystem.html#AxisTIncreasingDown"><span class="id" title="constructor">AxisTIncreasingDown</span></a> ⇒ "TD"<br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.CoordinateSystem.html#AxisTIncreasingUp"><span class="id" title="constructor">AxisTIncreasingUp</span></a>   ⇒ "TU"<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">end</span>.<br/>
+
+<br/>
+#[<span class="id" title="var">export</span>]<br/>
+<span class="id" title="keyword">Instance</span> <a id="coordinateAxisRDescribable" class="idref" href="#coordinateAxisRDescribable"><span class="id" title="instance">coordinateAxisRDescribable</span></a> : <a class="idref" href="com.io7m.calino.Descriptor.html#describable"><span class="id" title="class">describable</span></a> <a class="idref" href="com.io7m.calino.CoordinateSystem.html#coordinateAxisR"><span class="id" title="inductive">coordinateAxisR</span></a> := {<br/>
+&nbsp;&nbsp;<a class="idref" href="com.io7m.calino.Descriptor.html#descriptorOf"><span class="id" title="method">descriptorOf</span></a> <a id="c:13" class="idref" href="#c:13"><span class="id" title="binder">c</span></a> := <a class="idref" href="com.io7m.calino.CoordinateSystem.html#coordinateAxisRDescribe"><span class="id" title="definition">coordinateAxisRDescribe</span></a> <a class="idref" href="com.io7m.calino.CoordinateSystem.html#c:13"><span class="id" title="variable">c</span></a><br/>
+}.<br/>
+
+<br/>
+#[<span class="id" title="var">export</span>]<br/>
+<span class="id" title="keyword">Instance</span> <a id="coordinateAxisSDescribable" class="idref" href="#coordinateAxisSDescribable"><span class="id" title="instance">coordinateAxisSDescribable</span></a> : <a class="idref" href="com.io7m.calino.Descriptor.html#describable"><span class="id" title="class">describable</span></a> <a class="idref" href="com.io7m.calino.CoordinateSystem.html#coordinateAxisS"><span class="id" title="inductive">coordinateAxisS</span></a> := {<br/>
+&nbsp;&nbsp;<a class="idref" href="com.io7m.calino.Descriptor.html#descriptorOf"><span class="id" title="method">descriptorOf</span></a> <a id="c:14" class="idref" href="#c:14"><span class="id" title="binder">c</span></a> := <a class="idref" href="com.io7m.calino.CoordinateSystem.html#coordinateAxisSDescribe"><span class="id" title="definition">coordinateAxisSDescribe</span></a> <a class="idref" href="com.io7m.calino.CoordinateSystem.html#c:14"><span class="id" title="variable">c</span></a><br/>
+}.<br/>
+
+<br/>
+#[<span class="id" title="var">export</span>]<br/>
+<span class="id" title="keyword">Instance</span> <a id="coordinateAxisTDescribable" class="idref" href="#coordinateAxisTDescribable"><span class="id" title="instance">coordinateAxisTDescribable</span></a> : <a class="idref" href="com.io7m.calino.Descriptor.html#describable"><span class="id" title="class">describable</span></a> <a class="idref" href="com.io7m.calino.CoordinateSystem.html#coordinateAxisT"><span class="id" title="inductive">coordinateAxisT</span></a> := {<br/>
+&nbsp;&nbsp;<a class="idref" href="com.io7m.calino.Descriptor.html#descriptorOf"><span class="id" title="method">descriptorOf</span></a> <a id="c:15" class="idref" href="#c:15"><span class="id" title="binder">c</span></a> := <a class="idref" href="com.io7m.calino.CoordinateSystem.html#coordinateAxisTDescribe"><span class="id" title="definition">coordinateAxisTDescribe</span></a> <a class="idref" href="com.io7m.calino.CoordinateSystem.html#c:15"><span class="id" title="variable">c</span></a><br/>
+}.<br/>
+
+<br/>
+<span class="id" title="keyword">Inductive</span> <a id="coordinateSystem" class="idref" href="#coordinateSystem"><span class="id" title="definition, inductive"><span id="coordinateSystem_rect" class="id"><span id="coordinateSystem_ind" class="id"><span id="coordinateSystem_rec" class="id"><span id="coordinateSystem_sind" class="id">coordinateSystem</span></span></span></span></span></a> : <span class="id" title="keyword">Set</span> :=<br/>
+&nbsp;&nbsp;<a id="CoordinateSystem" class="idref" href="#CoordinateSystem"><span class="id" title="constructor">CoordinateSystem</span></a> : <a class="idref" href="com.io7m.calino.CoordinateSystem.html#coordinateAxisR"><span class="id" title="inductive">coordinateAxisR</span></a> <a class="idref" href="http://rocq-prover.org/doc/V9.1.1/stdlib//Corelib.Init.Logic.html#::type_scope:x_'-&gt;'_x"><span class="id" title="notation">→</span></a> <a class="idref" href="com.io7m.calino.CoordinateSystem.html#coordinateAxisS"><span class="id" title="inductive">coordinateAxisS</span></a> <a class="idref" href="http://rocq-prover.org/doc/V9.1.1/stdlib//Corelib.Init.Logic.html#::type_scope:x_'-&gt;'_x"><span class="id" title="notation">→</span></a> <a class="idref" href="com.io7m.calino.CoordinateSystem.html#coordinateAxisT"><span class="id" title="inductive">coordinateAxisT</span></a> <a class="idref" href="http://rocq-prover.org/doc/V9.1.1/stdlib//Corelib.Init.Logic.html#::type_scope:x_'-&gt;'_x"><span class="id" title="notation">→</span></a> <a class="idref" href="com.io7m.calino.CoordinateSystem.html#coordinateSystem:16"><span class="id" title="inductive">coordinateSystem</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="coordinateSystemDescribe" class="idref" href="#coordinateSystemDescribe"><span class="id" title="definition">coordinateSystemDescribe</span></a> (<a id="c:18" class="idref" href="#c:18"><span class="id" title="binder">c</span></a> : <a class="idref" href="com.io7m.calino.CoordinateSystem.html#coordinateSystem"><span class="id" title="inductive">coordinateSystem</span></a>) : <a class="idref" href="com.io7m.calino.Descriptor.html#descriptor"><span class="id" title="definition">descriptor</span></a> :=<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">match</span> <a class="idref" href="com.io7m.calino.CoordinateSystem.html#c:18"><span class="id" title="variable">c</span></a> <span class="id" title="keyword">with</span><br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.CoordinateSystem.html#CoordinateSystem"><span class="id" title="constructor">CoordinateSystem</span></a> <span class="id" title="var">r</span> <span class="id" title="var">s</span> <span class="id" title="var">t</span> ⇒<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="com.io7m.calino.Descriptor.html#descriptorOf"><span class="id" title="method">descriptorOf</span></a> <span class="id" title="var">r</span> <span class="id" title="notation">++</span> ":" <span class="id" title="notation">++</span> <a class="idref" href="com.io7m.calino.Descriptor.html#descriptorOf"><span class="id" title="method">descriptorOf</span></a> <span class="id" title="var">s</span> <span class="id" title="notation">++</span> ":" <span class="id" title="notation">++</span> <a class="idref" href="com.io7m.calino.Descriptor.html#descriptorOf"><span class="id" title="method">descriptorOf</span></a> <span class="id" title="var">t</span><br/>
+&nbsp;&nbsp;<span class="id" title="keyword">end</span>.<br/>
+
+<br/>
+#[<span class="id" title="var">export</span>]<br/>
+<span class="id" title="keyword">Instance</span> <a id="coordinateSystemDescribable" class="idref" href="#coordinateSystemDescribable"><span class="id" title="instance">coordinateSystemDescribable</span></a> : <a class="idref" href="com.io7m.calino.Descriptor.html#describable"><span class="id" title="class">describable</span></a> <a class="idref" href="com.io7m.calino.CoordinateSystem.html#coordinateSystem"><span class="id" title="inductive">coordinateSystem</span></a> := {<br/>
+&nbsp;&nbsp;<a class="idref" href="com.io7m.calino.Descriptor.html#descriptorOf"><span class="id" title="method">descriptorOf</span></a> <a id="c:20" class="idref" href="#c:20"><span class="id" title="binder">c</span></a> := <a class="idref" href="com.io7m.calino.CoordinateSystem.html#coordinateSystemDescribe"><span class="id" title="definition">coordinateSystemDescribe</span></a> <a class="idref" href="com.io7m.calino.CoordinateSystem.html#c:20"><span class="id" title="variable">c</span></a><br/>
+}.<br/>
+
+<br/>
+</div>
+</div>
+
+<div id="footer">
+<hr/><a href="index.html">Index</a><hr/>This page has been generated by <a href="http://rocq-prover.org/">coqdoc</a>
+</div>
+
+</div>
+
+</body>
+</html>
