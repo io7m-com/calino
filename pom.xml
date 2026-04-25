@@ -20,6 +20,7 @@
 
   <modules>
     <module>com.io7m.calino.api</module>
+    <module>com.io7m.calino.bom</module>
     <module>com.io7m.calino.cmdline</module>
     <module>com.io7m.calino.documentation</module>
     <module>com.io7m.calino.imageproc.api</module>
