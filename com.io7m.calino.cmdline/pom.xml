@@ -40,6 +40,11 @@
     </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>
+      <artifactId>com.io7m.calino.supercompression.deflate</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
       <artifactId>com.io7m.calino.imageproc.awt</artifactId>
       <version>${project.version}</version>
     </dependency>

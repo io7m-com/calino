@@ -27,6 +27,7 @@ open module com.io7m.calino.tests
   requires com.io7m.calino.imageview;
   requires com.io7m.calino.parser.api;
   requires com.io7m.calino.supercompression.api;
+  requires com.io7m.calino.supercompression.deflate;
   requires com.io7m.calino.supercompression.lz4;
   requires com.io7m.calino.supercompression.spi;
   requires com.io7m.calino.validation.api;
@@ -42,6 +43,8 @@ open module com.io7m.calino.tests
   requires com.io7m.jmulticlose.core;
   requires com.io7m.wendover.core;
   requires java.desktop;
+  requires org.apache.commons.io;
+  requires org.apache.commons.lang3;
   requires org.slf4j;
 
   exports com.io7m.calino.tests;

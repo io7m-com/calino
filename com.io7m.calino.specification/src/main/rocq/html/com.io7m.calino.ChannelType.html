@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="coqdoc.css" rel="stylesheet" type="text/css" />
+<title>com.io7m.calino.ChannelType</title>
+</head>
+
+<body>
+
+<div id="page">
+
+<div id="header">
+</div>
+
+<div id="main">
+
+<h1 class="libtitle">Library com.io7m.calino.ChannelType</h1>
+
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">From</span> <span class="id" title="var">Stdlib</span> <span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">Strings.String</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="com.io7m.calino.Descriptor.html#"><span class="id" title="library">com.io7m.calino.Descriptor</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Inductive</span> <a id="channelType" class="idref" href="#channelType"><span class="id" title="definition, inductive"><span id="channelType_rect" class="id"><span id="channelType_ind" class="id"><span id="channelType_rec" class="id"><span id="channelType_sind" class="id">channelType</span></span></span></span></span></a> : <span class="id" title="keyword">Set</span> :=<br/>
+&nbsp;&nbsp;| <a id="CTFixedPointNormalizedUnsigned" class="idref" href="#CTFixedPointNormalizedUnsigned"><span class="id" title="constructor">CTFixedPointNormalizedUnsigned</span></a><br/>
+&nbsp;&nbsp;| <a id="CTFixedPointNormalizedSigned" class="idref" href="#CTFixedPointNormalizedSigned"><span class="id" title="constructor">CTFixedPointNormalizedSigned</span></a><br/>
+&nbsp;&nbsp;| <a id="CTScaledUnsigned" class="idref" href="#CTScaledUnsigned"><span class="id" title="constructor">CTScaledUnsigned</span></a><br/>
+&nbsp;&nbsp;| <a id="CTScaledSigned" class="idref" href="#CTScaledSigned"><span class="id" title="constructor">CTScaledSigned</span></a><br/>
+&nbsp;&nbsp;| <a id="CTIntegerUnsigned" class="idref" href="#CTIntegerUnsigned"><span class="id" title="constructor">CTIntegerUnsigned</span></a><br/>
+&nbsp;&nbsp;| <a id="CTIntegerSigned" class="idref" href="#CTIntegerSigned"><span class="id" title="constructor">CTIntegerSigned</span></a><br/>
+&nbsp;&nbsp;| <a id="CTFloatIEEE754" class="idref" href="#CTFloatIEEE754"><span class="id" title="constructor">CTFloatIEEE754</span></a><br/>
+&nbsp;&nbsp;| <a id="CTCustom" class="idref" href="#CTCustom"><span class="id" title="constructor">CTCustom</span></a> : <a class="idref" href="com.io7m.calino.Descriptor.html#descriptor"><span class="id" title="definition">descriptor</span></a> <a class="idref" href="http://rocq-prover.org/doc/V9.1.1/stdlib//Corelib.Init.Logic.html#::type_scope:x_'-&gt;'_x"><span class="id" title="notation">→</span></a> <a class="idref" href="com.io7m.calino.ChannelType.html#channelType:1"><span class="id" title="inductive">channelType</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="channelTypeDescribe" class="idref" href="#channelTypeDescribe"><span class="id" title="definition">channelTypeDescribe</span></a> (<a id="c:3" class="idref" href="#c:3"><span class="id" title="binder">c</span></a> : <a class="idref" href="com.io7m.calino.ChannelType.html#channelType"><span class="id" title="inductive">channelType</span></a>) : <a class="idref" href="com.io7m.calino.Descriptor.html#descriptor"><span class="id" title="definition">descriptor</span></a> :=<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">match</span> <a class="idref" href="com.io7m.calino.ChannelType.html#c:3"><span class="id" title="variable">c</span></a> <span class="id" title="keyword">with</span><br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.ChannelType.html#CTFixedPointNormalizedUnsigned"><span class="id" title="constructor">CTFixedPointNormalizedUnsigned</span></a> ⇒ "FIXED_POINT_NORMALIZED_UNSIGNED"<br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.ChannelType.html#CTFixedPointNormalizedSigned"><span class="id" title="constructor">CTFixedPointNormalizedSigned</span></a>   ⇒ "FIXED_POINT_NORMALIZED_SIGNED"<br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.ChannelType.html#CTScaledUnsigned"><span class="id" title="constructor">CTScaledUnsigned</span></a>               ⇒ "SCALED_UNSIGNED"<br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.ChannelType.html#CTScaledSigned"><span class="id" title="constructor">CTScaledSigned</span></a>                 ⇒ "SCALED_SIGNED"<br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.ChannelType.html#CTIntegerUnsigned"><span class="id" title="constructor">CTIntegerUnsigned</span></a>              ⇒ "INTEGER_UNSIGNED"<br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.ChannelType.html#CTIntegerSigned"><span class="id" title="constructor">CTIntegerSigned</span></a>                ⇒ "INTEGER_SIGNED"<br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.ChannelType.html#CTFloatIEEE754"><span class="id" title="constructor">CTFloatIEEE754</span></a>                 ⇒ "FLOATING_POINT_IEEE754"<br/>
+&nbsp;&nbsp;| <a class="idref" href="com.io7m.calino.ChannelType.html#CTCustom"><span class="id" title="constructor">CTCustom</span></a> <span class="id" title="var">d</span>                     ⇒ <span class="id" title="var">d</span><br/>
+&nbsp;&nbsp;<span class="id" title="keyword">end</span>.<br/>
+
+<br/>
+#[<span class="id" title="var">export</span>]<br/>
+<span class="id" title="keyword">Instance</span> <a id="channelTypeDescribable" class="idref" href="#channelTypeDescribable"><span class="id" title="instance">channelTypeDescribable</span></a> : <a class="idref" href="com.io7m.calino.Descriptor.html#describable"><span class="id" title="class">describable</span></a> <a class="idref" href="com.io7m.calino.ChannelType.html#channelType"><span class="id" title="inductive">channelType</span></a> := {<br/>
+&nbsp;&nbsp;<a class="idref" href="com.io7m.calino.Descriptor.html#descriptorOf"><span class="id" title="method">descriptorOf</span></a> <a id="c:5" class="idref" href="#c:5"><span class="id" title="binder">c</span></a> := <a class="idref" href="com.io7m.calino.ChannelType.html#channelTypeDescribe"><span class="id" title="definition">channelTypeDescribe</span></a> <a class="idref" href="com.io7m.calino.ChannelType.html#c:5"><span class="id" title="variable">c</span></a><br/>
+}.<br/>
+
+<br/>
+</div>
+</div>
+
+<div id="footer">
+<hr/><a href="index.html">Index</a><hr/>This page has been generated by <a href="http://rocq-prover.org/">coqdoc</a>
+</div>
+
+</div>
+
+</body>
+</html>

@@ -13,7 +13,7 @@
     <Term type="expression">s</Term>
     octets of data, followed by zero or more octets of padding such that the next section will begin on a 16
     octet boundary. Consumers that do not recognize the identifier of a given section can simply skip the
-    section by seeking forwards by <Term type="expression">s</Term> octets to find the next section.
+    section by seeking forwards by <Term type="expression">s</Term> octets, plus padding, to find the next section.
   </Paragraph>
 
   <Paragraph id="2d4988b3-86e5-4bbe-8fbe-526b5b2b16d5">
@@ -33,7 +33,7 @@
   </Paragraph>
 
   <Paragraph id="2ccedb5d-d5ec-40ba-a965-04bba40ce4ec">
-    Sections should start at offsets that are evenly divisible by 16.
+    Sections must start at offsets that are evenly divisible by 16.
   </Paragraph>
 
   <Paragraph>
