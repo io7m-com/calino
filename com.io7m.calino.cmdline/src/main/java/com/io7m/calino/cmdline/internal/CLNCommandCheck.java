@@ -16,84 +16,125 @@
 
 package com.io7m.calino.cmdline.internal;
 
-import com.beust.jcommander.Parameter;
-import com.beust.jcommander.Parameters;
 import com.io7m.calino.api.CLNFileReadableType;
 import com.io7m.calino.api.CLNVersion;
 import com.io7m.calino.validation.api.CLNValidationError;
 import com.io7m.calino.validation.api.CLNValidationRequest;
 import com.io7m.calino.validation.api.CLNValidators;
-import com.io7m.claypot.core.CLPCommandContextType;
+import com.io7m.quarrel.core.QCommandContextType;
+import com.io7m.quarrel.core.QCommandMetadata;
+import com.io7m.quarrel.core.QCommandStatus;
+import com.io7m.quarrel.core.QParameterNamed1;
+import com.io7m.quarrel.core.QParameterNamedType;
+import com.io7m.quarrel.core.QStringType.QConstant;
+import com.io7m.quarrel.core.QStringType.QLocalize;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.stream.Collectors;
+import java.io.IOException;
+import java.util.List;
+import java.util.Optional;
 
 import static com.io7m.calino.validation.api.CLNValidationStatus.STATUS_ERROR;
 import static com.io7m.calino.validation.api.CLNValidationStatus.STATUS_WARNING;
-import static com.io7m.claypot.core.CLPCommandType.Status.FAILURE;
-import static com.io7m.claypot.core.CLPCommandType.Status.SUCCESS;
+import static java.lang.Boolean.FALSE;
 
 /**
  * The 'check' command.
  */
 
-@Parameters(commandDescription = "Check a texture file.")
 public final class CLNCommandCheck extends CLNAbstractReadFileCommand
 {
   private static final Logger LOG =
     LoggerFactory.getLogger(CLNCommandCheck.class);
 
-  @Parameter(
-    description = "Treat validation warnings as errors",
-    arity = 1,
-    required = false,
-    names = "--warnings-as-errors")
-  private boolean warningsAsErrors;
+  private static final QParameterNamed1<Boolean> WARNINGS_AS_ERRORS =
+    new QParameterNamed1<>(
+      "--warnings-as-errors",
+      List.of(),
+      new QConstant("Treat validation warnings as errors."),
+      Optional.of(FALSE),
+      Boolean.class
+    );
 
-  @Parameter(
-    required = false,
-    description = "The requested file format version",
-    converter = CLNVersionStringConverter.class,
-    names = "--format-version")
-  private CLNVersion formatVersion = new CLNVersion(1, 0);
+  private static final QParameterNamed1<CLNVersion> FORMAT_VERSION =
+    new QParameterNamed1<>(
+      "--format-version",
+      List.of(),
+      new QConstant("The requested file format version."),
+      Optional.of(new CLNVersion(1, 0)),
+      CLNVersion.class
+    );
 
   /**
    * The 'check' command.
-   *
-   * @param inContext The context
    */
 
-  public CLNCommandCheck(
-    final CLPCommandContextType inContext)
+  public CLNCommandCheck()
   {
-    super(inContext);
+    super(
+      new QCommandMetadata(
+        "check",
+        new QConstant("Create a 2D texture from an existing image."),
+        Optional.of(new QLocalize("cmd.check.helpExt"))
+      )
+    );
+  }
+
+  private static void quoteSpec(
+    final CLNValidationError e)
+  {
+    e.specificationSectionId().ifPresent(id -> {
+      switch (e.status()) {
+        case STATUS_WARNING -> {
+          LOG.warn(
+            "  See https://www.io7m.com/software/calino/specification/index.xhtml#id_{} for details.",
+            id);
+        }
+        case STATUS_ERROR -> {
+          LOG.error(
+            "  See https://www.io7m.com/software/calino/specification/index.xhtml#id_{} for details.",
+            id);
+        }
+      }
+    });
   }
 
   @Override
-  public String extendedHelp()
+  protected List<QParameterNamedType<?>>
+  onListNamedParametersWithFile()
   {
-    return this.calinoStrings().format("cmd.check.helpExt");
+    return List.of(
+      FORMAT_VERSION,
+      WARNINGS_AS_ERRORS
+    );
   }
 
   @Override
-  protected Status executeWithReadFile(
+  protected QCommandStatus executeWithReadFile(
+    final QCommandContextType context,
     final CLNFileReadableType fileParsed)
+    throws IOException
   {
     final var validators = new CLNValidators();
 
+    final var formatVersion =
+      context.parameterValue(FORMAT_VERSION);
+    final var warningsAsErrors =
+      context.parameterValue(WARNINGS_AS_ERRORS);
+
     final var validatorFactoryOpt =
-      validators.findValidatorFactoryFor(this.formatVersion);
+      validators.findValidatorFactoryFor(formatVersion);
 
     if (validatorFactoryOpt.isEmpty()) {
       LOG.error(
-        "no available validators for format version {}",
-        this.formatVersion);
-      return FAILURE;
+        "No available validators for format version {}",
+        formatVersion);
+      return QCommandStatus.FAILURE;
     }
 
     final var request =
-      new CLNValidationRequest(fileParsed, this.source());
+      new CLNValidationRequest(fileParsed, source(context));
 
     final var validator =
       validatorFactoryOpt.get()
@@ -105,12 +146,12 @@ public final class CLNCommandCheck extends CLNAbstractReadFileCommand
     final var allErrors =
       errors.stream()
         .filter(e -> e.status() == STATUS_ERROR)
-        .collect(Collectors.toList());
+        .toList();
 
     final var allWarnings =
       errors.stream()
         .filter(e -> e.status() == STATUS_WARNING)
-        .collect(Collectors.toList());
+        .toList();
 
     for (final var e : allErrors) {
       LOG.error(
@@ -133,37 +174,16 @@ public final class CLNCommandCheck extends CLNAbstractReadFileCommand
     }
 
     if (!allErrors.isEmpty()) {
-      return FAILURE;
+      return QCommandStatus.FAILURE;
     }
 
-    if (this.warningsAsErrors) {
+    if (warningsAsErrors.booleanValue()) {
       if (!allWarnings.isEmpty()) {
         LOG.info("treating warnings as errors");
-        return FAILURE;
+        return QCommandStatus.FAILURE;
       }
     }
 
-    return SUCCESS;
-  }
-
-  private static void quoteSpec(
-    final CLNValidationError e)
-  {
-    e.specificationSectionId().ifPresent(id -> {
-      switch (e.status()) {
-        case STATUS_WARNING -> {
-          LOG.warn("  See https://www.io7m.com/software/calino/specification/index.xhtml#id_{} for details.", id);
-        }
-        case STATUS_ERROR -> {
-          LOG.error("  See https://www.io7m.com/software/calino/specification/index.xhtml#id_{} for details.", id);
-        }
-      }
-    });
-  }
-
-  @Override
-  public String name()
-  {
-    return "check";
+    return QCommandStatus.SUCCESS;
   }
 }

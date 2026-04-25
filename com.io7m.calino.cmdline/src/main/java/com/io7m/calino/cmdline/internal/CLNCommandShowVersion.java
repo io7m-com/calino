@@ -16,46 +16,51 @@
 
 package com.io7m.calino.cmdline.internal;
 
-import com.beust.jcommander.Parameters;
 import com.io7m.calino.api.CLNFileReadableType;
-import com.io7m.claypot.core.CLPCommandContextType;
+import com.io7m.quarrel.core.QCommandContextType;
+import com.io7m.quarrel.core.QCommandMetadata;
+import com.io7m.quarrel.core.QCommandStatus;
+import com.io7m.quarrel.core.QParameterNamedType;
+import com.io7m.quarrel.core.QStringType.QConstant;
+import com.io7m.quarrel.core.QStringType.QLocalize;
+
+import java.util.List;
+import java.util.Optional;
 
 /**
  * The 'show-version' command.
  */
 
-@Parameters(commandDescription = "Display texture file version.")
-public final class CLNCommandShowVersion extends CLNAbstractReadFileCommand
+public final class CLNCommandShowVersion
+  extends CLNAbstractReadFileCommand
 {
   /**
    * The 'show-version' command.
-   *
-   * @param inContext The context
    */
 
-  public CLNCommandShowVersion(
-    final CLPCommandContextType inContext)
+  public CLNCommandShowVersion()
   {
-    super(inContext);
+    super(
+      new QCommandMetadata(
+        "show-version",
+        new QConstant("Display texture file version."),
+        Optional.of(new QLocalize("cmd.show-version.helpExt"))
+      )
+    );
   }
 
   @Override
-  public String extendedHelp()
+  protected List<QParameterNamedType<?>> onListNamedParametersWithFile()
   {
-    return this.calinoStrings().format("cmd.show-version.helpExt");
+    return List.of();
   }
 
   @Override
-  protected Status executeWithReadFile(
+  protected QCommandStatus executeWithReadFile(
+    final QCommandContextType context,
     final CLNFileReadableType fileParsed)
   {
-    System.out.printf("version: %s%n", fileParsed.version());
-    return Status.SUCCESS;
-  }
-
-  @Override
-  public String name()
-  {
-    return "show-version";
+    context.output().printf("version: %s%n", fileParsed.version());
+    return QCommandStatus.SUCCESS;
   }
 }

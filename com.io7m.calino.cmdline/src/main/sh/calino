@@ -35,7 +35,7 @@ CALINO_JAR_FILE="${CALINO_HOME}/${CALINO_JAR_NAME}"
 
 if [ ! -z "${CALINO_JVM_OPTIONS}" ]
 then
-  exec java ${CALINO_JVM_OPTIONS} -jar "${CALINO_JAR_FILE}" "$@"
+  exec java ${CALINO_JVM_OPTIONS} --enable-native-access=org.lz4.java -jar "${CALINO_JAR_FILE}" "$@"
 else
-  exec java -jar "${CALINO_JAR_FILE}" "$@"
+  exec java  --enable-native-access=org.lz4.java -jar "${CALINO_JAR_FILE}" "$@"
 fi

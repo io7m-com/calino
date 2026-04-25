@@ -16,31 +16,55 @@
 
 package com.io7m.calino.cmdline.internal;
 
-import com.io7m.claypot.core.CLPAbstractCommand;
-import com.io7m.claypot.core.CLPCommandContextType;
+import com.io7m.quarrel.core.QCommandMetadata;
+import com.io7m.quarrel.core.QCommandType;
+import com.io7m.quarrel.core.QParameterNamedType;
+import com.io7m.quarrel.ext.logback.QLogback;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 /**
  * An abstract calino command.
  */
 
-public abstract class CLNAbstractCommand extends CLPAbstractCommand
+public abstract class CLNAbstractCommand implements QCommandType
 {
   private final CLNStrings calinoStrings;
+  private final QCommandMetadata metadata;
 
   CLNAbstractCommand(
-    final Locale locale,
-    final CLPCommandContextType inContext)
+    final QCommandMetadata inMetadata)
   {
-    super(inContext);
+    this.metadata =
+      Objects.requireNonNull(inMetadata, "Metadata");
+
     try {
-      this.calinoStrings = new CLNStrings(locale);
+      this.calinoStrings = new CLNStrings(Locale.getDefault());
     } catch (final IOException e) {
       throw new UncheckedIOException(e);
     }
+  }
+
+  protected abstract List<QParameterNamedType<?>> onListNamedParametersActual();
+
+  @Override
+  public final List<QParameterNamedType<?>> onListNamedParameters()
+  {
+    final var parameters = new ArrayList<QParameterNamedType<?>>(16);
+    parameters.addAll(QLogback.parameters());
+    parameters.addAll(this.onListNamedParametersActual());
+    return List.copyOf(parameters);
+  }
+
+  @Override
+  public final QCommandMetadata metadata()
+  {
+    return this.metadata;
   }
 
   /**

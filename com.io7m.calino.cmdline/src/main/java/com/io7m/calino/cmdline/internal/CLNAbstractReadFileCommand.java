@@ -16,20 +16,25 @@
 
 package com.io7m.calino.cmdline.internal;
 
-import com.beust.jcommander.Parameter;
 import com.io7m.calino.api.CLNFileReadableType;
 import com.io7m.calino.parser.api.CLNParseRequest;
 import com.io7m.calino.parser.api.CLNParsers;
 import com.io7m.calino.supercompression.api.CLNDecompressors;
-import com.io7m.claypot.core.CLPCommandContextType;
-import com.io7m.claypot.core.CLPCommandType;
 import com.io7m.jmulticlose.core.CloseableCollection;
+import com.io7m.quarrel.core.QCommandContextType;
+import com.io7m.quarrel.core.QCommandMetadata;
+import com.io7m.quarrel.core.QCommandStatus;
+import com.io7m.quarrel.core.QParameterNamed1;
+import com.io7m.quarrel.core.QParameterNamedType;
+import com.io7m.quarrel.core.QStringType;
 
 import java.io.IOException;
 import java.net.URI;
 import java.nio.channels.FileChannel;
 import java.nio.file.Path;
-import java.util.Locale;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 import static java.nio.file.StandardOpenOption.READ;
 
@@ -40,49 +45,69 @@ import static java.nio.file.StandardOpenOption.READ;
 public abstract class CLNAbstractReadFileCommand
   extends CLNAbstractCommand
 {
-  @Parameter(
-    required = true,
-    description = "The texture file",
-    names = "--file")
-  private Path file;
+  private static final QParameterNamed1<Path> FILE =
+    new QParameterNamed1<>(
+      "--file",
+      List.of(),
+      new QStringType.QConstant("The texture file."),
+      Optional.empty(),
+      Path.class
+    );
 
-  /**
-   * @param inContext The context
-   */
-
-  public CLNAbstractReadFileCommand(
-    final CLPCommandContextType inContext)
+  CLNAbstractReadFileCommand(
+    final QCommandMetadata inMetadata)
   {
-    super(Locale.getDefault(), inContext);
+    super(
+      inMetadata
+    );
+  }
+
+  protected abstract List<QParameterNamedType<?>> onListNamedParametersWithFile();
+
+  @Override
+  public final List<QParameterNamedType<?>> onListNamedParametersActual()
+  {
+    final var parameters = new ArrayList<QParameterNamedType<?>>();
+    parameters.add(FILE);
+    parameters.addAll(this.onListNamedParametersWithFile());
+    return List.copyOf(parameters);
   }
 
   @Override
-  protected final CLPCommandType.Status executeActual()
+  public final QCommandStatus onExecute(
+    final QCommandContextType context)
     throws Exception
   {
-    final var parsers = new CLNParsers();
-    final var compressors = new CLNDecompressors();
+    final var parsers =
+      new CLNParsers();
+    final var compressors =
+      new CLNDecompressors();
+    final var file =
+      context.parameterValue(FILE);
 
     try (var resources = CloseableCollection.create()) {
       final var channel =
-        resources.add(FileChannel.open(this.file, READ));
+        resources.add(FileChannel.open(file, READ));
       final var request =
-        CLNParseRequest.builder(compressors, channel, this.file.toUri())
+        CLNParseRequest.builder(compressors, channel, file.toUri())
           .build();
       final var parser =
         resources.add(parsers.createParser(request));
       final var fileParsed =
         resources.add(parser.execute());
 
-      return this.executeWithReadFile(fileParsed);
+      return this.executeWithReadFile(context, fileParsed);
     }
   }
 
-  protected final URI source()
+  protected static URI source(
+    final QCommandContextType context)
   {
-    return this.file.toUri();
+    return context.parameterValue(FILE).toUri();
   }
 
-  protected abstract Status executeWithReadFile(CLNFileReadableType fileParsed)
+  protected abstract QCommandStatus executeWithReadFile(
+    QCommandContextType context,
+    CLNFileReadableType fileParsed)
     throws IOException;
 }

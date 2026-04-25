@@ -16,6 +16,7 @@
 
 package com.io7m.calino.cmdline;
 
+import com.io7m.calino.cmdline.internal.CLNChannelsLayoutDescriptionConverter;
 import com.io7m.calino.cmdline.internal.CLNCommandCheck;
 import com.io7m.calino.cmdline.internal.CLNCommandCreate2D;
 import com.io7m.calino.cmdline.internal.CLNCommandCreateArray;
@@ -28,28 +29,99 @@ import com.io7m.calino.cmdline.internal.CLNCommandShowMetadata;
 import com.io7m.calino.cmdline.internal.CLNCommandShowSections;
 import com.io7m.calino.cmdline.internal.CLNCommandShowSummary;
 import com.io7m.calino.cmdline.internal.CLNCommandShowVersion;
-import com.io7m.calino.cmdline.internal.CLNCommandVersion;
-import com.io7m.claypot.core.CLPApplicationConfiguration;
-import com.io7m.claypot.core.Claypot;
+import com.io7m.calino.cmdline.internal.CLNStrings;
+import com.io7m.calino.cmdline.internal.CLNSuperCompressionMethodConverter;
+import com.io7m.calino.cmdline.internal.CLNVersionConverter;
+import com.io7m.quarrel.core.QApplication;
+import com.io7m.quarrel.core.QApplicationMetadata;
+import com.io7m.quarrel.core.QApplicationType;
+import com.io7m.quarrel.core.QValueConverterDirectory;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.net.URI;
+import java.util.List;
+import java.util.Locale;
+import java.util.Objects;
+import java.util.Optional;
 
 /**
  * The main command-line entry point.
  */
 
-public final class CLNMain
+public final class CLNMain implements Runnable
 {
-  private CLNMain()
-  {
+  private static final Logger LOG =
+    LoggerFactory.getLogger(CLNMain.class);
 
+  private final List<String> args;
+  private final QApplicationType application;
+  private int exitCode;
+
+  /**
+   * The main entry point.
+   *
+   * @param inArgs Command-line arguments
+   */
+
+  public CLNMain(
+    final String[] inArgs)
+  {
+    this.args =
+      Objects.requireNonNull(List.of(inArgs), "Command line arguments");
+
+    final var metadata =
+      new QApplicationMetadata(
+        "calino",
+        "com.io7m.calino",
+        CLNMainVersion.MAIN_VERSION,
+        CLNMainVersion.MAIN_BUILD,
+        "The calino command-line application.",
+        Optional.of(URI.create("https://www.io7m.com/software/calino/"))
+      );
+
+    final var builder =
+      QApplication.builder(metadata);
+
+    try {
+      builder.setApplicationResources(
+        new CLNStrings(Locale.getDefault()).resources());
+    } catch (final IOException e) {
+      throw new UncheckedIOException(e);
+    }
+
+    builder.setValueConverters(
+      QValueConverterDirectory.core()
+        .with(new CLNChannelsLayoutDescriptionConverter())
+        .with(new CLNSuperCompressionMethodConverter())
+        .with(new CLNVersionConverter())
+    );
+
+    builder.addCommand(new CLNCommandCheck());
+    builder.addCommand(new CLNCommandCreate2D());
+    builder.addCommand(new CLNCommandCreateArray());
+    builder.addCommand(new CLNCommandCreateCube());
+    builder.addCommand(new CLNCommandExtractImageData2D());
+    builder.addCommand(new CLNCommandExtractImageDataArray());
+    builder.addCommand(new CLNCommandExtractImageDataCube());
+    builder.addCommand(new CLNCommandShowImageInfo());
+    builder.addCommand(new CLNCommandShowMetadata());
+    builder.addCommand(new CLNCommandShowSections());
+    builder.addCommand(new CLNCommandShowSummary());
+    builder.addCommand(new CLNCommandShowVersion());
+
+    builder.allowAtSyntax(true);
+
+    this.application = builder.build();
+    this.exitCode = 0;
   }
 
   /**
-   * The main command-line entry point.
+   * The main entry point.
    *
-   * @param args The command-line arguments
+   * @param args Command line arguments
    */
 
   public static void main(
@@ -59,39 +131,51 @@ public final class CLNMain
   }
 
   /**
-   * The main command-line entry point.
+   * The main (exitless) entry point.
    *
-   * @param args The command-line arguments
+   * @param args Command line arguments
    *
-   * @return A program exit code
+   * @return The exit code
    */
 
   public static int mainExitless(
     final String[] args)
   {
-    final var configuration =
-      CLPApplicationConfiguration.builder()
-        .setLogger(LoggerFactory.getLogger(CLNMain.class))
-        .setDocumentationURI(URI.create(
-          "https://www.io7m.com/software/calino/documentation/index.xhtml"))
-        .setProgramName("calino")
-        .addCommands(CLNCommandCheck::new)
-        .addCommands(CLNCommandCreate2D::new)
-        .addCommands(CLNCommandCreateArray::new)
-        .addCommands(CLNCommandCreateCube::new)
-        .addCommands(CLNCommandExtractImageData2D::new)
-        .addCommands(CLNCommandExtractImageDataArray::new)
-        .addCommands(CLNCommandExtractImageDataCube::new)
-        .addCommands(CLNCommandShowImageInfo::new)
-        .addCommands(CLNCommandShowMetadata::new)
-        .addCommands(CLNCommandShowSections::new)
-        .addCommands(CLNCommandShowSummary::new)
-        .addCommands(CLNCommandShowVersion::new)
-        .addCommands(CLNCommandVersion::new)
-        .build();
+    final CLNMain cm = new CLNMain(args);
+    cm.run();
+    return cm.exitCode();
+  }
 
-    final var claypot = Claypot.create(configuration);
-    claypot.execute(args);
-    return claypot.exitCode();
+  /**
+   * @return The quarrel application
+   */
+
+  public QApplicationType application()
+  {
+    return this.application;
+  }
+
+  /**
+   * @return The program exit code
+   */
+
+  public int exitCode()
+  {
+    return this.exitCode;
+  }
+
+  @Override
+  public void run()
+  {
+    this.exitCode = this.application.run(LOG, this.args).exitCode();
+  }
+
+  @Override
+  public String toString()
+  {
+    return String.format(
+      "[CLNMain 0x%s]",
+      Long.toUnsignedString(System.identityHashCode(this), 16)
+    );
   }
 }
