@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
   <parent>
@@ -46,8 +48,9 @@
 
     <!-- io7m dependencies. -->
     <com.io7m.jbssio.version>3.0.0</com.io7m.jbssio.version>
-    <com.io7m.xstructural.version>2.0.1</com.io7m.xstructural.version>
     <com.io7m.jxtrand.version>2.1.0</com.io7m.jxtrand.version>
+    <com.io7m.quarrel.version>1.8.1-SNAPSHOT</com.io7m.quarrel.version>
+    <com.io7m.xstructural.version>2.0.1</com.io7m.xstructural.version>
 
     <!-- Third-party dependencies. -->
     <org.junit.version>6.0.3</org.junit.version>
@@ -107,11 +110,6 @@
         <groupId>com.io7m.wendover</groupId>
         <artifactId>com.io7m.wendover.core</artifactId>
         <version>1.0.2</version>
-      </dependency>
-      <dependency>
-        <groupId>com.io7m.claypot</groupId>
-        <artifactId>com.io7m.claypot.core</artifactId>
-        <version>0.0.8</version>
       </dependency>
       <dependency>
         <groupId>com.io7m.jxtrand</groupId>
@@ -191,14 +189,16 @@
         <version>1.1.2</version>
       </dependency>
       <dependency>
-        <groupId>com.beust</groupId>
-        <artifactId>jcommander</artifactId>
-        <version>1.82</version>
-      </dependency>
-      <dependency>
         <groupId>com.io7m.primogenitor</groupId>
         <artifactId>com.io7m.primogenitor.support</artifactId>
         <version>9.2.0</version>
+      </dependency>
+      <dependency>
+        <groupId>com.io7m.quarrel</groupId>
+        <artifactId>com.io7m.quarrel.bom</artifactId>
+        <version>${com.io7m.quarrel.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
       </dependency>
     </dependencies>
   </dependencyManagement>

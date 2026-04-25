@@ -1,5 +1,9 @@
+CLNMainVersion(
+  appVersion,
+  appBuild) ::= <<
+
 /*
- * Copyright © 2021 Mark Raynsford <code@io7m.com> https://www.io7m.com
+ * Copyright © 2026 Mark Raynsford \<code@io7m.com\> https://www.io7m.com
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -14,37 +18,17 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.calino.cmdline.internal;
+package com.io7m.calino.cmdline;
 
-import com.beust.jcommander.IStringConverter;
-import com.io7m.calino.api.CLNVersion;
-
-import java.text.ParseException;
-
-/**
- * A version string converter.
- */
-
-public final class CLNVersionStringConverter
-  implements IStringConverter<CLNVersion>
+public final class CLNMainVersion
 {
-  /**
-   * A version string converter.
-   */
+  public static final String MAIN_VERSION = "<appVersion>";
+  public static final String MAIN_BUILD = "<appBuild>";
 
-  public CLNVersionStringConverter()
+  private CLNMainVersion()
   {
 
-  }
-
-  @Override
-  public CLNVersion convert(
-    final String value)
-  {
-    try {
-      return CLNVersion.parse(value);
-    } catch (final ParseException e) {
-      throw new IllegalArgumentException(e);
-    }
   }
 }
+
+>>

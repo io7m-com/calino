@@ -16,8 +16,9 @@
 
 package com.io7m.calino.cmdline.internal;
 
-import com.io7m.calino.api.CLNSuperCompressionMethodStandard;
-import com.io7m.calino.api.CLNSuperCompressionMethodType;
+import com.io7m.calino.api.CLNChannelsLayoutDescriptionStandard;
+import com.io7m.calino.api.CLNChannelsLayoutDescriptionType;
+import com.io7m.calino.api.CLNChannelsLayoutDescriptions;
 import com.io7m.quarrel.core.QException;
 import com.io7m.quarrel.core.QValueConverterType;
 
@@ -30,25 +31,25 @@ import java.util.Optional;
  * A value converter.
  */
 
-public final class CLNSuperCompressionMethodConverter
-  implements QValueConverterType<CLNSuperCompressionMethodType>
+public final class CLNChannelsLayoutDescriptionConverter
+  implements QValueConverterType<CLNChannelsLayoutDescriptionType>
 {
   /**
    * A value converter.
    */
 
-  public CLNSuperCompressionMethodConverter()
+  public CLNChannelsLayoutDescriptionConverter()
   {
 
   }
 
   @Override
-  public CLNSuperCompressionMethodType convertFromString(
+  public CLNChannelsLayoutDescriptionType convertFromString(
     final String text)
     throws QException
   {
     try {
-      return CLNSuperCompressionMethodType.parse(text, 0L);
+      return CLNChannelsLayoutDescriptions.parseLayoutDescriptor(text);
     } catch (final Exception e) {
       throw new QException(
         Objects.requireNonNullElse(e.getMessage(), e.getClass().getName()),
@@ -62,15 +63,15 @@ public final class CLNSuperCompressionMethodConverter
 
   @Override
   public String convertToString(
-    final CLNSuperCompressionMethodType value)
+    final CLNChannelsLayoutDescriptionType value)
   {
     return value.descriptor();
   }
 
   @Override
-  public CLNSuperCompressionMethodType exampleValue()
+  public CLNChannelsLayoutDescriptionType exampleValue()
   {
-    return CLNSuperCompressionMethodStandard.LZ4;
+    return CLNChannelsLayoutDescriptionStandard.R5_G6_B5;
   }
 
   @Override
@@ -80,8 +81,8 @@ public final class CLNSuperCompressionMethodConverter
   }
 
   @Override
-  public Class<CLNSuperCompressionMethodType> convertedClass()
+  public Class<CLNChannelsLayoutDescriptionType> convertedClass()
   {
-    return CLNSuperCompressionMethodType.class;
+    return CLNChannelsLayoutDescriptionType.class;
   }
 }

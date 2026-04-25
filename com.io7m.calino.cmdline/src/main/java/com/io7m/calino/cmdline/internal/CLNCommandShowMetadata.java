@@ -16,23 +16,25 @@
 
 package com.io7m.calino.cmdline.internal;
 
-import com.beust.jcommander.Parameters;
 import com.io7m.calino.api.CLNFileReadableType;
-import com.io7m.claypot.core.CLPCommandContextType;
+import com.io7m.quarrel.core.QCommandContextType;
+import com.io7m.quarrel.core.QCommandMetadata;
+import com.io7m.quarrel.core.QCommandStatus;
+import com.io7m.quarrel.core.QParameterNamedType;
+import com.io7m.quarrel.core.QStringType.QConstant;
+import com.io7m.quarrel.core.QStringType.QLocalize;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
-
-import static com.io7m.claypot.core.CLPCommandType.Status.FAILURE;
-import static com.io7m.claypot.core.CLPCommandType.Status.SUCCESS;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * The 'show-metadata' command.
  */
 
-@Parameters(commandDescription = "Display texture file metadata.")
 public final class CLNCommandShowMetadata extends CLNAbstractReadFileCommand
 {
   private static final Logger LOG =
@@ -40,24 +42,29 @@ public final class CLNCommandShowMetadata extends CLNAbstractReadFileCommand
 
   /**
    * The 'show-metadata' command.
-   *
-   * @param inContext The context
    */
 
-  public CLNCommandShowMetadata(
-    final CLPCommandContextType inContext)
+  public CLNCommandShowMetadata()
   {
-    super(inContext);
+    super(
+      new QCommandMetadata(
+        "show-metadata",
+        new QConstant("Display texture file metadata."),
+        Optional.of(new QLocalize("cmd.show-metadata.helpExt"))
+      )
+    );
   }
 
   @Override
-  public String extendedHelp()
+  protected List<QParameterNamedType<?>>
+  onListNamedParametersWithFile()
   {
-    return this.calinoStrings().format("cmd.show-metadata.helpExt");
+    return List.of();
   }
 
   @Override
-  protected Status executeWithReadFile(
+  protected QCommandStatus executeWithReadFile(
+    final QCommandContextType context,
     final CLNFileReadableType fileParsed)
     throws IOException
   {
@@ -65,8 +72,8 @@ public final class CLNCommandShowMetadata extends CLNAbstractReadFileCommand
       fileParsed.openMetadata();
 
     if (sectionMetadata.isEmpty()) {
-      LOG.error("no metadata section is present");
-      return FAILURE;
+      LOG.error("No metadata section is present");
+      return QCommandStatus.FAILURE;
     }
 
     try (var section = sectionMetadata.orElseThrow()) {
@@ -76,17 +83,11 @@ public final class CLNCommandShowMetadata extends CLNAbstractReadFileCommand
       keys.sort(String::compareTo);
       for (final var key : keys) {
         final var val = metadata.get(key);
-        System.out.printf("%s: %s%n", key, val);
+        context.output().printf("%s: %s%n", key, val);
       }
-      System.out.flush();
+      context.output().flush();
     }
 
-    return SUCCESS;
-  }
-
-  @Override
-  public String name()
-  {
-    return "show-metadata";
+    return QCommandStatus.SUCCESS;
   }
 }

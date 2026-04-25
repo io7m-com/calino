@@ -16,8 +16,7 @@
 
 package com.io7m.calino.cmdline.internal;
 
-import com.io7m.calino.api.CLNSuperCompressionMethodStandard;
-import com.io7m.calino.api.CLNSuperCompressionMethodType;
+import com.io7m.calino.api.CLNVersion;
 import com.io7m.quarrel.core.QException;
 import com.io7m.quarrel.core.QValueConverterType;
 
@@ -30,25 +29,25 @@ import java.util.Optional;
  * A value converter.
  */
 
-public final class CLNSuperCompressionMethodConverter
-  implements QValueConverterType<CLNSuperCompressionMethodType>
+public final class CLNVersionConverter
+  implements QValueConverterType<CLNVersion>
 {
   /**
    * A value converter.
    */
 
-  public CLNSuperCompressionMethodConverter()
+  public CLNVersionConverter()
   {
 
   }
 
   @Override
-  public CLNSuperCompressionMethodType convertFromString(
+  public CLNVersion convertFromString(
     final String text)
     throws QException
   {
     try {
-      return CLNSuperCompressionMethodType.parse(text, 0L);
+      return CLNVersion.parse(text);
     } catch (final Exception e) {
       throw new QException(
         Objects.requireNonNullElse(e.getMessage(), e.getClass().getName()),
@@ -62,26 +61,26 @@ public final class CLNSuperCompressionMethodConverter
 
   @Override
   public String convertToString(
-    final CLNSuperCompressionMethodType value)
+    final CLNVersion value)
   {
-    return value.descriptor();
+    return value.toString();
   }
 
   @Override
-  public CLNSuperCompressionMethodType exampleValue()
+  public CLNVersion exampleValue()
   {
-    return CLNSuperCompressionMethodStandard.LZ4;
+    return new CLNVersion(2, 3);
   }
 
   @Override
   public String syntax()
   {
-    return "<descriptor-string>";
+    return CLNVersion.VALID_VERSION.pattern();
   }
 
   @Override
-  public Class<CLNSuperCompressionMethodType> convertedClass()
+  public Class<CLNVersion> convertedClass()
   {
-    return CLNSuperCompressionMethodType.class;
+    return CLNVersion.class;
   }
 }

@@ -89,7 +89,7 @@ public final class CLNCommandLineTest
     final var r = CLNMain.mainExitless(new String[]{
 
     });
-    assertEquals(1, r);
+    assertEquals(0, r);
   }
 
   @Test

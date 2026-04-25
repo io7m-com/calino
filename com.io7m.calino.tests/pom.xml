@@ -21,6 +21,13 @@
   <properties>
     <mdep.analyze.skip>true</mdep.analyze.skip>
     <checkstyle.skip>true</checkstyle.skip>
+
+    <io7m.surefire.extraArguments>
+      --enable-native-access=org.lz4.java
+    </io7m.surefire.extraArguments>
+    <io7m.failsafe.extraArguments>
+      --enable-native-access=org.lz4.java
+    </io7m.failsafe.extraArguments>
   </properties>
 
   <dependencies>
