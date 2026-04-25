@@ -13,7 +13,7 @@
 
   <groupId>com.io7m.calino</groupId>
   <artifactId>com.io7m.calino</artifactId>
-  <version>1.0.0-beta0001</version>
+  <version>1.0.0-SNAPSHOT</version>
 
   <packaging>pom</packaging>
   <name>com.io7m.calino</name>
@@ -44,7 +44,7 @@
     <io7m.workID>86b0fe50-32a5-3061-9d08-21db6db76f40</io7m.workID>
 
     <!-- Configuration. -->
-    <io7m.api.previousVersion>0.0.2-SNAPSHOT</io7m.api.previousVersion>
+    <io7m.api.previousVersion>1.0.0-beta0001</io7m.api.previousVersion>
     <io7m.java.targetJavaVersion>25</io7m.java.targetJavaVersion>
 
     <!-- io7m dependencies. -->
