@@ -274,7 +274,10 @@ public final class CLNImageViews implements CLNImageViewFactoryType
   {
     return switch (standard) {
       case A1_R5_G5_B5, R5_G6_B5, R4_G4_B4_A4 -> {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException(
+          "Scaled signed integer formats of layout %s are not yet supported."
+            .formatted(standard)
+        );
       }
       case R8, R8_G8, R8_G8_B8_A8, R8_G8_B8 -> {
         yield new CLNImageView2DScaledS8(
@@ -320,7 +323,10 @@ public final class CLNImageViews implements CLNImageViewFactoryType
   {
     return switch (standard) {
       case A1_R5_G5_B5, R5_G6_B5, R4_G4_B4_A4 -> {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException(
+          "Scaled unsigned integer formats of layout %s are not yet supported."
+            .formatted(standard)
+        );
       }
       case R8, R8_G8, R8_G8_B8_A8, R8_G8_B8 -> {
         yield new CLNImageView2DScaledU8(
@@ -365,11 +371,12 @@ public final class CLNImageViews implements CLNImageViewFactoryType
     final int componentCount)
   {
     return switch (standard) {
-      case A1_R5_G5_B5, R5_G6_B5, R4_G4_B4_A4 -> {
-        throw new UnsupportedOperationException();
-      }
-      case R8, R8_G8, R8_G8_B8_A8, R8_G8_B8 -> {
-        throw new UnsupportedOperationException();
+      case A1_R5_G5_B5, R5_G6_B5, R4_G4_B4_A4, R8, R8_G8, R8_G8_B8_A8,
+           R8_G8_B8 -> {
+        throw new UnsupportedOperationException(
+          "Signed floating-point formats of layout %s are not yet supported."
+            .formatted(standard)
+        );
       }
       case R16, R16_G16_B16_A16, R16_G16_B16, R16_G16 -> {
         yield new CLNImageView2DFixedSF16(
@@ -455,7 +462,10 @@ public final class CLNImageViews implements CLNImageViewFactoryType
   {
     return switch (standard) {
       case A1_R5_G5_B5, R5_G6_B5, R4_G4_B4_A4 -> {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException(
+          "Signed fixed-point formats of layout %s are not yet supported."
+            .formatted(standard)
+        );
       }
       case R8, R8_G8, R8_G8_B8_A8, R8_G8_B8 -> {
         yield new CLNImageView2DFixedS8(
