@@ -26,5 +26,9 @@ module com.io7m.calino.imageview
   requires transitive com.io7m.calino.api;
   requires transitive com.io7m.calino.imageproc.api;
 
+  requires com.io7m.ieee754b16.core;
+  requires com.io7m.junreachable.core;
+  requires com.io7m.junsigned.core;
+
   exports com.io7m.calino.imageview;
 }

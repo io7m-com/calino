@@ -25,6 +25,13 @@ import com.io7m.calino.api.CLNImageDescriptionType;
 import com.io7m.calino.api.CLNImageInfo;
 import com.io7m.calino.imageproc.api.CLNImageView2DType;
 import com.io7m.calino.imageproc.api.CLNImageViewFactoryType;
+import com.io7m.calino.imageview.internal.CLNImageView2DFixedS16;
+import com.io7m.calino.imageview.internal.CLNImageView2DFixedS32;
+import com.io7m.calino.imageview.internal.CLNImageView2DFixedS64;
+import com.io7m.calino.imageview.internal.CLNImageView2DFixedS8;
+import com.io7m.calino.imageview.internal.CLNImageView2DFixedSF16;
+import com.io7m.calino.imageview.internal.CLNImageView2DFixedSF32;
+import com.io7m.calino.imageview.internal.CLNImageView2DFixedSF64;
 import com.io7m.calino.imageview.internal.CLNImageView2DFixedU1555;
 import com.io7m.calino.imageview.internal.CLNImageView2DFixedU16;
 import com.io7m.calino.imageview.internal.CLNImageView2DFixedU32;
@@ -65,7 +72,7 @@ public final class CLNImageViews implements CLNImageViewFactoryType
     checkDataSize(image2DDescription, data);
 
     final var layout = imageInfo.channelsLayout();
-    if (layout instanceof CLNChannelsLayoutDescriptionStandard standard) {
+    if (layout instanceof final CLNChannelsLayoutDescriptionStandard standard) {
       return createImageView2DStandard(
         imageInfo,
         data,
@@ -96,7 +103,7 @@ public final class CLNImageViews implements CLNImageViewFactoryType
     checkDataSize(imageArrayDescription, data);
 
     final var layout = imageInfo.channelsLayout();
-    if (layout instanceof CLNChannelsLayoutDescriptionStandard standard) {
+    if (layout instanceof final CLNChannelsLayoutDescriptionStandard standard) {
       return createImageView2DStandard(
         imageInfo,
         data,
@@ -127,7 +134,7 @@ public final class CLNImageViews implements CLNImageViewFactoryType
     checkDataSize(imageCubeDescription, data);
 
     final var layout = imageInfo.channelsLayout();
-    if (layout instanceof CLNChannelsLayoutDescriptionStandard standard) {
+    if (layout instanceof final CLNChannelsLayoutDescriptionStandard standard) {
       return createImageView2DStandard(
         imageInfo,
         data,
@@ -177,7 +184,7 @@ public final class CLNImageViews implements CLNImageViewFactoryType
     final var componentCount = standard.channels().size();
 
     final var type = imageInfo.channelsType();
-    if (type instanceof CLNChannelsTypeDescriptionStandard typeStandard) {
+    if (type instanceof final CLNChannelsTypeDescriptionStandard typeStandard) {
       return switch (typeStandard) {
         case FIXED_POINT_NORMALIZED_UNSIGNED -> {
           yield createImageView2DFixedU(
@@ -188,10 +195,29 @@ public final class CLNImageViews implements CLNImageViewFactoryType
             componentCount
           );
         }
-        case FIXED_POINT_NORMALIZED_SIGNED,
-          FLOATING_POINT_IEEE754_UNSIGNED,
-          FLOATING_POINT_IEEE754_SIGNED,
-          INTEGER_SIGNED,
+
+        case FIXED_POINT_NORMALIZED_SIGNED -> {
+          yield createImageView2DFixedS(
+            imageInfo,
+            data,
+            standard,
+            mipLevel,
+            componentCount
+          );
+        }
+
+        case FLOATING_POINT_IEEE754_SIGNED -> {
+          yield createImageView2DFixedSF(
+            imageInfo,
+            data,
+            standard,
+            mipLevel,
+            componentCount
+          );
+        }
+
+        case FLOATING_POINT_IEEE754_UNSIGNED,
+             INTEGER_SIGNED,
           INTEGER_UNSIGNED,
           SCALED_SIGNED,
           SCALED_UNSIGNED -> {
@@ -213,6 +239,47 @@ public final class CLNImageViews implements CLNImageViewFactoryType
         .append(" are not supported")
         .toString()
     );
+  }
+
+  private static CLNImageView2DType createImageView2DFixedSF(
+    final CLNImageInfo imageInfo,
+    final byte[] data,
+    final CLNChannelsLayoutDescriptionStandard standard,
+    final int mipLevel,
+    final int componentCount)
+  {
+    return switch (standard) {
+      case A1_R5_G5_B5, R5_G6_B5, R4_G4_B4_A4 -> {
+        throw new UnsupportedOperationException();
+      }
+      case R8, R8_G8, R8_G8_B8_A8, R8_G8_B8 -> {
+        throw new UnsupportedOperationException();
+      }
+      case R16, R16_G16_B16_A16, R16_G16_B16, R16_G16 -> {
+        yield new CLNImageView2DFixedSF16(
+          imageInfo,
+          mipLevel,
+          data,
+          componentCount
+        );
+      }
+      case R32, R32_G32_B32_A32, R32_G32_B32, R32_G32 -> {
+        yield new CLNImageView2DFixedSF32(
+          imageInfo,
+          mipLevel,
+          data,
+          componentCount
+        );
+      }
+      case R64, R64_G64_B64_A64, R64_G64_B64, R64_G64 -> {
+        yield new CLNImageView2DFixedSF64(
+          imageInfo,
+          mipLevel,
+          data,
+          componentCount
+        );
+      }
+    };
   }
 
   private static CLNImageView2DType createImageView2DFixedU(
@@ -259,6 +326,52 @@ public final class CLNImageViews implements CLNImageViewFactoryType
           mipLevel,
           data,
           componentCount);
+      }
+    };
+  }
+
+  private static CLNImageView2DType createImageView2DFixedS(
+    final CLNImageInfo imageInfo,
+    final byte[] data,
+    final CLNChannelsLayoutDescriptionStandard standard,
+    final int mipLevel,
+    final int componentCount)
+  {
+    return switch (standard) {
+      case A1_R5_G5_B5, R5_G6_B5, R4_G4_B4_A4 -> {
+        throw new UnsupportedOperationException();
+      }
+      case R8, R8_G8, R8_G8_B8_A8, R8_G8_B8 -> {
+        yield new CLNImageView2DFixedS8(
+          imageInfo,
+          mipLevel,
+          data,
+          componentCount
+        );
+      }
+      case R16, R16_G16_B16_A16, R16_G16_B16, R16_G16 -> {
+        yield new CLNImageView2DFixedS16(
+          imageInfo,
+          mipLevel,
+          data,
+          componentCount
+        );
+      }
+      case R32, R32_G32_B32_A32, R32_G32_B32, R32_G32 -> {
+        yield new CLNImageView2DFixedS32(
+          imageInfo,
+          mipLevel,
+          data,
+          componentCount
+        );
+      }
+      case R64, R64_G64_B64_A64, R64_G64_B64, R64_G64 -> {
+        yield new CLNImageView2DFixedS64(
+          imageInfo,
+          mipLevel,
+          data,
+          componentCount
+        );
       }
     };
   }

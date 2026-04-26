@@ -18,9 +18,11 @@
  * Calino texture format (Image processor API)
  */
 
+@ProviderType
 @Export
-@Version("1.0.0")
+@Version("2.0.0")
 package com.io7m.calino.imageproc.api;
 
 import org.osgi.annotation.bundle.Export;
+import org.osgi.annotation.versioning.ProviderType;
 import org.osgi.annotation.versioning.Version;

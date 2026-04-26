@@ -16,11 +16,13 @@
 
 package com.io7m.calino.imageproc.api;
 
+import com.io7m.calino.api.CLNByteOrder;
+
 /**
- * A view of a mipmap within an image.
+ * <p>A view of a mipmap within an image.</p>
  *
- * An image view presents the illusion that a given image comprises pixels with
- * double-precision floating point channels.
+ * <p>An image view presents the illusion that a given image comprises pixels with
+ * double-precision floating point channels.</p>
  */
 
 public interface CLNImageView2DType
@@ -49,4 +51,66 @@ public interface CLNImageView2DType
     int x,
     int y,
     double[] pixel);
+
+  /**
+   * Sample the raw data of the pixel at the given location. The returned bytes
+   * are in the byte order declared in the image file, with no reordering or
+   * any reinterpretation.
+   *
+   * @param x The x location
+   * @param y The y location
+   *
+   * @return The data for one pixel
+   */
+
+  byte[] pixelRawAt(
+    int x,
+    int y);
+
+  /**
+   * Sample the raw data of the pixel at the given location. The returned bytes
+   * are flipped (if necessary) to match the given byte order.
+   *
+   * @param x     The x location
+   * @param y     The y location
+   * @param order The target byte order
+   *
+   * @return The data for one pixel
+   */
+
+  byte[] pixelRawAtOrdered(
+    int x,
+    int y,
+    CLNByteOrder order);
+
+  /**
+   * Sample the raw data of the pixel at the given location. The returned bytes
+   * are in the byte order declared in the image file, with no reordering or
+   * any reinterpretation.
+   *
+   * @param x      The x location
+   * @param y      The y location
+   * @param output The output buffer
+   */
+
+  void pixelRawAt(
+    int x,
+    int y,
+    byte[] output);
+
+  /**
+   * Sample the raw data of the pixel at the given location. The returned bytes
+   * are flipped (if necessary) to match the given byte order.
+   *
+   * @param x      The x location
+   * @param y      The y location
+   * @param order  The target byte order
+   * @param output The output buffer
+   */
+
+  void pixelRawAtOrdered(
+    int x,
+    int y,
+    CLNByteOrder order,
+    byte[] output);
 }

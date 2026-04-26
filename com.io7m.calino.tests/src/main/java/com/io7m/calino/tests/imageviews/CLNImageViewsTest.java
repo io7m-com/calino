@@ -14,7 +14,7 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.calino.tests;
+package com.io7m.calino.tests.imageviews;
 
 import com.io7m.calino.api.CLNChannelDescription;
 import com.io7m.calino.api.CLNChannelSemantic;
@@ -39,6 +39,7 @@ import java.util.stream.Stream;
 
 import static com.io7m.calino.api.CLNByteOrder.LITTLE_ENDIAN;
 import static com.io7m.calino.api.CLNChannelsLayoutDescriptionStandard.R8_G8_B8;
+import static com.io7m.calino.api.CLNChannelsTypeDescriptionStandard.FIXED_POINT_NORMALIZED_SIGNED;
 import static com.io7m.calino.api.CLNChannelsTypeDescriptionStandard.FIXED_POINT_NORMALIZED_UNSIGNED;
 import static com.io7m.calino.api.CLNColorSpaceStandard.COLOR_SPACE_SRGB;
 import static com.io7m.calino.api.CLNCoordinateAxisR.AXIS_R_INCREASING_TOWARD;
@@ -99,7 +100,15 @@ public final class CLNImageViewsTest
   {
     final var standardUnsupported =
       Stream.of(CLNChannelsTypeDescriptionStandard.values())
-        .filter(s -> s != FIXED_POINT_NORMALIZED_UNSIGNED);
+        .filter(s -> {
+          if (s == FIXED_POINT_NORMALIZED_UNSIGNED) {
+            return false;
+          }
+          if (s == FIXED_POINT_NORMALIZED_SIGNED) {
+            return false;
+          }
+          return true;
+        });
 
     final var customUnsupported =
       Stream.of(new CLNChannelsTypeDescriptionCustom("WEIRD"));

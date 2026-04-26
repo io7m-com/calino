@@ -46,6 +46,8 @@ open module com.io7m.calino.tests
   requires org.apache.commons.io;
   requires org.apache.commons.lang3;
   requires org.slf4j;
+  requires com.io7m.ieee754b16.core;
 
   exports com.io7m.calino.tests;
+  exports com.io7m.calino.tests.imageviews;
 }

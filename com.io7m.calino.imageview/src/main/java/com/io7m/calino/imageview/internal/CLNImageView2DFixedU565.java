@@ -17,26 +17,14 @@
 package com.io7m.calino.imageview.internal;
 
 import com.io7m.calino.api.CLNImageInfo;
-import com.io7m.calino.imageproc.api.CLNImageView2DType;
-
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.util.Objects;
 
 /**
  * An unsigned 565 view.
  */
 
-public final class CLNImageView2DFixedU565 implements CLNImageView2DType
+public final class CLNImageView2DFixedU565
+  extends CLNImageView2DRawAbstract16
 {
-  private static final int COMPONENT_SIZE = 2;
-  private final ByteBuffer pixelData;
-  private final CLNImageInfo imageInfo;
-  private final int lineWidth;
-  private final int pixelSize;
-  private final int sizeX;
-  private final int sizeY;
-
   /**
    * An unsigned 565 view.
    *
@@ -50,33 +38,12 @@ public final class CLNImageView2DFixedU565 implements CLNImageView2DType
     final int mipLevel,
     final byte[] inData)
   {
-    this.imageInfo =
-      Objects.requireNonNull(inImageInfo, "inImageInfo");
-
-    this.sizeX = inImageInfo.sizeX() >>> mipLevel;
-    this.sizeY = inImageInfo.sizeY() >>> mipLevel;
-
-    this.pixelData = ByteBuffer.wrap(inData);
-    this.pixelData.order(
-      switch (inImageInfo.dataByteOrder()) {
-        case LITTLE_ENDIAN -> ByteOrder.LITTLE_ENDIAN;
-        case BIG_ENDIAN -> ByteOrder.BIG_ENDIAN;
-      });
-
-    this.pixelSize = COMPONENT_SIZE;
-    this.lineWidth = this.sizeX * this.pixelSize;
-  }
-
-  @Override
-  public int sizeX()
-  {
-    return this.sizeX;
-  }
-
-  @Override
-  public int sizeY()
-  {
-    return this.sizeY;
+    super(
+      inImageInfo,
+      1,
+      mipLevel,
+      inData
+    );
   }
 
   @Override
@@ -85,8 +52,15 @@ public final class CLNImageView2DFixedU565 implements CLNImageView2DType
     final int y,
     final double[] pixel)
   {
-    final var base = (y * this.lineWidth) + (x * this.pixelSize);
-    final var data = ((int) this.pixelData.getShort(base)) & 0xffff;
+    final var pixelSize =
+      2;
+    final var lineWidth =
+      this.sizeX() * pixelSize;
+    final var pixelData =
+      this.pixelData();
+
+    final var base = (y * lineWidth) + (x * pixelSize);
+    final var data = ((int) pixelData.getShort(base)) & 0xffff;
     final var r = (data >>> 11) & 0b11111;
     final var g = (data >>> 5) & 0b111111;
     final var b = data & 0b11111;

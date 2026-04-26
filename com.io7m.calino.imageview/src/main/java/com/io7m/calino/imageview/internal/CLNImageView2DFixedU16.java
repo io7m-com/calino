@@ -17,27 +17,14 @@
 package com.io7m.calino.imageview.internal;
 
 import com.io7m.calino.api.CLNImageInfo;
-import com.io7m.calino.imageproc.api.CLNImageView2DType;
-
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.util.Objects;
 
 /**
  * An unsigned fixed-point 16-bit view.
  */
 
-public final class CLNImageView2DFixedU16 implements CLNImageView2DType
+public final class CLNImageView2DFixedU16
+  extends CLNImageView2DRawAbstract16
 {
-  private static final int COMPONENT_SIZE = 2;
-  private final ByteBuffer pixelData;
-  private final int componentCount;
-  private final CLNImageInfo imageInfo;
-  private final int lineWidth;
-  private final int pixelSize;
-  private final int sizeX;
-  private final int sizeY;
-
   /**
    * An unsigned fixed-point 16-bit view.
    *
@@ -53,34 +40,12 @@ public final class CLNImageView2DFixedU16 implements CLNImageView2DType
     final byte[] inData,
     final int inComponentCount)
   {
-    this.imageInfo =
-      Objects.requireNonNull(inImageInfo, "inImageInfo");
-
-    this.sizeX = inImageInfo.sizeX() >>> mipLevel;
-    this.sizeY = inImageInfo.sizeY() >>> mipLevel;
-
-    this.pixelData = ByteBuffer.wrap(inData);
-    this.componentCount = inComponentCount;
-    this.pixelData.order(
-      switch (inImageInfo.dataByteOrder()) {
-        case LITTLE_ENDIAN -> ByteOrder.LITTLE_ENDIAN;
-        case BIG_ENDIAN -> ByteOrder.BIG_ENDIAN;
-      });
-
-    this.pixelSize = this.componentCount * COMPONENT_SIZE;
-    this.lineWidth = this.sizeX * this.pixelSize;
-  }
-
-  @Override
-  public int sizeX()
-  {
-    return this.sizeX;
-  }
-
-  @Override
-  public int sizeY()
-  {
-    return this.sizeY;
+    super(
+      inImageInfo,
+      inComponentCount,
+      mipLevel,
+      inData
+    );
   }
 
   @Override
@@ -89,10 +54,21 @@ public final class CLNImageView2DFixedU16 implements CLNImageView2DType
     final int y,
     final double[] pixel)
   {
-    final var base = (y * this.lineWidth) + (x * this.pixelSize);
-    for (int index = 0; index < this.componentCount; ++index) {
-      final var offset = index * COMPONENT_SIZE;
-      final var c = ((int) this.pixelData.getShort(base + offset)) & 0xffff;
+    final int componentCount =
+      this.componentCount();
+    final var componentSize =
+      2;
+    final var pixelSize =
+      componentSize * componentCount;
+    final var lineWidth =
+      this.sizeX() * pixelSize;
+    final var pixelData =
+      this.pixelData();
+
+    final var base = (y * lineWidth) + (x * pixelSize);
+    for (int index = 0; index < componentCount; ++index) {
+      final var offset = index * componentSize;
+      final var c = ((int) pixelData.getShort(base + offset)) & 0xffff;
       pixel[index] = (double) c / 65535.0;
     }
   }

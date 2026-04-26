@@ -100,4 +100,15 @@ public final class CLNTestDirectories
   {
     return Files.newInputStream(resourceOf(clazz, output, name));
   }
+
+  public static byte[] resourceBytesOf(
+    final Class<?> clazz,
+    final Path output,
+    final String name)
+    throws IOException
+  {
+    try (var stream = Files.newInputStream(resourceOf(clazz, output, name))) {
+      return stream.readAllBytes();
+    }
+  }
 }
