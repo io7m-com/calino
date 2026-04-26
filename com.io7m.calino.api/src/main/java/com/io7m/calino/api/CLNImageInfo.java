@@ -22,9 +22,13 @@ import java.util.Set;
 import static com.io7m.calino.api.CLNCompressionMethodStandard.UNCOMPRESSED;
 
 /**
+ * <p>
  * Information about an image.
+ * </p>
  *
+ * <p>
  * This describes the size and format of image data included in a texture file.
+ * </p>
  *
  * @param sizeX                  The size, in pixels, of the image data on the X
  *                               axis
@@ -57,10 +61,13 @@ public record CLNImageInfo(
   CLNByteOrder dataByteOrder)
 {
   /**
+   * <p>
    * Information about an image.
+   * </p>
    *
-   * This describes the size and format of image data included in a texture
-   * file.
+   * <p>
+   * This describes the size and format of image data included in a texture file.
+   * </p>
    *
    * @param sizeX                  The size, in pixels, of the image data on the
    *                               X axis
@@ -124,5 +131,47 @@ public record CLNImageInfo(
   public String showSize()
   {
     return String.format("%d×%d×%d", this.sizeX, this.sizeY, this.sizeZ);
+  }
+
+  /**
+   * The size of the image on the X axis at the given mip level.
+   *
+   * @param level The mip level
+   *
+   * @return The size
+   */
+
+  public int sizeXForMipLevel(
+    final int level)
+  {
+    return this.sizeX >>> level;
+  }
+
+  /**
+   * The size of the image on the Y axis at the given mip level.
+   *
+   * @param level The mip level
+   *
+   * @return The size
+   */
+
+  public int sizeYForMipLevel(
+    final int level)
+  {
+    return this.sizeY >>> level;
+  }
+
+  /**
+   * The size of the image on the Z axis at the given mip level.
+   *
+   * @param level The mip level
+   *
+   * @return The size
+   */
+
+  public int sizeZForMipLevel(
+    final int level)
+  {
+    return this.sizeZ >>> level;
   }
 }
