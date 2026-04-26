@@ -39,7 +39,6 @@ import java.util.stream.Stream;
 
 import static com.io7m.calino.api.CLNByteOrder.LITTLE_ENDIAN;
 import static com.io7m.calino.api.CLNChannelsLayoutDescriptionStandard.R8_G8_B8;
-import static com.io7m.calino.api.CLNChannelsTypeDescriptionStandard.FIXED_POINT_NORMALIZED_SIGNED;
 import static com.io7m.calino.api.CLNChannelsTypeDescriptionStandard.FIXED_POINT_NORMALIZED_UNSIGNED;
 import static com.io7m.calino.api.CLNColorSpaceStandard.COLOR_SPACE_SRGB;
 import static com.io7m.calino.api.CLNCoordinateAxisR.AXIS_R_INCREASING_TOWARD;
@@ -84,13 +83,14 @@ public final class CLNImageViewsTest
             0
           );
 
-        assertThrows(UnsupportedOperationException.class, () -> {
-          imageViews.createImageView2D(
-            imageInfo,
-            imageDescription,
-            new byte[3]
-          );
-        });
+        assertThrows(
+          UnsupportedOperationException.class, () -> {
+            imageViews.createImageView2D(
+              imageInfo,
+              imageDescription,
+              new byte[3]
+            );
+          });
       }
     );
   }
@@ -101,13 +101,16 @@ public final class CLNImageViewsTest
     final var standardUnsupported =
       Stream.of(CLNChannelsTypeDescriptionStandard.values())
         .filter(s -> {
-          if (s == FIXED_POINT_NORMALIZED_UNSIGNED) {
-            return false;
-          }
-          if (s == FIXED_POINT_NORMALIZED_SIGNED) {
-            return false;
-          }
-          return true;
+          return switch (s) {
+            case FLOATING_POINT_IEEE754_UNSIGNED -> true;
+            case FIXED_POINT_NORMALIZED_UNSIGNED,
+                 FLOATING_POINT_IEEE754_SIGNED,
+                 SCALED_SIGNED,
+                 INTEGER_UNSIGNED,
+                 INTEGER_SIGNED,
+                 SCALED_UNSIGNED,
+                 FIXED_POINT_NORMALIZED_SIGNED -> false;
+          };
         });
 
     final var customUnsupported =
@@ -127,9 +130,10 @@ public final class CLNImageViewsTest
         32,
         32,
         1,
-        new CLNChannelsLayoutDescriptionCustom(List.of(
-          new CLNChannelDescription(CLNChannelSemantic.STENCIL, 128)
-        ), Optional.empty()),
+        new CLNChannelsLayoutDescriptionCustom(
+          List.of(
+            new CLNChannelDescription(CLNChannelSemantic.STENCIL, 128)
+          ), Optional.empty()),
         FIXED_POINT_NORMALIZED_UNSIGNED,
         CLNCompressionMethodStandard.UNCOMPRESSED,
         CLNSuperCompressionMethodStandard.UNCOMPRESSED,
@@ -151,13 +155,14 @@ public final class CLNImageViewsTest
         0
       );
 
-    assertThrows(UnsupportedOperationException.class, () -> {
-      imageViews.createImageView2D(
-        imageInfo,
-        imageDescription,
-        new byte[3]
-      );
-    });
+    assertThrows(
+      UnsupportedOperationException.class, () -> {
+        imageViews.createImageView2D(
+          imageInfo,
+          imageDescription,
+          new byte[3]
+        );
+      });
   }
 
   @Test
@@ -170,9 +175,10 @@ public final class CLNImageViewsTest
         32,
         32,
         1,
-        new CLNChannelsLayoutDescriptionCustom(List.of(
-          new CLNChannelDescription(CLNChannelSemantic.STENCIL, 128)
-        ), Optional.empty()),
+        new CLNChannelsLayoutDescriptionCustom(
+          List.of(
+            new CLNChannelDescription(CLNChannelSemantic.STENCIL, 128)
+          ), Optional.empty()),
         FIXED_POINT_NORMALIZED_UNSIGNED,
         CLNCompressionMethodStandard.UNCOMPRESSED,
         CLNSuperCompressionMethodStandard.UNCOMPRESSED,
@@ -194,12 +200,13 @@ public final class CLNImageViewsTest
         0
       );
 
-    assertThrows(IllegalArgumentException.class, () -> {
-      imageViews.createImageView2D(
-        imageInfo,
-        imageDescription,
-        new byte[3]
-      );
-    });
+    assertThrows(
+      IllegalArgumentException.class, () -> {
+        imageViews.createImageView2D(
+          imageInfo,
+          imageDescription,
+          new byte[3]
+        );
+      });
   }
 }

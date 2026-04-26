@@ -39,6 +39,14 @@ import com.io7m.calino.imageview.internal.CLNImageView2DFixedU4444;
 import com.io7m.calino.imageview.internal.CLNImageView2DFixedU565;
 import com.io7m.calino.imageview.internal.CLNImageView2DFixedU64;
 import com.io7m.calino.imageview.internal.CLNImageView2DFixedU8;
+import com.io7m.calino.imageview.internal.CLNImageView2DScaledS16;
+import com.io7m.calino.imageview.internal.CLNImageView2DScaledS32;
+import com.io7m.calino.imageview.internal.CLNImageView2DScaledS64;
+import com.io7m.calino.imageview.internal.CLNImageView2DScaledS8;
+import com.io7m.calino.imageview.internal.CLNImageView2DScaledU16;
+import com.io7m.calino.imageview.internal.CLNImageView2DScaledU32;
+import com.io7m.calino.imageview.internal.CLNImageView2DScaledU64;
+import com.io7m.calino.imageview.internal.CLNImageView2DScaledU8;
 
 import java.util.Objects;
 
@@ -186,7 +194,7 @@ public final class CLNImageViews implements CLNImageViewFactoryType
     final var type = imageInfo.channelsType();
     if (type instanceof final CLNChannelsTypeDescriptionStandard typeStandard) {
       return switch (typeStandard) {
-        case FIXED_POINT_NORMALIZED_UNSIGNED -> {
+        case INTEGER_UNSIGNED, FIXED_POINT_NORMALIZED_UNSIGNED -> {
           yield createImageView2DFixedU(
             imageInfo,
             data,
@@ -196,7 +204,7 @@ public final class CLNImageViews implements CLNImageViewFactoryType
           );
         }
 
-        case FIXED_POINT_NORMALIZED_SIGNED -> {
+        case INTEGER_SIGNED, FIXED_POINT_NORMALIZED_SIGNED -> {
           yield createImageView2DFixedS(
             imageInfo,
             data,
@@ -216,11 +224,27 @@ public final class CLNImageViews implements CLNImageViewFactoryType
           );
         }
 
-        case FLOATING_POINT_IEEE754_UNSIGNED,
-             INTEGER_SIGNED,
-          INTEGER_UNSIGNED,
-          SCALED_SIGNED,
-          SCALED_UNSIGNED -> {
+        case SCALED_SIGNED -> {
+          yield createImageView2DFixedScaled(
+            imageInfo,
+            data,
+            standard,
+            mipLevel,
+            componentCount
+          );
+        }
+
+        case SCALED_UNSIGNED -> {
+          yield createImageView2DFixedScaledU(
+            imageInfo,
+            data,
+            standard,
+            mipLevel,
+            componentCount
+          );
+        }
+
+        case FLOATING_POINT_IEEE754_UNSIGNED -> {
           throw new UnsupportedOperationException(
             new StringBuilder(64)
               .append("Components of type ")
@@ -239,6 +263,98 @@ public final class CLNImageViews implements CLNImageViewFactoryType
         .append(" are not supported")
         .toString()
     );
+  }
+
+  private static CLNImageView2DType createImageView2DFixedScaled(
+    final CLNImageInfo imageInfo,
+    final byte[] data,
+    final CLNChannelsLayoutDescriptionStandard standard,
+    final int mipLevel,
+    final int componentCount)
+  {
+    return switch (standard) {
+      case A1_R5_G5_B5, R5_G6_B5, R4_G4_B4_A4 -> {
+        throw new UnsupportedOperationException();
+      }
+      case R8, R8_G8, R8_G8_B8_A8, R8_G8_B8 -> {
+        yield new CLNImageView2DScaledS8(
+          imageInfo,
+          mipLevel,
+          data,
+          componentCount
+        );
+      }
+      case R16, R16_G16_B16_A16, R16_G16_B16, R16_G16 -> {
+        yield new CLNImageView2DScaledS16(
+          imageInfo,
+          mipLevel,
+          data,
+          componentCount
+        );
+      }
+      case R32, R32_G32_B32_A32, R32_G32_B32, R32_G32 -> {
+        yield new CLNImageView2DScaledS32(
+          imageInfo,
+          mipLevel,
+          data,
+          componentCount
+        );
+      }
+      case R64, R64_G64_B64_A64, R64_G64_B64, R64_G64 -> {
+        yield new CLNImageView2DScaledS64(
+          imageInfo,
+          mipLevel,
+          data,
+          componentCount
+        );
+      }
+    };
+  }
+
+  private static CLNImageView2DType createImageView2DFixedScaledU(
+    final CLNImageInfo imageInfo,
+    final byte[] data,
+    final CLNChannelsLayoutDescriptionStandard standard,
+    final int mipLevel,
+    final int componentCount)
+  {
+    return switch (standard) {
+      case A1_R5_G5_B5, R5_G6_B5, R4_G4_B4_A4 -> {
+        throw new UnsupportedOperationException();
+      }
+      case R8, R8_G8, R8_G8_B8_A8, R8_G8_B8 -> {
+        yield new CLNImageView2DScaledU8(
+          imageInfo,
+          mipLevel,
+          data,
+          componentCount
+        );
+      }
+      case R16, R16_G16_B16_A16, R16_G16_B16, R16_G16 -> {
+        yield new CLNImageView2DScaledU16(
+          imageInfo,
+          mipLevel,
+          data,
+          componentCount
+        );
+      }
+      case R32, R32_G32_B32_A32, R32_G32_B32, R32_G32 -> {
+        yield new CLNImageView2DScaledU32(
+          imageInfo,
+          mipLevel,
+          data,
+          componentCount
+        );
+      }
+      case R64, R64_G64_B64_A64, R64_G64_B64, R64_G64 -> {
+        yield new CLNImageView2DScaledU64(
+          imageInfo,
+          mipLevel,
+          data,
+          componentCount
+        );
+      }
+    };
   }
 
   private static CLNImageView2DType createImageView2DFixedSF(
