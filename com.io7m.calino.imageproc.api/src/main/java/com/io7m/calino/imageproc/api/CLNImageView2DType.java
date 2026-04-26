@@ -91,9 +91,11 @@ public interface CLNImageView2DType
    * @param x      The x location
    * @param y      The y location
    * @param output The output buffer
+   *
+   * @return The number of bytes written
    */
 
-  void pixelRawAt(
+  int pixelRawAt(
     int x,
     int y,
     byte[] output);
@@ -106,9 +108,11 @@ public interface CLNImageView2DType
    * @param y      The y location
    * @param order  The target byte order
    * @param output The output buffer
+   *
+   * @return The number of bytes written
    */
 
-  void pixelRawAtOrdered(
+  int pixelRawAtOrdered(
     int x,
     int y,
     CLNByteOrder order,

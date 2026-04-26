@@ -61,7 +61,7 @@ abstract class CLNImageView2DRawAbstract16
   }
 
   @Override
-  public final void pixelRawAtOrdered(
+  public final int pixelRawAtOrdered(
     final int x,
     final int y,
     final CLNByteOrder order,
@@ -92,5 +92,6 @@ abstract class CLNImageView2DRawAbstract16
       }
       outIndex += componentSize;
     }
+    return pixelSize;
   }
 }

@@ -84,11 +84,11 @@ abstract class CLNImageView2DRawAbstract
   }
 
   @Override
-  public final void pixelRawAt(
+  public final int pixelRawAt(
     final int x,
     final int y,
     final byte[] output)
   {
-    this.pixelRawAtOrdered(x, y, this.imageInfo.dataByteOrder(), output);
+    return this.pixelRawAtOrdered(x, y, this.imageInfo.dataByteOrder(), output);
   }
 }

@@ -59,7 +59,7 @@ abstract class CLNImageView2DRawAbstract8
   }
 
   @Override
-  public final void pixelRawAtOrdered(
+  public final int pixelRawAtOrdered(
     final int x,
     final int y,
     final CLNByteOrder order,
@@ -75,5 +75,6 @@ abstract class CLNImageView2DRawAbstract8
       final var c = data.get(base + index);
       output[index] = c;
     }
+    return this.componentCount;
   }
 }
