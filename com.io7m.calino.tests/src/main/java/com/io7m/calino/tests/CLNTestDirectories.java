@@ -25,6 +25,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.Comparator;
 import java.util.UUID;
 
@@ -87,7 +88,7 @@ public final class CLNTestDirectories
     LOGGER.debug("copy {} {}", name, target);
 
     try (var stream = url.openStream()) {
-      Files.copy(stream, target);
+      Files.copy(stream, target, StandardCopyOption.REPLACE_EXISTING);
     }
     return target;
   }

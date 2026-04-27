@@ -16,9 +16,11 @@
 
 package com.io7m.calino.imageview.internal;
 
+import com.io7m.calino.api.CLNByteOrder;
 import com.io7m.calino.api.CLNImageInfo;
 import com.io7m.calino.imageproc.api.CLNImageView2DType;
 
+import java.lang.foreign.MemorySegment;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.Objects;
@@ -26,6 +28,8 @@ import java.util.Objects;
 abstract class CLNImageView2DRawAbstract
   implements CLNImageView2DType
 {
+  private static final int LARGEST_PIXEL_SIZE = 4 * 8;
+
   private final ByteBuffer pixelData;
   private final CLNImageInfo imageInfo;
   private final int sizeX;
@@ -90,5 +94,27 @@ abstract class CLNImageView2DRawAbstract
     final byte[] output)
   {
     return this.pixelRawAtOrdered(x, y, this.imageInfo.dataByteOrder(), output);
+  }
+
+  @Override
+  public final void copyTo(
+    final MemorySegment segment,
+    final CLNByteOrder byteOrder)
+  {
+    final var segmentBuffer = segment.asByteBuffer();
+    segmentBuffer.order(
+      switch (byteOrder) {
+        case BIG_ENDIAN -> ByteOrder.BIG_ENDIAN;
+        case LITTLE_ENDIAN -> ByteOrder.LITTLE_ENDIAN;
+      }
+    );
+
+    final var pixelBuffer = new byte[LARGEST_PIXEL_SIZE];
+    for (int y = 0; y < this.sizeY; ++y) {
+      for (int x = 0; x < this.sizeX; ++x) {
+        final var r = this.pixelRawAtOrdered(x, y, byteOrder, pixelBuffer);
+        segmentBuffer.put(pixelBuffer, 0, r);
+      }
+    }
   }
 }

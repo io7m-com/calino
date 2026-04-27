@@ -18,6 +18,8 @@ package com.io7m.calino.imageproc.api;
 
 import com.io7m.calino.api.CLNByteOrder;
 
+import java.lang.foreign.MemorySegment;
+
 /**
  * <p>A view of a mipmap within an image.</p>
  *
@@ -27,6 +29,18 @@ import com.io7m.calino.api.CLNByteOrder;
 
 public interface CLNImageView2DType
 {
+  /**
+   * Copy this image data to the given memory segment.
+   *
+   * @param segment   The memory segment
+   * @param byteOrder The byte order to which to transform the data
+   */
+
+  void copyTo(
+    MemorySegment segment,
+    CLNByteOrder byteOrder
+  );
+
   /**
    * @return The size of the view on the X axis
    */
