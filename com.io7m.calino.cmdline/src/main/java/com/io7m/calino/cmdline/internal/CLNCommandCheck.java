@@ -75,7 +75,7 @@ public final class CLNCommandCheck extends CLNAbstractReadFileCommand
     super(
       new QCommandMetadata(
         "check",
-        new QConstant("Create a 2D texture from an existing image."),
+        new QConstant("Validate a texture file."),
         Optional.of(new QLocalize("cmd.check.helpExt"))
       )
     );
