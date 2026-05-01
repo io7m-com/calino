@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Section xmlns="urn:com.io7m.structural:8:0"
+         title="History"
+         id="a058b965-cde6-408f-ae2f-fbd7cdf44126">
+
+  <Subsection title="Version 2.0">
+    <Paragraph>
+      Version <Term type="constant">2.0</Term> of the specification corrected a mistake in the
+      <Term type="constant">1.0</Term>
+      specification with regard to the way that section sizes were specified. In version
+      <Term type="constant">1.0</Term>
+      of the specification, section sizes were specified as follows:
+    </Paragraph>
+    <FormalItem title="Section Padding">
+      <Verbatim><![CDATA[
+Definition binaryExpImage2DSection
+  (i : imageInfo)
+  (m : mipMapList)
+: binaryExp := BiRecord [
+  ("id",   u64 0x434C4E5F49324421);
+  ("size", u64 (binarySizePadded16 (binaryExpImage2D i m)));
+  ("data", binaryExpImage2D i m)
+].
+]]></Verbatim>
+    </FormalItem>
+    <Paragraph>
+      However, the actual intention was to specify them as:
+    </Paragraph>
+    <FormalItem title="Section No Padding">
+      <Verbatim><![CDATA[
+Definition binaryExpImage2DSection
+  (i : imageInfo)
+  (m : mipMapList)
+: binaryExp := BiRecord [
+  ("id",   u64 0x434C4E5F49324421);
+  ("size", u64 (binarySize (binaryExpImage2D i m)));
+  ("data", binaryExpImage2D i m)
+].
+]]></Verbatim>
+    </FormalItem>
+    <Paragraph>
+      In other words: Section sizes used to include the padding octets that are used to align the next section to a 16
+      octet boundary. Unfortunately, this then meant that there was ambiguity with regard to the number of padding
+      octets that were used. In version <Term type="constant">2.0</Term> of the specification, the section size no
+      longer includes the padding octets. This is a backwards-incompatible change in a number of places, because
+      <Term type="constant">1.0</Term>
+      parsers could fail when encountering corrected section size values.
+    </Paragraph>
+    <Paragraph>
+      Worse, the reference implementation of the <Term type="package">calino</Term> specification actually already
+      implemented the <Term type="constant">2.0</Term> behaviour. Therefore, the decision was made to release a new
+      format version and deprecate <Term type="constant">1.0</Term>.
+    </Paragraph>
+  </Subsection>
+
+</Section>

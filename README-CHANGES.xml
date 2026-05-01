@@ -9,9 +9,11 @@
         <c:change date="2026-04-25T00:00:00+00:00" summary="Initial public release."/>
       </c:changes>
     </c:release>
-    <c:release date="2026-04-26T15:18:55+00:00" is-open="true" ticket-system="com.github.io7m.calino" version="2.0.0">
+    <c:release date="2026-05-01T19:04:38+00:00" is-open="true" ticket-system="com.github.io7m.calino" version="2.0.0">
       <c:changes>
-        <c:change date="2026-04-26T15:18:55+00:00" summary="Add imageview raw methods."/>
+        <c:change date="2026-04-26T00:00:00+00:00" summary="Add imageview raw methods."/>
+        <c:change compatible="false" date="2026-05-01T00:00:00+00:00" summary="Publish format 2.0."/>
+        <c:change date="2026-05-01T19:04:38+00:00" summary="Use entomos for file parsing."/>
       </c:changes>
     </c:release>
   </c:releases>

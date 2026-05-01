@@ -16,8 +16,9 @@
 
 package com.io7m.calino.api;
 
-import java.io.Closeable;
-import java.util.List;
+import com.io7m.entomos.core.EoFileSection;
+
+import java.util.NavigableSet;
 import java.util.Optional;
 
 import static com.io7m.calino.api.CLNIdentifiers.sectionEndIdentifier;
@@ -31,13 +32,18 @@ import static com.io7m.calino.api.CLNIdentifiers.sectionMetadataIdentifier;
  * A readable file.
  */
 
-public interface CLNFileReadableType extends Closeable
+public interface CLNFileReadableType
+  extends AutoCloseable
 {
+  @Override
+  void close()
+    throws CLNException;
+
   /**
    * @return The list of sections in the file
    */
 
-  List<CLNFileSectionDescription> sections();
+  NavigableSet<EoFileSection> sections();
 
   /**
    * @return The file version
@@ -54,7 +60,7 @@ public interface CLNFileReadableType extends Closeable
    */
 
   CLNSectionReadableType openSection(
-    CLNFileSectionDescription description);
+    EoFileSection description);
 
   /**
    * @return The first available image info section, if one exists
@@ -63,8 +69,7 @@ public interface CLNFileReadableType extends Closeable
   default Optional<CLNSectionReadableImageInfoType> openImageInfo()
   {
     for (final var section : this.sections()) {
-      final var description = section.description();
-      if (description.identifier() == sectionImageInfoIdentifier()) {
+      if (section.tag() == sectionImageInfoIdentifier()) {
         return Optional.of(
           (CLNSectionReadableImageInfoType) this.openSection(section)
         );
@@ -80,8 +85,7 @@ public interface CLNFileReadableType extends Closeable
   default Optional<CLNSectionReadableImage2DType> openImage2D()
   {
     for (final var section : this.sections()) {
-      final var description = section.description();
-      if (description.identifier() == sectionImage2DIdentifier()) {
+      if (section.tag() == sectionImage2DIdentifier()) {
         return Optional.of(
           (CLNSectionReadableImage2DType) this.openSection(section)
         );
@@ -97,8 +101,7 @@ public interface CLNFileReadableType extends Closeable
   default Optional<CLNSectionReadableImageCubeType> openImageCube()
   {
     for (final var section : this.sections()) {
-      final var description = section.description();
-      if (description.identifier() == sectionImageCubeIdentifier()) {
+      if (section.tag() == sectionImageCubeIdentifier()) {
         return Optional.of(
           (CLNSectionReadableImageCubeType) this.openSection(section)
         );
@@ -114,8 +117,7 @@ public interface CLNFileReadableType extends Closeable
   default Optional<CLNSectionReadableImageArrayType> openImageArray()
   {
     for (final var section : this.sections()) {
-      final var description = section.description();
-      if (description.identifier() == sectionImageArrayIdentifier()) {
+      if (section.tag() == sectionImageArrayIdentifier()) {
         return Optional.of(
           (CLNSectionReadableImageArrayType) this.openSection(section)
         );
@@ -131,8 +133,7 @@ public interface CLNFileReadableType extends Closeable
   default Optional<CLNSectionReadableMetadataType> openMetadata()
   {
     for (final var section : this.sections()) {
-      final var description = section.description();
-      if (description.identifier() == sectionMetadataIdentifier()) {
+      if (section.tag() == sectionMetadataIdentifier()) {
         return Optional.of(
           (CLNSectionReadableMetadataType) this.openSection(section)
         );
@@ -148,8 +149,7 @@ public interface CLNFileReadableType extends Closeable
   default Optional<CLNSectionReadableEndType> openEnd()
   {
     for (final var section : this.sections()) {
-      final var description = section.description();
-      if (description.identifier() == sectionEndIdentifier()) {
+      if (section.tag() == sectionEndIdentifier()) {
         return Optional.of(
           (CLNSectionReadableEndType) this.openSection(section)
         );

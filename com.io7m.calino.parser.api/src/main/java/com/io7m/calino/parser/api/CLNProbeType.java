@@ -16,9 +16,8 @@
 
 package com.io7m.calino.parser.api;
 
+import com.io7m.calino.api.CLNException;
 import com.io7m.calino.api.CLNVersion;
-
-import java.io.IOException;
 
 /**
  * A version probe.
@@ -31,9 +30,9 @@ public interface CLNProbeType
    *
    * @return The file version
    *
-   * @throws IOException On I/O errors
+   * @throws CLNException On errors
    */
 
   CLNVersion execute()
-    throws IOException;
+    throws CLNException;
 }

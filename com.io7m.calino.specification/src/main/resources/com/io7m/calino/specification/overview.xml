@@ -5,7 +5,7 @@
          xmlns="urn:com.io7m.structural:8:0">
 
   <Paragraph>
-    This specification defines version <Term type="constant">1.0</Term> of the
+    This specification defines version <Term type="constant">2.0</Term> of the
     <Term type="package">calino</Term>
     file format. The
     <Term type="package">calino</Term>

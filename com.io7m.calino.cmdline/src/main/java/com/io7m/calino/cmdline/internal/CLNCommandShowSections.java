@@ -17,6 +17,8 @@
 package com.io7m.calino.cmdline.internal;
 
 import com.io7m.calino.api.CLNFileReadableType;
+import com.io7m.calino.api.CLNIdentifiers;
+import com.io7m.entomos.core.EoFileSection;
 import com.io7m.quarrel.core.QCommandContextType;
 import com.io7m.quarrel.core.QCommandMetadata;
 import com.io7m.quarrel.core.QCommandStatus;
@@ -60,14 +62,33 @@ public final class CLNCommandShowSections extends CLNAbstractReadFileCommand
     final CLNFileReadableType fileParsed)
   {
     final var sections = fileParsed.sections();
-    for (int index = 0; index < sections.size(); ++index) {
-      final var fileSection = sections.get(index);
+    int index = 0;
+    for (final var section : sections) {
       context.output().printf(
         "%s %s%n",
         Integer.toUnsignedString(index),
-        fileSection.show()
+        showSection(section)
       );
+      ++index;
     }
     return QCommandStatus.SUCCESS;
+  }
+
+  private static String showSection(
+    final EoFileSection section)
+  {
+    final var name =
+      CLNIdentifiers.nameOf(section.tag())
+        .orElse("?");
+
+    return new StringBuilder()
+      .append(name)
+      .append('(')
+      .append(Long.toUnsignedString(section.tag(), 16))
+      .append(") @0x")
+      .append(Long.toUnsignedString(section.offset(), 16))
+      .append(" size 0x")
+      .append(Long.toUnsignedString(section.dataSize(), 16))
+      .toString();
   }
 }

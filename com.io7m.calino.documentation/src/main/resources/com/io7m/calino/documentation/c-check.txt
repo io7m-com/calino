@@ -6,7 +6,7 @@
 10:39:07,822 |-INFO in ch.qos.logback.core.model.processor.AppenderModelHandler - Processing appender named [STDERR]
 10:39:07,822 |-INFO in ch.qos.logback.core.model.processor.AppenderModelHandler - About to instantiate appender of type [ch.qos.logback.core.ConsoleAppender]
 10:39:07,827 |-INFO in ch.qos.logback.core.model.processor.ImplicitModelHandler - Assuming default type [ch.qos.logback.classic.encoder.PatternLayoutEncoder] for [encoder] property
-10:39:07,835 |-INFO in ch.qos.logback.classic.model.processor.LoggerModelHandler - Setting level of logger [com.io7m.calino.vanilla.internal.CLN1Validator] to ERROR
+10:39:07,835 |-INFO in ch.qos.logback.classic.model.processor.LoggerModelHandler - Setting level of logger [com.io7m.calino.vanilla.internal.CLN2Validator] to ERROR
 10:39:07,835 |-INFO in ch.qos.logback.classic.model.processor.RootLoggerModelHandler - Setting level of ROOT logger to INFO
 10:39:07,835 |-INFO in ch.qos.logback.core.model.processor.AppenderRefModelHandler - Attaching appender named [STDERR] to Logger[ROOT]
 10:39:07,835 |-INFO in ch.qos.logback.core.model.processor.DefaultProcessor@401e7803 - End of configuration.

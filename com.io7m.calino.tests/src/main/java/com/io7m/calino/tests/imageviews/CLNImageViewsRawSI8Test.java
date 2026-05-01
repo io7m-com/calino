@@ -16,7 +16,6 @@
 
 package com.io7m.calino.tests.imageviews;
 
-import com.io7m.calino.api.CLNChannelsTypeDescriptionStandard;
 import com.io7m.calino.api.CLNCompressionMethodStandard;
 import com.io7m.calino.api.CLNCoordinateSystem;
 import com.io7m.calino.api.CLNImage2DDescription;
@@ -38,7 +37,6 @@ import static com.io7m.calino.api.CLNChannelsLayoutDescriptionStandard.R8;
 import static com.io7m.calino.api.CLNChannelsLayoutDescriptionStandard.R8_G8;
 import static com.io7m.calino.api.CLNChannelsLayoutDescriptionStandard.R8_G8_B8;
 import static com.io7m.calino.api.CLNChannelsLayoutDescriptionStandard.R8_G8_B8_A8;
-import static com.io7m.calino.api.CLNChannelsTypeDescriptionStandard.INTEGER_SIGNED;
 import static com.io7m.calino.api.CLNChannelsTypeDescriptionStandard.INTEGER_SIGNED;
 import static com.io7m.calino.api.CLNColorSpaceStandard.COLOR_SPACE_LINEAR;
 import static com.io7m.calino.api.CLNCoordinateAxisR.AXIS_R_INCREASING_AWAY;

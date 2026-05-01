@@ -20,7 +20,7 @@ import com.io7m.calino.parser.api.CLNParseRequest;
 import com.io7m.calino.parser.api.CLNParsers;
 import com.io7m.calino.supercompression.api.CLNDecompressors;
 import com.io7m.calino.validation.api.CLNValidationRequest;
-import com.io7m.calino.vanilla.CLN1Validators;
+import com.io7m.calino.vanilla.CLN2Validators;
 import com.io7m.wendover.core.SubrangeSeekableByteChannel;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -42,14 +42,14 @@ public final class CLN1EmbeddedTest
 {
   private CLNParsers parsers;
   private Path directory;
-  private CLN1Validators validators;
+  private CLN2Validators validators;
 
   @BeforeEach
   public void setup()
     throws IOException
   {
     this.validators =
-      new CLN1Validators();
+      new CLN2Validators();
     this.parsers =
       new CLNParsers();
     this.directory =
@@ -77,7 +77,7 @@ public final class CLN1EmbeddedTest
       CLNTestDirectories.resourceOf(
         CLN1EmbeddedTest.class,
         this.directory,
-        "basic-array-lz4.ctf"
+        "fade32-deflate.ctf"
       );
 
     final var rng =

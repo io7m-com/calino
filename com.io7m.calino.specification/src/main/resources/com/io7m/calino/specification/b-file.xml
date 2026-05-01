@@ -22,7 +22,7 @@
 
   <Paragraph>
     The <Term type="expression">versionMajor</Term> field must be set to
-    <Term type="constant">1</Term>
+    <Term type="constant">2</Term>
     for files targeting this version of the specification.
   </Paragraph>
 

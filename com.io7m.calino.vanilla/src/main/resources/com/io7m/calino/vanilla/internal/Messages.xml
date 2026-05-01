@@ -55,7 +55,7 @@
     0x{3}.
   </entry>
   <entry key="errorArrayMipNotUnique">
-    Mip layer {0}, layer {1} is not unique.
+    Mip layer {0}, level {1} is not unique.
   </entry>
   <entry key="errorArrayLayerCount">
     The texture file specifies a Z size of {0} but provides {1} layers.

@@ -14,6 +14,8 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
+import com.io7m.calino.vanilla.CLN2Validators;
+
 /**
  * Calino texture format (Vanilla implementation)
  */
@@ -23,16 +25,21 @@ module com.io7m.calino.vanilla
   requires static org.osgi.annotation.bundle;
   requires static org.osgi.annotation.versioning;
 
-  requires transitive com.io7m.calino.api;
-  requires transitive com.io7m.calino.parser.api;
-  requires transitive com.io7m.calino.supercompression.api;
-  requires transitive com.io7m.calino.validation.api;
-  requires transitive com.io7m.calino.writer.api;
+  requires com.io7m.calino.api;
+  requires com.io7m.calino.parser.api;
+  requires com.io7m.calino.supercompression.api;
+  requires com.io7m.calino.validation.api;
+  requires com.io7m.calino.writer.api;
 
+  requires com.io7m.entomos.core;
   requires com.io7m.jaffirm.core;
   requires com.io7m.jbssio.api;
+  requires com.io7m.jbssio.vanilla;
+  requires com.io7m.jmulticlose.core;
   requires com.io7m.junreachable.core;
   requires com.io7m.jxtrand.vanilla;
+  requires com.io7m.seltzer.io;
+  requires com.io7m.verona.core;
   requires com.io7m.wendover.core;
   requires org.slf4j;
 
@@ -43,11 +50,11 @@ module com.io7m.calino.vanilla
   uses com.io7m.jbssio.api.BSSWriterProviderType;
 
   provides com.io7m.calino.parser.api.CLNParserFactoryType
-    with com.io7m.calino.vanilla.CLN1Parsers;
+    with com.io7m.calino.vanilla.CLN2Parsers;
   provides com.io7m.calino.writer.api.CLNWriterFactoryType
-    with com.io7m.calino.vanilla.CLN1Writers;
+    with com.io7m.calino.vanilla.CLN2Writers;
   provides com.io7m.calino.validation.api.CLNValidatorFactoryType
-    with com.io7m.calino.vanilla.CLN1Validators;
+    with CLN2Validators;
 
   exports com.io7m.calino.vanilla;
 }

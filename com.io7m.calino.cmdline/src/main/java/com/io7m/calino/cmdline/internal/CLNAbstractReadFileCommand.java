@@ -28,7 +28,6 @@ import com.io7m.quarrel.core.QParameterNamed1;
 import com.io7m.quarrel.core.QParameterNamedType;
 import com.io7m.quarrel.core.QStringType;
 
-import java.io.IOException;
 import java.net.URI;
 import java.nio.channels.FileChannel;
 import java.nio.file.Path;
@@ -109,5 +108,5 @@ public abstract class CLNAbstractReadFileCommand
   protected abstract QCommandStatus executeWithReadFile(
     QCommandContextType context,
     CLNFileReadableType fileParsed)
-    throws IOException;
+    throws Exception;
 }

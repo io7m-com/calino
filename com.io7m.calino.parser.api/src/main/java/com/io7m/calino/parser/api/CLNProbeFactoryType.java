@@ -16,7 +16,8 @@
 
 package com.io7m.calino.parser.api;
 
-import java.io.IOException;
+import com.io7m.calino.api.CLNException;
+
 import java.net.URI;
 import java.nio.channels.SeekableByteChannel;
 
@@ -34,11 +35,11 @@ public interface CLNProbeFactoryType
    *
    * @return A version probe
    *
-   * @throws IOException On I/O errors
+   * @throws CLNException On errors
    */
 
   CLNProbeType createProbe(
     URI source,
     SeekableByteChannel channel)
-    throws IOException;
+    throws CLNException;
 }

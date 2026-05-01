@@ -38,7 +38,6 @@ import static com.io7m.calino.api.CLNChannelsLayoutDescriptionStandard.R8_G8;
 import static com.io7m.calino.api.CLNChannelsLayoutDescriptionStandard.R8_G8_B8;
 import static com.io7m.calino.api.CLNChannelsLayoutDescriptionStandard.R8_G8_B8_A8;
 import static com.io7m.calino.api.CLNChannelsTypeDescriptionStandard.SCALED_SIGNED;
-import static com.io7m.calino.api.CLNChannelsTypeDescriptionStandard.SCALED_SIGNED;
 import static com.io7m.calino.api.CLNColorSpaceStandard.COLOR_SPACE_LINEAR;
 import static com.io7m.calino.api.CLNCoordinateAxisR.AXIS_R_INCREASING_AWAY;
 import static com.io7m.calino.api.CLNCoordinateAxisS.AXIS_S_INCREASING_RIGHT;

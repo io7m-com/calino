@@ -16,25 +16,27 @@
 
 package com.io7m.calino.writer.api;
 
+import com.io7m.calino.api.CLNException;
 import com.io7m.calino.api.CLNFileWritableType;
-
-import java.io.Closeable;
-import java.io.IOException;
 
 /**
  * A file writer.
  */
 
-public interface CLNWriterType extends Closeable
+public interface CLNWriterType extends AutoCloseable
 {
+  @Override
+  void close()
+    throws CLNException;
+
   /**
    * Execute the writer.
    *
    * @return A writable file
    *
-   * @throws IOException On errors
+   * @throws CLNException On errors
    */
 
   CLNFileWritableType execute()
-    throws IOException;
+    throws CLNException;
 }

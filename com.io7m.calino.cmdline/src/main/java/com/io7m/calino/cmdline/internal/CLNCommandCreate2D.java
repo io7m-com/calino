@@ -34,7 +34,6 @@ import com.io7m.calino.supercompression.api.CLNCompressors;
 import com.io7m.calino.writer.api.CLNWriteRequest;
 import com.io7m.calino.writer.api.CLNWriters;
 import com.io7m.jmulticlose.core.CloseableCollection;
-import com.io7m.jmulticlose.core.ClosingResourceFailedException;
 import com.io7m.quarrel.core.QCommandContextType;
 import com.io7m.quarrel.core.QCommandMetadata;
 import com.io7m.quarrel.core.QCommandStatus;
@@ -126,7 +125,7 @@ public final class CLNCommandCreate2D extends CLNAbstractCommand
       "--format-version",
       List.of(),
       new QConstant("The requested file format version."),
-      Optional.of(new CLNVersion(1, 0)),
+      Optional.of(new CLNVersion(2, 0)),
       CLNVersion.class
     );
 
@@ -193,7 +192,7 @@ public final class CLNCommandCreate2D extends CLNAbstractCommand
   @Override
   public QCommandStatus onExecute(
     final QCommandContextType context)
-    throws IOException, ClosingResourceFailedException
+    throws Exception
   {
     final var writers = new CLNWriters();
 
@@ -270,7 +269,7 @@ public final class CLNCommandCreate2D extends CLNAbstractCommand
   private static void writeMetadata(
     final CLNFileWritableType writable,
     final Optional<Path> metadataFile)
-    throws IOException
+    throws Exception
   {
     if (metadataFile.isPresent()) {
       final var data = openMetadataFile(metadataFile.get());
@@ -300,7 +299,7 @@ public final class CLNCommandCreate2D extends CLNAbstractCommand
     final CLNImageMipMapChainType chain,
     final CLNFileWritableType writable,
     final CLNSuperCompressionMethodType superCompression)
-    throws IOException
+    throws Exception
   {
     try (var section = writable.createSectionImage2D()) {
       final var chainSize =
@@ -403,7 +402,7 @@ public final class CLNCommandCreate2D extends CLNAbstractCommand
 
   private static void writeEnd(
     final CLNFileWritableType writable)
-    throws IOException
+    throws Exception
   {
     try (var ignored = writable.createSectionEnd()) {
       // Nothing required
@@ -414,7 +413,7 @@ public final class CLNCommandCreate2D extends CLNAbstractCommand
     final CLNImageMipMapChainType chain,
     final CLNFileWritableType writable,
     final CLNSuperCompressionMethodType superCompression)
-    throws IOException
+    throws Exception
   {
     try (var section = writable.createSectionImageInfo()) {
       final var imageInfo = chain.imageInfo();

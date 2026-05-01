@@ -39,6 +39,7 @@ module com.io7m.calino.cmdline
   requires com.io7m.quarrel.ext.logback;
   requires java.desktop;
   requires org.slf4j;
+  requires com.io7m.entomos.core;
 
   opens com.io7m.calino.cmdline.internal
     to com.io7m.jxtrand.vanilla;

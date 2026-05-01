@@ -27,6 +27,8 @@
 
     <Paragraph id="e5108d48-42fd-4de3-8137-f42aafc44e20">
       There should be no trailing data in the texture file after the <Term type="term">End</Term> section.
+      Implementations must stop consuming data after the <Term type="term">End</Term> section and effectively ignore
+      any trailing data that might be present.
     </Paragraph>
   </Subsection>
 

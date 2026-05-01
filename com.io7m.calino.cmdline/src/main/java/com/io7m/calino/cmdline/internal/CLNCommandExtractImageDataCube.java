@@ -34,7 +34,6 @@ import org.slf4j.LoggerFactory;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.io.InputStream;
 import java.nio.channels.Channels;
 import java.nio.file.Files;
@@ -119,7 +118,7 @@ public final class CLNCommandExtractImageDataCube
   protected QCommandStatus executeWithReadFile(
     final QCommandContextType context,
     final CLNFileReadableType fileParsed)
-    throws IOException
+    throws Exception
   {
     final var outputFormat =
       context.parameterValue(OUTPUT_FORMAT);
@@ -178,7 +177,7 @@ public final class CLNCommandExtractImageDataCube
     final CLNSectionReadableImageCubeType sectionCube,
     final CLNImageCubeDescription imageDescription,
     final Path outputDirectory)
-    throws IOException
+    throws Exception
   {
     final var outputFile =
       outputDirectory.resolve(
@@ -298,7 +297,7 @@ public final class CLNCommandExtractImageDataCube
     final CLNImageCubeDescription imageDescription,
     final Path outputDirectory,
     final boolean decompress)
-    throws IOException
+    throws Exception
   {
     final var outputFile =
       outputDirectory.resolve(

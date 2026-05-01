@@ -16,7 +16,7 @@
 
 package com.io7m.calino.parser.api;
 
-import java.io.IOException;
+import com.io7m.calino.api.CLNException;
 
 /**
  * A factory of parsers.
@@ -43,10 +43,10 @@ public interface CLNParserFactoryType
    *
    * @return A new parser
    *
-   * @throws IOException On errors
+   * @throws CLNException On errors
    */
 
   CLNParserType createParser(
     CLNParseRequest request)
-    throws IOException;
+    throws CLNException;
 }

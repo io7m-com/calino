@@ -16,7 +16,6 @@
 
 package com.io7m.calino.api;
 
-import java.io.Closeable;
 import java.io.IOException;
 import java.nio.channels.SeekableByteChannel;
 
@@ -24,8 +23,13 @@ import java.nio.channels.SeekableByteChannel;
  * A writable section.
  */
 
-public interface CLNSectionWritableType extends Closeable
+public interface CLNSectionWritableType
+  extends AutoCloseable
 {
+  @Override
+  void close()
+    throws CLNException;
+
   /**
    * @return The section identifier
    */

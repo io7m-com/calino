@@ -16,6 +16,7 @@
 
 package com.io7m.calino.tests;
 
+import com.io7m.calino.api.CLNException;
 import com.io7m.calino.parser.api.CLNProbes;
 import com.io7m.jmulticlose.core.CloseableCollection;
 import com.io7m.jmulticlose.core.CloseableCollectionType;
@@ -58,7 +59,7 @@ public final class CLNProbesTest
 
   @Test
   public void testVersion1()
-    throws IOException
+    throws Exception
   {
     final var file =
       this.fileOf("basic.ctf");
@@ -86,8 +87,9 @@ public final class CLNProbesTest
     final var probe =
       this.probes.createProbe(file.toUri(), channel);
 
-    final var ex = assertThrows(IOException.class, probe::execute);
-    assertTrue(ex.getMessage().contains("Unrecognized file identifier"));
+    final var ex = assertThrows(CLNException.class, probe::execute);
+    assertEquals("error-file-identifier-incorrect", ex.errorCode());
+    assertEquals("File does not have the expected file identifier.", ex.message());
   }
 
   @Test
@@ -102,7 +104,7 @@ public final class CLNProbesTest
     final var probe =
       this.probes.createProbe(file.toUri(), channel);
 
-    final var ex = assertThrows(IOException.class, probe::execute);
+    final var ex = assertThrows(CLNException.class, probe::execute);
     assertTrue(ex.getMessage().contains("File is truncated."));
   }
 
@@ -118,7 +120,7 @@ public final class CLNProbesTest
     final var probe =
       this.probes.createProbe(file.toUri(), channel);
 
-    final var ex = assertThrows(IOException.class, probe::execute);
+    final var ex = assertThrows(CLNException.class, probe::execute);
     assertTrue(ex.getMessage().contains("File is truncated."));
   }
 
@@ -134,7 +136,7 @@ public final class CLNProbesTest
     final var probe =
       this.probes.createProbe(file.toUri(), channel);
 
-    final var ex = assertThrows(IOException.class, probe::execute);
+    final var ex = assertThrows(CLNException.class, probe::execute);
     assertTrue(ex.getMessage().contains("File is truncated."));
   }
 

@@ -16,8 +16,6 @@
 
 package com.io7m.calino.api;
 
-import java.io.IOException;
-
 /**
  * A readable image info section.
  */
@@ -28,9 +26,9 @@ public non-sealed interface CLNSectionReadableImageInfoType
   /**
    * @return The image info
    *
-   * @throws IOException On errors
+   * @throws CLNException On errors
    */
 
   CLNImageInfo info()
-    throws IOException;
+    throws CLNException;
 }

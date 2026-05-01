@@ -27,7 +27,6 @@ import com.io7m.quarrel.core.QStringType.QLocalize;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -67,7 +66,7 @@ public final class CLNCommandShowImageInfo extends CLNAbstractReadFileCommand
   protected QCommandStatus executeWithReadFile(
     final QCommandContextType context,
     final CLNFileReadableType fileParsed)
-    throws IOException
+    throws Exception
   {
     final var sectionImageInfo =
       fileParsed.openImageInfo();

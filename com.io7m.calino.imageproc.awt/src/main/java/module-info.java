@@ -23,7 +23,9 @@ module com.io7m.calino.imageproc.awt
   requires static org.osgi.annotation.bundle;
   requires static org.osgi.annotation.versioning;
 
-  requires transitive com.io7m.calino.imageproc.api;
+  requires com.io7m.calino.api;
+  requires com.io7m.calino.imageproc.api;
+
   requires java.desktop;
 
   exports com.io7m.calino.imageproc.awt;

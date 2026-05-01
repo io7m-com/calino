@@ -62,7 +62,7 @@ public final class CLNCommandCheck extends CLNAbstractReadFileCommand
       "--format-version",
       List.of(),
       new QConstant("The requested file format version."),
-      Optional.of(new CLNVersion(1, 0)),
+      Optional.of(new CLNVersion(2, 0)),
       CLNVersion.class
     );
 

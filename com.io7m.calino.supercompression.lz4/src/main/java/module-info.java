@@ -27,8 +27,8 @@ module com.io7m.calino.supercompression.lz4
   requires static org.osgi.annotation.bundle;
   requires static org.osgi.annotation.versioning;
 
-  requires transitive com.io7m.calino.api;
-  requires transitive com.io7m.calino.supercompression.spi;
+  requires com.io7m.calino.api;
+  requires com.io7m.calino.supercompression.spi;
 
   requires org.apache.commons.io;
   requires org.lz4.java;

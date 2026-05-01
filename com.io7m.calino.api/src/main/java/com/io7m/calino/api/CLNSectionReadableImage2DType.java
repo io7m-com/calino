@@ -16,7 +16,6 @@
 
 package com.io7m.calino.api;
 
-import java.io.IOException;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.channels.SeekableByteChannel;
 import java.util.List;
@@ -31,11 +30,11 @@ public non-sealed interface CLNSectionReadableImage2DType
   /**
    * @return The set of declared mipmaps
    *
-   * @throws IOException On errors
+   * @throws CLNException On errors
    */
 
   List<CLNImage2DDescription> mipMapDescriptions()
-    throws IOException;
+    throws CLNException;
 
   /**
    * Obtain a readable channel that returns decompressed data (that is, data
@@ -45,12 +44,12 @@ public non-sealed interface CLNSectionReadableImage2DType
    *
    * @return A readable channel
    *
-   * @throws IOException On I/O errors
+   * @throws CLNException On I/O errors
    */
 
   ReadableByteChannel mipMapDataWithoutSupercompression(
     CLNImage2DDescription description)
-    throws IOException;
+    throws CLNException;
 
   /**
    * Obtain a readable channel that returns potentially compressed data. The
@@ -61,10 +60,10 @@ public non-sealed interface CLNSectionReadableImage2DType
    *
    * @return A readable channel
    *
-   * @throws IOException On I/O errors
+   * @throws CLNException On I/O errors
    */
 
   SeekableByteChannel mipMapDataRaw(
     CLNImage2DDescription description)
-    throws IOException;
+    throws CLNException;
 }

@@ -16,7 +16,7 @@
 
 package com.io7m.calino.vanilla.internal;
 
-import java.io.IOException;
+import com.io7m.calino.api.CLNException;
 
 /**
  * An I/O operation.
@@ -31,9 +31,9 @@ public interface CLNIOOperationType<T>
    *
    * @return A value
    *
-   * @throws IOException On errors
+   * @throws CLNException On errors
    */
 
   T execute()
-    throws IOException;
+    throws CLNException;
 }

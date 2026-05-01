@@ -32,7 +32,6 @@ import com.io7m.quarrel.core.QParameterNamedType;
 import com.io7m.quarrel.core.QStringType.QConstant;
 import com.io7m.quarrel.core.QStringType.QLocalize;
 
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashSet;
 import java.util.List;
@@ -235,7 +234,7 @@ public final class CLNCommandShowSummary
   protected QCommandStatus executeWithReadFile(
     final QCommandContextType context,
     final CLNFileReadableType fileParsed)
-    throws IOException
+    throws Exception
   {
     final var showAllMipMaps =
       context.parameterValue(SHOW_ALL_MIPMAPS);

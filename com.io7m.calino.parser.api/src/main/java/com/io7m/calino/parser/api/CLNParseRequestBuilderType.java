@@ -16,6 +16,8 @@
 
 package com.io7m.calino.parser.api;
 
+import com.io7m.calino.parser.api.CLNParseRequest.CLNParseStrictness;
+
 import java.net.URI;
 import java.nio.channels.SeekableByteChannel;
 
@@ -94,6 +96,25 @@ public interface CLNParseRequestBuilderType
 
   CLNParseRequestBuilderType setKeyValueDatumLimit(
     long limit);
+
+  /**
+   * Set whether the parser should be strict. This may be useful if trying
+   * to rescue data from structurally corrupted files, or when performing
+   * external validation.
+   *
+   * @param strictness The parser strictness
+   *
+   * @return this
+   */
+
+  CLNParseRequestBuilderType setStrictness(
+    CLNParseStrictness strictness);
+
+  /**
+   * @return The parser strictness
+   */
+
+  CLNParseStrictness strictness();
 
   /**
    * @return An immutable parse request

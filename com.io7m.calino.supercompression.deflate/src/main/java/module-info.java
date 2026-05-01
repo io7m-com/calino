@@ -14,9 +14,9 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
+import com.io7m.calino.supercompression.deflate.CLNSupercompressionDEFLATE;
 import com.io7m.calino.supercompression.spi.CLNCompressorSPIFactoryType;
 import com.io7m.calino.supercompression.spi.CLNDecompressorSPIFactoryType;
-import com.io7m.calino.supercompression.deflate.CLNSupercompressionDEFLATE;
 
 /**
  * Calino texture format (DEFLATE Decompressor).
@@ -27,8 +27,8 @@ module com.io7m.calino.supercompression.deflate
   requires static org.osgi.annotation.bundle;
   requires static org.osgi.annotation.versioning;
 
-  requires transitive com.io7m.calino.api;
-  requires transitive com.io7m.calino.supercompression.spi;
+  requires com.io7m.calino.api;
+  requires com.io7m.calino.supercompression.spi;
 
   requires org.apache.commons.io;
   requires org.slf4j;

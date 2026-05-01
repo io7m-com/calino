@@ -19,14 +19,14 @@ package com.io7m.calino.documentation;
 import com.io7m.calino.cmdline.CLNMain;
 
 import java.io.PrintStream;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 import java.util.List;
 
-import static java.nio.charset.StandardCharsets.*;
-import static java.nio.file.StandardOpenOption.*;
+import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.nio.file.StandardOpenOption.CREATE;
+import static java.nio.file.StandardOpenOption.TRUNCATE_EXISTING;
+import static java.nio.file.StandardOpenOption.WRITE;
 
 /**
  * Generate example text.

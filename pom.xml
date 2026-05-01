@@ -48,9 +48,18 @@
     <io7m.java.targetJavaVersion>25</io7m.java.targetJavaVersion>
 
     <!-- io7m dependencies. -->
-    <com.io7m.jbssio.version>3.0.0</com.io7m.jbssio.version>
+    <com.io7m.entomos.version>1.0.0</com.io7m.entomos.version>
+    <com.io7m.ieee754b16.version>3.0.1</com.io7m.ieee754b16.version>
+    <com.io7m.jaffirm.version>4.0.1</com.io7m.jaffirm.version>
+    <com.io7m.jbssio.version>4.0.0</com.io7m.jbssio.version>
+    <com.io7m.jmulticlose.version>1.1.3</com.io7m.jmulticlose.version>
+    <com.io7m.junreachable.version>4.0.2</com.io7m.junreachable.version>
+    <com.io7m.junsigned.version>4.0.0</com.io7m.junsigned.version>
     <com.io7m.jxtrand.version>2.1.0</com.io7m.jxtrand.version>
     <com.io7m.quarrel.version>1.8.1</com.io7m.quarrel.version>
+    <com.io7m.seltzer.version>1.3.0</com.io7m.seltzer.version>
+    <com.io7m.verona.version>1.1.0</com.io7m.verona.version>
+    <com.io7m.wendover.version>1.1.0</com.io7m.wendover.version>
     <com.io7m.xstructural.version>2.0.1</com.io7m.xstructural.version>
 
     <!-- Third-party dependencies. -->
@@ -110,7 +119,7 @@
       <dependency>
         <groupId>com.io7m.wendover</groupId>
         <artifactId>com.io7m.wendover.core</artifactId>
-        <version>1.0.2</version>
+        <version>${com.io7m.wendover.version}</version>
       </dependency>
       <dependency>
         <groupId>com.io7m.jxtrand</groupId>
@@ -125,23 +134,65 @@
       <dependency>
         <groupId>com.io7m.jaffirm</groupId>
         <artifactId>com.io7m.jaffirm.core</artifactId>
-        <version>4.0.1</version>
+        <version>${com.io7m.jaffirm.version}</version>
       </dependency>
       <dependency>
         <groupId>com.io7m.jbssio</groupId>
-        <artifactId>com.io7m.jbssio.api</artifactId>
+        <artifactId>com.io7m.jbssio.bom</artifactId>
         <version>${com.io7m.jbssio.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.io7m.jbssio</groupId>
-        <artifactId>com.io7m.jbssio.vanilla</artifactId>
-        <version>${com.io7m.jbssio.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
       </dependency>
       <dependency>
         <groupId>com.io7m.jmulticlose</groupId>
         <artifactId>com.io7m.jmulticlose.core</artifactId>
-        <version>1.1.3</version>
+        <version>${com.io7m.jmulticlose.version}</version>
       </dependency>
+      <dependency>
+        <groupId>com.io7m.primogenitor</groupId>
+        <artifactId>com.io7m.primogenitor.support</artifactId>
+        <version>9.2.0</version>
+      </dependency>
+      <dependency>
+        <groupId>com.io7m.quarrel</groupId>
+        <artifactId>com.io7m.quarrel.bom</artifactId>
+        <version>${com.io7m.quarrel.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <dependency>
+        <groupId>com.io7m.junsigned</groupId>
+        <artifactId>com.io7m.junsigned.core</artifactId>
+        <version>${com.io7m.junsigned.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.io7m.ieee754b16</groupId>
+        <artifactId>com.io7m.ieee754b16.core</artifactId>
+        <version>${com.io7m.ieee754b16.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.io7m.entomos</groupId>
+        <artifactId>com.io7m.entomos.core</artifactId>
+        <version>${com.io7m.entomos.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.io7m.seltzer</groupId>
+        <artifactId>com.io7m.seltzer.bom</artifactId>
+        <version>${com.io7m.seltzer.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <dependency>
+        <groupId>com.io7m.junreachable</groupId>
+        <artifactId>com.io7m.junreachable.core</artifactId>
+        <version>${com.io7m.junreachable.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.io7m.verona</groupId>
+        <artifactId>com.io7m.verona.core</artifactId>
+        <version>${com.io7m.verona.version}</version>
+      </dependency>
+
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-math3</artifactId>
@@ -193,28 +244,6 @@
         <groupId>org.osgi</groupId>
         <artifactId>org.osgi.annotation.versioning</artifactId>
         <version>1.1.2</version>
-      </dependency>
-      <dependency>
-        <groupId>com.io7m.primogenitor</groupId>
-        <artifactId>com.io7m.primogenitor.support</artifactId>
-        <version>9.2.0</version>
-      </dependency>
-      <dependency>
-        <groupId>com.io7m.quarrel</groupId>
-        <artifactId>com.io7m.quarrel.bom</artifactId>
-        <version>${com.io7m.quarrel.version}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-      <dependency>
-        <groupId>com.io7m.junsigned</groupId>
-        <artifactId>com.io7m.junsigned.core</artifactId>
-        <version>4.0.0</version>
-      </dependency>
-      <dependency>
-        <groupId>com.io7m.ieee754b16</groupId>
-        <artifactId>com.io7m.ieee754b16.core</artifactId>
-        <version>3.0.1</version>
       </dependency>
     </dependencies>
   </dependencyManagement>

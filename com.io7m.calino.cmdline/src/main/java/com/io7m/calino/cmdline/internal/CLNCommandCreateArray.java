@@ -34,7 +34,6 @@ import com.io7m.calino.supercompression.api.CLNCompressors;
 import com.io7m.calino.writer.api.CLNWriteRequest;
 import com.io7m.calino.writer.api.CLNWriters;
 import com.io7m.jmulticlose.core.CloseableCollection;
-import com.io7m.jmulticlose.core.ClosingResourceFailedException;
 import com.io7m.quarrel.core.QCommandContextType;
 import com.io7m.quarrel.core.QCommandMetadata;
 import com.io7m.quarrel.core.QCommandStatus;
@@ -132,7 +131,7 @@ public final class CLNCommandCreateArray extends CLNAbstractCommand
       "--format-version",
       List.of(),
       new QStringType.QConstant("The requested file format version."),
-      Optional.of(new CLNVersion(1, 0)),
+      Optional.of(new CLNVersion(2, 0)),
       CLNVersion.class
     );
 
@@ -199,7 +198,7 @@ public final class CLNCommandCreateArray extends CLNAbstractCommand
   @Override
   public QCommandStatus onExecute(
     final QCommandContextType context)
-    throws IOException, ClosingResourceFailedException
+    throws Exception
   {
     final var writers = new CLNWriters();
 
@@ -312,7 +311,7 @@ public final class CLNCommandCreateArray extends CLNAbstractCommand
   private static void writeMetadata(
     final CLNFileWritableType writable,
     final Optional<Path> metadataFile)
-    throws IOException
+    throws Exception
   {
     if (metadataFile.isPresent()) {
       final var data = openMetadataFile(metadataFile.get());
@@ -324,7 +323,7 @@ public final class CLNCommandCreateArray extends CLNAbstractCommand
 
   private static Map<String, List<String>> openMetadataFile(
     final Path file)
-    throws IOException
+    throws Exception
   {
     try (var stream = Files.newInputStream(file)) {
       final var properties = new Properties();
@@ -342,7 +341,7 @@ public final class CLNCommandCreateArray extends CLNAbstractCommand
     final SortedMap<Integer, CLNImageMipMapChainType> chains,
     final CLNFileWritableType writable,
     final CLNSuperCompressionMethodType superCompression)
-    throws IOException
+    throws Exception
   {
     try (var section = writable.createSectionImageArray()) {
       final var chain0 =
@@ -454,7 +453,7 @@ public final class CLNCommandCreateArray extends CLNAbstractCommand
 
   private static void writeEnd(
     final CLNFileWritableType writable)
-    throws IOException
+    throws Exception
   {
     try (var ignored = writable.createSectionEnd()) {
       // Nothing required
@@ -466,7 +465,7 @@ public final class CLNCommandCreateArray extends CLNAbstractCommand
     final int layerCount,
     final CLNFileWritableType writable,
     final CLNSuperCompressionMethodType superCompression)
-    throws IOException
+    throws Exception
   {
     try (var section = writable.createSectionImageInfo()) {
       final var imageInfo = chain.imageInfo();

@@ -16,25 +16,24 @@
 
 package com.io7m.calino.parser.api;
 
+import com.io7m.calino.api.CLNException;
 import com.io7m.calino.api.CLNFileReadableType;
-
-import java.io.Closeable;
-import java.io.IOException;
 
 /**
  * A parser.
  */
 
-public interface CLNParserType extends Closeable
+public interface CLNParserType
+  extends AutoCloseable
 {
   /**
    * Execute the parser, returning a readable file.
    *
    * @return The file
    *
-   * @throws IOException On errors
+   * @throws CLNException On errors
    */
 
   CLNFileReadableType execute()
-    throws IOException;
+    throws CLNException;
 }

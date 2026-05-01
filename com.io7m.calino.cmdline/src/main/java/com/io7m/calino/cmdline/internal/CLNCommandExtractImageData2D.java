@@ -17,6 +17,7 @@
 package com.io7m.calino.cmdline.internal;
 
 import com.io7m.calino.api.CLNChannelsLayoutDescriptionStandard;
+import com.io7m.calino.api.CLNException;
 import com.io7m.calino.api.CLNFileReadableType;
 import com.io7m.calino.api.CLNImage2DDescription;
 import com.io7m.calino.api.CLNImageInfo;
@@ -35,7 +36,6 @@ import org.slf4j.LoggerFactory;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.io.InputStream;
 import java.nio.channels.Channels;
 import java.nio.file.Files;
@@ -158,7 +158,7 @@ public final class CLNCommandExtractImageData2D extends
     final CLNSectionReadableImage2DType section2d,
     final CLNImage2DDescription imageDescription,
     final Path outputDirectory)
-    throws IOException
+    throws CLNException
   {
     final var outputFile =
       outputDirectory.resolve(
@@ -218,6 +218,8 @@ public final class CLNCommandExtractImageData2D extends
       }
 
       ImageIO.write(outputImage, "PNG", outputFile.toFile());
+    } catch (final Exception e) {
+      throw CLNException.wrap(e);
     }
   }
 
@@ -226,7 +228,7 @@ public final class CLNCommandExtractImageData2D extends
     final CLNImage2DDescription imageDescription,
     final Path outputDirectory,
     final boolean decompress)
-    throws IOException
+    throws CLNException
   {
     final var outputFile =
       outputDirectory.resolve(
@@ -261,6 +263,8 @@ public final class CLNCommandExtractImageData2D extends
 
       inputStream.transferTo(outputStream);
       outputStream.flush();
+    } catch (final Exception e) {
+      throw CLNException.wrap(e);
     }
   }
 
@@ -278,7 +282,7 @@ public final class CLNCommandExtractImageData2D extends
   protected QCommandStatus executeWithReadFile(
     final QCommandContextType context,
     final CLNFileReadableType fileParsed)
-    throws IOException
+    throws Exception
   {
     final var outputFormat =
       context.parameterValue(OUTPUT_FORMAT);

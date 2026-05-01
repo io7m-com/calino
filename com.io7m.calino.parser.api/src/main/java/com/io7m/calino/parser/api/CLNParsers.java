@@ -16,13 +16,14 @@
 
 package com.io7m.calino.parser.api;
 
+import com.io7m.calino.api.CLNException;
 import com.io7m.calino.api.CLNVersion;
 
-import java.io.IOException;
 import java.net.URI;
 import java.nio.channels.SeekableByteChannel;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.ServiceLoader;
@@ -42,6 +43,21 @@ public final class CLNParsers
   public CLNParsers()
   {
     this.probes = new CLNProbes();
+  }
+
+  private static CLNException errorNoSupport(
+    final URI source,
+    final CLNVersion version)
+  {
+    return new CLNException(
+      "No parser is available to support the file version.",
+      Map.ofEntries(
+        Map.entry("Source", source.toString()),
+        Map.entry("Version", version.toString())
+      ),
+      "error-version-unsupported",
+      Optional.empty()
+    );
   }
 
   /**
@@ -71,12 +87,13 @@ public final class CLNParsers
       }
     }
 
-    Collections.sort(candidates, (o1, o2) -> {
-      return Integer.compareUnsigned(
-        o1.highestMinorVersion(),
-        o2.highestMinorVersion()
-      );
-    });
+    Collections.sort(
+      candidates, (o1, o2) -> {
+        return Integer.compareUnsigned(
+          o1.highestMinorVersion(),
+          o2.highestMinorVersion()
+        );
+      });
 
     if (candidates.isEmpty()) {
       return Optional.empty();
@@ -94,13 +111,13 @@ public final class CLNParsers
    *
    * @return A parser factory
    *
-   * @throws IOException On errors
+   * @throws CLNException On errors
    */
 
   public Optional<CLNParserFactoryType> findParserFactoryFor(
     final SeekableByteChannel channel,
     final URI source)
-    throws IOException
+    throws CLNException
   {
     Objects.requireNonNull(channel, "channel");
     Objects.requireNonNull(source, "source");
@@ -110,7 +127,7 @@ public final class CLNParsers
   private FindResult probeVersion(
     final SeekableByteChannel channel,
     final URI source)
-    throws IOException
+    throws CLNException
   {
     final var probe =
       this.probes.createProbe(source, channel);
@@ -128,12 +145,12 @@ public final class CLNParsers
    *
    * @return A parser
    *
-   * @throws IOException On errors
+   * @throws CLNException On errors
    */
 
   public CLNParserType createParser(
     final CLNParseRequest request)
-    throws IOException
+    throws CLNException
   {
     Objects.requireNonNull(request, "request");
 
@@ -142,11 +159,7 @@ public final class CLNParsers
 
     final var factoryOpt = result.factory();
     if (factoryOpt.isEmpty()) {
-      throw new IOException(
-        String.format(
-          "No parser available supporting version %s%n",
-          result.version.toString()
-        ));
+      throw errorNoSupport(request.source(), result.version);
     }
 
     final var factory = factoryOpt.get();

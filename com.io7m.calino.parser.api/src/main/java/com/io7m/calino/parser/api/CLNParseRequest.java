@@ -17,6 +17,7 @@
 package com.io7m.calino.parser.api;
 
 import com.io7m.calino.supercompression.api.CLNDecompressorFactoryType;
+import com.io7m.wendover.core.UncloseableSeekableByteChannel;
 
 import java.net.URI;
 import java.nio.channels.SeekableByteChannel;
@@ -30,6 +31,7 @@ import java.util.Objects;
  * @param source                The data source
  * @param descriptorLengthLimit The maximum descriptor length
  * @param keyValueDatumLimit    The maximum value of a metadata key or value
+ * @param strictness            The parser strictness
  */
 
 public record CLNParseRequest(
@@ -37,8 +39,25 @@ public record CLNParseRequest(
   SeekableByteChannel channel,
   URI source,
   long descriptorLengthLimit,
-  long keyValueDatumLimit)
+  long keyValueDatumLimit,
+  CLNParseStrictness strictness)
 {
+  /**
+   * The strictness of parsing.
+   */
+
+  public enum CLNParseStrictness
+  {
+    /**
+     * Perform the standard structural tests when parsing.
+     */
+    PARSE_STRICT,
+    /**
+     * Perform no tests when parsing.
+     */
+    PARSE_PERMISSIVE
+  }
+
   /**
    * A parse request.
    *
@@ -47,6 +66,7 @@ public record CLNParseRequest(
    * @param source                The data source
    * @param descriptorLengthLimit The maximum descriptor length
    * @param keyValueDatumLimit    The maximum value of a metadata key or value
+   * @param strictness            The parser strictness
    */
 
   public CLNParseRequest
@@ -54,6 +74,8 @@ public record CLNParseRequest(
     Objects.requireNonNull(decompressors, "decompressors");
     Objects.requireNonNull(channel, "channel");
     Objects.requireNonNull(source, "source");
+    Objects.requireNonNull(strictness, "strictness");
+    channel = new UncloseableSeekableByteChannel(channel);
   }
 
   /**
@@ -82,6 +104,7 @@ public record CLNParseRequest(
     private URI source;
     private long keyValueDatumLimit = 1_000_000L;
     private long descriptorLengthLimit = 256L;
+    private CLNParseStrictness strictness = CLNParseStrictness.PARSE_STRICT;
 
     private Builder(
       final CLNDecompressorFactoryType inDecompressors,
@@ -153,6 +176,21 @@ public record CLNParseRequest(
     }
 
     @Override
+    public CLNParseRequestBuilderType setStrictness(
+      final CLNParseStrictness strictnessNew)
+    {
+      this.strictness =
+        Objects.requireNonNull(strictnessNew, "Strictness");
+      return this;
+    }
+
+    @Override
+    public CLNParseStrictness strictness()
+    {
+      return this.strictness;
+    }
+
+    @Override
     public CLNParseRequest build()
     {
       return new CLNParseRequest(
@@ -160,7 +198,8 @@ public record CLNParseRequest(
         this.channel,
         this.source,
         this.descriptorLengthLimit,
-        this.keyValueDatumLimit
+        this.keyValueDatumLimit,
+        this.strictness
       );
     }
   }

@@ -20,7 +20,7 @@
 
 @ProviderType
 @Export
-@Version("1.0.1")
+@Version("2.0.0")
 package com.io7m.calino.parser.api;
 
 import org.osgi.annotation.bundle.Export;

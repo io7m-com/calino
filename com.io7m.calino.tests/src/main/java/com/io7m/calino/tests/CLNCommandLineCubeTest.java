@@ -113,7 +113,7 @@ public final class CLNCommandLineCubeTest
     for (final var name : files) {
       final var path =
         CLNTestDirectories.resourceOf(
-          CLN1ParsersContract.class,
+          CLN2ParsersContract.class,
           this.directory,
           name
         );

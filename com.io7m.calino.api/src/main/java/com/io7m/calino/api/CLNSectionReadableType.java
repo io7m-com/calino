@@ -16,27 +16,26 @@
 
 package com.io7m.calino.api;
 
-import java.io.Closeable;
-import java.io.IOException;
+import com.io7m.entomos.core.EoFileSection;
+
 import java.nio.channels.SeekableByteChannel;
 
 /**
  * A readable section.
  */
 
-public interface CLNSectionReadableType extends Closeable
+public interface CLNSectionReadableType
+  extends AutoCloseable
 {
-  /**
-   * @return A file section description
-   */
-
-  CLNFileSectionDescription fileSectionDescription();
-
   /**
    * @return A section description
    */
 
-  CLNSectionDescription description();
+  EoFileSection section();
+
+  @Override
+  void close()
+    throws CLNException;
 
   /**
    * Obtain a readable channel that delivers the data contained within the
@@ -44,9 +43,9 @@ public interface CLNSectionReadableType extends Closeable
    *
    * @return A readable channel
    *
-   * @throws IOException On errors
+   * @throws CLNException On errors
    */
 
   SeekableByteChannel sectionDataChannel()
-    throws IOException;
+    throws CLNException;
 }

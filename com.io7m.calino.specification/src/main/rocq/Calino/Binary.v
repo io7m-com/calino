@@ -97,7 +97,7 @@ Definition binaryExpImage2DSection
   (m : mipMapList)
 : binaryExp := BiRecord [
   ("id",   u64 0x434C4E5F49324421);
-  ("size", u64 (binarySizePadded16 (binaryExpImage2D i m)));
+  ("size", u64 (binarySize (binaryExpImage2D i m)));
   ("data", binaryExpImage2D i m)
 ].
 
@@ -137,7 +137,7 @@ Definition binaryExpImageArraySection
   (m : arrayMipMapList)
 : binaryExp := BiRecord [
   ("id",   u64 0x434C4E5F41525221);
-  ("size", u64 (binarySizePadded16 (binaryExpImageArray i m)));
+  ("size", u64 (binarySize (binaryExpImageArray i m)));
   ("data", binaryExpImageArray i m)
 ].
 
@@ -188,7 +188,7 @@ Definition binaryExpImageCubeSection
   (m : cubeMipMapList)
 : binaryExp := BiRecord [
   ("id",   u64 0x434C4E5F43554245);
-  ("size", u64 (binarySizePadded16 (binaryExpImageCubeMap i m)));
+  ("size", u64 (binarySize (binaryExpImageCubeMap i m)));
   ("data", binaryExpImageCubeMap i m)
 ].
 
@@ -221,13 +221,13 @@ Definition binaryExpImageInfo (i : imageInfo) : binaryExp := BiRecord [
 
 Definition binaryExpFileHeader : binaryExp := BiRecord [
   ("id",           u64 0x89434C4E0D0A1A0A);
-  ("versionMajor", u32 1);
+  ("versionMajor", u32 2);
   ("versionMinor", u32 0)
 ].
 
 Definition binaryExpImageInfoSection (i : imageInfo) : binaryExp := BiRecord [
   ("id",   u64 0x434C4E49494E464F);
-  ("size", u64 (binarySizePadded16 (binaryExpImageInfo i)));
+  ("size", u64 (binarySize (binaryExpImageInfo i)));
   ("data", binaryExpImageInfo i)
 ].
 
@@ -241,7 +241,7 @@ Definition binaryExpMetadata (m : metadata) : binaryExp :=
 
 Definition binaryExpMetadataSection (m : metadata) : binaryExp := BiRecord [
   ("id",   u64 0x434C4E5F4D455441);
-  ("size", u64 (binarySizePadded16 (binaryExpMetadata m)));
+  ("size", u64 (binarySize (binaryExpMetadata m)));
   ("data", binaryExpMetadata m)
 ].
 

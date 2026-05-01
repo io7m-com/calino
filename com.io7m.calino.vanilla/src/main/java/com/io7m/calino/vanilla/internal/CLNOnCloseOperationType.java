@@ -16,7 +16,7 @@
 
 package com.io7m.calino.vanilla.internal;
 
-import java.io.IOException;
+import com.io7m.calino.api.CLNException;
 
 /**
  * An operation executed when something is closed.
@@ -31,9 +31,9 @@ public interface CLNOnCloseOperationType<T>
    *
    * @param context The context
    *
-   * @throws IOException On errors
+   * @throws CLNException On errors
    */
 
   void execute(T context)
-    throws IOException;
+    throws CLNException;
 }

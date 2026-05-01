@@ -16,7 +16,6 @@
 
 package com.io7m.calino.api;
 
-import java.io.Closeable;
 import java.io.IOException;
 import java.util.List;
 
@@ -31,8 +30,13 @@ import static com.io7m.calino.api.CLNIdentifiers.sectionMetadataIdentifier;
  * A writable file.
  */
 
-public interface CLNFileWritableType extends Closeable
+public interface CLNFileWritableType
+  extends AutoCloseable
 {
+  @Override
+  void close()
+    throws CLNException;
+
   /**
    * @return The sections currently declared within the file
    *

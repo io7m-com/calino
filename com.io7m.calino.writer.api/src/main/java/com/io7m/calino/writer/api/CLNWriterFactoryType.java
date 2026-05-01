@@ -16,7 +16,7 @@
 
 package com.io7m.calino.writer.api;
 
-import java.io.IOException;
+import com.io7m.calino.api.CLNException;
 
 /**
  * The type of writer factories.
@@ -43,10 +43,10 @@ public interface CLNWriterFactoryType
    *
    * @return A new writer
    *
-   * @throws IOException On errors
+   * @throws CLNException On errors
    */
 
   CLNWriterType createWriter(
     CLNWriteRequest request)
-    throws IOException;
+    throws CLNException;
 }

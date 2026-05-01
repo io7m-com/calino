@@ -279,28 +279,9 @@ public final class CLNCommandLineTest
   {
     final var file =
       CLNTestDirectories.resourceOf(
-        CLN1ParsersContract.class,
+        CLN2ParsersContract.class,
         this.directory,
-        "basic.ctf"
-      );
-
-    final var r = CLNMain.mainExitless(new String[]{
-      "show-sections",
-      "--file",
-      file.toAbsolutePath().toString()
-    });
-    assertEquals(0, r);
-  }
-
-  @Test
-  public void testShowSectionsWarn()
-    throws IOException
-  {
-    final var file =
-      CLNTestDirectories.resourceOf(
-        CLN1ParsersContract.class,
-        this.directory,
-        "warn-unaligned.ctf"
+        "fade32.ctf"
       );
 
     final var r = CLNMain.mainExitless(new String[]{
@@ -317,28 +298,9 @@ public final class CLNCommandLineTest
   {
     final var file =
       CLNTestDirectories.resourceOf(
-        CLN1ParsersContract.class,
+        CLN2ParsersContract.class,
         this.directory,
-        "basic.ctf"
-      );
-
-    final var r = CLNMain.mainExitless(new String[]{
-      "show-version",
-      "--file",
-      file.toAbsolutePath().toString()
-    });
-    assertEquals(0, r);
-  }
-
-  @Test
-  public void testShowVersionWarn()
-    throws IOException
-  {
-    final var file =
-      CLNTestDirectories.resourceOf(
-        CLN1ParsersContract.class,
-        this.directory,
-        "warn-unaligned.ctf"
+        "fade32.ctf"
       );
 
     final var r = CLNMain.mainExitless(new String[]{
@@ -355,9 +317,9 @@ public final class CLNCommandLineTest
   {
     final var file =
       CLNTestDirectories.resourceOf(
-        CLN1ParsersContract.class,
+        CLN2ParsersContract.class,
         this.directory,
-        "basic.ctf"
+        "fade32-mipmaps.ctf"
       );
 
     final var r = CLNMain.mainExitless(new String[]{
@@ -376,9 +338,9 @@ public final class CLNCommandLineTest
   {
     final var file =
       CLNTestDirectories.resourceOf(
-        CLN1ParsersContract.class,
+        CLN2ParsersContract.class,
         this.directory,
-        "basic-lz4.ctf"
+        "fade32-lz4.ctf"
       );
 
     final var r = CLNMain.mainExitless(new String[]{
@@ -397,9 +359,9 @@ public final class CLNCommandLineTest
   {
     final var file =
       CLNTestDirectories.resourceOf(
-        CLN1ParsersContract.class,
+        CLN2ParsersContract.class,
         this.directory,
-        "basic-array.ctf"
+        "array-mipmaps.ctf"
       );
 
     final var r = CLNMain.mainExitless(new String[]{
@@ -418,9 +380,9 @@ public final class CLNCommandLineTest
   {
     final var file =
       CLNTestDirectories.resourceOf(
-        CLN1ParsersContract.class,
+        CLN2ParsersContract.class,
         this.directory,
-        "basic-array-lz4.ctf"
+        "array-mipmaps-lz4.ctf"
       );
 
     final var r = CLNMain.mainExitless(new String[]{
@@ -439,9 +401,9 @@ public final class CLNCommandLineTest
   {
     final var file =
       CLNTestDirectories.resourceOf(
-        CLN1ParsersContract.class,
+        CLN2ParsersContract.class,
         this.directory,
-        "basic-cube.ctf"
+        "cube-mipmaps.ctf"
       );
 
     final var r = CLNMain.mainExitless(new String[]{
@@ -460,9 +422,9 @@ public final class CLNCommandLineTest
   {
     final var file =
       CLNTestDirectories.resourceOf(
-        CLN1ParsersContract.class,
+        CLN2ParsersContract.class,
         this.directory,
-        "basic-cube-lz4.ctf"
+        "cube-mipmaps-lz4.ctf"
       );
 
     final var r = CLNMain.mainExitless(new String[]{
@@ -476,33 +438,14 @@ public final class CLNCommandLineTest
   }
 
   @Test
-  public void testShowSummaryWarn()
-    throws IOException
-  {
-    final var file =
-      CLNTestDirectories.resourceOf(
-        CLN1ParsersContract.class,
-        this.directory,
-        "warn-unaligned.ctf"
-      );
-
-    final var r = CLNMain.mainExitless(new String[]{
-      "show-summary",
-      "--file",
-      file.toAbsolutePath().toString()
-    });
-    assertEquals(0, r);
-  }
-
-  @Test
   public void testExtractImageDataBasic()
     throws IOException
   {
     final var file =
       CLNTestDirectories.resourceOf(
-        CLN1ParsersContract.class,
+        CLN2ParsersContract.class,
         this.directory,
-        "basic.ctf"
+        "fade32.ctf"
       );
 
     final var r = CLNMain.mainExitless(new String[]{
@@ -515,7 +458,7 @@ public final class CLNCommandLineTest
       "true"
     });
     assertEquals(0, r);
-    assertEquals(3072L, Files.size(this.directoryOutput.resolve("m000.raw")));
+    assertEquals(4096L, Files.size(this.directoryOutput.resolve("m000.raw")));
   }
 
   @Test
@@ -524,9 +467,9 @@ public final class CLNCommandLineTest
   {
     final var file =
       CLNTestDirectories.resourceOf(
-        CLN1ParsersContract.class,
+        CLN2ParsersContract.class,
         this.directory,
-        "basic-cube.ctf"
+        "cube-mipmaps.ctf"
       );
 
     final var r = CLNMain.mainExitless(new String[]{
@@ -662,9 +605,9 @@ public final class CLNCommandLineTest
   {
     final var file =
       CLNTestDirectories.resourceOf(
-        CLN1ParsersContract.class,
+        CLN2ParsersContract.class,
         this.directory,
-        "basic-cube-lz4.ctf"
+        "cube-mipmaps-lz4.ctf"
       );
 
     final var r = CLNMain.mainExitless(new String[]{
@@ -788,9 +731,9 @@ public final class CLNCommandLineTest
   {
     final var file =
       CLNTestDirectories.resourceOf(
-        CLN1ParsersContract.class,
+        CLN2ParsersContract.class,
         this.directory,
-        "basic-cube-lz4.ctf"
+        "cube-mipmaps-lz4.ctf"
       );
 
     final var r = CLNMain.mainExitless(new String[]{
@@ -926,14 +869,14 @@ public final class CLNCommandLineTest
   {
     final var file0 =
       CLNTestDirectories.resourceOf(
-        CLN1ParsersContract.class,
+        CLN2ParsersContract.class,
         this.directory,
         "produce8.png"
       );
 
     final var file1 =
       CLNTestDirectories.resourceOf(
-        CLN1ParsersContract.class,
+        CLN2ParsersContract.class,
         this.directory,
         "produceFade.png"
       );
@@ -995,7 +938,7 @@ public final class CLNCommandLineTest
   {
     final var file =
       CLNTestDirectories.resourceOf(
-        CLN1ParsersContract.class,
+        CLN2ParsersContract.class,
         this.directory,
         "produce8.png"
       );
@@ -1050,9 +993,9 @@ public final class CLNCommandLineTest
   {
     final var file =
       CLNTestDirectories.resourceOf(
-        CLN1ParsersContract.class,
+        CLN2ParsersContract.class,
         this.directory,
-        "basic.ctf"
+        "fade32.ctf"
       );
 
     final var r = CLNMain.mainExitless(new String[]{
@@ -1065,7 +1008,7 @@ public final class CLNCommandLineTest
       "false"
     });
     assertEquals(0, r);
-    assertEquals(3072L, Files.size(this.directoryOutput.resolve("m000.raw")));
+    assertEquals(4096L, Files.size(this.directoryOutput.resolve("m000.raw")));
   }
 
   @Test
@@ -1074,9 +1017,9 @@ public final class CLNCommandLineTest
   {
     final var file =
       CLNTestDirectories.resourceOf(
-        CLN1ParsersContract.class,
+        CLN2ParsersContract.class,
         this.directory,
-        "basic.ctf"
+        "fade32.ctf"
       );
 
     final var r = CLNMain.mainExitless(new String[]{
@@ -1088,31 +1031,12 @@ public final class CLNCommandLineTest
   }
 
   @Test
-  public void testShowImageInfoWarn()
-    throws IOException
-  {
-    final var file =
-      CLNTestDirectories.resourceOf(
-        CLN1ParsersContract.class,
-        this.directory,
-        "warn-unaligned.ctf"
-      );
-
-    final var r = CLNMain.mainExitless(new String[]{
-      "show-image-info",
-      "--file",
-      file.toAbsolutePath().toString()
-    });
-    assertEquals(1, r);
-  }
-
-  @Test
   public void testCreateFromProduce8_0()
     throws IOException
   {
     final var file =
       CLNTestDirectories.resourceOf(
-        CLN1ParsersContract.class,
+        CLN2ParsersContract.class,
         this.directory,
         "produce8.png"
       );
@@ -1135,7 +1059,7 @@ public final class CLNCommandLineTest
   {
     final var file =
       CLNTestDirectories.resourceOf(
-        CLN1ParsersContract.class,
+        CLN2ParsersContract.class,
         this.directory,
         "produce8.png"
       );
@@ -1160,7 +1084,7 @@ public final class CLNCommandLineTest
   {
     final var file =
       CLNTestDirectories.resourceOf(
-        CLN1ParsersContract.class,
+        CLN2ParsersContract.class,
         this.directory,
         "produce8.png"
       );
@@ -1185,7 +1109,7 @@ public final class CLNCommandLineTest
   {
     final var file =
       CLNTestDirectories.resourceOf(
-        CLN1ParsersContract.class,
+        CLN2ParsersContract.class,
         this.directory,
         "produce8.png"
       );
@@ -1210,7 +1134,7 @@ public final class CLNCommandLineTest
   {
     final var file =
       CLNTestDirectories.resourceOf(
-        CLN1ParsersContract.class,
+        CLN2ParsersContract.class,
         this.directory,
         "produce8.png"
       );
@@ -1235,7 +1159,7 @@ public final class CLNCommandLineTest
   {
     final var file =
       CLNTestDirectories.resourceOf(
-        CLN1ParsersContract.class,
+        CLN2ParsersContract.class,
         this.directory,
         "produce8.png"
       );
@@ -1260,7 +1184,7 @@ public final class CLNCommandLineTest
   {
     final var file =
       CLNTestDirectories.resourceOf(
-        CLN1ParsersContract.class,
+        CLN2ParsersContract.class,
         this.directory,
         "produce8.png"
       );
@@ -1285,7 +1209,7 @@ public final class CLNCommandLineTest
   {
     final var file =
       CLNTestDirectories.resourceOf(
-        CLN1ParsersContract.class,
+        CLN2ParsersContract.class,
         this.directory,
         "produce8.png"
       );
@@ -1310,7 +1234,7 @@ public final class CLNCommandLineTest
   {
     final var file =
       CLNTestDirectories.resourceOf(
-        CLN1ParsersContract.class,
+        CLN2ParsersContract.class,
         this.directory,
         "produce8.png"
       );
@@ -1333,7 +1257,7 @@ public final class CLNCommandLineTest
   {
     final var file =
       CLNTestDirectories.resourceOf(
-        CLN1ParsersContract.class,
+        CLN2ParsersContract.class,
         this.directory,
         "produce8.png"
       );
@@ -1358,7 +1282,7 @@ public final class CLNCommandLineTest
   {
     final var file =
       CLNTestDirectories.resourceOf(
-        CLN1ParsersContract.class,
+        CLN2ParsersContract.class,
         this.directory,
         "produce8.png"
       );
@@ -1383,7 +1307,7 @@ public final class CLNCommandLineTest
   {
     final var file =
       CLNTestDirectories.resourceOf(
-        CLN1ParsersContract.class,
+        CLN2ParsersContract.class,
         this.directory,
         "produce8.png"
       );
@@ -1408,7 +1332,7 @@ public final class CLNCommandLineTest
   {
     final var file =
       CLNTestDirectories.resourceOf(
-        CLN1ParsersContract.class,
+        CLN2ParsersContract.class,
         this.directory,
         "produce8.png"
       );
@@ -1433,7 +1357,7 @@ public final class CLNCommandLineTest
   {
     final var file =
       CLNTestDirectories.resourceOf(
-        CLN1ParsersContract.class,
+        CLN2ParsersContract.class,
         this.directory,
         "produce8.png"
       );
@@ -1460,7 +1384,7 @@ public final class CLNCommandLineTest
   {
     final var file =
       CLNTestDirectories.resourceOf(
-        CLN1ParsersContract.class,
+        CLN2ParsersContract.class,
         this.directory,
         "produce8.png"
       );
@@ -1487,7 +1411,7 @@ public final class CLNCommandLineTest
   {
     final var file =
       CLNTestDirectories.resourceOf(
-        CLN1ParsersContract.class,
+        CLN2ParsersContract.class,
         this.directory,
         "produce8.png"
       );
@@ -1510,7 +1434,7 @@ public final class CLNCommandLineTest
   {
     final var file =
       CLNTestDirectories.resourceOf(
-        CLN1ParsersContract.class,
+        CLN2ParsersContract.class,
         this.directory,
         "produceFade8.png"
       );
@@ -1533,7 +1457,7 @@ public final class CLNCommandLineTest
   {
     final var file =
       CLNTestDirectories.resourceOf(
-        CLN1ParsersContract.class,
+        CLN2ParsersContract.class,
         this.directory,
         "produceFade8.png"
       );
@@ -1558,7 +1482,7 @@ public final class CLNCommandLineTest
   {
     final var file =
       CLNTestDirectories.resourceOf(
-        CLN1ParsersContract.class,
+        CLN2ParsersContract.class,
         this.directory,
         "produce16.png"
       );
@@ -1579,7 +1503,7 @@ public final class CLNCommandLineTest
   {
     final var file =
       CLNTestDirectories.resourceOf(
-        CLN1ParsersContract.class,
+        CLN2ParsersContract.class,
         this.directory,
         "warn-unaligned.ctf"
       );
@@ -1600,7 +1524,7 @@ public final class CLNCommandLineTest
   {
     final var file =
       CLNTestDirectories.resourceOf(
-        CLN1ParsersContract.class,
+        CLN2ParsersContract.class,
         this.directory,
         "empty.ctf"
       );
@@ -1621,7 +1545,7 @@ public final class CLNCommandLineTest
   {
     final var file =
       CLNTestDirectories.resourceOf(
-        CLN1ParsersContract.class,
+        CLN2ParsersContract.class,
         this.directory,
         "lz4-corrupted.ctf"
       );
@@ -1642,7 +1566,7 @@ public final class CLNCommandLineTest
   {
     final var file =
       CLNTestDirectories.resourceOf(
-        CLN1ParsersContract.class,
+        CLN2ParsersContract.class,
         this.directory,
         "lz4-wrong-crc32.ctf"
       );
@@ -1663,7 +1587,7 @@ public final class CLNCommandLineTest
   {
     final var file =
       CLNTestDirectories.resourceOf(
-        CLN1ParsersContract.class,
+        CLN2ParsersContract.class,
         this.directory,
         "lz4-wrong-size.ctf"
       );
@@ -1684,7 +1608,7 @@ public final class CLNCommandLineTest
   {
     final var file =
       CLNTestDirectories.resourceOf(
-        CLN1ParsersContract.class,
+        CLN2ParsersContract.class,
         this.directory,
         "missing-image-data.ctf"
       );
@@ -1705,7 +1629,7 @@ public final class CLNCommandLineTest
   {
     final var file =
       CLNTestDirectories.resourceOf(
-        CLN1ParsersContract.class,
+        CLN2ParsersContract.class,
         this.directory,
         "broken-short-image-info.ctf"
       );
@@ -1726,9 +1650,9 @@ public final class CLNCommandLineTest
   {
     final var file =
       CLNTestDirectories.resourceOf(
-        CLN1ParsersContract.class,
+        CLN2ParsersContract.class,
         this.directory,
-        "basic.ctf"
+        "fade32.ctf"
       );
 
     final var r = CLNMain.mainExitless(new String[]{
@@ -1747,9 +1671,9 @@ public final class CLNCommandLineTest
   {
     final var file =
       CLNTestDirectories.resourceOf(
-        CLN1ParsersContract.class,
+        CLN2ParsersContract.class,
         this.directory,
-        "basic-lz4.ctf"
+        "fade32-lz4.ctf"
       );
 
     final var r = CLNMain.mainExitless(new String[]{
@@ -1768,9 +1692,9 @@ public final class CLNCommandLineTest
   {
     final var file =
       CLNTestDirectories.resourceOf(
-        CLN1ParsersContract.class,
+        CLN2ParsersContract.class,
         this.directory,
-        "basic.ctf"
+        "fade32.ctf"
       );
 
     final var r = CLNMain.mainExitless(new String[]{
@@ -1787,7 +1711,7 @@ public final class CLNCommandLineTest
   {
     final var file =
       CLNTestDirectories.resourceOf(
-        CLN1ParsersContract.class,
+        CLN2ParsersContract.class,
         this.directory,
         "empty.ctf"
       );

@@ -9,7 +9,7 @@
     <target>System.err</target>
   </appender>
 
-  <logger name="com.io7m.calino.vanilla.internal.CLN1Validator"
+  <logger name="com.io7m.calino.vanilla.internal.CLN2Validator"
           level="ERROR"/>
 
   <root level="INFO">

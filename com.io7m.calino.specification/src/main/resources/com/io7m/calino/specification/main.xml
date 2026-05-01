@@ -7,12 +7,12 @@
 
   <Metadata>
     <dc:creator>Mark Raynsford</dc:creator>
-    <dc:date>2022-01-15T17:18:45+00:00</dc:date>
+    <dc:date>2026-05-01T11:32:59+00:00</dc:date>
     <dc:description>Specification for the Calino texture file format.</dc:description>
     <dc:identifier>ba8fa621-69a4-486d-b5d7-1c31f76eba32</dc:identifier>
     <dc:language>en</dc:language>
     <dc:rights>Public Domain</dc:rights>
-    <dc:title>Calino 1.0</dc:title>
+    <dc:title>Calino 2.0</dc:title>
 
     <MetaProperty name="com.io7m.xstructural.web.branding.header">brand-header.xml</MetaProperty>
     <MetaProperty name="com.io7m.xstructural.web.branding.footer">brand-footer.xml</MetaProperty>
@@ -22,6 +22,7 @@
   <xi:include href="notation.xml" />
   <xi:include href="model.xml"/>
   <xi:include href="binary.xml"/>
+  <xi:include href="history.xml"/>
   <xi:include href="sources.xml"/>
 
 </Document>
