@@ -168,11 +168,13 @@ public final class CLNImageProcessor implements CLNImageProcessorType
     return image;
   }
 
-  private static Set<CLNImageFlagType> flagsOf(
+  private Set<CLNImageFlagType> flagsOf(
     final BufferedImage image)
   {
     final var flags = new HashSet<CLNImageFlagType>();
-    if (image.isAlphaPremultiplied()) {
+
+    final var hasAlpha = image.getColorModel().hasAlpha();
+    if (this.request.premultiplyAlpha() && hasAlpha) {
       flags.add(ALPHA_PREMULTIPLIED);
     }
     return Set.copyOf(flags);
@@ -212,7 +214,7 @@ public final class CLNImageProcessor implements CLNImageProcessorType
     return FIXED_POINT_NORMALIZED_UNSIGNED;
   }
 
-  private static CLNImageMipMapChainType generateMipMapChain(
+  private CLNImageMipMapChainType generateMipMapChain(
     final BufferedImage baseImage,
     final CLNByteOrder byteOrder,
     final CLNChannelsLayoutDescriptionType targetLayout,
@@ -257,7 +259,7 @@ public final class CLNImageProcessor implements CLNImageProcessorType
           AXIS_T_INCREASING_DOWN
         ),
         colorSpaceOf(baseImage),
-        flagsOf(baseImage),
+        this.flagsOf(baseImage),
         byteOrder
       );
 
@@ -324,7 +326,7 @@ public final class CLNImageProcessor implements CLNImageProcessorType
      */
 
     if (this.request.generateMipMaps().isPresent()) {
-      return generateMipMapChain(
+      return this.generateMipMapChain(
         image,
         this.request.targetByteOrder(),
         finalLayout,
@@ -347,7 +349,7 @@ public final class CLNImageProcessor implements CLNImageProcessorType
           AXIS_T_INCREASING_DOWN
         ),
         colorSpaceOf(image),
-        flagsOf(image),
+        this.flagsOf(image),
         this.request.targetByteOrder()
       );
 
