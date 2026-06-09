@@ -17,12 +17,12 @@
 -->
 
 <div xmlns="http://www.w3.org/1999/xhtml"
-     class="brandingContainer brandingContainerFooter">
+     class="brandingContainer brandingContainerHeader">
   <div class="branding">
     <a href="https://www.io7m.com/">io7m</a> |
     <a href="index.xhtml">single-page</a> |
     <a href="index-m.xhtml">multi-page</a> |
-    <a href="specification.epub">epub</a> |
+    <a href="${project.artifactId}-${project.version}.epub">epub</a> |
     Calino User Manual
   </div>
 </div>

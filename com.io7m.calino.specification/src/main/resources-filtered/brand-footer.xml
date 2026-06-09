@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <!--
-  Copyright © 2022 Mark Raynsford <code@io7m.com> https://www.io7m.com
+  Copyright © 2026 Mark Raynsford <code@io7m.com> https://www.io7m.com
 
   Permission to use, copy, modify, and/or distribute this software for any
   purpose with or without fee is hereby granted, provided that the above
@@ -17,12 +17,12 @@
 -->
 
 <div xmlns="http://www.w3.org/1999/xhtml"
-     class="brandingContainer brandingContainerHeader">
+     class="brandingContainer brandingContainerFooter">
   <div class="branding">
     <a href="https://www.io7m.com/">io7m</a> |
     <a href="index.xhtml">single-page</a> |
     <a href="index-m.xhtml">multi-page</a> |
-    <a href="specification.epub">epub</a> |
+    <a href="${project.artifactId}-${project.version}.epub">epub</a> |
     Calino 2.0
   </div>
 </div>

@@ -103,13 +103,6 @@
   </dependencies>
 
   <build>
-    <resources>
-      <resource>
-        <directory>src/main/resources</directory>
-        <filtering>true</filtering>
-      </resource>
-    </resources>
-
     <plugins>
       <!-- Copy documentation resources into build directory -->
       <plugin>
@@ -126,8 +119,12 @@
               <outputDirectory>${project.build.directory}/documentation/</outputDirectory>
               <resources>
                 <resource>
-                  <directory>src/main/resources/com/io7m/calino/documentation/</directory>
+                  <directory>src/main/resources</directory>
                   <filtering>false</filtering>
+                </resource>
+                <resource>
+                  <directory>src/main/resources-filtered</directory>
+                  <filtering>true</filtering>
                 </resource>
               </resources>
             </configuration>
@@ -143,27 +140,12 @@
               <outputDirectory>${project.build.directory}/epub/</outputDirectory>
               <resources>
                 <resource>
-                  <directory>src/main/resources/com/io7m/calino/documentation/</directory>
+                  <directory>src/main/resources</directory>
                   <filtering>false</filtering>
                 </resource>
-              </resources>
-            </configuration>
-          </execution>
-
-          <execution>
-            <id>copy-generated-epub</id>
-            <phase>site</phase>
-            <goals>
-              <goal>copy-resources</goal>
-            </goals>
-            <configuration>
-              <outputDirectory>${project.parent.build.directory}/minisite/documentation/</outputDirectory>
-              <resources>
                 <resource>
-                  <directory>${project.build.directory}/epub/</directory>
-                  <includes>
-                    <include>documentation.epub</include>
-                  </includes>
+                  <directory>src/main/resources-filtered</directory>
+                  <filtering>true</filtering>
                 </resource>
               </resources>
             </configuration>
@@ -178,7 +160,7 @@
           <!-- Unpack sources of dependencies -->
           <execution>
             <id>unpack-sources</id>
-            <phase>package</phase>
+            <phase>generate-sources</phase>
             <goals>
               <goal>unpack-dependencies</goal>
             </goals>
@@ -193,7 +175,7 @@
 
           <execution>
             <id>make-classpath</id>
-            <phase>package</phase>
+            <phase>generate-sources</phase>
             <goals>
               <goal>build-classpath</goal>
             </goals>
@@ -242,7 +224,6 @@
               <goal>xhtml-single</goal>
             </goals>
             <configuration>
-              <brandingFile>${project.build.directory}/documentation/brand.xml</brandingFile>
               <sourceFile>${project.build.directory}/documentation/main.xml</sourceFile>
               <outputDirectory>${project.build.directory}/documentation</outputDirectory>
             </configuration>
@@ -254,7 +235,6 @@
               <goal>xhtml-multi</goal>
             </goals>
             <configuration>
-              <brandingFile>${project.build.directory}/documentation/brand.xml</brandingFile>
               <sourceFile>${project.build.directory}/documentation/main.xml</sourceFile>
               <outputDirectory>${project.build.directory}/documentation</outputDirectory>
             </configuration>
@@ -266,10 +246,32 @@
               <goal>epub</goal>
             </goals>
             <configuration>
-              <brandingFile>${project.build.directory}/documentation/brand.xml</brandingFile>
               <sourceFile>${project.build.directory}/documentation/main.xml</sourceFile>
-              <outputDirectory>${project.build.directory}/epub</outputDirectory>
-              <outputFileName>documentation.epub</outputFileName>
+              <outputDirectory>${project.build.directory}</outputDirectory>
+              <outputFileName>${project.artifactId}-${project.version}.epub</outputFileName>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!-- Attach EPUB -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>attach-epub</id>
+            <phase>package</phase>
+            <goals>
+              <goal>attach-artifact</goal>
+            </goals>
+            <configuration>
+              <artifacts>
+                <artifact>
+                  <file>${project.build.directory}/${project.artifactId}-${project.version}.epub</file>
+                  <type>epub</type>
+                </artifact>
+              </artifacts>
             </configuration>
           </execution>
         </executions>
@@ -298,28 +300,9 @@
         </executions>
       </plugin>
 
-      <!-- Unpack the documentation archive to the parent's generated site minisite directory. -->
-      <!-- This is arguably abusive, but there appears to be no other way to achieve it. -->
       <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>truezip-maven-plugin</artifactId>
-        <inherited>false</inherited>
-        <executions>
-          <execution>
-            <id>copy-site-documentation</id>
-            <goals>
-              <goal>copy</goal>
-            </goals>
-            <phase>site</phase>
-            <configuration>
-              <verbose>true</verbose>
-              <fileset>
-                <directory>${project.build.directory}/${project.name}-${project.version}.zip/${project.name}-${project.version}/</directory>
-                <outputDirectory>${project.parent.build.directory}/minisite/documentation/</outputDirectory>
-              </fileset>
-            </configuration>
-          </execution>
-        </executions>
+        <groupId>io.github.zlika</groupId>
+        <artifactId>reproducible-build-maven-plugin</artifactId>
       </plugin>
     </plugins>
   </build>
