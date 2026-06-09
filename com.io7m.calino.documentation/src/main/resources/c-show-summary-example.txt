@@ -1,50 +1,410 @@
 $ calino show-summary --file cube-meta.ctf --show-mipmaps true
-calino 1.0 texture: 256×256×1 R8:G8:B8:A8 FIXED_POINT_NORMALIZED_UNSIGNED little-endian (8 mipmap levels, 48 images)
-mipMapCube (level 7) (face X_POSITIVE) (offset 1408) (size-compressed 16) (size-uncompressed 16) (crc32 0x8332c492)
-mipMapCube (level 7) (face X_NEGATIVE) (offset 1440) (size-compressed 16) (size-uncompressed 16) (crc32 0x8fe06bb7)
-mipMapCube (level 7) (face Y_POSITIVE) (offset 1472) (size-compressed 16) (size-uncompressed 16) (crc32 0xd3f472a3)
-mipMapCube (level 7) (face Y_NEGATIVE) (offset 1504) (size-compressed 16) (size-uncompressed 16) (crc32 0xb08db8a4)
-mipMapCube (level 7) (face Z_POSITIVE) (offset 1536) (size-compressed 16) (size-uncompressed 16) (crc32 0xa5cbe1de)
-mipMapCube (level 7) (face Z_NEGATIVE) (offset 1568) (size-compressed 16) (size-uncompressed 16) (crc32 0x295a12e7)
-mipMapCube (level 6) (face X_POSITIVE) (offset 1600) (size-compressed 64) (size-uncompressed 64) (crc32 0x408e6878)
-mipMapCube (level 6) (face X_NEGATIVE) (offset 1664) (size-compressed 64) (size-uncompressed 64) (crc32 0x6c76c24c)
-mipMapCube (level 6) (face Y_POSITIVE) (offset 1728) (size-compressed 64) (size-uncompressed 64) (crc32 0x7d9fa7dd)
-mipMapCube (level 6) (face Y_NEGATIVE) (offset 1792) (size-compressed 64) (size-uncompressed 64) (crc32 0x2801e0b0)
-mipMapCube (level 6) (face Z_POSITIVE) (offset 1856) (size-compressed 64) (size-uncompressed 64) (crc32 0xd89509c2)
-mipMapCube (level 6) (face Z_NEGATIVE) (offset 1920) (size-compressed 64) (size-uncompressed 64) (crc32 0x7c21fc8e)
-mipMapCube (level 5) (face X_POSITIVE) (offset 1984) (size-compressed 256) (size-uncompressed 256) (crc32 0x2f6ae7d4)
-mipMapCube (level 5) (face X_NEGATIVE) (offset 2240) (size-compressed 256) (size-uncompressed 256) (crc32 0x2db32320)
-mipMapCube (level 5) (face Y_POSITIVE) (offset 2496) (size-compressed 256) (size-uncompressed 256) (crc32 0x5b566c45)
-mipMapCube (level 5) (face Y_NEGATIVE) (offset 2752) (size-compressed 256) (size-uncompressed 256) (crc32 0xd9c5b563)
-mipMapCube (level 5) (face Z_POSITIVE) (offset 3008) (size-compressed 256) (size-uncompressed 256) (crc32 0x9277e9dc)
-mipMapCube (level 5) (face Z_NEGATIVE) (offset 3264) (size-compressed 256) (size-uncompressed 256) (crc32 0xd8c5be47)
-mipMapCube (level 4) (face X_POSITIVE) (offset 3520) (size-compressed 1024) (size-uncompressed 1024) (crc32 0x338384d4)
-mipMapCube (level 4) (face X_NEGATIVE) (offset 4544) (size-compressed 1024) (size-uncompressed 1024) (crc32 0xfdc3ee12)
-mipMapCube (level 4) (face Y_POSITIVE) (offset 5568) (size-compressed 1024) (size-uncompressed 1024) (crc32 0x21c45396)
-mipMapCube (level 4) (face Y_NEGATIVE) (offset 6592) (size-compressed 1024) (size-uncompressed 1024) (crc32 0xaec67ebe)
-mipMapCube (level 4) (face Z_POSITIVE) (offset 7616) (size-compressed 1024) (size-uncompressed 1024) (crc32 0x48d361e8)
-mipMapCube (level 4) (face Z_NEGATIVE) (offset 8640) (size-compressed 1024) (size-uncompressed 1024) (crc32 0x41b828ce)
-mipMapCube (level 3) (face X_POSITIVE) (offset 9664) (size-compressed 4096) (size-uncompressed 4096) (crc32 0x6283fb2e)
-mipMapCube (level 3) (face X_NEGATIVE) (offset 13760) (size-compressed 4096) (size-uncompressed 4096) (crc32 0xc775465e)
-mipMapCube (level 3) (face Y_POSITIVE) (offset 17856) (size-compressed 4096) (size-uncompressed 4096) (crc32 0xb50386f4)
-mipMapCube (level 3) (face Y_NEGATIVE) (offset 21952) (size-compressed 4096) (size-uncompressed 4096) (crc32 0xc79c1372)
-mipMapCube (level 3) (face Z_POSITIVE) (offset 26048) (size-compressed 4096) (size-uncompressed 4096) (crc32 0xbb6c7893)
-mipMapCube (level 3) (face Z_NEGATIVE) (offset 30144) (size-compressed 4096) (size-uncompressed 4096) (crc32 0xfc260c37)
-mipMapCube (level 2) (face X_POSITIVE) (offset 34240) (size-compressed 16384) (size-uncompressed 16384) (crc32 0xa745a6c)
-mipMapCube (level 2) (face X_NEGATIVE) (offset 50624) (size-compressed 16384) (size-uncompressed 16384) (crc32 0xd5f69f72)
-mipMapCube (level 2) (face Y_POSITIVE) (offset 67008) (size-compressed 16384) (size-uncompressed 16384) (crc32 0x6a0921ef)
-mipMapCube (level 2) (face Y_NEGATIVE) (offset 83392) (size-compressed 16384) (size-uncompressed 16384) (crc32 0xd3f975e7)
-mipMapCube (level 2) (face Z_POSITIVE) (offset 99776) (size-compressed 16384) (size-uncompressed 16384) (crc32 0x4e2ed728)
-mipMapCube (level 2) (face Z_NEGATIVE) (offset 116160) (size-compressed 16384) (size-uncompressed 16384) (crc32 0x5659c068)
-mipMapCube (level 1) (face X_POSITIVE) (offset 132544) (size-compressed 65536) (size-uncompressed 65536) (crc32 0xc282eabb)
-mipMapCube (level 1) (face X_NEGATIVE) (offset 198080) (size-compressed 65536) (size-uncompressed 65536) (crc32 0xcecaac65)
-mipMapCube (level 1) (face Y_POSITIVE) (offset 263616) (size-compressed 65536) (size-uncompressed 65536) (crc32 0xee2008d0)
-mipMapCube (level 1) (face Y_NEGATIVE) (offset 329152) (size-compressed 65536) (size-uncompressed 65536) (crc32 0x34837ec8)
-mipMapCube (level 1) (face Z_POSITIVE) (offset 394688) (size-compressed 65536) (size-uncompressed 65536) (crc32 0xc08b7f5c)
-mipMapCube (level 1) (face Z_NEGATIVE) (offset 460224) (size-compressed 65536) (size-uncompressed 65536) (crc32 0xd637c758)
-mipMapCube (level 0) (face X_POSITIVE) (offset 525760) (size-compressed 262144) (size-uncompressed 262144) (crc32 0xcd5423b)
-mipMapCube (level 0) (face X_NEGATIVE) (offset 787904) (size-compressed 262144) (size-uncompressed 262144) (crc32 0x1a641164)
-mipMapCube (level 0) (face Y_POSITIVE) (offset 1050048) (size-compressed 262144) (size-uncompressed 262144) (crc32 0xf912d84d)
-mipMapCube (level 0) (face Y_NEGATIVE) (offset 1312192) (size-compressed 262144) (size-uncompressed 262144) (crc32 0x1c9358a)
-mipMapCube (level 0) (face Z_POSITIVE) (offset 1574336) (size-compressed 262144) (size-uncompressed 262144) (crc32 0x5e12f7c2)
-mipMapCube (level 0) (face Z_NEGATIVE) (offset 1836480) (size-compressed 262144) (size-uncompressed 262144) (crc32 0x29acac90)
+{
+  "Info" : {
+    "Version" : "2.0",
+    "SizeX" : 256,
+    "SizeY" : 256,
+    "SizeZ" : 1,
+    "Size" : "256×256×1",
+    "ChannelLayout" : "R8:G8:B8:A8",
+    "ChannelType" : "FIXED_POINT_NORMALIZED_UNSIGNED",
+    "ColorSpace" : "SRGB",
+    "ByteOrder" : "LITTLE_ENDIAN",
+    "Flags" : [ ],
+    "CoordinateSystemR" : "RT",
+    "CoordinateSystemS" : "SR",
+    "CoordinateSystemT" : "TD",
+    "CoordinateSystem" : "RT:SR:TD",
+    "Compression" : "UNCOMPRESSED",
+    "SuperCompression" : "DEFLATE",
+    "TexelBlockAlignment" : 32
+  },
+  "MipMapLevels" : 8,
+  "MipMapImages" : 48,
+  "MipMaps" : [ {
+    "Type" : "Cube",
+    "Face" : "X_POSITIVE",
+    "Level" : 7,
+    "DataOffsetWithinSection" : 1408,
+    "SizeCompressed" : 24,
+    "SizeUncompressed" : 16,
+    "CRC32" : "0x8332c492"
+  }, {
+    "Type" : "Cube",
+    "Face" : "X_NEGATIVE",
+    "Level" : 7,
+    "DataOffsetWithinSection" : 1440,
+    "SizeCompressed" : 24,
+    "SizeUncompressed" : 16,
+    "CRC32" : "0x8fe06bb7"
+  }, {
+    "Type" : "Cube",
+    "Face" : "Y_POSITIVE",
+    "Level" : 7,
+    "DataOffsetWithinSection" : 1472,
+    "SizeCompressed" : 24,
+    "SizeUncompressed" : 16,
+    "CRC32" : "0xd3f472a3"
+  }, {
+    "Type" : "Cube",
+    "Face" : "Y_NEGATIVE",
+    "Level" : 7,
+    "DataOffsetWithinSection" : 1504,
+    "SizeCompressed" : 24,
+    "SizeUncompressed" : 16,
+    "CRC32" : "0xb08db8a4"
+  }, {
+    "Type" : "Cube",
+    "Face" : "Z_POSITIVE",
+    "Level" : 7,
+    "DataOffsetWithinSection" : 1536,
+    "SizeCompressed" : 24,
+    "SizeUncompressed" : 16,
+    "CRC32" : "0xa5cbe1de"
+  }, {
+    "Type" : "Cube",
+    "Face" : "Z_NEGATIVE",
+    "Level" : 7,
+    "DataOffsetWithinSection" : 1568,
+    "SizeCompressed" : 24,
+    "SizeUncompressed" : 16,
+    "CRC32" : "0x295a12e7"
+  }, {
+    "Type" : "Cube",
+    "Face" : "X_POSITIVE",
+    "Level" : 6,
+    "DataOffsetWithinSection" : 1600,
+    "SizeCompressed" : 73,
+    "SizeUncompressed" : 64,
+    "CRC32" : "0x408e6878"
+  }, {
+    "Type" : "Cube",
+    "Face" : "X_NEGATIVE",
+    "Level" : 6,
+    "DataOffsetWithinSection" : 1696,
+    "SizeCompressed" : 70,
+    "SizeUncompressed" : 64,
+    "CRC32" : "0x6c76c24c"
+  }, {
+    "Type" : "Cube",
+    "Face" : "Y_POSITIVE",
+    "Level" : 6,
+    "DataOffsetWithinSection" : 1792,
+    "SizeCompressed" : 73,
+    "SizeUncompressed" : 64,
+    "CRC32" : "0x7d9fa7dd"
+  }, {
+    "Type" : "Cube",
+    "Face" : "Y_NEGATIVE",
+    "Level" : 6,
+    "DataOffsetWithinSection" : 1888,
+    "SizeCompressed" : 66,
+    "SizeUncompressed" : 64,
+    "CRC32" : "0x2801e0b0"
+  }, {
+    "Type" : "Cube",
+    "Face" : "Z_POSITIVE",
+    "Level" : 6,
+    "DataOffsetWithinSection" : 1984,
+    "SizeCompressed" : 70,
+    "SizeUncompressed" : 64,
+    "CRC32" : "0xd89509c2"
+  }, {
+    "Type" : "Cube",
+    "Face" : "Z_NEGATIVE",
+    "Level" : 6,
+    "DataOffsetWithinSection" : 2080,
+    "SizeCompressed" : 72,
+    "SizeUncompressed" : 64,
+    "CRC32" : "0x7c21fc8e"
+  }, {
+    "Type" : "Cube",
+    "Face" : "X_POSITIVE",
+    "Level" : 5,
+    "DataOffsetWithinSection" : 2176,
+    "SizeCompressed" : 208,
+    "SizeUncompressed" : 256,
+    "CRC32" : "0x2f6ae7d4"
+  }, {
+    "Type" : "Cube",
+    "Face" : "X_NEGATIVE",
+    "Level" : 5,
+    "DataOffsetWithinSection" : 2400,
+    "SizeCompressed" : 220,
+    "SizeUncompressed" : 256,
+    "CRC32" : "0x2db32320"
+  }, {
+    "Type" : "Cube",
+    "Face" : "Y_POSITIVE",
+    "Level" : 5,
+    "DataOffsetWithinSection" : 2624,
+    "SizeCompressed" : 214,
+    "SizeUncompressed" : 256,
+    "CRC32" : "0x5b566c45"
+  }, {
+    "Type" : "Cube",
+    "Face" : "Y_NEGATIVE",
+    "Level" : 5,
+    "DataOffsetWithinSection" : 2848,
+    "SizeCompressed" : 147,
+    "SizeUncompressed" : 256,
+    "CRC32" : "0xd9c5b563"
+  }, {
+    "Type" : "Cube",
+    "Face" : "Z_POSITIVE",
+    "Level" : 5,
+    "DataOffsetWithinSection" : 3008,
+    "SizeCompressed" : 207,
+    "SizeUncompressed" : 256,
+    "CRC32" : "0x9277e9dc"
+  }, {
+    "Type" : "Cube",
+    "Face" : "Z_NEGATIVE",
+    "Level" : 5,
+    "DataOffsetWithinSection" : 3232,
+    "SizeCompressed" : 207,
+    "SizeUncompressed" : 256,
+    "CRC32" : "0xd8c5be47"
+  }, {
+    "Type" : "Cube",
+    "Face" : "X_POSITIVE",
+    "Level" : 4,
+    "DataOffsetWithinSection" : 3456,
+    "SizeCompressed" : 630,
+    "SizeUncompressed" : 1024,
+    "CRC32" : "0x338384d4"
+  }, {
+    "Type" : "Cube",
+    "Face" : "X_NEGATIVE",
+    "Level" : 4,
+    "DataOffsetWithinSection" : 4096,
+    "SizeCompressed" : 647,
+    "SizeUncompressed" : 1024,
+    "CRC32" : "0xfdc3ee12"
+  }, {
+    "Type" : "Cube",
+    "Face" : "Y_POSITIVE",
+    "Level" : 4,
+    "DataOffsetWithinSection" : 4768,
+    "SizeCompressed" : 732,
+    "SizeUncompressed" : 1024,
+    "CRC32" : "0x21c45396"
+  }, {
+    "Type" : "Cube",
+    "Face" : "Y_NEGATIVE",
+    "Level" : 4,
+    "DataOffsetWithinSection" : 5504,
+    "SizeCompressed" : 383,
+    "SizeUncompressed" : 1024,
+    "CRC32" : "0xaec67ebe"
+  }, {
+    "Type" : "Cube",
+    "Face" : "Z_POSITIVE",
+    "Level" : 4,
+    "DataOffsetWithinSection" : 5888,
+    "SizeCompressed" : 655,
+    "SizeUncompressed" : 1024,
+    "CRC32" : "0x48d361e8"
+  }, {
+    "Type" : "Cube",
+    "Face" : "Z_NEGATIVE",
+    "Level" : 4,
+    "DataOffsetWithinSection" : 6560,
+    "SizeCompressed" : 624,
+    "SizeUncompressed" : 1024,
+    "CRC32" : "0x41b828ce"
+  }, {
+    "Type" : "Cube",
+    "Face" : "X_POSITIVE",
+    "Level" : 3,
+    "DataOffsetWithinSection" : 7200,
+    "SizeCompressed" : 1957,
+    "SizeUncompressed" : 4096,
+    "CRC32" : "0x6283fb2e"
+  }, {
+    "Type" : "Cube",
+    "Face" : "X_NEGATIVE",
+    "Level" : 3,
+    "DataOffsetWithinSection" : 9184,
+    "SizeCompressed" : 2029,
+    "SizeUncompressed" : 4096,
+    "CRC32" : "0xc775465e"
+  }, {
+    "Type" : "Cube",
+    "Face" : "Y_POSITIVE",
+    "Level" : 3,
+    "DataOffsetWithinSection" : 11232,
+    "SizeCompressed" : 2461,
+    "SizeUncompressed" : 4096,
+    "CRC32" : "0xb50386f4"
+  }, {
+    "Type" : "Cube",
+    "Face" : "Y_NEGATIVE",
+    "Level" : 3,
+    "DataOffsetWithinSection" : 13696,
+    "SizeCompressed" : 1073,
+    "SizeUncompressed" : 4096,
+    "CRC32" : "0xc79c1372"
+  }, {
+    "Type" : "Cube",
+    "Face" : "Z_POSITIVE",
+    "Level" : 3,
+    "DataOffsetWithinSection" : 14784,
+    "SizeCompressed" : 2116,
+    "SizeUncompressed" : 4096,
+    "CRC32" : "0xbb6c7893"
+  }, {
+    "Type" : "Cube",
+    "Face" : "Z_NEGATIVE",
+    "Level" : 3,
+    "DataOffsetWithinSection" : 16928,
+    "SizeCompressed" : 2017,
+    "SizeUncompressed" : 4096,
+    "CRC32" : "0xfc260c37"
+  }, {
+    "Type" : "Cube",
+    "Face" : "X_POSITIVE",
+    "Level" : 2,
+    "DataOffsetWithinSection" : 18976,
+    "SizeCompressed" : 6029,
+    "SizeUncompressed" : 16384,
+    "CRC32" : "0xa745a6c"
+  }, {
+    "Type" : "Cube",
+    "Face" : "X_NEGATIVE",
+    "Level" : 2,
+    "DataOffsetWithinSection" : 25024,
+    "SizeCompressed" : 6326,
+    "SizeUncompressed" : 16384,
+    "CRC32" : "0xd5f69f72"
+  }, {
+    "Type" : "Cube",
+    "Face" : "Y_POSITIVE",
+    "Level" : 2,
+    "DataOffsetWithinSection" : 31360,
+    "SizeCompressed" : 8407,
+    "SizeUncompressed" : 16384,
+    "CRC32" : "0x6a0921ef"
+  }, {
+    "Type" : "Cube",
+    "Face" : "Y_NEGATIVE",
+    "Level" : 2,
+    "DataOffsetWithinSection" : 39776,
+    "SizeCompressed" : 2985,
+    "SizeUncompressed" : 16384,
+    "CRC32" : "0xd3f975e7"
+  }, {
+    "Type" : "Cube",
+    "Face" : "Z_POSITIVE",
+    "Level" : 2,
+    "DataOffsetWithinSection" : 42784,
+    "SizeCompressed" : 6904,
+    "SizeUncompressed" : 16384,
+    "CRC32" : "0x4e2ed728"
+  }, {
+    "Type" : "Cube",
+    "Face" : "Z_NEGATIVE",
+    "Level" : 2,
+    "DataOffsetWithinSection" : 49696,
+    "SizeCompressed" : 6127,
+    "SizeUncompressed" : 16384,
+    "CRC32" : "0x5659c068"
+  }, {
+    "Type" : "Cube",
+    "Face" : "X_POSITIVE",
+    "Level" : 1,
+    "DataOffsetWithinSection" : 55840,
+    "SizeCompressed" : 20060,
+    "SizeUncompressed" : 65536,
+    "CRC32" : "0xc282eabb"
+  }, {
+    "Type" : "Cube",
+    "Face" : "X_NEGATIVE",
+    "Level" : 1,
+    "DataOffsetWithinSection" : 75904,
+    "SizeCompressed" : 20855,
+    "SizeUncompressed" : 65536,
+    "CRC32" : "0xcecaac65"
+  }, {
+    "Type" : "Cube",
+    "Face" : "Y_POSITIVE",
+    "Level" : 1,
+    "DataOffsetWithinSection" : 96768,
+    "SizeCompressed" : 28385,
+    "SizeUncompressed" : 65536,
+    "CRC32" : "0xee2008d0"
+  }, {
+    "Type" : "Cube",
+    "Face" : "Y_NEGATIVE",
+    "Level" : 1,
+    "DataOffsetWithinSection" : 125184,
+    "SizeCompressed" : 10618,
+    "SizeUncompressed" : 65536,
+    "CRC32" : "0x34837ec8"
+  }, {
+    "Type" : "Cube",
+    "Face" : "Z_POSITIVE",
+    "Level" : 1,
+    "DataOffsetWithinSection" : 135808,
+    "SizeCompressed" : 23062,
+    "SizeUncompressed" : 65536,
+    "CRC32" : "0xc08b7f5c"
+  }, {
+    "Type" : "Cube",
+    "Face" : "Z_NEGATIVE",
+    "Level" : 1,
+    "DataOffsetWithinSection" : 158880,
+    "SizeCompressed" : 20415,
+    "SizeUncompressed" : 65536,
+    "CRC32" : "0xd637c758"
+  }, {
+    "Type" : "Cube",
+    "Face" : "X_POSITIVE",
+    "Level" : 0,
+    "DataOffsetWithinSection" : 179296,
+    "SizeCompressed" : 68916,
+    "SizeUncompressed" : 262144,
+    "CRC32" : "0xcd5423b"
+  }, {
+    "Type" : "Cube",
+    "Face" : "X_NEGATIVE",
+    "Level" : 0,
+    "DataOffsetWithinSection" : 248224,
+    "SizeCompressed" : 71069,
+    "SizeUncompressed" : 262144,
+    "CRC32" : "0x1a641164"
+  }, {
+    "Type" : "Cube",
+    "Face" : "Y_POSITIVE",
+    "Level" : 0,
+    "DataOffsetWithinSection" : 319296,
+    "SizeCompressed" : 95515,
+    "SizeUncompressed" : 262144,
+    "CRC32" : "0xf912d84d"
+  }, {
+    "Type" : "Cube",
+    "Face" : "Y_NEGATIVE",
+    "Level" : 0,
+    "DataOffsetWithinSection" : 414816,
+    "SizeCompressed" : 49512,
+    "SizeUncompressed" : 262144,
+    "CRC32" : "0x1c9358a"
+  }, {
+    "Type" : "Cube",
+    "Face" : "Z_POSITIVE",
+    "Level" : 0,
+    "DataOffsetWithinSection" : 464352,
+    "SizeCompressed" : 78958,
+    "SizeUncompressed" : 262144,
+    "CRC32" : "0x5e12f7c2"
+  }, {
+    "Type" : "Cube",
+    "Face" : "Z_NEGATIVE",
+    "Level" : 0,
+    "DataOffsetWithinSection" : 543328,
+    "SizeCompressed" : 70301,
+    "SizeUncompressed" : 262144,
+    "CRC32" : "0x29acac90"
+  } ],
+  "SizeUncompressed" : 2097120
+}

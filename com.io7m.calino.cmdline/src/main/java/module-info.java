@@ -40,6 +40,7 @@ module com.io7m.calino.cmdline
   requires java.desktop;
   requires org.slf4j;
   requires com.io7m.entomos.core;
+  requires tools.jackson.databind;
 
   opens com.io7m.calino.cmdline.internal
     to com.io7m.jxtrand.vanilla;

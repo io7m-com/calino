@@ -25,6 +25,8 @@ import com.io7m.quarrel.core.QCommandStatus;
 import com.io7m.quarrel.core.QParameterNamedType;
 import com.io7m.quarrel.core.QStringType.QConstant;
 import com.io7m.quarrel.core.QStringType.QLocalize;
+import tools.jackson.databind.json.JsonMapper;
+import tools.jackson.databind.node.ObjectNode;
 
 import java.util.List;
 import java.util.Optional;
@@ -63,32 +65,46 @@ public final class CLNCommandShowSections extends CLNAbstractReadFileCommand
   {
     final var sections = fileParsed.sections();
     int index = 0;
+
+    final var mapper =
+      JsonMapper.shared();
+    final var array =
+      mapper.createArrayNode();
+
     for (final var section : sections) {
-      context.output().printf(
-        "%s %s%n",
-        Integer.toUnsignedString(index),
-        showSection(section)
-      );
+      array.add(showSection(mapper, index, section));
       ++index;
     }
+
+    final var writer = mapper.writerWithDefaultPrettyPrinter();
+    final var output = context.output();
+    output.write(writer.writeValueAsString(array));
+    output.println();
+    output.flush();
     return QCommandStatus.SUCCESS;
   }
 
-  private static String showSection(
+  private static ObjectNode showSection(
+    final JsonMapper mapper,
+    final int index,
     final EoFileSection section)
   {
-    final var name =
-      CLNIdentifiers.nameOf(section.tag())
-        .orElse("?");
-
-    return new StringBuilder()
-      .append(name)
-      .append('(')
-      .append(Long.toUnsignedString(section.tag(), 16))
-      .append(") @0x")
-      .append(Long.toUnsignedString(section.offset(), 16))
-      .append(" size 0x")
-      .append(Long.toUnsignedString(section.dataSize(), 16))
-      .toString();
+    final var object = mapper.createObjectNode();
+    object.put("Name", CLNIdentifiers.nameOf(section.tag())
+      .orElse("?"));
+    object.put("Index", index);
+    object.put(
+      "Tag",
+      Long.toUnsignedString(section.tag(), 16)
+    );
+    object.put(
+      "Offset",
+      "@0x" + Long.toUnsignedString(section.offset(), 16)
+    );
+    object.put(
+      "Size",
+      Long.toUnsignedString(section.dataSize())
+    );
+    return object;
   }
 }

@@ -1,10 +1,18 @@
 $ calino show-image-info --file array-mips.ctf
-Size                    : 256×256×6
-Channel Layout          : R8:G8:B8:A8
-Channel Type            : FIXED_POINT_NORMALIZED_UNSIGNED
-Color Space             : SRGB
-Flags                   :
-Coordinate System       : RT:SR:TD
-Compression             : UNCOMPRESSED
-Super Compression       : UNCOMPRESSED
-Texel Block Alignment   : 32 octets
+{
+  "SizeX" : 256,
+  "SizeY" : 256,
+  "SizeZ" : 1,
+  "Size" : "256×256×1",
+  "ChannelLayout" : "R8:G8:B8:A8",
+  "ChannelType" : "FIXED_POINT_NORMALIZED_UNSIGNED",
+  "ColorSpace" : "SRGB",
+  "Flags" : [ "ALPHA_PREMULTIPLIED" ],
+  "CoordinateSystemR" : "RT",
+  "CoordinateSystemS" : "SR",
+  "CoordinateSystemT" : "TD",
+  "CoordinateSystem" : "RT:SR:TD",
+  "Compression" : "UNCOMPRESSED",
+  "SuperCompression" : "DEFLATE",
+  "TexelBlockAlignment" : 32
+}

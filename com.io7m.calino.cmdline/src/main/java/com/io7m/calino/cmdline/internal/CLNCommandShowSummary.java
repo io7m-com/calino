@@ -16,13 +16,11 @@
 
 package com.io7m.calino.cmdline.internal;
 
-import com.io7m.calino.api.CLNCompressionMethodStandard;
 import com.io7m.calino.api.CLNFileReadableType;
 import com.io7m.calino.api.CLNImage2DDescription;
 import com.io7m.calino.api.CLNImageArrayDescription;
 import com.io7m.calino.api.CLNImageCubeDescription;
 import com.io7m.calino.api.CLNImageInfo;
-import com.io7m.calino.api.CLNSuperCompressionMethodStandard;
 import com.io7m.calino.api.CLNVersion;
 import com.io7m.quarrel.core.QCommandContextType;
 import com.io7m.quarrel.core.QCommandMetadata;
@@ -31,13 +29,15 @@ import com.io7m.quarrel.core.QParameterNamed1;
 import com.io7m.quarrel.core.QParameterNamedType;
 import com.io7m.quarrel.core.QStringType.QConstant;
 import com.io7m.quarrel.core.QStringType.QLocalize;
+import tools.jackson.databind.json.JsonMapper;
+import tools.jackson.databind.node.ObjectNode;
 
 import java.io.PrintWriter;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
+import static com.io7m.calino.cmdline.internal.CLNCommandShowImageInfo.showImageInfo;
 import static com.io7m.quarrel.core.QCommandStatus.SUCCESS;
 
 /**
@@ -72,6 +72,8 @@ public final class CLNCommandShowSummary
   }
 
   private static QCommandStatus summarizeArray(
+    final JsonMapper mapper,
+    final ObjectNode object,
     final PrintWriter output,
     final CLNVersion version,
     final CLNImageInfo info,
@@ -79,80 +81,73 @@ public final class CLNCommandShowSummary
     final boolean showAllMipMaps)
   {
     final var summary = new StringBuilder(128);
-    summarizeInfo(version, info, summary);
+    summarizeInfo(mapper, object, version, info, summary);
 
     final var levels = new HashSet<>();
     for (final var mipmap : mipmaps) {
       levels.add(Integer.valueOf(mipmap.mipMapLevel()));
     }
 
-    summary.append(" (");
-    summary.append(levels.size());
-    summary.append(" mipmap levels, ");
-    summary.append(mipmaps.size());
-    summary.append(" images)");
+    object.put("MipMapLevels", levels.size());
+    object.put("MipMapImages", mipmaps.size());
 
-    output.println(summary);
+    var sizeUncompressed = 0L;
 
     if (showAllMipMaps) {
+      final var mipArray = mapper.createArrayNode();
       for (final var mipMap : mipmaps) {
-        output.printf(
-          "mipMapArray (level %s) (layer %s) (offset %s) (size-compressed %s) (size-uncompressed %s) (crc32 0x%s)%n",
-          Integer.toUnsignedString(mipMap.mipMapLevel()),
-          Integer.toUnsignedString(mipMap.layer()),
-          Long.toUnsignedString(mipMap.dataOffsetWithinSection()),
-          Long.toUnsignedString(mipMap.dataSizeCompressed()),
-          Long.toUnsignedString(mipMap.dataSizeUncompressed()),
-          Integer.toUnsignedString(mipMap.crc32Uncompressed(), 16)
-        );
+        final var mipObject = mapper.createObjectNode();
+        mipObject.put("Type", "Array");
+        mipObject.put(
+          "Layer",
+          mipMap.layer());
+        mipObject.put(
+          "Level",
+          mipMap.mipMapLevel());
+        mipObject.put(
+          "DataOffsetWithinSection",
+          mipMap.dataOffsetWithinSection());
+        mipObject.put(
+          "SizeCompressed",
+          mipMap.dataSizeCompressed());
+        mipObject.put(
+          "SizeUncompressed",
+          mipMap.dataSizeUncompressed());
+        mipObject.put(
+          "CRC32",
+          "0x" + Integer.toUnsignedString(
+            mipMap.crc32Uncompressed(),
+            16));
+        mipArray.add(mipObject);
+        sizeUncompressed += mipMap.dataSizeUncompressed();
       }
+      object.set("MipMaps", mipArray);
     }
+    object.put("SizeUncompressed", sizeUncompressed);
 
+    final var writer = mapper.writerWithDefaultPrettyPrinter();
+    output.write(writer.writeValueAsString(object));
+    output.println();
+    output.flush();
     return SUCCESS;
   }
 
   private static void summarizeInfo(
+    final JsonMapper mapper,
+    final ObjectNode object,
     final CLNVersion version,
     final CLNImageInfo info,
     final StringBuilder summary)
   {
-    summary.append("calino ");
-    summary.append(version);
-    summary.append(" texture: ");
-
-    summary.append(info.showSize());
-    summary.append(' ');
-    summary.append(info.channelsLayout().descriptor());
-    summary.append(' ');
-    summary.append(info.channelsType().descriptor());
-
-    summary.append(' ');
-    summary.append(
-      switch (info.dataByteOrder()) {
-        case BIG_ENDIAN -> "big-endian";
-        case LITTLE_ENDIAN -> "little-endian";
-      });
-
-    final var compression = info.compressionMethod();
-    if (!Objects.equals(
-      compression,
-      CLNCompressionMethodStandard.UNCOMPRESSED)) {
-      summary.append(" (compression ");
-      summary.append(compression.descriptor());
-      summary.append(")");
-    }
-
-    final var superCompression = info.superCompressionMethod();
-    if (!Objects.equals(
-      superCompression,
-      CLNSuperCompressionMethodStandard.UNCOMPRESSED)) {
-      summary.append(" (supercompression ");
-      summary.append(superCompression.descriptor());
-      summary.append(")");
-    }
+    final var objectInfo = mapper.createObjectNode();
+    objectInfo.put("Version", version.toString());
+    showImageInfo(mapper, objectInfo, info);
+    object.set("Info", objectInfo);
   }
 
   private static QCommandStatus summarizeCube(
+    final JsonMapper mapper,
+    final ObjectNode object,
     final PrintWriter output,
     final CLNVersion version,
     final CLNImageInfo info,
@@ -160,39 +155,60 @@ public final class CLNCommandShowSummary
     final boolean showAllMipMaps)
   {
     final var summary = new StringBuilder(128);
-    summarizeInfo(version, info, summary);
+    summarizeInfo(mapper, object, version, info, summary);
 
     final var levels = new HashSet<>();
     for (final var mipmap : mipmaps) {
       levels.add(Integer.valueOf(mipmap.mipMapLevel()));
     }
 
-    summary.append(" (");
-    summary.append(levels.size());
-    summary.append(" mipmap levels, ");
-    summary.append(mipmaps.size());
-    summary.append(" images)");
+    object.put("MipMapLevels", levels.size());
+    object.put("MipMapImages", mipmaps.size());
 
-    output.println(summary);
+    var sizeUncompressed = 0L;
 
     if (showAllMipMaps) {
+      final var mipArray = mapper.createArrayNode();
       for (final var mipMap : mipmaps) {
-        output.printf(
-          "mipMapCube (level %s) (face %s) (offset %s) (size-compressed %s) (size-uncompressed %s) (crc32 0x%s)%n",
-          Integer.toUnsignedString(mipMap.mipMapLevel()),
-          mipMap.face(),
-          Long.toUnsignedString(mipMap.dataOffsetWithinSection()),
-          Long.toUnsignedString(mipMap.dataSizeCompressed()),
-          Long.toUnsignedString(mipMap.dataSizeUncompressed()),
-          Integer.toUnsignedString(mipMap.crc32Uncompressed(), 16)
-        );
+        final var mipObject = mapper.createObjectNode();
+        mipObject.put("Type", "Cube");
+        mipObject.put(
+          "Face",
+          mipMap.face().toString());
+        mipObject.put(
+          "Level",
+          mipMap.mipMapLevel());
+        mipObject.put(
+          "DataOffsetWithinSection",
+          mipMap.dataOffsetWithinSection());
+        mipObject.put(
+          "SizeCompressed",
+          mipMap.dataSizeCompressed());
+        mipObject.put(
+          "SizeUncompressed",
+          mipMap.dataSizeUncompressed());
+        mipObject.put(
+          "CRC32",
+          "0x" + Integer.toUnsignedString(
+            mipMap.crc32Uncompressed(),
+            16));
+        mipArray.add(mipObject);
+        sizeUncompressed += mipMap.dataSizeUncompressed();
       }
+      object.set("MipMaps", mipArray);
     }
+    object.put("SizeUncompressed", sizeUncompressed);
 
+    final var writer = mapper.writerWithDefaultPrettyPrinter();
+    output.write(writer.writeValueAsString(object));
+    output.println();
+    output.flush();
     return SUCCESS;
   }
 
   private static QCommandStatus summarize2d(
+    final JsonMapper mapper,
+    final ObjectNode object,
     final PrintWriter output,
     final CLNVersion version,
     final CLNImageInfo info,
@@ -200,27 +216,44 @@ public final class CLNCommandShowSummary
     final boolean showAllMipMaps)
   {
     final var summary = new StringBuilder(128);
-    summarizeInfo(version, info, summary);
+    summarizeInfo(mapper, object, version, info, summary);
+    object.put("MipMapLevels", mipmaps.size());
 
-    summary.append(" (");
-    summary.append(mipmaps.size());
-    summary.append(" mipmap levels)");
-
-    output.println(summary);
+    var sizeUncompressed = 0L;
 
     if (showAllMipMaps) {
+      final var mipArray = mapper.createArrayNode();
       for (final var mipMap : mipmaps) {
-        output.printf(
-          "mipMap2d (level %s) (offset %s) (size-compressed %s) (size-uncompressed %s) (crc32 0x%s)%n",
-          Integer.toUnsignedString(mipMap.mipMapLevel()),
-          Long.toUnsignedString(mipMap.dataOffsetWithinSection()),
-          Long.toUnsignedString(mipMap.dataSizeCompressed()),
-          Long.toUnsignedString(mipMap.dataSizeUncompressed()),
-          Integer.toUnsignedString(mipMap.crc32Uncompressed(), 16)
-        );
+        final var mipObject = mapper.createObjectNode();
+        mipObject.put("Type", "2D");
+        mipObject.put(
+          "Level",
+          mipMap.mipMapLevel());
+        mipObject.put(
+          "DataOffsetWithinSection",
+          mipMap.dataOffsetWithinSection());
+        mipObject.put(
+          "SizeCompressed",
+          mipMap.dataSizeCompressed());
+        mipObject.put(
+          "SizeUncompressed",
+          mipMap.dataSizeUncompressed());
+        mipObject.put(
+          "CRC32",
+          "0x" + Integer.toUnsignedString(
+            mipMap.crc32Uncompressed(),
+            16));
+        mipArray.add(mipObject);
+        sizeUncompressed += mipMap.dataSizeUncompressed();
       }
+      object.set("MipMaps", mipArray);
     }
+    object.put("SizeUncompressed", sizeUncompressed);
 
+    final var writer = mapper.writerWithDefaultPrettyPrinter();
+    output.write(writer.writeValueAsString(object));
+    output.println();
+    output.flush();
     return SUCCESS;
   }
 
@@ -241,6 +274,11 @@ public final class CLNCommandShowSummary
     final var sectionInfoOpt =
       fileParsed.openImageInfo();
 
+    final var mapper =
+      JsonMapper.shared();
+    final var object =
+      mapper.createObjectNode();
+
     if (sectionInfoOpt.isPresent()) {
       final var sectionInfo =
         sectionInfoOpt.get();
@@ -253,6 +291,8 @@ public final class CLNCommandShowSummary
         final var section2d = section2dOpt.get();
         final var mipmaps = section2d.mipMapDescriptions();
         return summarize2d(
+          mapper,
+          object,
           context.output(),
           fileParsed.version(),
           info,
@@ -268,6 +308,8 @@ public final class CLNCommandShowSummary
         final var sectionCube = sectionCubeOpt.get();
         final var mipmaps = sectionCube.mipMapDescriptions();
         return summarizeCube(
+          mapper,
+          object,
           context.output(),
           fileParsed.version(),
           info,
@@ -283,6 +325,8 @@ public final class CLNCommandShowSummary
         final var sectionArray = sectionArrayOpt.get();
         final var mipmaps = sectionArray.mipMapDescriptions();
         return summarizeArray(
+          mapper,
+          object,
           context.output(),
           fileParsed.version(),
           info,
@@ -291,7 +335,6 @@ public final class CLNCommandShowSummary
         );
       }
     }
-
     return SUCCESS;
   }
 }

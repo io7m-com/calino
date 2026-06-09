@@ -60,7 +60,7 @@ public final class CLNCommandShowVersion
     final QCommandContextType context,
     final CLNFileReadableType fileParsed)
   {
-    context.output().printf("version: %s%n", fileParsed.version());
+    context.output().printf("%s%n", fileParsed.version());
     return QCommandStatus.SUCCESS;
   }
 }

@@ -25,6 +25,7 @@ import com.io7m.quarrel.core.QStringType.QConstant;
 import com.io7m.quarrel.core.QStringType.QLocalize;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import tools.jackson.databind.json.JsonMapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,6 +76,11 @@ public final class CLNCommandShowMetadata extends CLNAbstractReadFileCommand
       return QCommandStatus.FAILURE;
     }
 
+    final var mapper =
+      JsonMapper.shared();
+    final var object =
+      mapper.createObjectNode();
+
     try (var section = sectionMetadata.orElseThrow()) {
       final var metadata = section.metadata();
       final var keys = new ArrayList<String>(metadata.size());
@@ -82,11 +88,23 @@ public final class CLNCommandShowMetadata extends CLNAbstractReadFileCommand
       keys.sort(String::compareTo);
       for (final var key : keys) {
         final var val = metadata.get(key);
-        context.output().printf("%s: %s%n", key, val);
+        if (val.size() == 1) {
+          object.put(key, val.getFirst());
+        } else {
+          final var arr = mapper.createArrayNode();
+          for (final var v : val) {
+            arr.add(v);
+          }
+          object.set(key, arr);
+        }
       }
-      context.output().flush();
     }
 
+    final var writer = mapper.writerWithDefaultPrettyPrinter();
+    final var output = context.output();
+    output.write(writer.writeValueAsString(object));
+    output.println();
+    output.flush();
     return QCommandStatus.SUCCESS;
   }
 }
