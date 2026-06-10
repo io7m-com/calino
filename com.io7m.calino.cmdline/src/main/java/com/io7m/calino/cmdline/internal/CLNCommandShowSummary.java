@@ -92,35 +92,34 @@ public final class CLNCommandShowSummary
     object.put("MipMapImages", mipmaps.size());
 
     var sizeUncompressed = 0L;
-
+    final var mipArray = mapper.createArrayNode();
+    for (final var mipMap : mipmaps) {
+      final var mipObject = mapper.createObjectNode();
+      mipObject.put("Type", "Array");
+      mipObject.put(
+        "Layer",
+        mipMap.layer());
+      mipObject.put(
+        "Level",
+        mipMap.mipMapLevel());
+      mipObject.put(
+        "DataOffsetWithinSection",
+        mipMap.dataOffsetWithinSection());
+      mipObject.put(
+        "SizeCompressed",
+        mipMap.dataSizeCompressed());
+      mipObject.put(
+        "SizeUncompressed",
+        mipMap.dataSizeUncompressed());
+      mipObject.put(
+        "CRC32",
+        "0x" + Integer.toUnsignedString(
+          mipMap.crc32Uncompressed(),
+          16));
+      mipArray.add(mipObject);
+      sizeUncompressed += mipMap.dataSizeUncompressed();
+    }
     if (showAllMipMaps) {
-      final var mipArray = mapper.createArrayNode();
-      for (final var mipMap : mipmaps) {
-        final var mipObject = mapper.createObjectNode();
-        mipObject.put("Type", "Array");
-        mipObject.put(
-          "Layer",
-          mipMap.layer());
-        mipObject.put(
-          "Level",
-          mipMap.mipMapLevel());
-        mipObject.put(
-          "DataOffsetWithinSection",
-          mipMap.dataOffsetWithinSection());
-        mipObject.put(
-          "SizeCompressed",
-          mipMap.dataSizeCompressed());
-        mipObject.put(
-          "SizeUncompressed",
-          mipMap.dataSizeUncompressed());
-        mipObject.put(
-          "CRC32",
-          "0x" + Integer.toUnsignedString(
-            mipMap.crc32Uncompressed(),
-            16));
-        mipArray.add(mipObject);
-        sizeUncompressed += mipMap.dataSizeUncompressed();
-      }
       object.set("MipMaps", mipArray);
     }
     object.put("SizeUncompressed", sizeUncompressed);
@@ -167,34 +166,35 @@ public final class CLNCommandShowSummary
 
     var sizeUncompressed = 0L;
 
+    final var mipArray = mapper.createArrayNode();
+    for (final var mipMap : mipmaps) {
+      final var mipObject = mapper.createObjectNode();
+      mipObject.put("Type", "Cube");
+      mipObject.put(
+        "Face",
+        mipMap.face().toString());
+      mipObject.put(
+        "Level",
+        mipMap.mipMapLevel());
+      mipObject.put(
+        "DataOffsetWithinSection",
+        mipMap.dataOffsetWithinSection());
+      mipObject.put(
+        "SizeCompressed",
+        mipMap.dataSizeCompressed());
+      mipObject.put(
+        "SizeUncompressed",
+        mipMap.dataSizeUncompressed());
+      mipObject.put(
+        "CRC32",
+        "0x" + Integer.toUnsignedString(
+          mipMap.crc32Uncompressed(),
+          16));
+      mipArray.add(mipObject);
+      sizeUncompressed += mipMap.dataSizeUncompressed();
+    }
+
     if (showAllMipMaps) {
-      final var mipArray = mapper.createArrayNode();
-      for (final var mipMap : mipmaps) {
-        final var mipObject = mapper.createObjectNode();
-        mipObject.put("Type", "Cube");
-        mipObject.put(
-          "Face",
-          mipMap.face().toString());
-        mipObject.put(
-          "Level",
-          mipMap.mipMapLevel());
-        mipObject.put(
-          "DataOffsetWithinSection",
-          mipMap.dataOffsetWithinSection());
-        mipObject.put(
-          "SizeCompressed",
-          mipMap.dataSizeCompressed());
-        mipObject.put(
-          "SizeUncompressed",
-          mipMap.dataSizeUncompressed());
-        mipObject.put(
-          "CRC32",
-          "0x" + Integer.toUnsignedString(
-            mipMap.crc32Uncompressed(),
-            16));
-        mipArray.add(mipObject);
-        sizeUncompressed += mipMap.dataSizeUncompressed();
-      }
       object.set("MipMaps", mipArray);
     }
     object.put("SizeUncompressed", sizeUncompressed);
@@ -220,32 +220,32 @@ public final class CLNCommandShowSummary
     object.put("MipMapLevels", mipmaps.size());
 
     var sizeUncompressed = 0L;
+    final var mipArray = mapper.createArrayNode();
+    for (final var mipMap : mipmaps) {
+      final var mipObject = mapper.createObjectNode();
+      mipObject.put("Type", "2D");
+      mipObject.put(
+        "Level",
+        mipMap.mipMapLevel());
+      mipObject.put(
+        "DataOffsetWithinSection",
+        mipMap.dataOffsetWithinSection());
+      mipObject.put(
+        "SizeCompressed",
+        mipMap.dataSizeCompressed());
+      mipObject.put(
+        "SizeUncompressed",
+        mipMap.dataSizeUncompressed());
+      mipObject.put(
+        "CRC32",
+        "0x" + Integer.toUnsignedString(
+          mipMap.crc32Uncompressed(),
+          16));
+      mipArray.add(mipObject);
+      sizeUncompressed += mipMap.dataSizeUncompressed();
+    }
 
     if (showAllMipMaps) {
-      final var mipArray = mapper.createArrayNode();
-      for (final var mipMap : mipmaps) {
-        final var mipObject = mapper.createObjectNode();
-        mipObject.put("Type", "2D");
-        mipObject.put(
-          "Level",
-          mipMap.mipMapLevel());
-        mipObject.put(
-          "DataOffsetWithinSection",
-          mipMap.dataOffsetWithinSection());
-        mipObject.put(
-          "SizeCompressed",
-          mipMap.dataSizeCompressed());
-        mipObject.put(
-          "SizeUncompressed",
-          mipMap.dataSizeUncompressed());
-        mipObject.put(
-          "CRC32",
-          "0x" + Integer.toUnsignedString(
-            mipMap.crc32Uncompressed(),
-            16));
-        mipArray.add(mipObject);
-        sizeUncompressed += mipMap.dataSizeUncompressed();
-      }
       object.set("MipMaps", mipArray);
     }
     object.put("SizeUncompressed", sizeUncompressed);
